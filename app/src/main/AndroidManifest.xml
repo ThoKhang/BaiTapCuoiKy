@@ -12,6 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppHocTapChoTre">
         <activity
+            android:name=".DeNangCao"
+            android:exported="false" />
+        <activity
+            android:name=".DeTrungBinh"
+            android:exported="false" />
+        <activity
+            android:name=".DeCoBan"
+            android:exported="false" />
+        <activity
+            android:name=".OnLuyen"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
