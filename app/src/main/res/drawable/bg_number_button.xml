@@ -1,0 +1,5 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/bg_number_button_selected" android:state_pressed="true"/>
+    <item android:drawable="@drawable/bg_number_button_selected" android:state_focused="true"/>
+    <item android:drawable="@drawable/bg_number_button_normal"/>
+</selector>
