@@ -5,8 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GiaoDienDangNhap">
-
+    tools:context=".DangKyOTP">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/itim"
-        android:text="Đăng nhập"
+        android:text="Đăng ký"
         android:textSize="40dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,55 +71,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/itim"
-            android:text="Email"
+            android:text="Nhập OTP"
             android:textSize="20dp" />
 
         <EditText
-            android:id="@+id/eTextEmail"
+            android:id="@+id/eTextOtpDangKy"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/edittext_border"
-            android:hint="Nhập email của bạn"
+            android:hint="Nhập OTP vừa gửi vào email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.135"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/itim"
-            android:text="Mật khẩu"
-            android:textSize="20dp" />
-
-        <EditText
-            android:id="@+id/eTextMatKhau"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/edittext_border"
-            android:hint="Nhập email của bạn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.135"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/textQuenMatKhau"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="242dp"
-            android:layout_marginTop="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:fontFamily="@font/itim"
-            android:text="Quên mật khẩu?" />
-
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnDangNhap"
+            android:id="@+id/btnDangNhapVaoTrangChu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
@@ -131,10 +97,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             android:translationZ="2dp"
-            android:clipToOutline="false" />
-
+            android:clipToOutline="false"
+            />
     </LinearLayout>
-
     <ImageButton
         android:id="@+id/ibtnBack"
         android:layout_width="48dp"
@@ -147,5 +112,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="Nút quay lại"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppHocTapChoTre">
         <activity
+            android:name=".GioiThieu4"
+            android:exported="false" />
+        <activity
+            android:name=".GioiThieu3"
+            android:exported="false" />
+        <activity
+            android:name=".GioiThieu2"
+            android:exported="false" />
+        <activity
+            android:name=".GioiThieu1"
+            android:exported="false" />
+        <activity
+            android:name=".DangKyOTP"
+            android:exported="false" />
+        <activity
+            android:name=".QuenMatKhauOTP"
+            android:exported="false" />
+        <activity
+            android:name=".DangKy"
+            android:exported="false" />
+        <activity
+            android:name=".QuenMatKhau"
+            android:exported="false" />
+        <activity
+            android:name=".DangNhapOTP"
+            android:exported="false" />
+        <activity
             android:name=".GiaoDienDangNhap"
             android:exported="false" />
         <activity
