@@ -4,14 +4,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
+import android.widget.TextView;  // Thêm import này
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.apphoctapchotre.Api.ApiService;
+import com.example.apphoctapchotre.Api.RetrofitClient;
+import com.example.apphoctapchotre.model.User;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
+
+    private TextView tvApiResult;  // Thêm biến này
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,15 +33,49 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        // Lấy TextView từ layout
+        tvApiResult = findViewById(R.id.tv_api_result);
+
         // Ẩn thanh trạng thái và thanh điều hướng
         hideSystemUI();
+
+        // Test API: Gọi API để lấy users và hiển thị trên UI
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService.getUsers().enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if (response.isSuccessful()) {
+                    List<User> users = response.body();
+                    if (users != null && !users.isEmpty()) {
+                        StringBuilder sb = new StringBuilder("Danh sách Users:\n");
+                        for (User u : users) {
+                            sb.append("- ").append(u.getUsername()).append("\n");  // Append tên user
+                        }
+                        // Cập nhật UI trên main thread (an toàn vì callback chạy trên main)
+                        tvApiResult.setText(sb.toString());
+                        Log.d("API_RESULT", "Hiển thị thành công: " + users.size() + " users");
+                    } else {
+                        tvApiResult.setText("Không có dữ liệu users.");
+                    }
+                } else {
+                    tvApiResult.setText("Lỗi API: " + response.code());
+                    Log.e("API_ERROR", "Lỗi khi lấy dữ liệu: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                tvApiResult.setText("Lỗi kết nối: " + t.getMessage());
+                Log.e("API_ERROR", "Không thể kết nối: " + t.getMessage());
+            }
+        });
 
         // Sau 3 giây chuyển sang giao diện đăng nhập
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent = new Intent(MainActivity.this, GiaoDienDangNhap.class);
             startActivity(intent);
             finish(); // Đóng Splash để không quay lại được
-        }, 3000);
+        }, 30000);
     }
 
     private void hideSystemUI() {
