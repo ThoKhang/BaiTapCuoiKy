@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppHocTapChoTre">
         <activity
+            android:name=".TrangChu1"
+            android:exported="false" />
+        <activity
             android:name=".GioiThieu4"
             android:exported="false" />
         <activity
@@ -50,6 +53,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
