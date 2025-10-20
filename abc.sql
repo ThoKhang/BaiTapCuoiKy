@@ -1,7 +1,15 @@
-﻿CREATE DATABASE UserDB;
-GO
-USE UserDB;
-GO
+﻿--lệnh if exists để xóa database nếu đã tồn tại trước đó 
+USE master;
+IF EXISTS (SELECT name FROM sys.databases WHERE name = 'UserDB')
+BEGIN
+    ALTER DATABASE UserDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE UserDB;
+END;
+--Tạo database
+create database UserDB
+go
+use UserDB
+go
 
 CREATE TABLE Users (
     id INT IDENTITY(1,1) PRIMARY KEY,
@@ -11,7 +19,7 @@ CREATE TABLE Users (
 );
 INSERT INTO Users (username, email, password)
 VALUES 
-('test_user', 'test@example.com', '123456'),
+('test_user', 'khangheheqt@gmail.com', '123456'),
 ('user1', 'user1@gmail.com', 'abc123'),
 ('user2', 'user2@gmail.com', 'mypassword');
 GO

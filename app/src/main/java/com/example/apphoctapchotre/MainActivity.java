@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // Lấy TextView từ layout
+
         tvApiResult = findViewById(R.id.tv_api_result);
 
         // Ẩn thanh trạng thái và thanh điều hướng
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, GiaoDienDangNhap.class);
             startActivity(intent);
             finish(); // Đóng Splash để không quay lại được
-        }, 30000);
+        }, 3000);
     }
 
     private void hideSystemUI() {
