@@ -63,9 +63,9 @@ public class UserController {
                     existing.getEmail(),  // Người nhận
                     "Chào mừng bạn đăng nhập thành công!",  // Tiêu đề
                     "Chào " + (existing.getUsername() != null ? existing.getUsername() : "người dùng") + "!\n\n" +
-                    "Bạn đã đăng nhập thành công vào App Hoc Táp Cho Trẻ lúc " + java.time.LocalDateTime.now() + ".\n" +
+                    "Bạn đã đăng nhập thành công vào App Hoc Tập Cho Trẻ lúc " + java.time.LocalDateTime.now() + ".\n" +
                     "Chúc bạn có buổi học vui vẻ!\n\n" +
-                    "Trân trọng,\nTeam App Hoc Táp Cho Trẻ"  // Nội dung với thời gian hiện tại
+                    "Trân trọng,\nTeam App Hoc Tập Cho Trẻ, Nhóm 5ae"  // Nội dung với thời gian hiện tại
                 );
             } catch (Exception e) {
                 // Log lỗi, nhưng không fail login
