@@ -27,7 +27,7 @@ public class GiaoDienDangNhap extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_giao_dien_dang_nhap);  // Thay bằng tên file XML của bạn (activity_giaodien_dangnhap.xml nếu cần)
+        setContentView(R.layout.activity_giao_dien_dang_nhap);  // Tên layout XML của bạn
 
         // Lấy view từ layout
         eTextEmail = findViewById(R.id.eTextEmail);
@@ -60,22 +60,35 @@ public class GiaoDienDangNhap extends AppCompatActivity {
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {  // 200 OK
-                            // Đăng nhập thành công: Backend đã gửi email (từ code trước)
-                            Toast.makeText(GiaoDienDangNhap.this, "Đăng nhập thành công! Email đã gửi.", Toast.LENGTH_SHORT).show();
-                            // Chuyển sang màn hình DangNhapOTP
+                        if (response.isSuccessful()) {
+                            // Đọc body message từ backend (động, ưu tiên backend)
+                            String successMsg = "";
+                            try {
+                                if (response.body() != null) {
+                                    successMsg = response.body().string();  // Message từ ResponseEntity.ok()
+                                    if (successMsg.isEmpty()) {
+                                        successMsg = "Đăng nhập thành công! OTP đã gửi đến email.";  // Fallback nếu rỗng
+                                    }
+                                }
+                            } catch (Exception e) {
+                                Log.e("LOGIN_MSG", "Lỗi đọc body: " + e.getMessage());
+                                successMsg = "Đăng nhập thành công! OTP đã gửi đến email.";  // Fallback nếu lỗi
+                            }
+                            Toast.makeText(GiaoDienDangNhap.this, successMsg, Toast.LENGTH_SHORT).show();
+                            // Chuyển sang màn hình OTP, truyền email
                             Intent intent = new Intent(GiaoDienDangNhap.this, DangNhapOTP.class);
+                            intent.putExtra("EMAIL", email);
                             startActivity(intent);
-                            finish();  // Đóng màn hình hiện tại
+                            finish();
                         } else {
-                            // Lỗi từ server (ví dụ: 401 Sai mật khẩu)
+                            // Lỗi từ server: Đọc error body từ backend
                             String errorMsg = "Tài khoản hoặc mật khẩu sai!";
                             try {
                                 if (response.errorBody() != null) {
-                                    errorMsg = response.errorBody().string();  // Lấy message từ backend
+                                    errorMsg = response.errorBody().string();  // Message từ ResponseEntity.badRequest() hoặc status(401)
                                 }
                             } catch (Exception e) {
-                                Log.e("LOGIN_ERROR", "Lỗi đọc response: " + e.getMessage());
+                                Log.e("LOGIN_ERROR", "Lỗi đọc error body: " + e.getMessage());
                             }
                             Toast.makeText(GiaoDienDangNhap.this, errorMsg, Toast.LENGTH_SHORT).show();
                         }
@@ -83,7 +96,7 @@ public class GiaoDienDangNhap extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        // Lỗi kết nối (mạng, server down)
+                        // Lỗi kết nối
                         Toast.makeText(GiaoDienDangNhap.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.e("LOGIN_FAILURE", "Lỗi kết nối: " + t.getMessage());
                     }

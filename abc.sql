@@ -21,7 +21,8 @@ INSERT INTO Users (username, email, password)
 VALUES 
 ('test_user', 'khangheheqt@gmail.com', '123456'),
 ('user1', 'user1@gmail.com', 'abc123'),
-('user2', 'user2@gmail.com', 'mypassword');
+('user2', 'user2@gmail.com', 'mypassword'),
+(N'minh Huy','phamminhhuy0901tk@gmail.com','123');
 GO
 
 -- 5️⃣ Kiểm tra dữ liệu

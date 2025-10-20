@@ -2,6 +2,7 @@ package com.example.apphoctapchotre.Api;
 
 import com.example.apphoctapchotre.model.User;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -19,4 +20,9 @@ public interface ApiService {
 
     @POST("api/login")
     Call<ResponseBody> login(@Body User user);
+    @POST("api/verify-otp")
+    Call<ResponseBody> verifyOTP(@Body Map<String, String> request);
+
+    @POST("api/send-otp")
+    Call<ResponseBody> sendOTP(@Body Map<String, String> request);
 }

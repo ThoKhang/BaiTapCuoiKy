@@ -3,10 +3,12 @@ package com.example.backend.controller;
 import com.example.backend.model.User;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.EmailService;  // Import EmailService (nếu chưa có)
+import com.example.backend.service.OTPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -19,6 +21,9 @@ public class UserController {
     @Autowired
     private EmailService emailService;  // Sửa tên biến: lowercase, chuẩn Java
     
+    @Autowired
+    private OTPService otpService;
+    
     // Lấy tất cả users (giữ nguyên)
     @GetMapping("/users")
     public List<User> getAllUsers() {
@@ -27,53 +32,48 @@ public class UserController {
 
     // Đăng ký: Gửi email xác nhận sau khi save
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
-        if (repo.findByEmail(user.getEmail()) != null) {
-            return ResponseEntity.badRequest().body("Email đã tồn tại!");
+    public ResponseEntity<?> register (@RequestBody User user)
+    {
+        if(repo.findByEmail(user.getEmail())!=null)
+        {
+            return ResponseEntity.ok("User đã tồn tại, vui lòng nhập user mới !");
         }
         repo.save(user);
-        
-        // Gửi email xác nhận
-        try {
-            emailService.sendEmail(
-                user.getEmail(),  // Người nhận
-                "Xác nhận đăng ký tài khoản thành công!",  // Tiêu đề
-                "Chào " + (user.getUsername() != null ? user.getUsername() : "người dùng") + "!\n\n" +
-                "Bạn đã đăng ký thành công với email: " + user.getEmail() + ".\n" +
-                "Cảm ơn bạn đã sử dụng App Hoc Táp Cho Trẻ!\n\n" +
-                "Nếu cần hỗ trợ, liên hệ: support@apphoctapchotre.com\n\n" +
-                "Trân trọng,\nTeam App Hoc Táp Cho Trẻ"  // Nội dung tùy chỉnh
-            );
-        } catch (Exception e) {
-            // Log lỗi, nhưng không fail API
-            System.err.println("Lỗi gửi email đăng ký: " + e.getMessage());
-        }
-        
-        return ResponseEntity.ok("Đăng ký thành công! Email xác nhận đã được gửi.");
+        emailService.sendOTP(user.getEmail(), user.getUsername());
+        return ResponseEntity.ok("OTP đã gửi về email của bạn ! vui lòng kiểm tra !");
     }
-
-    // Đăng nhập: Gửi email chào mừng nếu thành công
+    
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<?> login (@RequestBody User user)
+    {
         User existing = repo.findByEmail(user.getEmail());
-        if (existing != null && existing.getPassword().equals(user.getPassword())) {
-            // Gửi email chào mừng đăng nhập
-            try {
-                emailService.sendEmail(
-                    existing.getEmail(),  // Người nhận
-                    "Chào mừng bạn đăng nhập thành công!",  // Tiêu đề
-                    "Chào " + (existing.getUsername() != null ? existing.getUsername() : "người dùng") + "!\n\n" +
-                    "Bạn đã đăng nhập thành công vào App Hoc Tập Cho Trẻ lúc " + java.time.LocalDateTime.now() + ".\n" +
-                    "Chúc bạn có buổi học vui vẻ!\n\n" +
-                    "Trân trọng,\nTeam App Hoc Tập Cho Trẻ, Nhóm 5ae"  // Nội dung với thời gian hiện tại
-                );
-            } catch (Exception e) {
-                // Log lỗi, nhưng không fail login
-                System.err.println("Lỗi gửi email đăng nhập: " + e.getMessage());
-            }
-            
-            return ResponseEntity.ok("Đăng nhập thành công! Email chào mừng đã được gửi.");
+        if(existing!= null && existing.getPassword().equals(user.getPassword()))
+        {
+            emailService.sendOTP(existing.getEmail(), existing.getUsername());
+            return ResponseEntity.ok("Đăng nhập thành công! vui lòng kiểm tra Email để nhận OTP!");
         }
-        return ResponseEntity.status(401).body("Sai email hoặc mật khẩu!");
+        return ResponseEntity.ok("Tài khoản hoặc mật khẩu không đúng !");
+    }
+    
+    @PostMapping("/verify-otp")
+    public ResponseEntity<?> verityOTP (@RequestBody Map<String,String> request)
+    {
+        String email = request.get ("email");
+        String otp = request.get("otp");
+        if(otpService.validateOTP(email, otp))
+        {
+            return ResponseEntity.ok("Xác thực OTP thành công! chào mừng đến với ứng dụng");
+        }
+        return ResponseEntity.ok("Xác thực không thành công, OTP không đúng hoặc hết hạn !");
+    }
+    @PostMapping("/send-otp")
+    public ResponseEntity<?> sendOTP(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        User user = repo.findByEmail(email);
+        if (user == null) {
+            return ResponseEntity.badRequest().body("Email không tồn tại!");
+        }
+        emailService.sendOTP(email, user.getUsername());
+        return ResponseEntity.ok("OTP đã gửi đến email của bạn!");
     }
 }
