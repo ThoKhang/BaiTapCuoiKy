@@ -17,7 +17,7 @@ public class OTPService {
     private Map<String, OTPInfo> otpMap = new HashMap<>();
     private static final int OTP_LENGTH = 6;
     private static final int EXPIRE_MINUTES = 5;
-    public String generateOTP(String email)
+    public String generateOTP(String to)
     {
         Random random = new Random();
         StringBuilder otp = new StringBuilder();
@@ -26,22 +26,22 @@ public class OTPService {
             otp.append(random.nextInt(10));
         }
         String otpStr = otp.toString();
-        otpMap.put(email, new OTPInfo(otpStr,LocalDateTime.now()));
+        otpMap.put(to, new OTPInfo(otpStr,LocalDateTime.now()));
         return otpStr;
     }
-    public boolean validateOTP(String email, String otp)
+    public boolean validateOTP(String to, String otp)
     {
-        OTPInfo info = otpMap.get(email);
+        OTPInfo info = otpMap.get(to);
         if (info == null)
             return false;
         if (LocalDateTime.now().isAfter(info.timestamp.plusMinutes(EXPIRE_MINUTES)))
         {
-            otpMap.remove(email);
+            otpMap.remove(to);
             return false;
         }
         if(info.otp.equals(otp))
         {
-            otpMap.remove(email);
+            otpMap.remove(to);
             return true;
         }
         return false;

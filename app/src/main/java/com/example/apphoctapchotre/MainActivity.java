@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.apphoctapchotre.Api.ApiService;
 import com.example.apphoctapchotre.Api.RetrofitClient;
-import com.example.apphoctapchotre.model.User;
+import com.example.apphoctapchotre.model.NguoiDung;
 
 import java.util.List;
 
@@ -39,23 +39,23 @@ public class MainActivity extends AppCompatActivity {
         // Ẩn thanh trạng thái và thanh điều hướng
         hideSystemUI();
 
-        // Test API: Gọi API để lấy users và hiển thị trên UI
+        // Test API: Gọi API để lấy người dùng và hiển thị trên UI
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        apiService.getUsers().enqueue(new Callback<List<User>>() {
+        apiService.getNguoiDung().enqueue(new Callback<List<NguoiDung>>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+            public void onResponse(Call<List<NguoiDung>> call, Response<List<NguoiDung>> response) {
                 if (response.isSuccessful()) {
-                    List<User> users = response.body();
-                    if (users != null && !users.isEmpty()) {
-                        StringBuilder sb = new StringBuilder("Danh sách Users:\n");
-                        for (User u : users) {
-                            sb.append("- ").append(u.getUsername()).append("\n");  // Append tên user
+                    List<NguoiDung> nguoiDungList = response.body();
+                    if (nguoiDungList != null && !nguoiDungList.isEmpty()) {
+                        StringBuilder sb = new StringBuilder("Danh sách Người dùng:\n");
+                        for (NguoiDung nd : nguoiDungList) {
+                            sb.append("- ").append(nd.getTenDangNhap()).append("\n");  // Append tên đăng nhập
                         }
                         // Cập nhật UI trên main thread (an toàn vì callback chạy trên main)
                         tvApiResult.setText(sb.toString());
-                        Log.d("API_RESULT", "Hiển thị thành công: " + users.size() + " users");
+                        Log.d("API_RESULT", "Hiển thị thành công: " + nguoiDungList.size() + " người dùng");
                     } else {
-                        tvApiResult.setText("Không có dữ liệu users.");
+                        tvApiResult.setText("Không có dữ liệu người dùng.");
                     }
                 } else {
                     tvApiResult.setText("Lỗi API: " + response.code());
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(Call<List<NguoiDung>> call, Throwable t) {
                 tvApiResult.setText("Lỗi kết nối: " + t.getMessage());
                 Log.e("API_ERROR", "Không thể kết nối: " + t.getMessage());
             }
