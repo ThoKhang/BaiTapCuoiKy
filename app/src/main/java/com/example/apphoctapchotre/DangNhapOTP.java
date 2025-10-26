@@ -3,6 +3,7 @@ package com.example.apphoctapchotre;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -55,7 +56,13 @@ public class DangNhapOTP extends AppCompatActivity {
             Intent intent = new Intent(DangNhapOTP.this, QuenMatKhauOTP.class);
             startActivity(intent);
         });
-
+        ImageButton ibtnBack = findViewById(R.id.ibtnBack);
+        ibtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         // 👉 Xác thực OTP
         btnDangNhapVaoTrangChu.setOnClickListener(v -> {
             String otp = eTextOTPDangNhap.getText().toString().trim();
