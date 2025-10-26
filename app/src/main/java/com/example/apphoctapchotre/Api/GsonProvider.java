@@ -1,5 +1,9 @@
 package com.example.apphoctapchotre.Api;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.time.LocalDateTime;
@@ -7,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 public class GsonProvider {
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static Gson getGson() {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
