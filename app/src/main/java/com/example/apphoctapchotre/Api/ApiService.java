@@ -1,5 +1,7 @@
 package com.example.apphoctapchotre.Api;
 
+import com.example.apphoctapchotre.model.BaiKiemTra;
+import com.example.apphoctapchotre.model.CauHoiResponse;
 import com.example.apphoctapchotre.model.NguoiDung;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,9 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+
 
 public interface ApiService {
     @GET("api/nguoi-dung")  // Sửa endpoint để khớp backend (nguoi-dung thay users)
@@ -30,6 +35,30 @@ public interface ApiService {
 
     @POST("/api/reset-password")
     Call<ResponseBody> resetPassword(@Body Map<String, String> body);
+
+    @GET("/api/nguoi-dung/{id}/tongbaihoc-phanmon")
+    Call<NguoiDung> getNguoiDungTongBaiHocTheoMon(@Path("id") int id);
+
+
+    @GET("api/cauhoi")
+    Call<List<CauHoiResponse>> getCauHoiTheoTieuDePhu(
+            @Query("maMonHoc") int maMonHoc,
+            @Query(value = "tieuDePhu", encoded = true) String tieuDePhu
+    );
+
+    @POST("api/hoanthanh-tieudephu")
+    Call<Void> hoanThanhTieuDePhu(
+            @Query("maNguoiDung") int maNguoiDung,
+            @Query("maTieuDePhu") int maTieuDePhu
+    );
+
+    @GET("api/baikiemtra/cungco/{maMonHoc}/{maNguoiDung}")
+    Call<List<BaiKiemTra>> getBaiKiemTraCungCoTheoMon(
+            @Path("maMonHoc") int maMonHoc,
+            @Path("maNguoiDung") int maNguoiDung
+    );
+
+
 
 
 }

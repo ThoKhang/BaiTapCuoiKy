@@ -31,6 +31,9 @@ public class NguoiDung {
     @SerializedName("tongDiem")
     private int tongDiem;
 
+    private String toanTienDo;
+    private String tiengVietTienDo;
+
     // Constructors
     public NguoiDung() {}
 
@@ -62,6 +65,23 @@ public class NguoiDung {
     public int getTongDiem() { return tongDiem; }
     public void setTongDiem(int tongDiem) { this.tongDiem = tongDiem; }
 
+    public String getToanTienDo() {
+        return toanTienDo;
+    }
+
+    public void setToanTienDo(String toanTienDo) {
+        this.toanTienDo = toanTienDo;
+    }
+
+    public String getTiengVietTienDo() {
+        return tiengVietTienDo;
+    }
+
+    public void setTiengVietTienDo(String tiengVietTienDo) {
+        this.tiengVietTienDo = tiengVietTienDo;
+    }
+
+
     @Override
     public String toString() {
         return "NguoiDung{" +
@@ -71,6 +91,8 @@ public class NguoiDung {
                 ", maVaiTro=" + maVaiTro +
                 ", ngayTao=" + ngayTao +
                 ", lanDangNhapCuoi=" + lanDangNhapCuoi +
+                ", tongDiem=" + tongDiem +
                 '}';
     }
+
 }

@@ -31,7 +31,7 @@ CREATE TABLE NguoiDung (
 );
 INSERT INTO NguoiDung (TenDangNhap, Email, MatKhauMaHoa, MaVaiTro)
 VALUES 
-    (N'Thọ Khang', N'khangheheqt@gmail.com', N'123456', 2),
+    (N'DuyQuoc', N'leduyquoc123meo@gmail.com', N'123456', 2),
     (N'AdminTest', N'admin@example.com', N'admin123', 1),
     (N'UserOne', N'user1@example.com', N'password1', 2),
     (N'UserTwo', N'user2@example.com', N'password2', 2);
@@ -755,3 +755,232 @@ ORDER BY create_date DESC;
 SELECT * FROM nguoi_dung;
 DROP TABLE nguoi_dung;
 
+-- Duy Quốc Thêm vào
+
+-- Thêm tiêu đề phụ
+IF OBJECT_ID('dbo.BaiKiemTra_TieuDePhu','U') IS NULL
+CREATE TABLE BaiKiemTra_TieuDePhu(MaTieuDePhu INT IDENTITY(1,1) PRIMARY KEY,MaBaiKiemTra INT NOT NULL REFERENCES BaiKiemTra(MaBaiKiemTra) ON DELETE CASCADE,TieuDePhu NVARCHAR(200) NOT NULL);
+GO
+INSERT INTO BaiKiemTra_TieuDePhu (MaBaiKiemTra,TieuDePhu)
+SELECT MaBaiKiemTra,v.TieuDePhu FROM BaiKiemTra CROSS APPLY (VALUES(N'Củng cố phép cộng'),(N'Củng cố phép trừ'),(N'Củng cố phép nhân'),(N'Củng cố phép chia')) v(TieuDePhu)
+WHERE TieuDe LIKE N'%Toán 1%';
+GO
+INSERT INTO BaiKiemTra_TieuDePhu (MaBaiKiemTra,TieuDePhu)
+SELECT MaBaiKiemTra,v.TieuDePhu FROM BaiKiemTra CROSS APPLY (VALUES(N'Củng cố chữ cái alphabet'),(N'Củng cố từ ghép'),(N'Củng cố câu đơn')) v(TieuDePhu)
+WHERE LoaiBaiKiemTra='CungCo' AND MaMonHoc=2;
+GO
+
+
+--Tạo bảng để lấy tiến độ làm bài củng cố
+CREATE TABLE LanThuTieuDePhuNguoiDung (
+    MaLanThuTieuDe INT IDENTITY(1,1) PRIMARY KEY,
+    MaNguoiDung INT NOT NULL REFERENCES NguoiDung(MaNguoiDung),
+    MaTieuDePhu INT NOT NULL REFERENCES BaiKiemTra_TieuDePhu(MaTieuDePhu),
+    Diem INT NOT NULL,
+    NgayHoanThanh DATETIME2 DEFAULT SYSUTCDATETIME()
+);
+
+-- Tổng hợp user đã làm bao nhiêu bài
+IF OBJECT_ID('dbo.sp_GetTongBaiHocTheoMon','P') IS NOT NULL
+    DROP PROCEDURE dbo.sp_GetTongBaiHocTheoMon;
+GO
+
+CREATE PROCEDURE dbo.sp_GetTongBaiHocTheoMon
+    @MaNguoiDung INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    ;WITH TongTieuDe AS (
+        SELECT mh.TenMonHoc, COUNT(tp.MaTieuDePhu) AS TongSoTieuDePhu
+        FROM BaiKiemTra_TieuDePhu tp
+        JOIN BaiKiemTra bk ON tp.MaBaiKiemTra = bk.MaBaiKiemTra
+        JOIN MonHoc mh ON bk.MaMonHoc = mh.MaMonHoc
+        WHERE bk.LoaiBaiKiemTra = N'CungCo'
+        GROUP BY mh.TenMonHoc
+    ),
+    DaLam AS (
+        SELECT mh.TenMonHoc, COUNT(DISTINCT tp.MaTieuDePhu) AS SoBaiDaLam
+        FROM LanThuTieuDePhuNguoiDung lt
+        JOIN BaiKiemTra_TieuDePhu tp ON lt.MaTieuDePhu = tp.MaTieuDePhu
+        JOIN BaiKiemTra bk ON tp.MaBaiKiemTra = bk.MaBaiKiemTra
+        JOIN MonHoc mh ON bk.MaMonHoc = mh.MaMonHoc
+        WHERE lt.MaNguoiDung = @MaNguoiDung
+        GROUP BY mh.TenMonHoc
+    )
+    SELECT 
+        t.TenMonHoc,
+        ISNULL(d.SoBaiDaLam, 0) AS SoBaiDaLam,
+        t.TongSoTieuDePhu,
+        CAST(ISNULL(d.SoBaiDaLam, 0) AS NVARCHAR(10)) + '/' + CAST(t.TongSoTieuDePhu AS NVARCHAR(10)) AS TienDoHoc
+    FROM TongTieuDe t
+    LEFT JOIN DaLam d ON t.TenMonHoc = d.TenMonHoc;
+END;
+GO
+
+-- Lấy danh sách bài củng cố
+IF OBJECT_ID('dbo.sp_LayBaiKiemTraCungCoTheoMon', 'P') IS NOT NULL
+    DROP PROCEDURE dbo.sp_LayBaiKiemTraCungCoTheoMon;
+GO
+CREATE PROCEDURE dbo.sp_LayBaiKiemTraCungCoTheoMon
+    @MaMonHoc INT,
+    @MaNguoiDung INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT DISTINCT 
+        bk.MaBaiKiemTra,
+        bk.TieuDe,
+        bk.LoaiBaiKiemTra,
+        bk.MaMonHoc,
+        bk.CoXaoTron,
+        bk.TongSoCauHoi,
+        bk.NgayTao,
+        tp.MaTieuDePhu,
+        tp.TieuDePhu AS TieuDePhu,
+        CASE 
+            WHEN ltt.MaNguoiDung IS NOT NULL THEN 1 
+            ELSE 0 
+        END AS DaHoanThanh,  -- ✅ thêm cột trạng thái hoàn thành
+        CASE 
+            WHEN tp.TieuDePhu LIKE N'%cộng%' OR tp.TieuDePhu LIKE N'%chữ cái%' THEN 1
+            WHEN tp.TieuDePhu LIKE N'%trừ%' OR tp.TieuDePhu LIKE N'%từ ghép%' THEN 2
+            WHEN tp.TieuDePhu LIKE N'%nhân%' OR tp.TieuDePhu LIKE N'%câu đơn%' THEN 3
+            WHEN tp.TieuDePhu LIKE N'%chia%' THEN 4 
+            ELSE 999 
+        END AS OrderIndex
+    FROM BaiKiemTra bk
+    LEFT JOIN BaiKiemTra_TieuDePhu tp 
+        ON bk.MaBaiKiemTra = tp.MaBaiKiemTra
+    LEFT JOIN LanThuTieuDePhuNguoiDung ltt 
+        ON tp.MaTieuDePhu = ltt.MaTieuDePhu 
+       AND ltt.MaNguoiDung = @MaNguoiDung
+    WHERE bk.LoaiBaiKiemTra = N'CungCo' 
+      AND bk.MaMonHoc = @MaMonHoc
+    ORDER BY bk.MaBaiKiemTra, OrderIndex;
+END;
+GO
+
+
+
+-- Tạo đáp án câu hỏi Toán
+DECLARE @MaCauHoi INT,@NoiDung NVARCHAR(MAX),@DapAnDung INT;
+DECLARE cauhoi_cursor CURSOR FOR SELECT MaCauHoi,NoiDung FROM CauHoi WHERE MaMonHoc=1;
+OPEN cauhoi_cursor; FETCH NEXT FROM cauhoi_cursor INTO @MaCauHoi,@NoiDung;
+WHILE @@FETCH_STATUS=0 BEGIN
+    DECLARE @pheptinh NVARCHAR(1),@a INT,@b INT,@clean NVARCHAR(100)=TRIM(@NoiDung);
+    SET @a=TRY_CAST(LEFT(@clean,CHARINDEX(' ',@clean)-1) AS INT);
+    SET @pheptinh=SUBSTRING(@clean,CHARINDEX(' ',@clean)+1,1);
+    SET @b=TRY_CAST(SUBSTRING(@clean,CHARINDEX(@pheptinh,@clean)+1,CHARINDEX('=',@clean)-CHARINDEX(@pheptinh,@clean)-1) AS INT);
+    IF @pheptinh='+' SET @DapAnDung=@a+@b; ELSE IF @pheptinh='-' SET @DapAnDung=@a-@b; ELSE IF @pheptinh='*' SET @DapAnDung=@a*@b; ELSE IF @pheptinh='/' SET @DapAnDung=@a/NULLIF(@b,0); ELSE SET @DapAnDung=NULL;
+    IF @DapAnDung IS NOT NULL BEGIN
+        DECLARE @sai1 INT=@DapAnDung+1,@sai2 INT=CASE WHEN @DapAnDung>1 THEN @DapAnDung-1 ELSE @DapAnDung+2 END,@sai3 INT=@DapAnDung+2;
+        UPDATE LuaChon SET NoiDung=CAST(@DapAnDung AS NVARCHAR(10)),LaDung=1 WHERE MaCauHoi=@MaCauHoi AND NhanLuaChon='A';
+        UPDATE LuaChon SET NoiDung=CAST(@sai1 AS NVARCHAR(10)),LaDung=0 WHERE MaCauHoi=@MaCauHoi AND NhanLuaChon='B';
+        UPDATE LuaChon SET NoiDung=CAST(@sai2 AS NVARCHAR(10)),LaDung=0 WHERE MaCauHoi=@MaCauHoi AND NhanLuaChon='C';
+        UPDATE LuaChon SET NoiDung=CAST(@sai3 AS NVARCHAR(10)),LaDung=0 WHERE MaCauHoi=@MaCauHoi AND NhanLuaChon='D';
+    END ELSE PRINT '⚠️ Bỏ qua: ' + ISNULL(@NoiDung,'(null)');
+    FETCH NEXT FROM cauhoi_cursor INTO @MaCauHoi,@NoiDung;
+END
+CLOSE cauhoi_cursor; DEALLOCATE cauhoi_cursor;
+GO
+
+-- Tạo đáp án câu hỏi Tiếng Việt
+DECLARE @TuSai TABLE(Tu NVARCHAR(100)); INSERT INTO @TuSai VALUES(N'Nhà'),(N'Cửa'),(N'Cây'),(N'Cối'),(N'Mèo'),(N'Chạy'),(N'Ăn'),(N'Bay'),(N'Vàng'),(N'Xanh'),(N'Nâu'),(N'Nóng'),(N'Ghế'),(N'Sách'),(N'Vở'),(N'Nước'),(N'Cao'),(N'Bơi'),(N'Rơi'),(N'Đỏ');
+DECLARE @ChuCai TABLE(Tu NVARCHAR(1)); INSERT INTO @ChuCai VALUES(N'A'),(N'B'),(N'C'),(N'D'),(N'E'),(N'F'),(N'G'),(N'H'),(N'I'),(N'J'),(N'K'),(N'L'),(N'M'),(N'N'),(N'O'),(N'P'),(N'Q'),(N'R'),(N'S'),(N'T'),(N'U'),(N'V'),(N'W'),(N'X'),(N'Y'),(N'Z');
+DECLARE @MaCauHoi INT,@NoiDung NVARCHAR(MAX),@DapAnDung NVARCHAR(100);
+DECLARE cauhoi_cursor CURSOR FOR SELECT MaCauHoi,NoiDung,GiaiThich FROM CauHoi WHERE MaMonHoc=2 ORDER BY MaCauHoi;
+OPEN cauhoi_cursor; FETCH NEXT FROM cauhoi_cursor INTO @MaCauHoi,@NoiDung,@DapAnDung;
+WHILE @@FETCH_STATUS=0 BEGIN
+    DECLARE @Sai1 NVARCHAR(100),@Sai2 NVARCHAR(100),@Sai3 NVARCHAR(100);
+    IF @MaCauHoi IN (21,22)
+        SELECT TOP 3 Tu INTO #TmpChu FROM @ChuCai WHERE Tu<>@DapAnDung ORDER BY NEWID();
+    ELSE
+        SELECT TOP 3 Tu INTO #TmpTu FROM @TuSai WHERE Tu<>@DapAnDung ORDER BY NEWID();
+    SELECT TOP 1 @Sai1=Tu FROM (SELECT Tu FROM #TmpChu UNION SELECT Tu FROM #TmpTu) a ORDER BY NEWID();
+    SELECT TOP 1 @Sai2=Tu FROM (SELECT Tu FROM #TmpChu UNION SELECT Tu FROM #TmpTu) a WHERE Tu NOT IN(@Sai1) ORDER BY NEWID();
+    SELECT TOP 1 @Sai3=Tu FROM (SELECT Tu FROM #TmpChu UNION SELECT Tu FROM #TmpTu) a WHERE Tu NOT IN(@Sai1,@Sai2) ORDER BY NEWID();
+    DROP TABLE IF EXISTS #TmpChu,#TmpTu;
+    MERGE LuaChon AS lc USING (SELECT 'A' NhanLuaChon,@DapAnDung NoiDung,1 LaDung UNION ALL SELECT 'B',@Sai1,0 UNION ALL SELECT 'C',@Sai2,0 UNION ALL SELECT 'D',@Sai3,0) s
+    ON lc.MaCauHoi=@MaCauHoi AND lc.NhanLuaChon=s.NhanLuaChon
+    WHEN MATCHED THEN UPDATE SET lc.NoiDung=s.NoiDung,lc.LaDung=s.LaDung
+    WHEN NOT MATCHED THEN INSERT(MaCauHoi,NhanLuaChon,NoiDung,LaDung) VALUES(@MaCauHoi,s.NhanLuaChon,s.NoiDung,s.LaDung);
+    PRINT N'✅ Cập nhật câu '+CAST(@MaCauHoi AS NVARCHAR(10))+N': '+ISNULL(@NoiDung,'(null)');
+    FETCH NEXT FROM cauhoi_cursor INTO @MaCauHoi,@NoiDung,@DapAnDung;
+END
+CLOSE cauhoi_cursor; DEALLOCATE cauhoi_cursor;
+GO
+
+-- Lấy câu hỏi theo tiêu đề phụ
+IF OBJECT_ID('dbo.sp_LayCauHoiTheoTieuDePhu', 'P') IS NOT NULL DROP PROCEDURE dbo.sp_LayCauHoiTheoTieuDePhu;
+GO
+CREATE PROCEDURE dbo.sp_LayCauHoiTheoTieuDePhu @MaMonHoc INT,@TieuDePhu NVARCHAR(200) AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @KyHieu NVARCHAR(5);
+    IF @TieuDePhu LIKE N'%cộng%' SET @KyHieu=N'+'; ELSE IF @TieuDePhu LIKE N'%trừ%' SET @KyHieu=N'-'; ELSE IF @TieuDePhu LIKE N'%nhân%' SET @KyHieu=N'*'; ELSE IF @TieuDePhu LIKE N'%chia%' SET @KyHieu=N'/';
+    IF @MaMonHoc=1 AND @KyHieu IS NOT NULL
+        SELECT ch.MaCauHoi,ch.NoiDung CauHoi,lc.MaLuaChon,lc.NhanLuaChon,lc.NoiDung DapAn,lc.LaDung FROM CauHoi ch JOIN LuaChon lc ON lc.MaCauHoi=ch.MaCauHoi WHERE ch.MaMonHoc=1 AND ch.NoiDung LIKE '%'+@KyHieu+'%' ORDER BY ch.MaCauHoi,lc.NhanLuaChon;
+    ELSE IF @MaMonHoc=2 BEGIN
+        DECLARE @td NVARCHAR(200)=LOWER(@TieuDePhu);
+        IF @td LIKE N'%chữ cái%' OR @td LIKE N'%alphabet%' 
+            SELECT ch.MaCauHoi,ch.NoiDung CauHoi,lc.MaLuaChon,lc.NhanLuaChon,lc.NoiDung DapAn,lc.LaDung FROM CauHoi ch JOIN LuaChon lc ON ch.MaCauHoi=lc.MaCauHoi WHERE ch.MaMonHoc=2 AND (LOWER(ch.NoiDung) LIKE N'%chữ cái%' OR LOWER(ch.NoiDung) LIKE N'%thứ%') ORDER BY ch.MaCauHoi,lc.NhanLuaChon;
+        ELSE IF @td LIKE N'%từ ghép%' 
+            SELECT ch.MaCauHoi,ch.NoiDung CauHoi,lc.MaLuaChon,lc.NhanLuaChon,lc.NoiDung DapAn,lc.LaDung FROM CauHoi ch JOIN LuaChon lc ON ch.MaCauHoi=lc.MaCauHoi WHERE ch.MaMonHoc=2 AND (LOWER(ch.NoiDung) LIKE N'%từ ghép%' OR LOWER(ch.NoiDung) LIKE N'%nhà%' OR LOWER(ch.NoiDung) LIKE N'%cây%' OR LOWER(ch.NoiDung) LIKE N'%sách%' OR LOWER(ch.NoiDung) LIKE N'%bàn%' OR LOWER(ch.NoiDung) LIKE N'%mưa%' OR LOWER(ch.NoiDung) LIKE N'%nắng%' OR LOWER(ch.NoiDung) LIKE N'%sông%' OR LOWER(ch.NoiDung) LIKE N'%núi%' OR LOWER(ch.NoiDung) LIKE N'%biển%' OR LOWER(ch.NoiDung) LIKE N'%rừng%' OR LOWER(ch.NoiDung) LIKE N'%trời%') ORDER BY ch.MaCauHoi,lc.NhanLuaChon;
+        ELSE IF @td LIKE N'%câu đơn%' 
+            SELECT ch.MaCauHoi,ch.NoiDung CauHoi,lc.MaLuaChon,lc.NhanLuaChon,lc.NoiDung DapAn,lc.LaDung FROM CauHoi ch JOIN LuaChon lc ON ch.MaCauHoi=lc.MaCauHoi WHERE ch.MaMonHoc=2 AND (LOWER(ch.NoiDung) LIKE N'%con chim%' OR LOWER(ch.NoiDung) LIKE N'%con mèo%' OR LOWER(ch.NoiDung) LIKE N'%con chó%' OR LOWER(ch.NoiDung) LIKE N'%quả chuối%' OR LOWER(ch.NoiDung) LIKE N'%quả táo%' OR LOWER(ch.NoiDung) LIKE N'%con cá%') ORDER BY ch.MaCauHoi,lc.NhanLuaChon;
+    END ELSE 
+        SELECT TOP 10 ch.MaCauHoi,ch.NoiDung CauHoi,lc.MaLuaChon,lc.NhanLuaChon,lc.NoiDung DapAn,lc.LaDung FROM CauHoi ch JOIN LuaChon lc ON ch.MaCauHoi=lc.MaCauHoi WHERE ch.MaMonHoc=@MaMonHoc ORDER BY NEWID();
+END;
+GO
+
+
+CREATE PROCEDURE dbo.usp_HoanThanhTieuDePhu
+    @MaNguoiDung INT,
+    @MaTieuDePhu INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        BEGIN TRAN;
+
+        IF EXISTS (SELECT 1 FROM LanThuTieuDePhuNguoiDung WHERE MaNguoiDung = @MaNguoiDung AND MaTieuDePhu = @MaTieuDePhu)
+        BEGIN
+            SELECT N'Đã hoàn thành trước đó' AS TrangThai, 0 AS DiemThem;
+            ROLLBACK TRAN;
+            RETURN;
+        END
+        DECLARE @DiemThem INT = 50;
+        INSERT INTO LanThuTieuDePhuNguoiDung (MaNguoiDung, MaTieuDePhu, Diem)
+        VALUES (@MaNguoiDung, @MaTieuDePhu, @DiemThem);
+        UPDATE NguoiDung
+        SET TongDiem = (
+            SELECT SUM(Diem)
+            FROM LanThuTieuDePhuNguoiDung
+            WHERE MaNguoiDung = @MaNguoiDung
+        )
+        WHERE MaNguoiDung = @MaNguoiDung;
+        MERGE HoatDongHangNgay AS hd
+        USING (SELECT @MaNguoiDung AS MaNguoiDung, CAST(SYSDATETIME() AT TIME ZONE 'SE Asia Standard Time' AS DATE) AS NgayHoatDong) AS src
+        ON (hd.MaNguoiDung = src.MaNguoiDung AND hd.NgayHoatDong = src.NgayHoatDong)
+        WHEN MATCHED THEN
+            UPDATE SET hd.DiemKiemDuoc = hd.DiemKiemDuoc + @DiemThem, hd.DaDangNhap = 1
+        WHEN NOT MATCHED THEN
+            INSERT (MaNguoiDung, NgayHoatDong, DaDangNhap, DiemKiemDuoc)
+            VALUES (src.MaNguoiDung, src.NgayHoatDong, 1, @DiemThem);
+
+        COMMIT TRAN;
+        SELECT N'HoanThanh' AS TrangThai, @DiemThem AS DiemThem;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRAN;
+        THROW;
+    END CATCH
+END;
+GO
+
+
+
+EXEC sp_LayBaiKiemTraCungCoTheoMon 1, 1;

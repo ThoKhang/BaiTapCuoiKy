@@ -34,6 +34,12 @@ public class TrangChu1 extends AppCompatActivity {
             tvWelcome.setText("Chào mừng: " + userEmail);
         }
 
+        // Khi nhấn vào phần tử "Củng cố kiến thức" -> mở trang CungCoKienThuc
+        findViewById(R.id.cungCoKienThuc).setOnClickListener(v -> {
+            Intent intent = new Intent(TrangChu1.this, CungCoKienThuc.class);
+            startActivity(intent);
+        });
+
         // Nút logout (thêm nếu có Button ID: btnLogout)
         // Button btnLogout = findViewById(R.id.btnLogout);
         // btnLogout.setOnClickListener(v -> logout());
@@ -59,4 +65,5 @@ public class TrangChu1 extends AppCompatActivity {
         Toast.makeText(this, "Nhấn lại để thoát.", Toast.LENGTH_SHORT).show();
         // super.onBackPressed();  // Comment để tránh out
     }
+
 }

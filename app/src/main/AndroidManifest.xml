@@ -13,6 +13,15 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".CauHoiCungCo"
+            android:exported="false" />
+        <activity
+            android:name=".CungCoMonHoc"
+            android:exported="false" />
+        <activity
+            android:name=".CungCoKienThuc"
+            android:exported="false" />
+        <activity
             android:name=".TrangChu1"
             android:exported="false" />
         <activity
