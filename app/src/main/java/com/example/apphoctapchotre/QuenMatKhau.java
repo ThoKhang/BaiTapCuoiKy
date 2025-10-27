@@ -46,7 +46,6 @@ public class QuenMatKhau extends AppCompatActivity {
         });
         // 🔹 Nhận email & OTP đã xác thực từ màn QuenMatKhauOTP
         email = getIntent().getStringExtra("EMAIL");
-        ibtnBack.setOnClickListener(v -> finish());
 
         btnDangNhap.setOnClickListener(v -> {
             String matKhauMoi = eTextMatKhau.getText().toString().trim();

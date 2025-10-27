@@ -34,17 +34,17 @@ public class GiaoDienDangNhap extends AppCompatActivity {
         eTextEmail = findViewById(R.id.eTextEmail);
         eTextMatKhau = findViewById(R.id.eTextMatKhau);
         btnDangNhap = findViewById(R.id.btnDangNhap);
-        TextView textQuenMatKhau = findViewById(R.id.textQuenMatKhau);
-        textQuenMatKhau.setOnClickListener(v -> {
-            String email = eTextEmail.getText().toString().trim();
+            TextView textQuenMatKhau = findViewById(R.id.textQuenMatKhau);
+            textQuenMatKhau.setOnClickListener(v -> {
+                String email = eTextEmail.getText().toString().trim();
 
-            Intent intent = new Intent(GiaoDienDangNhap.this, QuenMatKhauOTP.class);
-            // Truyền email (nếu có nhập sẵn)
-            if (!email.isEmpty()) {
-                intent.putExtra("EMAIL", email);
-            }
-            startActivity(intent);
-        });
+                Intent intent = new Intent(GiaoDienDangNhap.this, QuenMatKhauOTP.class);
+                // Truyền email (nếu có nhập sẵn)
+                if (!email.isEmpty()) {
+                    intent.putExtra("EMAIL", email);
+                }
+                startActivity(intent);
+            });
         //
         TextView textDangKyNgay = findViewById(R.id.textDangKyNgay);
         textDangKyNgay.setOnClickListener(v -> {

@@ -73,14 +73,14 @@ CREATE TABLE BaiKiemTra (
     NgayTao DATETIME2 DEFAULT SYSUTCDATETIME()
 );
 INSERT INTO BaiKiemTra (TieuDe, LoaiBaiKiemTra, MaMonHoc, CoXaoTron, TongSoCauHoi) VALUES 
-('Củng cố Toán 1','CungCo',1,1,10),
-('Củng cố Tiếng Việt 1','CungCo',2,1,10),
-('Ôn tập hỗn hợp - cơ bản 1','OnTapCoBan',NULL,1,10),
-('Ôn tập hỗn hợp - cơ bản 2','OnTapCoBan',NULL,1,10),
-('Ôn tập hỗn hợp - trung bình 1','OnTapTrungBinh',NULL,1,10),
-('Ôn tập hỗn hợp - trung bình 2','OnTapTrungBinh',NULL,1,10),
-('Ôn tập hỗn hợp - nâng cao 1','OnTapNangCao',NULL,1,10),
-('Ôn tập hỗn hợp - nâng cao 2','OnTapNangCao',NULL,1,10),
+(N'Củng cố Toán 1','CungCo',1,1,10),
+(N'Củng cố Tiếng Việt 1','CungCo',2,1,10),
+(N'Ôn tập hỗn hợp - cơ bản 1','OnTapCoBan',NULL,1,10),
+(N'Ôn tập hỗn hợp - cơ bản 2','OnTapCoBan',NULL,1,10),
+(N'Ôn tập hỗn hợp - trung bình 1','OnTapTrungBinh',NULL,1,10),
+(N'Ôn tập hỗn hợp - trung bình 2','OnTapTrungBinh',NULL,1,10),
+(N'Ôn tập hỗn hợp - nâng cao 1','OnTapNangCao',NULL,1,10),
+(N'Ôn tập hỗn hợp - nâng cao 2','OnTapNangCao',NULL,1,10),
 ('Thử thách chọn đáp án A/B/C/D 1','ThuThach',NULL,1,10);
 GO
 
@@ -260,9 +260,9 @@ CREATE TABLE TroChoi (
 );
 INSERT INTO TroChoi (TenTroChoi, MoTa, DiemThanhCong)
 VALUES
-('Liên hoàn tính toán','Chuỗi phép tính nhỏ, đúng hết được điểm',80),
-('Hoàn thiện câu từ','Điền vào chỗ trống',80),
-('Trùm tính toán','Chuỗi bài nâng cao',80);
+(N'Liên hoàn tính toán',N'Chuỗi phép tính nhỏ, đúng hết được điểm',80),
+(N'Hoàn thiện câu từ',N'Điền vào chỗ trống',80),
+(N'Trùm tính toán',N'Chuỗi bài nâng cao',80);
 GO
 
 -- Lần thử trò chơi (lưu khi chơi, nếu đúng hết thì full points)
@@ -755,3 +755,5 @@ ORDER BY create_date DESC;
 SELECT * FROM nguoi_dung;
 DROP TABLE nguoi_dung;
 
+select * from BaiKiemTra
+select * from BaiKiemTraCauHoi
