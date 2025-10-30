@@ -31,5 +31,4 @@ public interface ApiService {
     @POST("/api/reset-password")
     Call<ResponseBody> resetPassword(@Body Map<String, String> body);
 
-
 }
