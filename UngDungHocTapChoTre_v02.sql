@@ -33,7 +33,7 @@ INSERT INTO NguoiDung (TenDangNhap, Email, MatKhauMaHoa, MaVaiTro)
 VALUES 
     (N'Thọ Khang', N'khangheheqt@gmail.com', N'123456', 2),
     (N'AdminTest', N'admin@example.com', N'admin123', 1),
-    (N'UserOne', N'user1@example.com', N'password1', 2),
+    (N'Minh Huy', N'phamminhhuy0901tk@gmail.com', N'123', 2),
     (N'UserTwo', N'user2@example.com', N'password2', 2);
 GO
 
@@ -752,8 +752,8 @@ SELECT name, SCHEMA_NAME(schema_id) AS schema_name, create_date
 FROM sys.tables
 WHERE name = 'NguoiDung'
 ORDER BY create_date DESC;
-SELECT * FROM nguoi_dung;
-DROP TABLE nguoi_dung;
+SELECT * FROM NguoiDung;
+--DROP TABLE NguoiDung;
 
 select * from BaiKiemTra
 select * from BaiKiemTraCauHoi
