@@ -2,6 +2,7 @@ package com.example.apphoctapchotre;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -36,10 +37,15 @@ public class QuenMatKhau extends AppCompatActivity {
         eTextNhapLaiMatKhau = findViewById(R.id.eTextNhapLaiMatKhau);
         btnDangNhap = findViewById(R.id.btnDangNhap);
         ibtnBack = findViewById(R.id.ibtnBack);
-
+        ImageButton ibtnBack = findViewById(R.id.ibtnBack);
+        ibtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         // 🔹 Nhận email & OTP đã xác thực từ màn QuenMatKhauOTP
         email = getIntent().getStringExtra("EMAIL");
-        ibtnBack.setOnClickListener(v -> finish());
 
         btnDangNhap.setOnClickListener(v -> {
             String matKhauMoi = eTextMatKhau.getText().toString().trim();

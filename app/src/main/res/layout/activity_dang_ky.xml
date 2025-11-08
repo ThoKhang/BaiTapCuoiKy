@@ -127,11 +127,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnDangNhap"
+        android:id="@+id/btnDangKy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"
-        android:text="Đăng nhập"
+        android:text="Đăng ký"
         android:backgroundTint="#FDC858"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.894"
@@ -145,12 +145,12 @@
       android:id="@+id/ibtnBack"
       android:layout_width="48dp"
       android:layout_height="48dp"
-      android:layout_marginTop="16dp"
+      android:layout_marginTop="44dp"
       android:background="@android:color/transparent"
+      android:contentDescription="Nút quay lại"
       android:src="@drawable/img_back"
       app:layout_constraintEnd_toStartOf="@+id/strokeTextView"
-      app:layout_constraintHorizontal_bias="0.125"
+      app:layout_constraintHorizontal_bias="0.333"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      android:contentDescription="Nút quay lại"/>
+      app:layout_constraintTop_toTopOf="parent" />
   </androidx.constraintlayout.widget.ConstraintLayout>

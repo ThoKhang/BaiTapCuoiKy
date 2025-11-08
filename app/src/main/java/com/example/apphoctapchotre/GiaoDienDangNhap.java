@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,18 +34,23 @@ public class GiaoDienDangNhap extends AppCompatActivity {
         eTextEmail = findViewById(R.id.eTextEmail);
         eTextMatKhau = findViewById(R.id.eTextMatKhau);
         btnDangNhap = findViewById(R.id.btnDangNhap);
-        TextView textQuenMatKhau = findViewById(R.id.textQuenMatKhau);
-        textQuenMatKhau.setOnClickListener(v -> {
-            String email = eTextEmail.getText().toString().trim();
+            TextView textQuenMatKhau = findViewById(R.id.textQuenMatKhau);
+            textQuenMatKhau.setOnClickListener(v -> {
+                String email = eTextEmail.getText().toString().trim();
 
-            Intent intent = new Intent(GiaoDienDangNhap.this, QuenMatKhauOTP.class);
-            // Truyền email (nếu có nhập sẵn)
-            if (!email.isEmpty()) {
-                intent.putExtra("EMAIL", email);
-            }
+                Intent intent = new Intent(GiaoDienDangNhap.this, QuenMatKhauOTP.class);
+                // Truyền email (nếu có nhập sẵn)
+                if (!email.isEmpty()) {
+                    intent.putExtra("EMAIL", email);
+                }
+                startActivity(intent);
+            });
+        //
+        TextView textDangKyNgay = findViewById(R.id.textDangKyNgay);
+        textDangKyNgay.setOnClickListener(v -> {
+            Intent intent = new Intent(GiaoDienDangNhap.this, DangKy.class);
             startActivity(intent);
         });
-
         btnDangNhap.setOnClickListener(v -> {
             String email = eTextEmail.getText().toString().trim();
             String matKhau = eTextMatKhau.getText().toString().trim();

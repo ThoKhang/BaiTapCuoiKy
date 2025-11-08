@@ -1,3 +1,8 @@
+// File: TrangChu1.java
+// Package: com.example.apphoctapchotre
+// Mục đích: Activity trang chủ sau đăng nhập. Đã cập nhật để xử lý click TextView vaoHocCungCoKienThuc để chuyển sang CungCoKienThucActivity (hiển thị list củng cố kiến thức).
+// Giả sử bạn đã có CungCoKienThucActivity như code trước. Nếu cần truyền maMonHoc, thêm putExtra.
+
 package com.example.apphoctapchotre;
 
 import android.content.Intent;
@@ -34,6 +39,17 @@ public class TrangChu1 extends AppCompatActivity {
             tvWelcome.setText("Chào mừng: " + userEmail);
         }
 
+        // Thêm listener cho TextView vaoHocCungCoKienThuc để chuyển sang list củng cố
+        TextView tvVaoHoc = findViewById(R.id.vaoHocCungCoKienThuc);
+        if (tvVaoHoc != null) {
+            tvVaoHoc.setOnClickListener(v -> {
+                Intent intent = new Intent(TrangChu1.this, cungcokienthuc.class);
+                // Nếu cần truyền maMonHoc (ví dụ: 1 cho Toán)
+                // intent.putExtra("maMonHoc", (byte)1);
+                startActivity(intent);
+            });
+        }
+
         // Nút logout (thêm nếu có Button ID: btnLogout)
         // Button btnLogout = findViewById(R.id.btnLogout);
         // btnLogout.setOnClickListener(v -> logout());
@@ -52,11 +68,4 @@ public class TrangChu1 extends AppCompatActivity {
         finish();
     }
 
-    // Override back button để không out app (tùy chọn)
-    @Override
-    public void onBackPressed() {
-        // Không gọi super (không out), hoặc hỏi user "Thoát app?"
-        Toast.makeText(this, "Nhấn lại để thoát.", Toast.LENGTH_SHORT).show();
-        // super.onBackPressed();  // Comment để tránh out
-    }
 }
