@@ -26,7 +26,7 @@ public class DeKiemTraService implements IDeKiemTraService{
     
     @Override
     public int getTongSoDeTheoLoai(String loaiDe) {
-        return baiKiemTraRepo.countByLoaiBaiKiemTra(loaiDe);
+        return (int) baiKiemTraRepo.countByLoaiBaiKiemTra(loaiDe);
     }
 
     @Override
