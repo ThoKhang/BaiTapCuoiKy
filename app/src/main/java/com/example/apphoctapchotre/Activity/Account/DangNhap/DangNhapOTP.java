@@ -18,6 +18,7 @@ import com.example.apphoctapchotre.Api.RetrofitClient;
 import com.example.apphoctapchotre.Activity.Account.QuenMatKau.QuenMatKhauOTP;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.Activity.TrangChu.TrangChu1;
+import com.example.apphoctapchotre.TrangChu;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,34 +90,44 @@ public class DangNhapOTP extends AppCompatActivity {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     try {
                         String message = "";
+
                         if (response.isSuccessful() && response.body() != null) {
-                            message = response.body().string();
+
+                            // Đọc body *CHỈ 1 LẦN*
+                            message = response.body().string().trim();
+                            Log.d("OTP_RESPONSE", "Body: " + message);
+
                             Toast.makeText(DangNhapOTP.this, message, Toast.LENGTH_SHORT).show();
 
-                            // ✅ Lưu trạng thái đăng nhập
+                            // Lưu trạng thái đăng nhập
                             SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putBoolean("isLoggedIn", true);
                             editor.putString("userEmail", email);
                             editor.apply();
 
-                            // ✅ Chuyển sang Trang chủ
+                            // Chuyển trang
                             Intent intent = new Intent(DangNhapOTP.this, TrangChu.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
-                        } else {
+                        }
+                        else {
+                            // Chỉ đọc errorBody 1 lần
                             if (response.errorBody() != null) {
-                                message = response.errorBody().string();
+                                message = response.errorBody().string().trim();
                             } else {
                                 message = "Lỗi xác thực OTP!";
                             }
+
                             Toast.makeText(DangNhapOTP.this, message, Toast.LENGTH_SHORT).show();
                         }
+
                     } catch (Exception e) {
                         Log.e("OTP_RESPONSE", "Lỗi xử lý phản hồi: " + e.getMessage());
                         Toast.makeText(DangNhapOTP.this, "Lỗi xử lý phản hồi OTP!", Toast.LENGTH_SHORT).show();
                     }
+
                 }
 
                 @Override

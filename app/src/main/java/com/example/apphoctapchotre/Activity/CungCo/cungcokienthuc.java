@@ -47,47 +47,6 @@ public class cungcokienthuc extends AppCompatActivity {
             maMonHoc = getIntent().getByteExtra("maMonHoc", (byte)1);
         }
 
-        loadListBaiKiemTra();
     }
 
-    private void loadListBaiKiemTra() {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-
-        apiService.getBaiKiemTraCungCo(maMonHoc).enqueue(new Callback<List<BaiKiemTra>>() {
-            @Override
-            public void onResponse(Call<List<BaiKiemTra>> call, Response<List<BaiKiemTra>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<String> titles = new ArrayList<>();
-                    List<BaiKiemTra> baiList = response.body();
-                    for (BaiKiemTra b : baiList) {
-                        titles.add(b.getTieuDe());
-                    }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(cungcokienthuc.this, android.R.layout.simple_list_item_1, titles);
-                    listBaiKiemTra.setAdapter(adapter);
-
-                    // Xử lý click item để chuyển sang làm bài
-                    listBaiKiemTra.setOnItemClickListener((parent, view, position, id) -> {
-                        int maBaiKiemTra = baiList.get(position).getMaBaiKiemTra();
-                        Intent intent = new Intent(cungcokienthuc.this, cungcokienthuc.class);
-                        intent.putExtra("maBaiKiemTra", maBaiKiemTra);
-                        intent.putExtra("maNguoiDung", /* Lấy từ SharedPreferences hoặc session, ví dụ */ 1);
-                        startActivity(intent);
-                    });
-                } else {
-                    Log.e("API_ERROR", "Code: " + response.code()
-                            + " | Message: " + response.message());
-
-                    Log.e("API_ERROR", "Error body: " + response.errorBody());
-                    Log.e("DEBUG_PARAM", "maMonHoc gửi lên: " + maMonHoc);
-
-                    Toast.makeText(cungcokienthuc.this, "Lỗi tải danh sách bài kiểm tra", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<BaiKiemTra>> call, Throwable t) {
-                Toast.makeText(cungcokienthuc.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

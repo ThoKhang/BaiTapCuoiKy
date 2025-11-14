@@ -34,6 +34,9 @@
         <activity
             android:name=".Activity.TrangChu.TrangChu1"
             android:exported="false" />
+        <activity android:name=".TrangChu"
+            android:exported="false"/>
+
         <activity
             android:name=".Activity.GioiThieu.GioiThieu4"
             android:exported="false" />
