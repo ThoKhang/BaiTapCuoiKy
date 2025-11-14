@@ -5,8 +5,14 @@ import com.example.backend.repository.NguoiDungRepository;
 import com.example.backend.service.EmailService;  // Import EmailService (nếu chưa có)
 import com.example.backend.service.OTPService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -157,5 +163,95 @@ public String checkDatabase() {
             return ResponseEntity.status(500).body("Lỗi reset mật khẩu: " + e.getMessage());
         }
     }
+
+    @GetMapping("/nguoi-dung/{id}/tongbaihoc-phanmon")
+    public ResponseEntity<?> getTongBaiHocTheoMon(@PathVariable int id) {
+        try {
+            var nguoiDung = repo.findById(id).orElse(null);
+            if (nguoiDung == null)
+                return ResponseEntity.status(404).body("Không tìm thấy người dùng với ID: " + id);
+            NguoiDung dto = new NguoiDung();
+            dto.setMaNguoiDung(nguoiDung.getMaNguoiDung());
+            dto.setTenDangNhap(nguoiDung.getTenDangNhap());
+            dto.setEmail(nguoiDung.getEmail());
+            dto.setMaVaiTro(nguoiDung.getMaVaiTro());
+            dto.setNgayTao(nguoiDung.getNgayTao());
+            dto.setTongDiem(nguoiDung.getTongDiem());
+            dto.setMatKhauMaHoa(nguoiDung.getMatKhauMaHoa());
+            String sql = "EXEC dbo.sp_GetTongBaiHocTheoMon @MaNguoiDung = ?";
+            var result = jdbcTemplate.queryForList(sql, id);
+            String toanTienDo = "0/0";
+            String tvTienDo = "0/0";
+
+            for (var row : result) {
+                String monRaw = String.valueOf(row.get("TenMonHoc"));
+                String tienDo = String.valueOf(row.get("TienDoHoc"));
+                String monNormalized = java.text.Normalizer.normalize(monRaw, java.text.Normalizer.Form.NFD)
+                        .replaceAll("\\p{InCombiningDiacriticalMarks}+", "") // bỏ dấu tiếng Việt
+                        .replace("đ", "d").replace("Đ", "D")                 // chuyển đ -> d
+                        .replace("?", "")                                    // loại ký tự lỗi
+                        .replaceAll("[^a-zA-Z0-9 ]", "")                     // bỏ ký tự đặc biệt khác
+                        .toLowerCase()
+                        .trim();
+
+                if (monNormalized.contains("toan")) {
+                    toanTienDo = tienDo;
+                } else if (monNormalized.contains("viet") || monNormalized.contains("vit") || monNormalized.contains("tieng")) {
+                    tvTienDo = tienDo;
+                }
+            }
+
+            dto.setToanTienDo(toanTienDo);
+            dto.setTiengVietTienDo(tvTienDo);
+
+
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of(
+                    "Loi", "Lỗi khi lấy dữ liệu",
+                    "ChiTiet", e.getMessage()
+            ));
+        }
+    }
+
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    /**
+     * Đánh dấu người dùng đã hoàn thành tiêu đề phụ.
+     * Gọi stored procedure dbo.usp_HoanThanhTieuDePhu để cộng điểm và cập nhật trạng thái.
+     */
+    @PostMapping("/hoanthanh-tieudephu")
+    public ResponseEntity<?> hoanThanhTieuDePhu(
+            @RequestParam int maNguoiDung,
+            @RequestParam int maTieuDePhu) {
+        try {
+            // Gọi stored procedure
+            String sql = "EXEC dbo.usp_HoanThanhTieuDePhu @MaNguoiDung = ?, @MaTieuDePhu = ?";
+            var result = jdbcTemplate.queryForList(sql, maNguoiDung, maTieuDePhu);
+
+            // Nếu SP không trả dữ liệu
+            if (result == null || result.isEmpty()) {
+                return ResponseEntity.ok(Map.of(
+                        "TrangThai", "KhongCoPhanHoi",
+                        "ThongBao", "Thủ tục đã thực thi nhưng không trả dữ liệu."
+                ));
+            }
+
+            // Thành công
+            return ResponseEntity.ok(result);
+
+        } catch (Exception e) {
+            // Ghi log lỗi để tiện debug
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of(
+                    "Loi", "Lỗi khi cập nhật tiến độ tiêu đề phụ",
+                    "ChiTiet", e.getMessage()
+            ));
+        }
+    }
+
 
 }

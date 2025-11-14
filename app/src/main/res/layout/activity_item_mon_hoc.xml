@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edit_border"
+    android:orientation="horizontal"
+    android:padding="22dp">
+
+    <TextView
+        android:id="@+id/tvTieuDePhu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/itim"
+        android:text="Luyện tập 1: Làm quen với phép cộng"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvDiem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+50 Điểm"
+        android:textColor="#FDC858"
+        android:textSize="16sp" />
+</LinearLayout>

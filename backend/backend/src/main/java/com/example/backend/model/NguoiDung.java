@@ -35,6 +35,13 @@ public class NguoiDung {
     @Column(name = "TongDiem")
     private int tongDiem = 0;
 
+    @Transient
+    private String toanTienDo;
+
+    @Transient
+    private String tiengVietTienDo;
+
+
     // Constructors
     public NguoiDung() {}
 
@@ -73,6 +80,13 @@ public class NguoiDung {
     public int getTongDiem() { return tongDiem; }
     public void setTongDiem(int tongDiem) { this.tongDiem = tongDiem; }
 
+    public String getToanTienDo() { return toanTienDo; }
+    public void setToanTienDo(String val) { this.toanTienDo = val; }
+
+    public String getTiengVietTienDo() { return tiengVietTienDo; }
+    public void setTiengVietTienDo(String val) { this.tiengVietTienDo = val; }
+
+
     // toString() để debug
     @Override
     public String toString() {
@@ -81,7 +95,10 @@ public class NguoiDung {
                 ", tenDangNhap='" + tenDangNhap + '\'' +
                 ", email='" + email + '\'' +
                 ", maVaiTro=" + maVaiTro +
+                ", ngayTao=" + ngayTao +
+                ", lanDangNhapCuoi=" + lanDangNhapCuoi +
                 ", tongDiem=" + tongDiem +
                 '}';
     }
+
 }

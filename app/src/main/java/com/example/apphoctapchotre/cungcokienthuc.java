@@ -1,92 +1,88 @@
-// File: CungCoKienThucActivity.java
-// Package: com.example.apphoctapchotre (giả sử package của bạn)
-// Mục đích: Activity này hiển thị danh sách các bài kiểm tra củng cố kiến thức theo môn học.
-// Nó sử dụng Retrofit để gọi API lấy list BaiKiemTra, sau đó hiển thị trong ListView.
-// Giả sử bạn truyền maMonHoc từ Intent (ví dụ: 1 cho Toán). Nếu không, có thể hardcode hoặc chọn từ UI.
-
 package com.example.apphoctapchotre;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.apphoctapchotre.Api.ApiService;
 import com.example.apphoctapchotre.Api.RetrofitClient;
 import com.example.apphoctapchotre.model.BaiKiemTra;
+import com.example.apphoctapchotre.model.NguoiDung;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.util.ArrayList;
-import java.util.List;
+public class CungCoKienThuc extends AppCompatActivity {
 
-public class cungcokienthuc extends AppCompatActivity {
-    private ListView listBaiKiemTra;
-    private TextView tvBack;
-    private byte maMonHoc = 1;  // Giả sử mặc định là Toán (1), bạn có thể truyền từ Intent hoặc chọn từ UI
+    private TextView tvToan, tvTiengViet;
+    private LinearLayout layoutToan, layoutTiengViet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cungcokienthuc);  // Layout XML bạn cung cấp, nhưng cần thêm ListView
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_cung_co_kien_thuc);
 
-        // Ánh xạ các view
-        tvBack = findViewById(R.id.back);
-        listBaiKiemTra = findViewById(R.id.listBaiKiemTra);  // Giả sử bạn thêm ListView id=listBaiKiemTra vào layout XML
+        // Ánh xạ
+        tvToan = findViewById(R.id.tvToan);
+        tvTiengViet = findViewById(R.id.tvTiengViet);
+        layoutToan = findViewById(R.id.layoutToan);
+        layoutTiengViet = findViewById(R.id.layoutTiengViet);
 
-        // Xử lý nút back
-        tvBack.setOnClickListener(v -> finish());
+        int maNguoiDung = 1;
+        taiTongBaiHocTheoMon(maNguoiDung);
 
-        // Lấy maMonHoc từ Intent nếu có
-        if (getIntent().hasExtra("maMonHoc")) {
-            maMonHoc = getIntent().getByteExtra("maMonHoc", (byte)1);
-        }
+        layoutToan.setOnClickListener(v -> {
+            Intent intent = new Intent(CungCoKienThuc.this, CungCoMonHoc.class);
+            intent.putExtra("maMonHoc", 1);
+            intent.putExtra("tenMonHoc", "Toán");
+            intent.putExtra("bgRes", R.drawable.bg_banner_green);
+            startActivity(intent);
+        });
 
-        loadListBaiKiemTra();
+        layoutTiengViet.setOnClickListener(v -> {
+            Intent intent = new Intent(CungCoKienThuc.this, CungCoMonHoc.class);
+            intent.putExtra("maMonHoc", 2);
+            intent.putExtra("tenMonHoc", "Tiếng Việt");
+            intent.putExtra("bgRes", R.drawable.bg_banner_blue);
+            startActivity(intent);
+        });
+
+        ImageView btnQuayLai = findViewById(R.id.quayLai);
+        btnQuayLai.setOnClickListener(v -> {
+            onBackPressed(); // Quay lại trang trước
+        });
+
     }
 
-    private void loadListBaiKiemTra() {
+    private void taiTongBaiHocTheoMon(int maNguoiDung) {
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        Call<NguoiDung> call = apiService.getNguoiDungTongBaiHocTheoMon(maNguoiDung);
 
-        apiService.getBaiKiemTraCungCo(maMonHoc).enqueue(new Callback<List<BaiKiemTra>>() {
+        call.enqueue(new Callback<NguoiDung>() {
             @Override
-            public void onResponse(Call<List<BaiKiemTra>> call, Response<List<BaiKiemTra>> response) {
+            public void onResponse(Call<NguoiDung> call, Response<NguoiDung> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<String> titles = new ArrayList<>();
-                    List<BaiKiemTra> baiList = response.body();
-                    for (BaiKiemTra b : baiList) {
-                        titles.add(b.getTieuDe());
-                    }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(cungcokienthuc.this, android.R.layout.simple_list_item_1, titles);
-                    listBaiKiemTra.setAdapter(adapter);
-
-                    // Xử lý click item để chuyển sang làm bài
-                    listBaiKiemTra.setOnItemClickListener((parent, view, position, id) -> {
-                        int maBaiKiemTra = baiList.get(position).getMaBaiKiemTra();
-                        Intent intent = new Intent(cungcokienthuc.this, cungcokienthuc.class);
-                        intent.putExtra("maBaiKiemTra", maBaiKiemTra);
-                        intent.putExtra("maNguoiDung", /* Lấy từ SharedPreferences hoặc session, ví dụ */ 1);
-                        startActivity(intent);
-                    });
+                    NguoiDung nguoiDung = response.body();
+                    tvToan.setText("Tiến độ: " + nguoiDung.getToanTienDo());
+                    tvTiengViet.setText("Tiến độ: " + nguoiDung.getTiengVietTienDo());
                 } else {
-                    Log.e("API_ERROR", "Code: " + response.code()
-                            + " | Message: " + response.message());
-
-                    Log.e("API_ERROR", "Error body: " + response.errorBody());
-                    Log.e("DEBUG_PARAM", "maMonHoc gửi lên: " + maMonHoc);
-
-                    Toast.makeText(cungcokienthuc.this, "Lỗi tải danh sách bài kiểm tra", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CungCoKienThuc.this, "Không có dữ liệu từ server", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<BaiKiemTra>> call, Throwable t) {
-                Toast.makeText(cungcokienthuc.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<NguoiDung> call, Throwable t) {
+                Toast.makeText(CungCoKienThuc.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
+
 }

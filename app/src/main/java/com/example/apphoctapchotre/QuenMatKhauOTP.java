@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,18 +36,7 @@ public class QuenMatKhauOTP extends AppCompatActivity {
         eTextOTP = findViewById(R.id.eTextOTP);
         textOTP = findViewById(R.id.textOTP);
         btnTiepTuc = findViewById(R.id.btnTiepTuc);
-        ImageButton ibtnBack = findViewById(R.id.ibtnBack);
-        ibtnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        TextView textDangKyNgay = findViewById(R.id.textDangKyNgay);
-        textDangKyNgay.setOnClickListener(v -> {
-            Intent intent = new Intent(QuenMatKhauOTP.this, DangKy.class);
-            startActivity(intent);
-        });
+
         // Nếu từ màn đăng nhập truyền email qua, thì hiển thị luôn
         Intent intent = getIntent();
         String emailFromLogin = intent.getStringExtra("EMAIL");
