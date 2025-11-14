@@ -1,12 +1,10 @@
-package com.example.apphoctapchotre;
+package com.example.apphoctapchotre.Activity.Account.DangNhap;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.apphoctapchotre.Api.ApiService;
 import com.example.apphoctapchotre.Api.RetrofitClient;
+import com.example.apphoctapchotre.Activity.Account.DangKy.DangKy;
+import com.example.apphoctapchotre.Activity.Account.QuenMatKau.QuenMatKhauOTP;
+import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.model.NguoiDung;
 
 import okhttp3.ResponseBody;

@@ -1,4 +1,4 @@
-package com.example.apphoctapchotre;
+package com.example.apphoctapchotre.Activity.OnLuyen;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.apphoctapchotre.R;
 
 public class OnLuyen extends AppCompatActivity {
     private Button btnDeCoBan,btndeTrungBinh,btnDeNangCao;

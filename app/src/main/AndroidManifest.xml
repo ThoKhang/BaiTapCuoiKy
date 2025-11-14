@@ -15,43 +15,54 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true" >
         <activity
-            android:name=".cungcokienthuc"
+            android:name=".Activity.CungCo.cungcokienthuc"
+            android:exported="false" />
+
+<!--ai làm gì môn học toán hả cấn lỗi t comment-->
+<!--        <activity-->
+<!--            android:name=".monhoctoan"-->
+<!--            android:exported="false" />-->
+
+        <activity android:name=".Activity.OnLuyen.OnLuyen"
+            android:exported="false" />
+        <activity android:name=".Activity.OnLuyen.DeCoBan"
+            android:exported="false" />
+        <activity android:name=".Activity.OnLuyen.DeTrungBinh"
+            android:exported="false" />
+        <activity android:name=".Activity.OnLuyen.DeNangCao"
             android:exported="false" />
         <activity
-            android:name=".monhoctoan"
+            android:name=".Activity.TrangChu.TrangChu1"
             android:exported="false" />
         <activity
-            android:name=".TrangChu1"
+            android:name=".Activity.GioiThieu.GioiThieu4"
             android:exported="false" />
         <activity
-            android:name=".GioiThieu4"
+            android:name=".Activity.GioiThieu.GioiThieu3"
             android:exported="false" />
         <activity
-            android:name=".GioiThieu3"
+            android:name=".Activity.GioiThieu.GioiThieu2"
             android:exported="false" />
         <activity
-            android:name=".GioiThieu2"
+            android:name=".Activity.GioiThieu.GioiThieu1"
             android:exported="false" />
         <activity
-            android:name=".GioiThieu1"
+            android:name=".Activity.Account.DangKy.DangKyOTP"
             android:exported="false" />
         <activity
-            android:name=".DangKyOTP"
+            android:name=".Activity.Account.QuenMatKau.QuenMatKhauOTP"
             android:exported="false" />
         <activity
-            android:name=".QuenMatKhauOTP"
+            android:name=".Activity.Account.DangKy.DangKy"
             android:exported="false" />
         <activity
-            android:name=".DangKy"
+            android:name=".Activity.Account.QuenMatKau.QuenMatKhau"
             android:exported="false" />
         <activity
-            android:name=".QuenMatKhau"
+            android:name=".Activity.Account.DangNhap.DangNhapOTP"
             android:exported="false" />
         <activity
-            android:name=".DangNhapOTP"
-            android:exported="false" />
-        <activity
-            android:name=".GiaoDienDangNhap"
+            android:name=".Activity.Account.DangNhap.GiaoDienDangNhap"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

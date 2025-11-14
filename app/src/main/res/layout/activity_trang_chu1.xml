@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@color/white"
-    tools:context=".TrangChu1">
+    tools:context=".Activity.TrangChu.TrangChu1">
 
     <LinearLayout
         android:orientation="vertical"
