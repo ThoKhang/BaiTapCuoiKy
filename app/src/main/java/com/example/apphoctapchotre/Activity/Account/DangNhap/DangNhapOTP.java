@@ -101,7 +101,7 @@ public class DangNhapOTP extends AppCompatActivity {
                             editor.apply();
 
                             // ✅ Chuyển sang Trang chủ
-                            Intent intent = new Intent(DangNhapOTP.this, TrangChu1.class);
+                            Intent intent = new Intent(DangNhapOTP.this, TrangChu.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
