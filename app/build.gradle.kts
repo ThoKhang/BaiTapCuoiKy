@@ -51,4 +51,6 @@ dependencies {
 
     // ✅ Thư viện cần thiết để hỗ trợ java.time.* trên Android cũ
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    //Thư viện hộ trợ recycle view
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 }
