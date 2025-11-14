@@ -1,9 +1,11 @@
 package com.example.apphoctapchotre;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.apphoctapchotre.Activity.Account.DangNhap.GiaoDienDangNhap;
+import com.example.apphoctapchotre.Activity.OnLuyen.OnLuyen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +29,9 @@ public class TrangChu extends AppCompatActivity {
     private Handler autoSlideHandler = new Handler();
     private int currentPage = 0;
     private long backPressedTime = 0;
+    private TextView bannerSubtitle;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +91,6 @@ public class TrangChu extends AppCompatActivity {
 
         // Tự động lướt banner mỗi 5 giây
         autoSlideHandler.postDelayed(autoSlideRunnable, 5000);
-
     }
 
     // ========================== CHẤM TRÒN INDICATOR ==========================

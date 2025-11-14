@@ -1,5 +1,6 @@
 package com.example.apphoctapchotre;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.apphoctapchotre.Activity.OnLuyen.OnLuyen;
 
 import java.util.List;
 
@@ -34,6 +37,13 @@ public class BannerSlide extends RecyclerView.Adapter<BannerSlide.BannerViewHold
         // Gán dữ liệu cho banner
         holder.title.setText(item.title);
         holder.subtitle.setText(item.subtitle);
+
+        //mấy ní code ko gọi trang fix hơi mệt
+        holder.subtitle.setOnClickListener(v -> {
+            v.getContext().startActivity(
+                    new Intent(v.getContext(), OnLuyen.class)
+            );
+        });
 
         // Gán ảnh minh họa khác nhau cho từng banner
         holder.image.setImageResource(item.imageRes);

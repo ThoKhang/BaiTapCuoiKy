@@ -86,7 +86,6 @@
                         android:src="@drawable/bgdecoban" />
 
                     <Button
-                        android:id="@+id/btnDeCoBan"
                         android:layout_width="125dp"
                         android:layout_height="wrap_content"
                         android:text="Đề cơ bản"
@@ -113,6 +112,7 @@
                         android:text="Tổng số đề đã làm: 2/10"
                         android:backgroundTint="#197CC2"/>
                     <Button
+                        android:id="@+id/btnDeCoBan"
                         android:layout_width="115dp"
                         android:layout_height="50dp"
                         android:layout_marginRight="18dp"
@@ -139,7 +139,6 @@
                         android:scaleType="centerCrop"
                         android:adjustViewBounds="true" />
                     <Button
-                        android:id="@+id/btnDeTrungBinh"
                         android:layout_width="125dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
@@ -166,6 +165,7 @@
                         android:text="Tổng số đề đã làm: 0/10"
                         android:backgroundTint="#197CC2"/>
                     <Button
+                        android:id="@+id/btnDeTrungBinh"
                         android:layout_width="115dp"
                         android:layout_height="50dp"
                         android:layout_marginRight="18dp"
@@ -192,7 +192,6 @@
                         android:scaleType="centerCrop"
                         android:adjustViewBounds="true" />
                     <Button
-                        android:id="@+id/btnDeNangCao"
                         android:layout_width="125dp"
                         android:layout_height="wrap_content"
                         android:text="Đề nâng cao"
@@ -219,6 +218,7 @@
                         android:text="Tổng số đề đã làm: 0/10"
                         android:backgroundTint="#197CC2"/>
                     <Button
+                        android:id="@+id/btnDeNangCao"
                         android:layout_width="115dp"
                         android:layout_height="50dp"
                         android:layout_marginRight="18dp"
