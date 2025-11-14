@@ -1,9 +1,7 @@
-package com.example.apphoctapchotre;
+package com.example.apphoctapchotre.Activity.Account.DangNhap;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.apphoctapchotre.Api.ApiService;
 import com.example.apphoctapchotre.Api.RetrofitClient;
+import com.example.apphoctapchotre.Activity.Account.QuenMatKau.QuenMatKhauOTP;
+import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.Activity.TrangChu.TrangChu1;
 
 import java.util.HashMap;
 import java.util.Map;

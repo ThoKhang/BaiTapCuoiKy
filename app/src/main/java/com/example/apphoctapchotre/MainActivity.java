@@ -15,6 +15,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.apphoctapchotre.Activity.Account.DangNhap.GiaoDienDangNhap;
 import com.example.apphoctapchotre.Api.ApiService;
 import com.example.apphoctapchotre.Api.RetrofitClient;
 import com.example.apphoctapchotre.model.NguoiDung;
@@ -35,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
-
         tvApiResult = findViewById(R.id.tv_api_result);
 
         // Ẩn thanh trạng thái và thanh điều hướng

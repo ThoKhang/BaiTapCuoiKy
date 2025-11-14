@@ -4,7 +4,7 @@
 // Nó sử dụng Retrofit để gọi API lấy list BaiKiemTra, sau đó hiển thị trong ListView.
 // Giả sử bạn truyền maMonHoc từ Intent (ví dụ: 1 cho Toán). Nếu không, có thể hardcode hoặc chọn từ UI.
 
-package com.example.apphoctapchotre;
+package com.example.apphoctapchotre.Activity.CungCo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.apphoctapchotre.Api.ApiService;
 import com.example.apphoctapchotre.Api.RetrofitClient;
+import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.model.BaiKiemTra;
 import retrofit2.Call;
 import retrofit2.Callback;

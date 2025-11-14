@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="17dp"
+    android:background="@drawable/gadient_decoban">
+
+    <!-- Bọc toàn bộ nội dung -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvTieuDe"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:fontFamily="@font/robotothin"
+            android:text="Đề ..."
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tvDiem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+50 điểm"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="#FDC858"/>
+    </LinearLayout>
+
+</FrameLayout>

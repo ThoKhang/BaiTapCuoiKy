@@ -3,7 +3,7 @@
 // Mục đích: Activity trang chủ sau đăng nhập. Đã cập nhật để xử lý click TextView vaoHocCungCoKienThuc để chuyển sang CungCoKienThucActivity (hiển thị list củng cố kiến thức).
 // Giả sử bạn đã có CungCoKienThucActivity như code trước. Nếu cần truyền maMonHoc, thêm putExtra.
 
-package com.example.apphoctapchotre;
+package com.example.apphoctapchotre.Activity.TrangChu;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +11,10 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.apphoctapchotre.Activity.Account.DangNhap.GiaoDienDangNhap;
+import com.example.apphoctapchotre.Activity.CungCo.cungcokienthuc;
+import com.example.apphoctapchotre.R;
 
 public class TrangChu1 extends AppCompatActivity {
 

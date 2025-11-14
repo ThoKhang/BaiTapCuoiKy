@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DeCoBan">
+    tools:context=".Activity.OnLuyen.DeCoBan">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +29,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/robotothin"
                 android:gravity="center"
-                android:text="Ôn Luyện"
+                android:text="Đề cơ bản"
                 android:textSize="20dp"
                 android:textStyle="bold" />
             <ImageView
@@ -40,235 +40,11 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/vuongmieng" />
         </LinearLayout>
-        <FrameLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDe"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gadient_decoban">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đề cơ bản số 1"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/robotothin"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="20dp"
-                android:text="9/10"
-                android:background="@drawable/circle"/>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gadient_decoban"
-            android:layout_marginTop="17dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đề cơ bản số 2"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/robotothin"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="20dp"
-                android:text="+50 điểm"
-                android:textColor="#FDC858"/>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gadient_decoban"
-            android:layout_marginTop="17dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đề cơ bản số 3"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/robotothin"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="20dp"
-                android:text="+50 điểm"
-                android:textColor="#FDC858"/>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gadient_decoban"
-            android:layout_marginTop="17dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đề cơ bản số 4"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/robotothin"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="20dp"
-                android:text="+50 điểm"
-                android:textColor="#FDC858"/>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gadient_decoban"
-            android:layout_marginTop="17dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đề cơ bản số 5"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/robotothin"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="20dp"
-                android:text="+50 điểm"
-                android:textColor="#FDC858"/>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gadient_decoban"
-            android:layout_marginTop="17dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đề cơ bản số 6"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/robotothin"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="20dp"
-                android:text="+50 điểm"
-                android:textColor="#FDC858"/>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gadient_decoban"
-            android:layout_marginTop="17dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đề cơ bản số 7"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/robotothin"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="20dp"
-                android:text="+50 điểm"
-                android:textColor="#FDC858"/>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gadient_decoban"
-            android:layout_marginTop="17dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đề cơ bản số 8"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/robotothin"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="20dp"
-                android:text="+50 điểm"
-                android:textColor="#FDC858"/>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gadient_decoban"
-            android:layout_marginTop="17dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đề cơ bản số 9"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/robotothin"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="20dp"
-                android:text="+50 điểm"
-                android:textColor="#FDC858"/>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gadient_decoban"
-            android:layout_marginTop="17dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đề cơ bản số 10"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/robotothin"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="20dp"
-                android:text="+50 điểm"
-                android:textColor="#FDC858"/>
-        </FrameLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
