@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
+import android.content.Intent;
+
+import com.example.apphoctapchotre.Activity.CungCo.cungcokienthuc;
 
 public class BangCuuChuong extends AppCompatActivity {
 
@@ -27,6 +30,13 @@ public class BangCuuChuong extends AppCompatActivity {
 
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
+
+        // Luyện tập --> Củng cố
+        AppCompatButton btnLuyenTap = findViewById(R.id.btnLuyenTap);
+        btnLuyenTap.setOnClickListener(v -> {
+            Intent intent = new Intent(BangCuuChuong.this, cungcokienthuc.class);
+            startActivity(intent);
+        });
 
         for (int i = 0; i < gridNumbers.getChildCount(); i++) {
             View view = gridNumbers.getChildAt(i);
