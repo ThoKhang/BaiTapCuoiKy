@@ -36,7 +36,12 @@
             android:exported="false" />
         <activity android:name=".TrangChu"
             android:exported="false"/>
-
+        <activity android:name=".Activity.MonHoc.LyThuyetCoBan"
+            android:exported="false" />
+        <activity android:name=".Activity.MonHoc.MonHocTiengViet"
+            android:exported="false" />
+        <activity android:name=".Activity.MonHoc.MonHocToan"
+            android:exported="false" />
         <activity
             android:name=".Activity.GioiThieu.GioiThieu4"
             android:exported="false" />

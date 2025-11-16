@@ -29,7 +29,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/robotothin"
                 android:gravity="center"
-                android:text="Môn Học Tiếng Việt"
+                android:text="Môn Học Toán"
                 android:textSize="20dp"
                 android:textStyle="bold" />
             <ImageView
@@ -41,7 +41,7 @@
                 android:src="@drawable/vuongmieng" />
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMHTV"
+            android:id="@+id/rvMHT"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>

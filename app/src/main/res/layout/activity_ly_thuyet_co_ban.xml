@@ -11,9 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="15dp"
-        tools:layout_editor_absoluteX="-205dp"
-        tools:layout_editor_absoluteY="-16dp">
+        android:padding="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,20 +45,21 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btnTiengViet"
             android:layout_width="match_parent"
             android:layout_height="113dp"
             android:layout_marginBottom="25dp"
-            android:orientation="horizontal"
             android:background="@drawable/gradient_lythuyetcoban"
-            android:padding="15dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
 
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="15dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -92,19 +91,20 @@
 
 
         <LinearLayout
+            android:id="@+id/btnToan"
             android:layout_width="match_parent"
             android:layout_height="113dp"
-            android:orientation="horizontal"
             android:background="@drawable/gradient_lythuyetcoban"
-            android:padding="15dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
 
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="15dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
