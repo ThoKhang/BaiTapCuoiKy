@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.apphoctapchotre.Activity.Account.DangNhap.GiaoDienDangNhap;
+import com.example.apphoctapchotre.Activity.MonHoc.LyThuyetCoBan;
+import com.example.apphoctapchotre.Activity.OnLuyen.DeCoBan;
 import com.example.apphoctapchotre.Activity.OnLuyen.OnLuyen;
 
 import java.util.ArrayList;
@@ -31,6 +33,9 @@ public class TrangChu extends AppCompatActivity {
     private long backPressedTime = 0;
     private TextView bannerSubtitle;
 
+    // SỬA: Dùng View thay vì Button
+    private View btnLTCoBan;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +49,9 @@ public class TrangChu extends AppCompatActivity {
 
         if (!isLoggedIn || userEmail.isEmpty()) {
             Toast.makeText(this, "Vui lòng đăng nhập lại!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, GiaoDienDangNhap.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            Intent loginIntent = new Intent(this, GiaoDienDangNhap.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(loginIntent);
             finish();
             return;
         }
@@ -56,6 +61,13 @@ public class TrangChu extends AppCompatActivity {
         if (tvWelcome != null) {
             tvWelcome.setText("Chào mừng: " + userEmail);
         }
+
+        // ========================== ĐIỀU HƯỚNG LÝ THUYẾT CƠ BẢN ==========================
+        btnLTCoBan = findViewById(R.id.btnLTCoBan);
+        btnLTCoBan.setOnClickListener(v -> {
+            Intent intent = new Intent(this, LyThuyetCoBan.class);
+            startActivity(intent);
+        });
 
         // ========================== BANNER LƯỚT QUA ==========================
         bannerViewPager = findViewById(R.id.bannerViewPager);
@@ -122,7 +134,7 @@ public class TrangChu extends AppCompatActivity {
             if (bannerAdapter != null && bannerList.size() > 0) {
                 currentPage = (currentPage + 1) % bannerList.size();
                 bannerViewPager.setCurrentItem(currentPage, true);
-                autoSlideHandler.postDelayed(this, 5000); // 5 giây tự động chuyển
+                autoSlideHandler.postDelayed(this, 5000);
             }
         }
     };
