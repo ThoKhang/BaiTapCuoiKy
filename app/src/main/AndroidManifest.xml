@@ -22,7 +22,7 @@
 <!--        <activity-->
 <!--            android:name=".monhoctoan"-->
 <!--            android:exported="false" />-->
-
+        <activity android:name=".BangCuuChuong" />
         <activity android:name=".Activity.OnLuyen.OnLuyen"
             android:exported="false" />
         <activity android:name=".Activity.OnLuyen.DeCoBan"

@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         // → Sau 3 giây chạy thẳng vào OnLuyen
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            startActivity(new Intent(MainActivity.this, OnLuyen.class));
+            startActivity(new Intent(MainActivity.this, TrangChu.class));
             finish();
         }, 2000);
     }

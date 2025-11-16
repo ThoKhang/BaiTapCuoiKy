@@ -3,6 +3,7 @@ package com.example.apphoctapchotre.Activity.OnLuyen;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +12,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.TrangChu;
 
 public class OnLuyen extends AppCompatActivity {
     private Button btnDeCoBan,btndeTrungBinh,btnDeNangCao;
+    private TextView back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,11 @@ public class OnLuyen extends AppCompatActivity {
         });
         btnDeNangCao.setOnClickListener(v -> {
             Intent intent = new Intent(this, DeNangCao.class);
+            startActivity(intent);
+        });
+        back =findViewById(R.id.back);
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(this, TrangChu.class);
             startActivity(intent);
         });
     }

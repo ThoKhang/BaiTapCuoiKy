@@ -29,7 +29,7 @@ public class TrangChu extends AppCompatActivity {
     private Handler autoSlideHandler = new Handler();
     private int currentPage = 0;
     private long backPressedTime = 0;
-    private TextView bannerSubtitle;
+    private LinearLayout bangCuuChuong;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -91,6 +91,13 @@ public class TrangChu extends AppCompatActivity {
 
         // Tự động lướt banner mỗi 5 giây
         autoSlideHandler.postDelayed(autoSlideRunnable, 5000);
+
+        // bảng cửu chương
+        bangCuuChuong = findViewById(R.id.bangCuuChuong);
+        bangCuuChuong.setOnClickListener(v -> {
+            Intent intent = new Intent(this, BangCuuChuong.class);
+            startActivity(intent);
+        });
     }
 
     // ========================== CHẤM TRÒN INDICATOR ==========================

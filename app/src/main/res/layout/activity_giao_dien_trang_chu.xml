@@ -237,6 +237,7 @@
 
                     <!-- Item 2 -->
                     <LinearLayout
+                        android:id="@+id/bangCuuChuong"
                         android:layout_width="135dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
