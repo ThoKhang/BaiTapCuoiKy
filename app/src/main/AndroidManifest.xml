@@ -21,6 +21,9 @@
             android:name=".LichSu"
             android:exported="false" />
         <activity
+            android:name=".OnboardingActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.CungCo.cungcokienthuc"
             android:exported="false" /> <!-- ai làm gì môn học toán hả cấn lỗi t comment -->
         <!-- <activity -->
