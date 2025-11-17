@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.apphoctapchotre.Api.ApiService;
 import com.example.apphoctapchotre.Api.RetrofitClient;
 import com.example.apphoctapchotre.Activity.Account.QuenMatKau.QuenMatKhauOTP;
+import com.example.apphoctapchotre.OnboardingActivity;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.Activity.TrangChu.TrangChu1;
 import com.example.apphoctapchotre.TrangChu;
@@ -107,7 +108,7 @@ public class DangNhapOTP extends AppCompatActivity {
                             editor.apply();
 
                             // Chuyển trang
-                            Intent intent = new Intent(DangNhapOTP.this, TrangChu.class);
+                            Intent intent = new Intent(DangNhapOTP.this, OnboardingActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();

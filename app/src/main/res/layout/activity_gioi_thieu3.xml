@@ -6,52 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.GioiThieu.GioiThieu3">
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="420dp"
-        android:src="@drawable/img_vector"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-    <TextView
-        android:id="@+id/strokeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/inkutantiqua"
-        android:text="Nhóm 5ae"
-        android:textColor="#FFFFFF"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="400dp"
-        android:layout_height="301dp"
-        android:src="@drawable/img_giaodienbatdau"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/strokeTextView" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="472dp"
         android:fontFamily="@font/itim"
-        android:text="Học mà chơi !"
+        android:text="Dễ như ăn kẹo !"
         android:textSize="40dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />\
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView5"
@@ -60,54 +28,40 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/itim"
         android:gravity="center"
-        android:text="học qua việc tương tác với ứng dụng"
+        android:text="Em chỉ cần chọn bài để học thôi,\n còn lại ứng dụng lo !"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="344dp"
         android:layout_height="93dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/robotothin"
         android:gravity="center"
-        android:text="Ứng dụng có các bài học và trò chơi thú vị
-giúp cưng yêu thích, học toán dễ
-dàng và logic hơn đấy !"
+        android:text="Chỉ vài bước cơ bản, chọn bài học, chọn
+chọn trò chơi và bắt đầu làm !."
         android:textSize="22dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    <ImageButton
-        android:id="@+id/ibtnBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="44dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Nút quay lại"
-        android:src="@drawable/img_back"
-        app:layout_constraintEnd_toStartOf="@+id/strokeTextView"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textBoQua"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="140dp"
         android:clickable="true"
         android:focusable="true"
         android:fontFamily="@font/itim"
         android:text="Bỏ qua"
         android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.952"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 </androidx.constraintlayout.widget.ConstraintLayout>
