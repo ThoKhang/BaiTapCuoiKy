@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#FAFAFA">  <!-- Nền xám nhạt cho card -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="?android:attr/selectableItemBackground">  <!-- Hiệu ứng ripple khi click -->
+
+        <!-- Phần số điểm: Icon + Text (bên trái, chiếm 1/3) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Icon nhỏ cho điểm (thay bằng drawable của bạn) -->
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/point"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/txtSoDiem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#2196F3"
+                android:shadowColor="#000000"
+                android:shadowRadius="1" />
+
+        </LinearLayout>
+
+        <!-- Divider mỏng giữa số điểm và thời gian -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="#E0E0E0"
+            android:layout_marginHorizontal="12dp" />
+
+        <!-- Thời gian (giữa, wrap_content) -->
+        <TextView
+            android:id="@+id/txtThoiGian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="17/11/2025 15:30"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:textColor="#757575"
+            android:layout_marginEnd="16dp" />
+
+        <!-- Thông tin cộng điểm (bên phải, chiếm 2/3) -->
+        <TextView
+            android:id="@+id/txtThongTin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textStyle="bold"
+            android:text="Hoàn thành bài kiểm tra toán"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:lineSpacingExtra="2dp"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

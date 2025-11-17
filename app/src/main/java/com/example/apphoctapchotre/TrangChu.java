@@ -16,8 +16,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.apphoctapchotre.Activity.Account.DangNhap.GiaoDienDangNhap;
 import com.example.apphoctapchotre.Activity.MonHoc.LyThuyetCoBan;
-import com.example.apphoctapchotre.Activity.OnLuyen.DeCoBan;
-import com.example.apphoctapchotre.Activity.OnLuyen.OnLuyen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +30,8 @@ public class TrangChu extends AppCompatActivity {
     private int currentPage = 0;
     private long backPressedTime = 0;
     private LinearLayout bangCuuChuong;
-
+    private LinearLayout lnLichSu;
+    private ImageView ibtnCaiDat;
     // SỬA: Dùng View thay vì Button
     private View btnLTCoBan;
 
@@ -68,7 +67,6 @@ public class TrangChu extends AppCompatActivity {
             Intent intent = new Intent(this, LyThuyetCoBan.class);
             startActivity(intent);
         });
-
         // ========================== BANNER LƯỚT QUA ==========================
         bannerViewPager = findViewById(R.id.bannerViewPager);
         dotsLayout = findViewById(R.id.dotsLayout);
@@ -105,11 +103,24 @@ public class TrangChu extends AppCompatActivity {
         autoSlideHandler.postDelayed(autoSlideRunnable, 5000);
 
         // bảng cửu chương
-        bangCuuChuong = findViewById(R.id.bangCuuChuong);
+        bangCuuChuong = findViewById(R.id.lnBangCuuChuong);
         bangCuuChuong.setOnClickListener(v -> {
             Intent intent = new Intent(this, BangCuuChuong.class);
             startActivity(intent);
         });
+
+        lnLichSu = findViewById(R.id.lnLichsu);
+        lnLichSu.setOnClickListener(v->{
+            Intent intent = new Intent(this, LichSu.class);
+            startActivity(intent);
+        });
+
+        ibtnCaiDat = findViewById(R.id.ibtnCaiDat);
+        ibtnCaiDat.setOnClickListener(v->{
+            Intent intent = new Intent(this, CaiDat.class);
+            startActivity(intent);
+        });
+
     }
 
     // ========================== CHẤM TRÒN INDICATOR ==========================
