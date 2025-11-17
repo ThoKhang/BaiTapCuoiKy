@@ -48,7 +48,8 @@ public class AdapterDiemChiTiet extends RecyclerView.Adapter<AdapterDiemChiTiet.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DiemChiTiet diem = danhSachDiem.get(position);
-        holder.txtSoDiem.setText(diem.getSoDiem());
+        holder.txtSoDiem.setText(String.valueOf(diem.getSoDiem()));
+        holder.txtSoDiem.setText(diem.getSoDiem() + "");
         holder.txtThoiGian.setText(diem.getThoiGian());
         holder.txtThongTin.setText(diem.getThongTin());
     }

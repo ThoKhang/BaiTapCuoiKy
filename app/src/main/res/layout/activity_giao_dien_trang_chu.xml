@@ -39,6 +39,7 @@
             android:src="@drawable/comment" />
 
         <ImageView
+            android:id="@+id/ibtnCaiDat"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/setting" />
@@ -249,6 +250,7 @@
                         android:elevation="4dp">
 
                         <LinearLayout
+                            android:id="@+id/lnBangCuuChuong"
                             android:layout_width="match_parent"
                             android:layout_height="135dp"
                             android:layout_marginTop="20dp"
@@ -400,6 +402,7 @@
                         android:layout_marginLeft="30dp">
 
                         <LinearLayout
+                            android:id="@+id/lnLichsu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
