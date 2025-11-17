@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -9,6 +8,7 @@
     android:background="@drawable/bg_spinner"
     android:gravity="center_vertical">
 
+    <!-- Hình khóa học -->
     <ImageView
         android:id="@+id/imgCourse"
         android:layout_width="60dp"
@@ -16,18 +16,19 @@
         android:scaleType="centerCrop"
         android:src="@drawable/thuthachoc" />
 
+    <!-- Nội dung -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginStart="12dp">
 
         <TextView
             android:id="@+id/txtCourseName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Toán lớp 1"
+            android:text="Tên khóa học"
             android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -36,29 +37,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="4dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:minWidth="150dp"
+            android:layout_marginTop="4dp">
 
             <RatingBar
                 android:id="@+id/ratingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="0.5"
-                android:rating="4.5"
-                android:scaleX="0.8"
-                android:scaleY="0.8" />
+                android:scaleX="1"
+                android:scaleY="1" />
 
             <TextView
                 android:id="@+id/txtRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="8dp"
                 android:text="4.5"
-                android:textColor="#000000"
-                android:textSize="12sp" />
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:gravity="center_vertical"
+                android:textColor="#000000" />
+
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

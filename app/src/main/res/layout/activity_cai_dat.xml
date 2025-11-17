@@ -51,8 +51,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
-
     <!-- Danh sách menu -->
     <LinearLayout
         android:id="@+id/layoutOptions"
@@ -66,6 +64,7 @@
 
         <!-- Item: Giới thiệu -->
         <LinearLayout
+            android:id="@+id/itemGioiThieu"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
@@ -85,8 +84,7 @@
                 android:layout_marginStart="16dp"
                 android:text="Giới thiệu"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="20dp"
@@ -97,6 +95,7 @@
 
         <!-- Item: Thông báo -->
         <LinearLayout
+            android:id="@+id/itemThongBao"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
@@ -116,8 +115,7 @@
                 android:layout_marginStart="16dp"
                 android:text="Thông báo"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="20dp"
@@ -128,6 +126,7 @@
 
         <!-- Item: Ngôn ngữ -->
         <LinearLayout
+            android:id="@+id/itemNgonNgu"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
@@ -147,8 +146,7 @@
                 android:layout_marginStart="16dp"
                 android:text="Ngôn ngữ"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="20dp"
@@ -159,6 +157,7 @@
 
         <!-- Item: Chia sẻ -->
         <LinearLayout
+            android:id="@+id/itemChiaSe"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
@@ -178,8 +177,7 @@
                 android:layout_marginStart="16dp"
                 android:text="Chia sẻ"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="20dp"
@@ -188,7 +186,5 @@
                 app:tint="@android:color/black"/>
         </LinearLayout>
     </LinearLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
