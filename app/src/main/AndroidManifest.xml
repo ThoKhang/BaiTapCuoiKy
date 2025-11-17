@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,34 +13,46 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppHocTapChoTre"
-        android:usesCleartextTraffic="true" >
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".XepHang"
+            android:exported="false" />
+        <activity
+            android:name=".XepHaNG"
+            android:exported="false" />
         <activity
             android:name=".Activity.CungCo.cungcokienthuc"
-            android:exported="false" />
-
-<!--ai làm gì môn học toán hả cấn lỗi t comment-->
-<!--        <activity-->
-<!--            android:name=".monhoctoan"-->
-<!--            android:exported="false" />-->
+            android:exported="false" /> <!-- ai làm gì môn học toán hả cấn lỗi t comment -->
+        <!-- <activity -->
+        <!-- android:name=".monhoctoan" -->
+        <!-- android:exported="false" /> -->
         <activity android:name=".BangCuuChuong" />
-        <activity android:name=".Activity.OnLuyen.OnLuyen"
+        <activity
+            android:name=".Activity.OnLuyen.OnLuyen"
             android:exported="false" />
-        <activity android:name=".Activity.OnLuyen.DeCoBan"
+        <activity
+            android:name=".Activity.OnLuyen.DeCoBan"
             android:exported="false" />
-        <activity android:name=".Activity.OnLuyen.DeTrungBinh"
+        <activity
+            android:name=".Activity.OnLuyen.DeTrungBinh"
             android:exported="false" />
-        <activity android:name=".Activity.OnLuyen.DeNangCao"
+        <activity
+            android:name=".Activity.OnLuyen.DeNangCao"
             android:exported="false" />
         <activity
             android:name=".Activity.TrangChu.TrangChu1"
             android:exported="false" />
-        <activity android:name=".TrangChu"
-            android:exported="false"/>
-        <activity android:name=".Activity.MonHoc.LyThuyetCoBan"
+        <activity
+            android:name=".TrangChu"
             android:exported="false" />
-        <activity android:name=".Activity.MonHoc.MonHocTiengViet"
+        <activity
+            android:name=".Activity.MonHoc.LyThuyetCoBan"
             android:exported="false" />
-        <activity android:name=".Activity.MonHoc.MonHocToan"
+        <activity
+            android:name=".Activity.MonHoc.MonHocTiengViet"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.MonHoc.MonHocToan"
             android:exported="false" />
         <activity
             android:name=".Activity.GioiThieu.GioiThieu4"
@@ -74,10 +86,11 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.ON_LUYEN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

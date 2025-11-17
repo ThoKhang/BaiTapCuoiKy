@@ -110,6 +110,18 @@ public class TrangChu extends AppCompatActivity {
             Intent intent = new Intent(this, BangCuuChuong.class);
             startActivity(intent);
         });
+
+        LinearLayout xepHang = findViewById(R.id.xepHang);
+        xepHang.setOnClickListener(v -> {
+            Intent intent = new Intent(this, XepHang.class);
+            startActivity(intent);
+        });
+
+
+
+
+
+
     }
 
     // ========================== CHẤM TRÒN INDICATOR ==========================
