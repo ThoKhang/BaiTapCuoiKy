@@ -50,6 +50,12 @@ public class DeAdapter extends RecyclerView.Adapter<DeAdapter.DeViewHolder> {
             h.tvDiem.setText("+" + item.getDiemThuong() + " điểm");
             h.tvDiem.setTextColor(context.getColor(R.color.yellow_custom));
         }
+        h.itemView.setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(context, com.example.apphoctapchotre.TracNghiem.class);
+            intent.putExtra("TEN_DE", item.getTieuDe());
+            intent.putExtra("ID_DE", position + 1);
+            context.startActivity(intent);
+        });
     }
 
     @Override

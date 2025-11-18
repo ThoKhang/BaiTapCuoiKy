@@ -15,20 +15,29 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Activity.GiaoDienTong.GiaoDienTong"
-            android:exported="false" />
+            android:name=".TracNghiem"
+            android:exported="false"
+            android:theme="@style/Theme.AppHocTapChoTre" />
         <activity
-            android:name=".Activity.XepHang.XepHang"
-            android:exported="false" />
+            android:name=".TroChoi"
+            android:exported="false"
+            android:theme="@style/Theme.AppHocTapChoTre" />
+        <activity
+            android:name=".Activity.GiaoDienTong.GiaoDienTong"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".Activity.XepHang.XepHang" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".CaiDat"
             android:exported="false" />
         <activity android:name=".GioiThieuKHViewPager" />
         <activity android:name=".NgonNgu" />
-        <activity android:name=".ThongBao" />
-        <activity
-            android:name=".LichSu"
-            android:exported="false" />
+        <activity android:name=".ThongBao" /> <!-- <activity -->
+        <!-- android:name=".LichSu" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".TroChoi" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".OnboardingActivity"
             android:exported="false" />
