@@ -2,7 +2,6 @@ package com.example.apphoctapchotre.Activity.Account.QuenMatKau;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -13,6 +12,7 @@ import com.example.apphoctapchotre.Activity.Account.DangNhap.GiaoDienDangNhap;
 import com.example.apphoctapchotre.Api.ApiService;
 import com.example.apphoctapchotre.Api.RetrofitClient;
 import com.example.apphoctapchotre.R;
+
 import com.google.android.material.button.MaterialButton;
 
 import java.util.HashMap;
@@ -27,8 +27,10 @@ public class QuenMatKhau extends AppCompatActivity {
 
     private EditText eTextMatKhau, eTextNhapLaiMatKhau;
     private MaterialButton btnDangNhap;
-    private ImageButton ibtnBack;
-    private String email; // nhận từ QuenMatKhauOTP
+    private String email;
+
+    // <<< CHẾ ĐỘ TEST - ĐỔI THÀNH false ĐỂ DÙNG SERVER THẬT >>>
+    private static final boolean TEST_MODE = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,63 +40,68 @@ public class QuenMatKhau extends AppCompatActivity {
         eTextMatKhau = findViewById(R.id.eTextMatKhau);
         eTextNhapLaiMatKhau = findViewById(R.id.eTextNhapLaiMatKhau);
         btnDangNhap = findViewById(R.id.btnDangNhap);
-        ibtnBack = findViewById(R.id.ibtnBack);
+
         ImageButton ibtnBack = findViewById(R.id.ibtnBack);
-        ibtnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        // 🔹 Nhận email & OTP đã xác thực từ màn QuenMatKhauOTP
+        ibtnBack.setOnClickListener(v -> finish());
+
         email = getIntent().getStringExtra("EMAIL");
+        if (email == null || email.isEmpty()) {
+            Toast.makeText(this, "Lỗi: Không nhận được email!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         btnDangNhap.setOnClickListener(v -> {
             String matKhauMoi = eTextMatKhau.getText().toString().trim();
-            String nhapLaiMatKhau = eTextNhapLaiMatKhau.getText().toString().trim();
+            String nhapLai = eTextNhapLaiMatKhau.getText().toString().trim();
 
-            if (matKhauMoi.isEmpty() || nhapLaiMatKhau.isEmpty()) {
+            if (matKhauMoi.isEmpty() || nhapLai.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập đầy đủ mật khẩu!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (!matKhauMoi.equals(nhapLaiMatKhau)) {
+            if (!matKhauMoi.equals(nhapLai)) {
                 Toast.makeText(this, "Mật khẩu nhập lại không khớp!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // 🔹 Gọi API reset password
-            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+            // ====================== CHẾ ĐỘ TEST ======================
+            if (TEST_MODE) {
+                Toast.makeText(this, "Đặt lại mật khẩu thành công (test mode)!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(QuenMatKhau.this, GiaoDienDangNhap.class));
+                finish();
+                return;
+            }
+            // ========================================================
+
+            // Code gọi API thật
             Map<String, String> request = new HashMap<>();
             request.put("email", email);
-
             request.put("newPassword", matKhauMoi);
 
-            Call<ResponseBody> call = apiService.resetPassword(request);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(QuenMatKhau.this, "Đặt lại mật khẩu thành công!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(QuenMatKhau.this, GiaoDienDangNhap.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        try {
-                            String errorBody = response.errorBody() != null ? response.errorBody().string() : "Không rõ lỗi";
-                            Toast.makeText(QuenMatKhau.this, "Lỗi: " + errorBody, Toast.LENGTH_LONG).show();
-                        } catch (Exception e) {
-                            Toast.makeText(QuenMatKhau.this, "Không thể đặt lại mật khẩu!", Toast.LENGTH_SHORT).show();
+            RetrofitClient.getClient().create(ApiService.class)
+                    .resetPassword(request)
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(QuenMatKhau.this, "Đặt lại mật khẩu thành công!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(QuenMatKhau.this, GiaoDienDangNhap.class));
+                                finish();
+                            } else {
+                                String err = "Không thể đặt lại mật khẩu!";
+                                try {
+                                    if (response.errorBody() != null) err = response.errorBody().string();
+                                } catch (Exception ignored) {}
+                                Toast.makeText(QuenMatKhau.this, "Lỗi: " + err, Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                }
 
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(QuenMatKhau.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(QuenMatKhau.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
     }
 }
