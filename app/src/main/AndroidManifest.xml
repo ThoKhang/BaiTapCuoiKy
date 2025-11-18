@@ -17,24 +17,20 @@
         <activity
             android:name=".Activity.GiaoDienTong.GiaoDienTong"
             android:exported="false" />
-        <activity
-            android:name=".Activity.XepHang.XepHang"
-            android:exported="false" />
+
         <activity
             android:name=".CaiDat"
             android:exported="false" />
         <activity android:name=".GioiThieuKHViewPager" />
         <activity android:name=".NgonNgu" />
         <activity android:name=".ThongBao" />
-        <activity
-            android:name=".LichSu"
-            android:exported="false" />
-        <activity
-        <activity
-            android:name=".TroChoi"
-            android:exported="false" />
+
+
         <activity
             android:name=".OnboardingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.MonHoc.NoiDungTiengViet"
             android:exported="false" />
         <activity
             android:name=".Activity.CungCo.cungcokienthuc"

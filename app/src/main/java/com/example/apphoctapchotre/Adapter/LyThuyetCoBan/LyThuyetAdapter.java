@@ -15,14 +15,24 @@ import com.example.apphoctapchotre.model.ui.LyThuyetItem;
 
 import java.util.List;
 
+// Trong file LyThuyetAdapter.java
+
 public class LyThuyetAdapter extends RecyclerView.Adapter<LyThuyetAdapter.LyThuyetViewHolder> {
 
     private final List<LyThuyetItem> list;
     private final Context context;
+    private final OnItemClickListener listener;  // Thêm dòng này
 
-    public LyThuyetAdapter(Context context, List<LyThuyetItem> list) {
+    // Interface để truyền sự kiện click ra ngoài
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    // Constructor mới có thêm listener
+    public LyThuyetAdapter(Context context, List<LyThuyetItem> list, OnItemClickListener listener) {
         this.context = context;
         this.list = list;
+        this.listener = listener;
     }
 
     @NonNull
@@ -39,6 +49,12 @@ public class LyThuyetAdapter extends RecyclerView.Adapter<LyThuyetAdapter.LyThuy
         holder.tvTieuDe.setText(item.getTieuDe());
         holder.tvDiem.setText("+" + item.getDiemThuong() + " điểm");
 
+        // Xử lý click ở đây
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(position);
+            }
+        });
     }
 
     @Override
