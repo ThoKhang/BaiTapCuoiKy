@@ -26,7 +26,7 @@ public class BangCuuChuong extends AppCompatActivity {
         gridNumbers = findViewById(R.id.gridNumbers);
 
         ImageButton btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> finish());
+        btnBack.setOnClickListener(v -> onBackPressed());
 
         for (int i = 0; i < gridNumbers.getChildCount(); i++) {
             View view = gridNumbers.getChildAt(i);

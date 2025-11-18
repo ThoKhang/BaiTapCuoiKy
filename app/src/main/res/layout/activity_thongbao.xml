@@ -19,10 +19,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_height="27dp"
             android:src="@drawable/img_back"
             app:tint="#FFFFFF" />
 
