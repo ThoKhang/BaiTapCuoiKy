@@ -2,12 +2,10 @@ package com.example.apphoctapchotre.Fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.metrics.Event;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,12 +21,12 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.apphoctapchotre.Activity.Account.DangNhap.GiaoDienDangNhap;
 import com.example.apphoctapchotre.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.Activity.MonHoc.LyThuyetCoBan;
+import com.example.apphoctapchotre.Activity.TroChoi.Trochoi;
 import com.example.apphoctapchotre.BangCuuChuong;
 import com.example.apphoctapchotre.BannerSlide;
 import com.example.apphoctapchotre.CaiDat;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.Thuthach100Cau;
-import com.example.apphoctapchotre.TroChoi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +78,7 @@ public class TrangChuFragment extends Fragment {
 
         // SỬA LẠI HOÀN TOÀN 2 DÒNG NÀY:
         lnTroChoi = view.findViewById(R.id.lnTroChoi);
-        lnTroChoi.setOnClickListener(v -> startActivity(new Intent(requireActivity(), TroChoiFragment.class)));
+        lnTroChoi.setOnClickListener(v -> startActivity(new Intent(requireActivity(), Trochoi.class)));
 
 
         lnXepHang = view.findViewById(R.id.xepHang);

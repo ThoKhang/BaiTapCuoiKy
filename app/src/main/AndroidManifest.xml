@@ -47,6 +47,9 @@
         <activity android:name=".Thuthach100Cau" />
         <activity android:name=".CauHoi100" />
         <activity
+            android:name=".Activity.TroChoi.Trochoi"
+            android:exported="false" />
+        <activity
             android:name=".Activity.OnLuyen.OnLuyen"
             android:exported="false" />
         <activity

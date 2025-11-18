@@ -36,32 +36,32 @@ public class BannerSlide extends RecyclerView.Adapter<BannerSlide.BannerViewHold
     public void onBindViewHolder(@NonNull BannerViewHolder holder, int position) {
         BannerItem item = bannerList.get(position);
 
-        // Gán dữ liệu cho banner
         holder.title.setText(item.title);
         holder.subtitle.setText(item.subtitle);
+        holder.image.setImageResource(item.imageRes);
 
-        holder.subtitle.setOnClickListener(v -> {
+        View.OnClickListener listener = v -> {
             Context context = v.getContext();
-            Intent intent;
+            Intent intent = null;
 
-            switch (position) {
-                case 1:
-                    intent = new Intent(context, OnLuyen.class);
-                    break;
-                case 2:
-                    intent = new Intent(context, cungcokienthuc.class);
-                    break;
-                default:
-                    intent = null;
+            if (position == 0) {
+                // Banner 1: Củng cố kiến thức
+                intent = new Intent(context, cungcokienthuc.class);
+            } else if (position == 1) {
+                // Banner 2: Ôn luyện
+                intent = new Intent(context, OnLuyen.class);
             }
 
             if (intent != null) context.startActivity(intent);
-        });
+        };
 
-
-        // Gán ảnh minh họa khác nhau cho từng banner
-        holder.image.setImageResource(item.imageRes);
+        // 👉 Gán sự kiện click cho toàn bộ item
+        holder.itemView.setOnClickListener(listener);
+        holder.image.setOnClickListener(listener);
+        holder.title.setOnClickListener(listener);
+        holder.subtitle.setOnClickListener(listener);
     }
+
 
     @Override
     public int getItemCount() {
