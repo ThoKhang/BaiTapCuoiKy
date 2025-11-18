@@ -15,6 +15,9 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Activity.GiaoDienTong.GiaoDienTong"
+            android:exported="false" />
+
             android:name=".TracNghiem"
             android:exported="false"
             android:theme="@style/Theme.AppHocTapChoTre" />
@@ -32,6 +35,12 @@
             android:exported="false" />
         <activity android:name=".GioiThieuKHViewPager" />
         <activity android:name=".NgonNgu" />
+        <activity android:name=".ThongBao" />
+
+
+        <activity
+            android:name=".OnboardingActivity"
+            android:exported="false" />
         <activity android:name=".ThongBao" /> <!-- <activity -->
         <!-- android:name=".LichSu" -->
         <!-- android:exported="false" /> -->
@@ -39,7 +48,7 @@
         <!-- android:name=".TroChoi" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".OnboardingActivity"
+            android:name=".Activity.MonHoc.NoiDungTiengViet"
             android:exported="false" />
         <activity
             android:name=".Activity.CungCo.cungcokienthuc"

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.OnLuyen.DeCoBan">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="0dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_arrow_back_24" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/robotothin"
+                android:gravity="center"
+                android:text="Bài 1: Từ là gì"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imgVuongMieng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/vuongmieng" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="381dp"
+            android:layout_height="583dp"
+            android:fontFamily="@font/itim"
+            android:lineSpacingExtra="5dp"
+            android:text="Từ là một hoặc nhiều tiếng ghép lại để nói một ý có nghĩa.Từ dùng để gọi tên người, con vật, đồ vật, hành động, đặc điểm hoặc cảm xúc.
+🧩 Ví dụ:
+mẹ, cha, hoa, bàn, chạy, đẹp, vui, học, ăn → Đều là từ, vì mỗi từ có nghĩa riêng.
+🗣️ Ví dụ trong câu:
+Bé học bài.
+Các từ là: bé, học, bài. Mỗi từ nói lên một ý riêng, ghép lại thành câu có nghĩa."
+            android:textSize="20dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHieuRoi"
+            android:fontFamily="@font/itim"
+            android:layout_width="186dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#FDC858"
+            android:clipToOutline="false"
+            android:text="Con hiểu rồi !"
+            android:translationZ="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.894"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
