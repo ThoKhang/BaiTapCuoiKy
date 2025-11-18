@@ -484,6 +484,7 @@
 
             <!-- Thử thách 1 -->
             <LinearLayout
+                android:id="@+id/thuthach1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -512,6 +513,7 @@
 
             <!-- Thử thách 2 -->
             <LinearLayout
+                android:id="@+id/thuthach2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

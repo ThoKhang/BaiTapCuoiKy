@@ -2,6 +2,7 @@ package com.example.apphoctapchotre.Fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.metrics.Event;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,6 +27,7 @@ import com.example.apphoctapchotre.BangCuuChuong;
 import com.example.apphoctapchotre.BannerSlide;
 import com.example.apphoctapchotre.CaiDat;
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.Thuthach100Cau;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,7 @@ public class TrangChuFragment extends Fragment {
     private final Handler autoSlideHandler = new Handler(Looper.getMainLooper());
     private int currentPage = 0;
 
-    private LinearLayout bangCuuChuong, lnLichSu, lnXepHang, lnTroChoi;
+    private LinearLayout bangCuuChuong, lnLichSu, lnXepHang, lnTroChoi, thuthach1, thuthach2;
     private ImageView ibtnCaiDat;
     private View btnLTCoBan;
 
@@ -102,6 +104,9 @@ public class TrangChuFragment extends Fragment {
         ibtnCaiDat = view.findViewById(R.id.ibtnCaiDat);
         ibtnCaiDat.setOnClickListener(v -> startActivity(new Intent(requireActivity(), CaiDat.class)));
 
+
+        thuthach2= view.findViewById(R.id.thuthach2);
+        thuthach2.setOnClickListener(v -> startActivity(new Intent(requireActivity(), Thuthach100Cau.class)));
         // ====================== BANNER SLIDER ======================
         bannerViewPager = view.findViewById(R.id.bannerViewPager);
         // CHẶN VUỐT SANG VIEWPAGER LỚN

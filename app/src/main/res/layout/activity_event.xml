@@ -57,6 +57,7 @@
             android:orientation="vertical"
             android:paddingBottom="40dp">
 
+            <!-- Nút bên trái -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnThamGia"
                 android:layout_width="200dp"
@@ -65,8 +66,9 @@
                 android:textColor="#FFFFFF"
                 android:backgroundTint="#F18732"
                 android:layout_marginBottom="12dp"
-                android:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
+            <!-- Nút viền -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnXepHang"
                 android:layout_width="200dp"
@@ -74,9 +76,9 @@
                 android:text="Xếp hạng"
                 android:textColor="#F18732"
                 android:backgroundTint="#FFFFFF"
-                android:strokeWidth="2dp"
-                android:strokeColor="#F18732"
-                android:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"/>
+                app:strokeColor="#F18732"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
         </LinearLayout>
 
     </LinearLayout>
