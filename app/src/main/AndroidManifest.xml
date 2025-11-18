@@ -15,6 +15,9 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Activity.GiaoDienTong.GiaoDienTong"
+            android:exported="false" />
+        <activity
             android:name=".Activity.XepHang.XepHang"
             android:exported="false" />
         <activity
@@ -52,9 +55,6 @@
             android:name=".Activity.TrangChu.TrangChu1"
             android:exported="false" />
         <activity
-            android:name=".TrangChu"
-            android:exported="false" />
-        <activity
             android:name=".Activity.MonHoc.LyThuyetCoBan"
             android:exported="false" />
         <activity
@@ -62,18 +62,6 @@
             android:exported="false" />
         <activity
             android:name=".Activity.MonHoc.MonHocToan"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.GioiThieu.GioiThieu4"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.GioiThieu.GioiThieu3"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.GioiThieu.GioiThieu2"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.GioiThieu.GioiThieu1"
             android:exported="false" />
         <activity
             android:name=".Activity.Account.DangKy.DangKyOTP"

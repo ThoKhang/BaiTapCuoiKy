@@ -18,8 +18,6 @@ import com.example.apphoctapchotre.Api.RetrofitClient;
 import com.example.apphoctapchotre.Activity.Account.QuenMatKau.QuenMatKhauOTP;
 import com.example.apphoctapchotre.OnboardingActivity;
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.Activity.TrangChu.TrangChu1;
-import com.example.apphoctapchotre.TrangChu;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -21,7 +21,7 @@ public class CaiDat extends AppCompatActivity {
         LinearLayout itemNgonNgu = findViewById(R.id.itemNgonNgu);
         LinearLayout itemChiaSe = findViewById(R.id.itemChiaSe);
 
-        btnBack.setOnClickListener(v -> onBackPressed());
+        btnBack.setOnClickListener(v -> finish());
 
         itemGioiThieu.setOnClickListener(v ->
                 startActivity(new Intent(this, GioiThieuKHViewPager.class))

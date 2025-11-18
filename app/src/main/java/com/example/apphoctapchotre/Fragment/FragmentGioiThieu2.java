@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.apphoctapchotre.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.TrangChu;
 
 public class FragmentGioiThieu2 extends Fragment {
 
@@ -24,7 +24,7 @@ public class FragmentGioiThieu2 extends Fragment {
         // Xử lý nút "Bỏ qua": Skip thẳng đến TrangChu (MainActivity)
         TextView textBoQua = view.findViewById(R.id.textBoQua);
         textBoQua.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), TrangChu.class); // Thay MainActivity bằng TrangChu của bạn
+            Intent intent = new Intent(getActivity(), GiaoDienTong.class); // Thay MainActivity bằng TrangChu của bạn
             startActivity(intent);
             getActivity().finish(); // Đóng OnboardingActivity
         });
