@@ -7,7 +7,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.apphoctapchotre.Adapter.GioiThieu.OnboardingAdapter;
 
 public class OnboardingActivity extends AppCompatActivity {
-
+    //Đây là của giới thiệu
     private ViewPager2 viewPager2;
 
     @Override

@@ -6,14 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.apphoctapchotre.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.TrangChu;
 
 public class FragmentGioiThieu4 extends Fragment {
 
@@ -23,10 +22,11 @@ public class FragmentGioiThieu4 extends Fragment {
         View view = inflater.inflate(R.layout.activity_gioi_thieu4, container, false); // Đảm bảo tên layout đúng
         Button btnBatDau = view.findViewById(R.id.btnBatDau);
         btnBatDau.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), TrangChu.class);
+            Intent intent = new Intent(getActivity(), GiaoDienTong.class);
             startActivity(intent);
             getActivity().finish(); // Đóng OnboardingActivity
         });
+
         return view;
     }
 }

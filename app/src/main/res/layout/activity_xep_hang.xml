@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#FFF3E0">
+
+    <!-- Phần Header: Nút Back + Tiêu đề -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp">
+
+        <!-- Nút quay về -->
+        <ImageButton
+            android:id="@+id/ibtnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/img_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="#8B4513"
+            android:contentDescription="Quay lại" />
+
+        <!-- Tiêu đề lớn -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Xếp hạng người chơi"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#8B4513"
+            android:gravity="center" />
+
+        <!-- Để cân bằng với nút back bên trái -->
+        <View
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+    </LinearLayout>
+
+    <!-- Phần thông tin cá nhân của bạn -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="@color/blue_custom">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:elevation="12dp">
+
+            <!-- Hàng 1: Avatar + Tên + Hạng của bạn -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/boy" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="20dp">
+
+                    <TextView
+                        android:id="@+id/tvYourName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bạn (USERNAME_05)"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvYourRank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hạng 5"
+                        android:textColor="#FFFFFF"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvYourScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10000"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Dòng kẻ phân cách -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FFD0B0"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Tổng số người chơi -->
+            <TextView
+                android:id="@+id/tvTotalPlayers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Tổng cộng 1.248 người chơi"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Bảng xếp hạng toàn server -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top người chơi xuất sắc"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#8B4513"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerXepHang"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp" />
+
+</LinearLayout>

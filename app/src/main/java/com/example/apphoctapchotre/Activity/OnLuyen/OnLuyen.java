@@ -11,8 +11,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.apphoctapchotre.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.TrangChu;
 
 public class OnLuyen extends AppCompatActivity {
     private Button btnDeCoBan,btndeTrungBinh,btnDeNangCao;
@@ -44,7 +44,7 @@ public class OnLuyen extends AppCompatActivity {
         });
         back =findViewById(R.id.back);
         back.setOnClickListener(v -> {
-            Intent intent = new Intent(this, TrangChu.class);
+            Intent intent = new Intent(this, GiaoDienTong.class);
             startActivity(intent);
         });
     }
