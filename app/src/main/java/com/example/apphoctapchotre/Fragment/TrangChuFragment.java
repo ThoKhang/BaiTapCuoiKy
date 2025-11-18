@@ -39,7 +39,7 @@ public class TrangChuFragment extends Fragment {
     private final Handler autoSlideHandler = new Handler(Looper.getMainLooper());
     private int currentPage = 0;
 
-    private LinearLayout bangCuuChuong, lnLichSu, lnXepHang;
+    private LinearLayout bangCuuChuong, lnLichSu, lnXepHang, lnTroChoi;
     private ImageView ibtnCaiDat;
     private View btnLTCoBan;
 
@@ -76,6 +76,13 @@ public class TrangChuFragment extends Fragment {
         bangCuuChuong.setOnClickListener(v -> startActivity(new Intent(requireActivity(), BangCuuChuong.class)));
 
         // SỬA LẠI HOÀN TOÀN 2 DÒNG NÀY:
+        lnTroChoi = view.findViewById(R.id.lnTroChoi);
+        lnTroChoi.setOnClickListener(v -> {
+            if (getActivity() instanceof GiaoDienTong) {
+                ((GiaoDienTong) getActivity()).getViewPager2().setCurrentItem(3, true);
+            }
+        });
+
 
         lnXepHang = view.findViewById(R.id.xepHang);
         lnXepHang.setOnClickListener(v -> {

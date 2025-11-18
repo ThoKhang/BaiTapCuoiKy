@@ -1,0 +1,14 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- VIỀN TÍM MỎNG -->
+    <stroke
+        android:width="3dp"
+        android:color="#9C4EFF" />
+
+    <!-- BO GÓC -->
+    <corners android:radius="12dp" />
+
+    <!-- MÀU NỀN TÍM -->
+    <solid android:color="#9C4EFF" />
+</shape>
