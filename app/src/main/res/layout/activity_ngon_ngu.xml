@@ -79,24 +79,6 @@
             android:textSize="16sp"
             android:layout_marginBottom="8dp"/>
 
-        <CheckBox
-            android:id="@+id/cbNhat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tiếng Nhật"
-            android:textColor="@android:color/white"
-            android:buttonTint="@android:color/white"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <CheckBox
-            android:id="@+id/cbTrung"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tiếng Trung"
-            android:textColor="@android:color/white"
-            android:buttonTint="@android:color/white"
-            android:textSize="16sp"/>
     </LinearLayout>
 
     <!-- Chữ dưới cùng -->
