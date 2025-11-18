@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.apphoctapchotre.Activity.Account.DangNhap.GiaoDienDangNhap;
 import com.example.apphoctapchotre.Activity.MonHoc.LyThuyetCoBan;
+import com.example.apphoctapchotre.Activity.XepHang.XepHang;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class TrangChu extends AppCompatActivity {
     private long backPressedTime = 0;
     private LinearLayout bangCuuChuong;
     private LinearLayout lnLichSu;
+    private LinearLayout lnXepHang;
     private ImageView ibtnCaiDat;
     // SỬA: Dùng View thay vì Button
     private View btnLTCoBan;
@@ -108,7 +110,11 @@ public class TrangChu extends AppCompatActivity {
             Intent intent = new Intent(this, BangCuuChuong.class);
             startActivity(intent);
         });
-
+        lnXepHang = findViewById(R.id.xepHang);
+        lnXepHang.setOnClickListener(v->{
+            Intent intent = new Intent(this, XepHang.class);
+            startActivity(intent);
+        });
         lnLichSu = findViewById(R.id.lnLichsu);
         lnLichSu.setOnClickListener(v->{
             Intent intent = new Intent(this, LichSu.class);
