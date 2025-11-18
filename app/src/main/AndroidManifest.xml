@@ -18,11 +18,7 @@
             android:name=".CaiDat"
             android:exported="false" />
 
-<!--ai làm gì môn học toán hả cấn lỗi t comment-->
-<!--        <activity-->
-<!--            android:name=".monhoctoan"-->
-<!--            android:exported="false" />-->
-        <activity android:name="CaiDat" />
+
         <activity android:name=".GioiThieuKHViewPager" />
         <activity android:name=".NgonNgu" />
         <activity android:name=".ThongBao" />
