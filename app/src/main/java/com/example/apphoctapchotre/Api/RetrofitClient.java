@@ -9,10 +9,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import com.google.gson.Gson;
 
 public class RetrofitClient {
-//    private static final String BASE_URL = "http://10.0.2.2:8080/";
+    private static final String BASE_URL = "http://10.0.2.2:8080/";
 
     // Thay đổi giá trị này trong RetrofitClient trến máy minhhuy
-    public static final String BASE_URL = "http://192.168.1.24:8080/";
+//    public static final String BASE_URL = "http://192.168.1.24:8080/";
     private static Retrofit retrofit;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
