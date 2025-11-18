@@ -21,7 +21,6 @@
             android:name=".TracNghiem"
             android:exported="false" />
 
-
         <activity
             android:name=".TroChoi"
             android:exported="false"

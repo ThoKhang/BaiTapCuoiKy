@@ -28,6 +28,7 @@ import com.example.apphoctapchotre.BannerSlide;
 import com.example.apphoctapchotre.CaiDat;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.Thuthach100Cau;
+import com.example.apphoctapchotre.TroChoi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,11 +80,7 @@ public class TrangChuFragment extends Fragment {
 
         // SỬA LẠI HOÀN TOÀN 2 DÒNG NÀY:
         lnTroChoi = view.findViewById(R.id.lnTroChoi);
-        lnTroChoi.setOnClickListener(v -> {
-            if (getActivity() instanceof GiaoDienTong) {
-                ((GiaoDienTong) getActivity()).getViewPager2().setCurrentItem(3, true);
-            }
-        });
+        lnTroChoi.setOnClickListener(v -> startActivity(new Intent(requireActivity(), TroChoiFragment.class)));
 
 
         lnXepHang = view.findViewById(R.id.xepHang);
