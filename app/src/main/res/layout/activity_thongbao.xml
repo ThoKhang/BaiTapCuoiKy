@@ -1,247 +1,303 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0080C9">
+    android:background="@drawable/bg_caidat"
+    tools:context=".ThongBao">
 
-    <!-- Thanh tiêu đề -->
-    <LinearLayout
-        android:id="@+id/layoutToolbar"
-        android:layout_width="0dp"
+    <!-- BACK BUTTON + TITLE (trong suốt hoàn toàn) -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="56dp"
         android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="24dp"
-            android:layout_height="27dp"
-            android:src="@drawable/img_back"
-            app:tint="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Thông báo"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <!-- Avatar tròn -->
-    <FrameLayout
-        android:id="@+id/avatarContainer"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:tint="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thông báo"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:shadowColor="#88000000"
+        android:shadowDx="0"
+        android:shadowDy="2"
+        android:shadowRadius="6"
+        app:layout_constraintStart_toEndOf="@id/btnBack"
+        app:layout_constraintTop_toTopOf="@id/btnBack"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        android:layout_marginStart="12dp"/>
+
+    <!-- AVATAR CÚ (giữ lại nhưng đẹp hơn) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/avatarContainer"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="28dp"
+        app:cardCornerRadius="65dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/btnBack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF"
-            android:layout_gravity="center"
-            android:clipToOutline="true" />
 
         <ImageView
             android:id="@+id/imgAvatar"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="92dp"
+            android:layout_height="92dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_owl"
-            android:scaleType="centerInside" />
-    </FrameLayout>
+            android:scaleType="fitCenter" />
+    </androidx.cardview.widget.CardView>
 
-    <!-- Nội dung -->
+    <!-- DANH SÁCH CÀI ĐẶT THÔNG BÁO -->
     <LinearLayout
         android:id="@+id/layoutContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintTop_toBottomOf="@id/avatarContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Báo thức sáng -->
-        <RelativeLayout
+        <!-- ITEM 1: Báo thức sáng -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="68dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="#F9FFFFFF">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Báo thức sáng"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_centerVertical="true" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
 
-            <Switch
-                android:id="@+id/switchMorning"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:thumbTint="#FFFFFF"
-                android:trackTint="#40FFFFFF"
-                android:layout_centerVertical="true" />
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Báo thức sáng"
+                    android:textColor="#1A1A1A"
+                    android:textSize="19sp"
+                    android:textStyle="bold"/>
 
-        <View
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchMorning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:thumbTint="#007BAA"
+                    app:trackTint="#66007BAA"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- ITEM 2: Giờ sáng -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#40FFFFFF" />
+            android:layout_height="68dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="#F9FFFFFF">
 
-        <!-- Giờ sáng -->
-        <RelativeLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Giờ sáng"
+                    android:textColor="#1A1A1A"
+                    android:textSize="19sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtMorningTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="06:00  >"
+                    android:textColor="#007BAA"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- ITEM 3: Báo thức trưa -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="68dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="#F9FFFFFF">
 
-            <TextView
-                android:text="Giờ sáng"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
 
-            <TextView
-                android:id="@+id/txtMorningTime"
-                android:text="06:00  >"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Báo thức trưa"
+                    android:textColor="#1A1A1A"
+                    android:textSize="19sp"
+                    android:textStyle="bold"/>
 
-        <View
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchNoon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:thumbTint="#007BAA"
+                    app:trackTint="#66007BAA"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- ITEM 4: Giờ trưa -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#40FFFFFF" />
+            android:layout_height="68dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="#F9FFFFFF">
 
-        <!-- Báo thức trưa -->
-        <RelativeLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Giờ trưa"
+                    android:textColor="#1A1A1A"
+                    android:textSize="19sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtNoonTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10:20  >"
+                    android:textColor="#007BAA"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- ITEM 5: Báo thức tối -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="68dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="#F9FFFFFF">
 
-            <TextView
-                android:text="Báo thức trưa"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
 
-            <Switch
-                android:id="@+id/switchNoon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:thumbTint="#FFFFFF"
-                android:trackTint="#40FFFFFF"
-                android:layout_centerVertical="true" />
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Báo thức tối"
+                    android:textColor="#1A1A1A"
+                    android:textSize="19sp"
+                    android:textStyle="bold"/>
 
-        <View
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchEvening"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:thumbTint="#007BAA"
+                    app:trackTint="#66007BAA"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- ITEM 6: Giờ tối -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#40FFFFFF" />
+            android:layout_height="68dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#F9FFFFFF">
 
-        <!-- Giờ trưa -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp"
+                android:clickable="true"
+                android:focusable="true">
 
-            <TextView
-                android:text="Giờ trưa"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Giờ tối"
+                    android:textColor="#1A1A1A"
+                    android:textSize="19sp"
+                    android:textStyle="bold"/>
 
-            <TextView
-                android:id="@+id/txtNoonTime"
-                android:text="10:20  >"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/txtEveningTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="19:20  >"
+                    android:textColor="#007BAA"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#40FFFFFF" />
-
-        <!-- Báo thức tối -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
-
-            <TextView
-                android:text="Báo thức tối"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Switch
-                android:id="@+id/switchEvening"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:thumbTint="#FFFFFF"
-                android:trackTint="#40FFFFFF"
-                android:layout_centerVertical="true" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#40FFFFFF" />
-
-        <!-- Giờ tối -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
-
-            <TextView
-                android:text="Giờ tối"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true" />
-
-            <TextView
-                android:id="@+id/txtEveningTime"
-                android:text="19:20  >"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
