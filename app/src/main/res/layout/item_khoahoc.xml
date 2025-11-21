@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
-    android:layout_marginBottom="8dp"
-    android:background="@drawable/bg_spinner"
+    android:padding="12dp"
+    android:layout_marginBottom="12dp"
+    android:background="#F9FFFFFF"
     android:gravity="center_vertical">
 
     <!-- Hình khóa học -->
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tên khóa học"
-            android:textColor="#000000"
+            android:textColor="#1A1A1A"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -38,7 +38,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:minWidth="150dp"
             android:layout_marginTop="4dp">
 
             <RatingBar
@@ -49,8 +48,9 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="0.5"
-                android:scaleX="1"
-                android:scaleY="1" />
+                android:progressTint="#FFD700"
+                android:secondaryProgressTint="#FFD700"
+                android:backgroundTint="#FFD700" />
 
             <TextView
                 android:id="@+id/txtRating"
@@ -61,8 +61,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:singleLine="true"
-                android:gravity="center_vertical"
-                android:textColor="#000000" />
+                android:textColor="#1A1A1A" />
 
         </LinearLayout>
 

@@ -3,9 +3,9 @@ package com.example.apphoctapchotre;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 
 public class CaiDat extends AppCompatActivity {
@@ -16,10 +16,11 @@ public class CaiDat extends AppCompatActivity {
         setContentView(R.layout.activity_cai_dat);
 
         ImageButton btnBack = findViewById(R.id.btnBack);
-        LinearLayout itemGioiThieu = findViewById(R.id.itemGioiThieu);
-        LinearLayout itemThongBao = findViewById(R.id.itemThongBao);
-        LinearLayout itemNgonNgu = findViewById(R.id.itemNgonNgu);
-        LinearLayout itemChiaSe = findViewById(R.id.itemChiaSe);
+        CardView itemGioiThieu = findViewById(R.id.itemGioiThieu);
+        CardView itemThongBao = findViewById(R.id.itemThongBao);
+        CardView itemNgonNgu = findViewById(R.id.itemNgonNgu);
+        CardView itemChiaSe = findViewById(R.id.itemChiaSe);
+
 
         btnBack.setOnClickListener(v -> finish());
 

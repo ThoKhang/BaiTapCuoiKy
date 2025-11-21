@@ -4,90 +4,99 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#007BAA">
+    android:background="@drawable/bg_caidat">
 
-    <!-- Nút quay lại -->
+    <!-- BACK BUTTON -->
     <ImageButton
         android:id="@+id/btnBack"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
+        android:layout_marginTop="24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/baseline_arrow_back_24"
-        app:tint="@android:color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:tint="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Tiêu đề -->
+    <!-- TITLE -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ngôn ngữ"
-        android:textColor="@android:color/white"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
         android:textStyle="bold"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center" />
+        android:shadowColor="#88000000"
+        android:shadowDy="2"
+        android:shadowRadius="6"
+        android:layout_marginStart="12dp"
+        app:layout_constraintTop_toTopOf="@id/btnBack"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintStart_toEndOf="@id/btnBack"/>
 
-    <!-- Khối chọn ngôn ngữ -->
-    <LinearLayout
-        android:id="@+id/layoutLanguages"
-        android:layout_width="match_parent"
+    <!-- CARD NGÔN NGỮ -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginEnd="36dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="36dp"
+        app:cardCornerRadius="22dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="#F9FFFFFF"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
-            android:id="@+id/tvChooseLang"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hãy chọn ngôn ngữ:"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="sans-serif" />
+            android:orientation="vertical"
+            android:padding="18dp">
 
-        <CheckBox
-            android:id="@+id/cbViet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tiếng Việt"
-            android:textColor="@android:color/white"
-            android:checked="true"
-            android:buttonTint="@android:color/white"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
+            <TextView
+                android:id="@+id/tvChooseLang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hãy chọn ngôn ngữ:"
+                android:textColor="#1A1A1A"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="18dp"/>
 
-        <CheckBox
-            android:id="@+id/cbAnh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tiếng Anh"
-            android:textColor="@android:color/white"
-            android:buttonTint="@android:color/white"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
+            <!-- Tiếng Việt -->
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/cbViet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tiếng Việt"
+                android:textColor="#1A1A1A"
+                android:textSize="17sp"
+                android:checked="true"
+                android:layout_marginBottom="12dp"
+                app:buttonTint="#007BAA" />
 
-    </LinearLayout>
+            <!-- Tiếng Anh -->
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/cbAnh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tiếng Anh"
+                android:textColor="#1A1A1A"
+                android:textSize="17sp"
+                app:buttonTint="#007BAA" />
 
-    <!-- Chữ dưới cùng -->
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- FOOTER -->
     <TextView
         android:id="@+id/tvFooter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Toán Free( ver 5AE )"
-        android:textColor="@android:color/white"
+        android:text="Toán Free (ver 5AE)"
+        android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:fontFamily="sans-serif-light"
         android:layout_marginBottom="12dp"
