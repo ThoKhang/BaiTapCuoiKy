@@ -16,5 +16,8 @@
         android:id="@+id/menu_lich_su"
         android:icon="@drawable/icon_history"
         android:title="Lịch sử" />
-
+    <item
+        android:id="@+id/menu_cai_dat"
+        android:icon="@drawable/icon_setting"
+        android:title="Cài đặt" />
 </menu>

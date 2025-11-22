@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.apphoctapchotre.Adapter.GiaoDienTong.GiaoDienTongAdapter;
 import com.example.apphoctapchotre.Fragment.LichSuFragment;
+import com.example.apphoctapchotre.Fragment.SettingFragment;
 import com.example.apphoctapchotre.Fragment.TrangChuFragment;
 import com.example.apphoctapchotre.Fragment.TroChoiFragment;
 import com.example.apphoctapchotre.Fragment.XepHangFragment;
@@ -36,6 +37,7 @@ public class GiaoDienTong extends AppCompatActivity {
         adapter.addFragment(new TrangChuFragment(), "Trang Chủ");
         adapter.addFragment(new XepHangFragment(), "Xếp Hạng");
         adapter.addFragment(new LichSuFragment(), "Lịch Sử");
+        adapter.addFragment(new SettingFragment(), "Cài Đặt");
         adapter.addFragment(new TroChoiFragment(), "Trò Chơi");
         viewPager2.setAdapter(adapter);
 
@@ -56,6 +58,8 @@ public class GiaoDienTong extends AppCompatActivity {
                 viewPager2.setCurrentItem(1, true);
             } else if (itemId == R.id.menu_lich_su) {
                 viewPager2.setCurrentItem(2, true);
+            } else if (itemId == R.id.menu_cai_dat) {
+                viewPager2.setCurrentItem(3, true);
             }
 
             return true;
