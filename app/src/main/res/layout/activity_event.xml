@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <!-- Hình mèo full màn -->
     <ImageView
@@ -17,7 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingLeft="15dp"
+        android:paddingTop="40dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="15dp">
 
         <!-- THANH TIÊU ĐỀ -->
         <LinearLayout
