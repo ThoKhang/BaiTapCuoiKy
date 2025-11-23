@@ -55,37 +55,22 @@
             android:orientation="vertical"
             android:padding="18dp">
 
-            <TextView
-                android:id="@+id/tvChooseLang"
+            <RadioGroup
+                android:id="@+id/radioGroupLang"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hãy chọn ngôn ngữ:"
-                android:textColor="#1A1A1A"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="18dp"/>
-
-            <!-- Tiếng Việt -->
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/cbViet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tiếng Việt"
-                android:textColor="#1A1A1A"
-                android:textSize="17sp"
-                android:checked="true"
-                android:layout_marginBottom="12dp"
-                app:buttonTint="#007BAA" />
-
-            <!-- Tiếng Anh -->
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/cbAnh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tiếng Anh"
-                android:textColor="#1A1A1A"
-                android:textSize="17sp"
-                app:buttonTint="#007BAA" />
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/rbViet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Tiếng Việt" />
+                <RadioButton
+                    android:id="@+id/rbAnh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="English" />
+            </RadioGroup>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
