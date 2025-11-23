@@ -1,10 +1,13 @@
 package com.example.apphoctapchotre.Activity.TroChoi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.apphoctapchotre.Activity.Games.sudoku;
 import com.example.apphoctapchotre.R;
 
 public class Trochoi extends AppCompatActivity {
@@ -17,5 +20,11 @@ public class Trochoi extends AppCompatActivity {
         // ==================== NÚT BACK ====================
         ImageView btnBack = findViewById(R.id.ibtnBack);
         btnBack.setOnClickListener(v -> finish());
+        //gamessudoku
+        LinearLayout lnSudoku = findViewById(R.id.lnSudoku);
+        lnSudoku.setOnClickListener(v -> {
+            Intent intent = new Intent(this, sudoku.class);
+            startActivity(intent);
+        });
     }
 }

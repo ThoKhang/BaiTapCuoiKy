@@ -40,7 +40,7 @@ public class TrangChuFragment extends Fragment {
     private final Handler autoSlideHandler = new Handler(Looper.getMainLooper());
     private int currentPage = 0;
 
-    private LinearLayout bangCuuChuong, lnLichSu, lnXepHang, lnTroChoi, thuthach1, thuthach2;
+    private LinearLayout bangCuuChuong, lnLichSu, lnXepHang, lnTroChoi, thuthach1, thuthach2, lnSudoku;
     private ImageView ibtnCaiDat;
     private View btnLTCoBan;
 
@@ -94,7 +94,6 @@ public class TrangChuFragment extends Fragment {
                 ((GiaoDienTong) getActivity()).getViewPager2().setCurrentItem(2, true); // tab Lịch Sử (vị trí 2)
             }
         });
-
 
         ibtnCaiDat = view.findViewById(R.id.ibtnCaiDat);
         ibtnCaiDat.setOnClickListener(v -> startActivity(new Intent(requireActivity(), CaiDat.class)));

@@ -15,12 +15,14 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Activity.Games.sudoku"
+            android:exported="false" />
+        <activity
             android:name=".Activity.GiaoDienTong.GiaoDienTong"
             android:exported="false" />
         <activity
             android:name=".TracNghiem"
             android:exported="false" />
-
         <activity
             android:name=".TroChoi"
             android:exported="false"
@@ -31,8 +33,6 @@
         <activity android:name=".GioiThieuKHViewPager" />
         <activity android:name=".NgonNgu" />
         <activity android:name=".ThongBao" />
-
-
         <activity
             android:name=".OnboardingActivity"
             android:exported="false" />
