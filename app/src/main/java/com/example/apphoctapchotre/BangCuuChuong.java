@@ -1,5 +1,6 @@
 package com.example.apphoctapchotre;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
+
+import com.example.apphoctapchotre.Activity.CungCo.cungcokienthuc;
 
 public class BangCuuChuong extends AppCompatActivity {
 
@@ -40,6 +43,13 @@ public class BangCuuChuong extends AppCompatActivity {
                 btn.setOnClickListener(v -> onNumberClicked(btn));
             }
         }
+        ImageButton btnLuyenTap = findViewById(R.id.btnLuyenTap);
+
+        btnLuyenTap.setOnClickListener(v -> {
+            Intent intent = new Intent(BangCuuChuong.this, cungcokienthuc.class);
+            startActivity(intent);
+        });
+
     }
 
     private void onNumberClicked(AppCompatButton button) {
