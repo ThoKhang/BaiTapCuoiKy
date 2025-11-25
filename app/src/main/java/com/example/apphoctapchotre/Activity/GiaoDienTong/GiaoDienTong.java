@@ -2,18 +2,13 @@ package com.example.apphoctapchotre.Activity.GiaoDienTong;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.apphoctapchotre.Adapter.GiaoDienTong.GiaoDienTongAdapter;
 import com.example.apphoctapchotre.Fragment.LichSuFragment;
 import com.example.apphoctapchotre.Fragment.SettingFragment;
 import com.example.apphoctapchotre.Fragment.TrangChuFragment;
-import com.example.apphoctapchotre.Fragment.TroChoiFragment;
 import com.example.apphoctapchotre.Fragment.XepHangFragment;
 import com.example.apphoctapchotre.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
