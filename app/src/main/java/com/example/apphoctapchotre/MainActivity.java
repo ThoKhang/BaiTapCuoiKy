@@ -5,11 +5,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
-import android.widget.TextView;  // Thêm import này
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.RequiresApi;
@@ -18,17 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.apphoctapchotre.Activity.Account.DangNhap.GiaoDienDangNhap;
 import com.example.apphoctapchotre.Api.ApiService;
 import com.example.apphoctapchotre.Api.RetrofitClient;
-import com.example.apphoctapchotre.model.NguoiDung;
 
-import java.util.List;
-
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-
-    private TextView tvApiResult;  // Thêm biến này
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -36,64 +31,60 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        tvApiResult = findViewById(R.id.tv_api_result);
 
-        // Ẩn thanh trạng thái và thanh điều hướng
         hideSystemUI();
 
-        // Test API: Gọi API để lấy người dùng và hiển thị trên UI
+        // =======================================
+        // 🔥 KIỂM TRA KẾT NỐI BACKEND BẰNG /api/ping
+        // =======================================
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        apiService.getNguoiDung().enqueue(new Callback<List<NguoiDung>>() {
+
+        apiService.pingServer().enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<List<NguoiDung>> call, Response<List<NguoiDung>> response) {
-                if (response.isSuccessful()) {
-                    List<NguoiDung> nguoiDungList = response.body();
-                    if (nguoiDungList != null && !nguoiDungList.isEmpty()) {
-                        StringBuilder sb = new StringBuilder("Danh sách Người dùng:\n");
-                        for (NguoiDung nd : nguoiDungList) {
-                            sb.append("- ").append(nd.getTenDangNhap()).append("\n");  // Append tên đăng nhập
-                        }
-                        // Cập nhật UI trên main thread (an toàn vì callback chạy trên main)
-                        tvApiResult.setText(sb.toString());
-                        Log.d("API_RESULT", "Hiển thị thành công: " + nguoiDungList.size() + " người dùng");
-                    } else {
-                        tvApiResult.setText("Không có dữ liệu người dùng.");
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        String result = response.body().string();   // Đọc raw text
+                        Log.d("PING_STATUS", "🔥 Backend OK: " + result);
+                    } catch (Exception e) {
+                        Log.e("PING_STATUS", "❌ Lỗi đọc dữ liệu: " + e.getMessage());
                     }
                 } else {
-                    tvApiResult.setText("Lỗi API: " + response.code());
-                    Log.e("API_ERROR", "Lỗi khi lấy dữ liệu: " + response.code());
+                    Log.e("PING_STATUS", "❌ Backend trả lỗi HTTP: " + response.code());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<NguoiDung>> call, Throwable t) {
-                tvApiResult.setText("Lỗi kết nối: " + t.getMessage());
-                Log.e("API_ERROR", "Không thể kết nối: " + t.getMessage());
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("PING_STATUS", "❌ Không thể kết nối backend: " + t.getMessage());
             }
         });
 
-        // Sau 3 giây chuyển sang giao diện đăng nhập
+
+        // =======================================
+        // ⏳ CHUYỂN SANG MÀN HÌNH ĐĂNG NHẬP SAU 3 GIÂY
+        // =======================================
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intent = new Intent(MainActivity.this, GiaoDienDangNhap.class);
-            startActivity(intent);
-            finish(); // Đóng Splash để không quay lại được
+            startActivity(new Intent(MainActivity.this, GiaoDienDangNhap.class));
+            finish();
         }, 3000);
     }
 
     private void hideSystemUI() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-            // Android 11 (API 30) trở lên
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             getWindow().setDecorFitsSystemWindows(false);
-            if (getWindow().getInsetsController() != null) {
-                getWindow().getInsetsController().hide(
-                        WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
-                getWindow().getInsetsController().setSystemBarsBehavior(
-                        WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+            WindowInsetsController controller = getWindow().getInsetsController();
+            if (controller != null) {
+                controller.hide(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
+                controller.setSystemBarsBehavior(
+                        WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                );
             }
         } else {
-            // Android 10 trở xuống
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN
+            );
         }
     }
 }
