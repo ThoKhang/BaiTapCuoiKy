@@ -9,7 +9,6 @@ import android.content.Intent;
 import java.util.Calendar;
 
 public class AlarmHelper {
-
     @SuppressLint("ScheduleExactAlarm")
     public static void setExactAlarm(Context context,
                                      int hour, int minute,
