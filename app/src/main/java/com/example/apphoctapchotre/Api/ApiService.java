@@ -1,7 +1,6 @@
 package com.example.apphoctapchotre.Api;
 
 import com.example.apphoctapchotre.model.NguoiDung;
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -12,24 +11,26 @@ import retrofit2.http.POST;
 
 public interface ApiService {
 
-    @GET("api/nguoi-dung")
-    Call<List<NguoiDung>> getNguoiDung();
+    // LẤY THÔNG TIN NGƯỜI DÙNG THEO EMAIL (OPTIONAL)
+    @POST("api/nguoidung/get-by-email")
+    Call<NguoiDung> getByEmail(@Body Map<String, String> body);
 
-    @POST("api/register")
-    Call<ResponseBody> register(@Body NguoiDung nguoiDung);
+    @POST("api/nguoidung/register")
+    Call<ResponseBody> register(@Body Map<String, String> body);
 
-    @POST("api/login")
-    Call<ResponseBody> login(@Body NguoiDung nguoiDung);
+    @POST("api/nguoidung/login")
+    Call<ResponseBody> login(@Body Map<String, String> body);
 
-    @POST("api/verify-otp")
-    Call<ResponseBody> verifyOTP(@Body Map<String, String> request);
+    @POST("api/nguoidung/verify-otp")
+    Call<ResponseBody> verifyOTP(@Body Map<String, String> body);
 
-    @POST("api/send-otp")
-    Call<ResponseBody> sendOTP(@Body Map<String, String> request);
+    @POST("api/nguoidung/send-otp")
+    Call<ResponseBody> sendOTP(@Body Map<String, String> body);
 
-    @POST("api/forgot-password")
-    Call<ResponseBody> forgotPassword(@Body Map<String, String> body);
-
-    @POST("api/reset-password")
+    @POST("api/nguoidung/reset-password")
     Call<ResponseBody> resetPassword(@Body Map<String, String> body);
+
+    //test api cho ae
+    @GET("api/ping")
+    Call<ResponseBody> pingServer();
 }

@@ -19,6 +19,9 @@ import com.example.apphoctapchotre.OnboardingActivity;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.model.NguoiDung;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,7 +61,6 @@ public class GiaoDienDangNhap extends AppCompatActivity {
             startActivity(new Intent(GiaoDienDangNhap.this, DangKy.class));
         });
 
-        // NÚT ĐĂNG NHẬP
         btnDangNhap.setOnClickListener(v -> {
             String email = eTextEmail.getText().toString().trim();
             String matKhau = eTextMatKhau.getText().toString().trim();
@@ -68,53 +70,32 @@ public class GiaoDienDangNhap extends AppCompatActivity {
                 return;
             }
 
-            // ================== CHẾ ĐỘ TEST TĨNH ==================
-            if (TEST_MODE) {
-                if (email.equals("khangheheqt@gmail.com") && matKhau.equals("123")) {
-                    Toast.makeText(this, "Đăng nhập thành công (test mode)!", Toast.LENGTH_SHORT).show();
-
-                    // Lưu trạng thái đăng nhập
-                    SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean("isLoggedIn", true);
-                    editor.putString("userEmail", email);
-                    editor.apply();
-
-                    // Đi thẳng trang chủ, bỏ qua OTP
-                    Intent intent = new Intent(GiaoDienDangNhap.this, OnboardingActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(this, "Sai email hoặc mật khẩu (test mode)!", Toast.LENGTH_SHORT).show();
-                }
-                return; // không gọi API thật
-            }
-            // =======================================================
-
-            // Code gọi server thật (giữ nguyên, chỉ chạy khi TEST_MODE = false)
-            NguoiDung user = new NguoiDung();
-            user.setEmail(email);
-            user.setMatKhauMaHoa(matKhau);
+            // BODY gửi đúng theo backend
+            Map<String, String> body = new HashMap<>();
+            body.put("email", email);
+            body.put("matKhau", matKhau);
 
             ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-            Call<ResponseBody> call = apiService.login(user);
+            Call<ResponseBody> call = apiService.login(body);
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     try {
-                        String message;
                         if (response.isSuccessful() && response.body() != null) {
-                            message = response.body().string();
+
+                            String message = response.body().string();
                             Toast.makeText(GiaoDienDangNhap.this, message, Toast.LENGTH_SHORT).show();
 
+                            // Chuyển sang OTP
                             Intent intent = new Intent(GiaoDienDangNhap.this, DangNhapOTP.class);
                             intent.putExtra("EMAIL", email);
                             startActivity(intent);
                             finish();
                         } else {
-                            message = response.errorBody() != null ? response.errorBody().string() : "Đăng nhập thất bại!";
+                            String message = response.errorBody() != null
+                                    ? response.errorBody().string()
+                                    : "Đăng nhập thất bại!";
                             Toast.makeText(GiaoDienDangNhap.this, message, Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
