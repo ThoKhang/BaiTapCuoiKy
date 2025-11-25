@@ -1,6 +1,7 @@
 package com.example.apphoctapchotre;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +10,10 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.app.TimePickerDialog;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -28,7 +28,6 @@ public class ThongBao extends AppCompatActivity {
     private TextView txtMorningTime, txtNoonTime, txtEveningTime;
 
     private SharedPreferences pref;
-
     private static final int NOTIFICATION_PERMISSION_CODE = 101;
 
     @Override
@@ -36,7 +35,6 @@ public class ThongBao extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thongbao);
 
-        // Yêu cầu các quyền cần thiết
         requestExactAlarmPermission();
         requestNotificationPermission();
 
@@ -55,9 +53,10 @@ public class ThongBao extends AppCompatActivity {
 
         loadSavedData();
 
-        txtMorningTime.setOnClickListener(v -> pickTime("morning"));
-        txtNoonTime.setOnClickListener(v -> pickTime("noon"));
-        txtEveningTime.setOnClickListener(v -> pickTime("evening"));
+        // mở dialog layout
+        txtMorningTime.setOnClickListener(v -> showTimePickerDialog("morning", txtMorningTime));
+        txtNoonTime.setOnClickListener(v -> showTimePickerDialog("noon", txtNoonTime));
+        txtEveningTime.setOnClickListener(v -> showTimePickerDialog("evening", txtEveningTime));
 
         switchMorning.setOnCheckedChangeListener((b, checked) ->
                 handleAlarm("morning", checked, txtMorningTime.getText().toString(), "Báo thức sáng"));
@@ -69,7 +68,7 @@ public class ThongBao extends AppCompatActivity {
                 handleAlarm("evening", checked, txtEveningTime.getText().toString(), "Báo thức tối"));
     }
 
-    // ---- YÊU CẦU QUYỀN THÔNG BÁO (Android 13+) ----
+    // Yêu cầu cấp quyền
     private void requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this,
@@ -83,19 +82,6 @@ public class ThongBao extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Đã cấp quyền thông báo", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Cần cấp quyền thông báo để báo thức hoạt động", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    // ---- EXACT ALARM PERMISSION ----
     private void requestExactAlarmPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -107,7 +93,7 @@ public class ThongBao extends AppCompatActivity {
         }
     }
 
-    // ---- LOAD SAVED DATA ----
+    //load giờ đã cài trước đó
     private void loadSavedData() {
         txtMorningTime.setText(pref.getString("time_morning", "06:00"));
         txtNoonTime.setText(pref.getString("time_noon", "12:00"));
@@ -117,7 +103,6 @@ public class ThongBao extends AppCompatActivity {
         switchNoon.setChecked(pref.getBoolean("alarm_noon", false));
         switchEvening.setChecked(pref.getBoolean("alarm_evening", false));
 
-        // Nếu các switch đã bật → bật lại báo thức
         if (switchMorning.isChecked()) {
             handleAlarm("morning", true, txtMorningTime.getText().toString(), "Báo thức sáng");
         }
@@ -137,50 +122,54 @@ public class ThongBao extends AppCompatActivity {
         pref.edit().putBoolean(key, value).apply();
     }
 
-    // ---- TIME PICKER ----
-    private void pickTime(String type) {
+    // hàm gọi dialog
+    private void showTimePickerDialog(String type, TextView targetView) {
 
-        Calendar c = Calendar.getInstance();
-        int h = c.get(Calendar.HOUR_OF_DAY);
-        int m = c.get(Calendar.MINUTE);
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_time_picker);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        TimePickerDialog dialog = new TimePickerDialog(
-                this,
-                (view, hour, minute) -> {
-                    String time = String.format("%02d:%02d", hour, minute);
+        android.widget.TimePicker tp = dialog.findViewById(R.id.timePicker);
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        Button btnCancel = dialog.findViewById(R.id.btnCancel);
 
-                    switch (type) {
-                        case "morning":
-                            txtMorningTime.setText(time);
-                            saveTime("time_morning", time);
-                            // Nếu switch đang bật, cập nhật lại báo thức
-                            if (switchMorning.isChecked()) {
-                                handleAlarm("morning", true, time, "Báo thức sáng");
-                            }
-                            break;
-                        case "noon":
-                            txtNoonTime.setText(time);
-                            saveTime("time_noon", time);
-                            if (switchNoon.isChecked()) {
-                                handleAlarm("noon", true, time, "Báo thức trưa");
-                            }
-                            break;
-                        case "evening":
-                            txtEveningTime.setText(time);
-                            saveTime("time_evening", time);
-                            if (switchEvening.isChecked()) {
-                                handleAlarm("evening", true, time, "Báo thức tối");
-                            }
-                            break;
-                    }
-                },
-                h, m, true
-        );
+        tp.setIs24HourView(true);
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        btnOk.setOnClickListener(v -> {
+            int hour = tp.getHour();
+            int minute = tp.getMinute();
+
+            String time = String.format("%02d:%02d", hour, minute);
+
+            targetView.setText(time);
+            saveTime("time_" + type, time);
+
+            switch (type) {
+                case "morning":
+                    if (switchMorning.isChecked())
+                        handleAlarm("morning", true, time, "Báo thức sáng");
+                    break;
+
+                case "noon":
+                    if (switchNoon.isChecked())
+                        handleAlarm("noon", true, time, "Báo thức trưa");
+                    break;
+
+                case "evening":
+                    if (switchEvening.isChecked())
+                        handleAlarm("evening", true, time, "Báo thức tối");
+                    break;
+            }
+
+            dialog.dismiss();
+        });
 
         dialog.show();
     }
 
-    // ---- SET / CANCEL ALARM ----
+    // Cài/ hủy báo thức
     private void handleAlarm(String type, boolean enable, String timeText, String title) {
 
         saveSwitch("alarm_" + type, enable);
@@ -211,36 +200,29 @@ public class ThongBao extends AppCompatActivity {
             calendar.set(Calendar.HOUR_OF_DAY, hour);
             calendar.set(Calendar.MINUTE, minute);
             calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
 
-            // Nếu thời gian đã qua trong ngày hôm nay, chuyển sang ngày mai
             if (calendar.before(Calendar.getInstance())) {
                 calendar.add(Calendar.DAY_OF_MONTH, 1);
             }
 
-            if (alarmManager != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmManager.setExactAndAllowWhileIdle(
-                            AlarmManager.RTC_WAKEUP,
-                            calendar.getTimeInMillis(),
-                            pendingIntent
-                    );
-                } else {
-                    alarmManager.setExact(
-                            AlarmManager.RTC_WAKEUP,
-                            calendar.getTimeInMillis(),
-                            pendingIntent
-                    );
-                }
-
-                Toast.makeText(this, "Đã đặt " + title + " lúc " + timeText, Toast.LENGTH_SHORT).show();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.getTimeInMillis(),
+                        pendingIntent
+                );
+            } else {
+                alarmManager.setExact(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.getTimeInMillis(),
+                        pendingIntent
+                );
             }
 
+            Toast.makeText(this, "Đã đặt " + title + " lúc " + timeText, Toast.LENGTH_SHORT).show();
         } else {
-            if (alarmManager != null) {
-                alarmManager.cancel(pendingIntent);
-                Toast.makeText(this, "Đã hủy " + title, Toast.LENGTH_SHORT).show();
-            }
+            alarmManager.cancel(pendingIntent);
+            Toast.makeText(this, "Đã hủy " + title, Toast.LENGTH_SHORT).show();
         }
     }
 }
