@@ -33,7 +33,6 @@ public class GiaoDienTong extends AppCompatActivity {
         adapter.addFragment(new XepHangFragment(), "Xếp Hạng");
         adapter.addFragment(new LichSuFragment(), "Lịch Sử");
         adapter.addFragment(new SettingFragment(), "Cài Đặt");
-        adapter.addFragment(new TroChoiFragment(), "Trò Chơi");
         viewPager2.setAdapter(adapter);
 
         // Đồng bộ ViewPager2 ↔ BottomNavigation

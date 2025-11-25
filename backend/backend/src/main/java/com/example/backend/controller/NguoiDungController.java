@@ -1,136 +1,160 @@
 package com.example.backend.controller;
 
 import com.example.backend.model.NguoiDung;
-import com.example.backend.repository.NguoiDungRepository;
-import com.example.backend.service.EmailService;  // Import EmailService (nếu chưa có)
+import com.example.backend.service.EmailService;
+import com.example.backend.service.IService.INguoiDungService;
 import com.example.backend.service.OTPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+
+import javax.sql.DataSource;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*") // Cho phép Android gọi API
+@CrossOrigin(origins = "*")  // Cho phép Android gọi API
 public class NguoiDungController {
-    
+
     @Autowired
-    private NguoiDungRepository repo;
-    
+    private INguoiDungService nguoiDungService;
+
     @Autowired
-    private EmailService emailService;  // Sửa tên biến: lowercase, chuẩn Java
-    
+    private EmailService emailService;
+
     @Autowired
     private OTPService otpService;
-    
+
     @Autowired
-private javax.sql.DataSource dataSource;
+    private DataSource dataSource;
 
-@GetMapping("/db-test")
-public String checkDatabase() {
-    try (var conn = dataSource.getConnection()) {
-        return "Đang kết nối tới database: " + conn.getCatalog();
-    } catch (Exception e) {
-        e.printStackTrace();
-        return "Lỗi khi kiểm tra DB: " + e.getMessage();
+    // 🔵 TEST KẾT NỐI DATABASE
+    @GetMapping("/db-test")
+    public String checkDatabase() {
+        try (var conn = dataSource.getConnection()) {
+            return "Kết nối thành công với DB: " + conn.getCatalog();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Lỗi khi kết nối DB: " + e.getMessage();
+        }
     }
-}
 
-    // Lấy tất cả người dùng (thêm try-catch để tránh JSON error)
+    // 🔵 LẤY TẤT CẢ NGƯỜI DÙNG
     @GetMapping("/nguoi-dung")
     public ResponseEntity<?> getAllNguoiDung() {
         try {
-            return ResponseEntity.ok(repo.findAll());
+            return ResponseEntity.ok(nguoiDungService.getAll());
         } catch (Exception e) {
-            e.printStackTrace(); // Log lỗi
-            return ResponseEntity.status(500).body("Lỗi khi lấy dữ liệu: " + e.getMessage());
+            return ResponseEntity.status(500).body("Lỗi lấy dữ liệu: " + e.getMessage());
         }
     }
 
-    // Đăng ký: Gửi email xác nhận sau khi save
+    // 🟢 ĐĂNG KÝ NGƯỜI DÙNG + GỬI OTP
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody NguoiDung nguoiDung) {
         try {
-            if (repo.findByEmail(nguoiDung.getEmail()) != null) {
-                return ResponseEntity.badRequest().body("Người dùng đã tồn tại, vui lòng nhập người dùng mới!");
+            // Email tồn tại?
+            if (nguoiDungService.findByEmail(nguoiDung.getEmail()) != null) {
+                return ResponseEntity.badRequest().body("Email đã tồn tại, vui lòng dùng email khác!");
             }
-            nguoiDung.setMaVaiTro((byte) 2);  // Default NguoiDung (MaVaiTro = 2)
-            repo.save(nguoiDung);
+
+            // Tạo mã NDxxx
+            String newId = nguoiDungService.generateNewId();
+            nguoiDung.setMaNguoiDung(newId);
+
+            nguoiDungService.createUser(nguoiDung);
+
+            // Gửi OTP
             emailService.sendOTP(nguoiDung.getEmail(), nguoiDung.getTenDangNhap());
-            return ResponseEntity.ok("OTP đã gửi về email của bạn! Vui lòng kiểm tra!");
+
+            return ResponseEntity.ok("Đăng ký thành công! OTP đã gửi về email.");
+
         } catch (Exception e) {
-            e.printStackTrace(); // Log lỗi để debug
+            e.printStackTrace();
             return ResponseEntity.status(500).body("Lỗi đăng ký: " + e.getMessage());
         }
     }
-    
+
+    // 🟠 ĐĂNG NHẬP + GỬI OTP
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody NguoiDung nguoiDung) {
+    public ResponseEntity<?> login(@RequestBody NguoiDung request) {
         try {
-            NguoiDung existing = repo.findByEmail(nguoiDung.getEmail());
-            if (existing != null && existing.getMatKhauMaHoa().equals(nguoiDung.getMatKhauMaHoa())) {
-                emailService.sendOTP(existing.getEmail(), existing.getTenDangNhap());
-                return ResponseEntity.ok("Đăng nhập thành công! Vui lòng kiểm tra Email để nhận OTP!");
+            NguoiDung user = nguoiDungService.findByEmail(request.getEmail());
+
+            if (user == null || !user.getMatKhauMaHoa().equals(request.getMatKhauMaHoa())) {
+                return ResponseEntity.badRequest().body("Sai email hoặc mật khẩu!");
             }
-            return ResponseEntity.badRequest().body("Tài khoản hoặc mật khẩu không đúng!");
+
+            // Gửi OTP để xác thực
+            emailService.sendOTP(user.getEmail(), user.getTenDangNhap());
+
+            return ResponseEntity.ok("Đăng nhập thành công! Vui lòng kiểm tra email để nhận OTP.");
+
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(500).body("Lỗi đăng nhập: " + e.getMessage());
         }
     }
-    
+
+    // 🟡 XÁC THỰC OTP
     @PostMapping("/verify-otp")
     public ResponseEntity<?> verifyOTP(@RequestBody Map<String, String> request) {
         try {
             String email = request.get("email");
             String otp = request.get("otp");
+
             if (otpService.validateOTP(email, otp)) {
-                return ResponseEntity.ok("Xác thực OTP thành công! Chào mừng đến với ứng dụng");
+                return ResponseEntity.ok("Xác thực OTP thành công!");
+            } else {
+                return ResponseEntity.badRequest().body("OTP không đúng hoặc đã hết hạn!");
             }
-            return ResponseEntity.badRequest().body("Xác thực không thành công, OTP không đúng hoặc hết hạn!");
+
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(500).body("Lỗi xác thực OTP: " + e.getMessage());
         }
     }
-    
+
+    // 🔵 GỬI OTP THỦ CÔNG
     @PostMapping("/send-otp")
     public ResponseEntity<?> sendOTP(@RequestBody Map<String, String> request) {
         try {
             String email = request.get("email");
-            NguoiDung nguoiDung = repo.findByEmail(email);
-            if (nguoiDung == null) {
+
+            NguoiDung user = nguoiDungService.findByEmail(email);
+
+            if (user == null) {
                 return ResponseEntity.badRequest().body("Email không tồn tại!");
             }
-            emailService.sendOTP(email, nguoiDung.getTenDangNhap());
-            return ResponseEntity.ok("OTP đã gửi đến email của bạn!");
+
+            emailService.sendOTP(email, user.getTenDangNhap());
+            return ResponseEntity.ok("OTP đã gửi!");
+
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(500).body("Lỗi gửi OTP: " + e.getMessage());
         }
     }
-    // 🟢 Gửi OTP khi quên mật khẩu
+
+    // 🟣 QUÊN MẬT KHẨU – GỬI OTP
     @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
         try {
             String email = request.get("email");
-            NguoiDung nguoiDung = repo.findByEmail(email);
 
-            if (nguoiDung == null) {
-                return ResponseEntity.badRequest().body("Email không tồn tại trong hệ thống!");
+            NguoiDung user = nguoiDungService.findByEmail(email);
+
+            if (user == null) {
+                return ResponseEntity.badRequest().body("Email không tồn tại!");
             }
 
-            // Gửi OTP qua email
-            emailService.sendOTP(email, nguoiDung.getTenDangNhap());
-            return ResponseEntity.ok("Đã gửi OTP đến email của bạn!");
+            emailService.sendOTP(email, user.getTenDangNhap());
+
+            return ResponseEntity.ok("OTP đã được gửi.");
+
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(500).body("Lỗi gửi OTP: " + e.getMessage());
         }
     }
 
-    // 🟡 Xác nhận OTP và đổi mật khẩu mới
+    // 🟢 ĐỔI MẬT KHẨU
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
         try {
@@ -138,22 +162,21 @@ public String checkDatabase() {
             String newPassword = request.get("newPassword");
 
             if (email == null || newPassword == null) {
-                return ResponseEntity.badRequest().body("Thiếu thông tin cần thiết!");
+                return ResponseEntity.badRequest().body("Thiếu dữ liệu!");
             }
 
+            NguoiDung user = nguoiDungService.findByEmail(email);
 
-            NguoiDung nguoiDung = repo.findByEmail(email);
-            if (nguoiDung == null) {
-                return ResponseEntity.badRequest().body("Không tìm thấy người dùng!");
+            if (user == null) {
+                return ResponseEntity.badRequest().body("Không tìm thấy tài khoản!");
             }
 
-            // ✅ Cập nhật mật khẩu mới
-            nguoiDung.setMatKhauMaHoa(newPassword); // sau này có thể mã hóa bằng BCrypt
-            repo.save(nguoiDung);
+            user.setMatKhauMaHoa(newPassword);
+            nguoiDungService.createUser(user);
 
-            return ResponseEntity.ok("Đặt lại mật khẩu thành công!");
+            return ResponseEntity.ok("Đổi mật khẩu thành công!");
+
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(500).body("Lỗi reset mật khẩu: " + e.getMessage());
         }
     }

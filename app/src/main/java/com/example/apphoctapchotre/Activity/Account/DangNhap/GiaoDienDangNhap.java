@@ -30,7 +30,7 @@ public class GiaoDienDangNhap extends AppCompatActivity {
     private Button btnDangNhap;
 
     // <<< CHẾ ĐỘ TEST - ĐỔI THÀNH false ĐỂ DÙNG SERVER THẬT >>>
-    private static final boolean TEST_MODE = true;
+    private static final boolean TEST_MODE = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

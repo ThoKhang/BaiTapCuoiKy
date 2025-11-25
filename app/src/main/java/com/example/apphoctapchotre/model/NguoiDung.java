@@ -4,8 +4,9 @@ import com.google.gson.annotations.SerializedName;
 import java.time.LocalDateTime;
 
 public class NguoiDung {
+
     @SerializedName("maNguoiDung")
-    private int maNguoiDung;
+    private String maNguoiDung;   // Đổi từ int -> String
 
     @SerializedName("tenDangNhap")
     private String tenDangNhap;
@@ -16,8 +17,7 @@ public class NguoiDung {
     @SerializedName("matKhauMaHoa")
     private String matKhauMaHoa;
 
-    @SerializedName("maVaiTro")
-    private byte maVaiTro;
+    // XÓA maVaiTro vì backend không trả trường này nữa
 
     @SerializedName("ngayTao")
     private LocalDateTime ngayTao;
@@ -31,46 +31,46 @@ public class NguoiDung {
     @SerializedName("tongDiem")
     private int tongDiem;
 
-    // Constructors
-    public NguoiDung() {}
+    public NguoiDung() {
+    }
 
-    // Getters & Setters
-    public int getMaNguoiDung() { return maNguoiDung; }
-    public void setMaNguoiDung(int maNguoiDung) { this.maNguoiDung = maNguoiDung; }
+    public String getMaNguoiDung() {
+        return maNguoiDung;
+    }
 
-    public String getTenDangNhap() { return tenDangNhap; }
-    public void setTenDangNhap(String tenDangNhap) { this.tenDangNhap = tenDangNhap; }
+    public void setMaNguoiDung(String maNguoiDung) {
+        this.maNguoiDung = maNguoiDung;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getTenDangNhap() {
+        return tenDangNhap;
+    }
 
-    public String getMatKhauMaHoa() { return matKhauMaHoa; }
-    public void setMatKhauMaHoa(String matKhauMaHoa) { this.matKhauMaHoa = matKhauMaHoa; }
+    public void setTenDangNhap(String tenDangNhap) {
+        this.tenDangNhap = tenDangNhap;
+    }
 
-    public byte getMaVaiTro() { return maVaiTro; }
-    public void setMaVaiTro(byte maVaiTro) { this.maVaiTro = maVaiTro; }
+    public String getEmail() {
+        return email;
+    }
 
-    public LocalDateTime getNgayTao() { return ngayTao; }
-    public void setNgayTao(LocalDateTime ngayTao) { this.ngayTao = ngayTao; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public LocalDateTime getLanDangNhapCuoi() { return lanDangNhapCuoi; }
-    public void setLanDangNhapCuoi(LocalDateTime lanDangNhapCuoi) { this.lanDangNhapCuoi = lanDangNhapCuoi; }
+    public String getMatKhauMaHoa() {
+        return matKhauMaHoa;
+    }
 
-    public int getSoLanTrucTuyen() { return soLanTrucTuyen; }
-    public void setSoLanTrucTuyen(int soLanTrucTuyen) { this.soLanTrucTuyen = soLanTrucTuyen; }
+    public void setMatKhauMaHoa(String matKhauMaHoa) {
+        this.matKhauMaHoa = matKhauMaHoa;
+    }
 
-    public int getTongDiem() { return tongDiem; }
-    public void setTongDiem(int tongDiem) { this.tongDiem = tongDiem; }
+    public LocalDateTime getNgayTao() {
+        return ngayTao;
+    }
 
-    @Override
-    public String toString() {
-        return "NguoiDung{" +
-                "maNguoiDung=" + maNguoiDung +
-                ", tenDangNhap='" + tenDangNhap + '\'' +
-                ", email='" + email + '\'' +
-                ", maVaiTro=" + maVaiTro +
-                ", ngayTao=" + ngayTao +
-                ", lanDangNhapCuoi=" + lanDangNhapCuoi +
-                '}';
+    public void setNgayTao(LocalDateTime ngayTao) {
+        this.ngayTao = ngayTao;
     }
 }
