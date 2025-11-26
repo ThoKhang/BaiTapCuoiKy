@@ -34,10 +34,10 @@
         <activity
             android:name=".TracNghiem"
             android:exported="false" />
-        <activity
+        <!--<activity
             android:name=".TroChoi"
             android:exported="false"
-            android:theme="@style/Theme.AppHocTapChoTre" />
+            android:theme="@style/Theme.AppHocTapChoTre" />-->
         <activity
             android:name=".CaiDat"
             android:exported="false" />
