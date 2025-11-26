@@ -66,7 +66,7 @@ public class DangNhapOTP extends AppCompatActivity {
                 Map<String, String> request = new HashMap<>();
                 request.put("email", email);
                 RetrofitClient.getClient().create(ApiService.class)
-                        .sendOTP(request)
+                        .sendOtp(request)
                         .enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

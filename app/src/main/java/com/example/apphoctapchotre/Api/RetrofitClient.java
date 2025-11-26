@@ -1,21 +1,19 @@
 package com.example.apphoctapchotre.Api;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import com.google.gson.Gson;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "http://10.0.2.2:8080/";
 
-    // Thay đổi giá trị này trong RetrofitClient trến máy minhhuy
-//    public static final String BASE_URL = "http://192.168.1.24:8080/";
+    // BASE_URL: dùng IP máy bạn (10.0.2.2 là localhost của emulator)
+    private static final String BASE_URL = "http://10.0.2.2:8080/";
+    // Nếu chạy trên máy thật, đổi sang IP trong mạng LAN:
+    // private static final String BASE_URL = "http://192.168.1.24:8080/";
+
     private static Retrofit retrofit;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    // ⚠️ KHÔNG còn @RequiresApi ở đây nữa
     public static Retrofit getClient() {
         if (retrofit == null) {
             Gson gson = GsonProvider.getGson();
