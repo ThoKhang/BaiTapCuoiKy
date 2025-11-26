@@ -12,7 +12,6 @@ import com.example.apphoctapchotre.Activity.Account.DangNhap.GiaoDienDangNhap;
 import com.example.apphoctapchotre.Api.ApiService;
 import com.example.apphoctapchotre.Api.RetrofitClient;
 import com.example.apphoctapchotre.R;
-
 import com.google.android.material.button.MaterialButton;
 
 import java.util.HashMap;
@@ -29,8 +28,8 @@ public class QuenMatKhau extends AppCompatActivity {
     private MaterialButton btnDangNhap;
     private String email;
 
-    // <<< CHẾ ĐỘ TEST - ĐỔI THÀNH false ĐỂ DÙNG SERVER THẬT >>>
-    private static final boolean TEST_MODE = true;
+    // ĐỂ DÙNG SERVER THẬT -> ĐỂ false
+    private static final boolean TEST_MODE = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,43 +64,52 @@ public class QuenMatKhau extends AppCompatActivity {
                 return;
             }
 
-            // ====================== CHẾ ĐỘ TEST ======================
+            // TEST MODE: giả lập đặt mật khẩu thành công
             if (TEST_MODE) {
-                Toast.makeText(this, "Đặt lại mật khẩu thành công (test mode)!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                        "Đặt lại mật khẩu thành công (test mode)!",
+                        Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(QuenMatKhau.this, GiaoDienDangNhap.class));
                 finish();
                 return;
             }
-            // ========================================================
 
             // Code gọi API thật
             Map<String, String> request = new HashMap<>();
             request.put("email", email);
             request.put("newPassword", matKhauMoi);
 
-            RetrofitClient.getClient().create(ApiService.class)
-                    .resetPassword(request)
-                    .enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            if (response.isSuccessful()) {
-                                Toast.makeText(QuenMatKhau.this, "Đặt lại mật khẩu thành công!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(QuenMatKhau.this, GiaoDienDangNhap.class));
-                                finish();
-                            } else {
-                                String err = "Không thể đặt lại mật khẩu!";
-                                try {
-                                    if (response.errorBody() != null) err = response.errorBody().string();
-                                } catch (Exception ignored) {}
-                                Toast.makeText(QuenMatKhau.this, "Lỗi: " + err, Toast.LENGTH_LONG).show();
+            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+            apiService.resetPassword(request).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(QuenMatKhau.this,
+                                "Đặt lại mật khẩu thành công!",
+                                Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(QuenMatKhau.this, GiaoDienDangNhap.class));
+                        finish();
+                    } else {
+                        String err = "Không thể đặt lại mật khẩu!";
+                        try {
+                            if (response.errorBody() != null) {
+                                err = response.errorBody().string();
                             }
-                        }
+                        } catch (Exception ignored) {}
 
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Toast.makeText(QuenMatKhau.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        Toast.makeText(QuenMatKhau.this,
+                                "Lỗi: " + err,
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(QuenMatKhau.this,
+                            "Lỗi kết nối: " + t.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
         });
     }
 }

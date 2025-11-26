@@ -25,7 +25,7 @@ public interface ApiService {
     Call<ResponseBody> verifyOTP(@Body Map<String, String> body);
 
     @POST("api/nguoidung/send-otp")
-    Call<ResponseBody> sendOTP(@Body Map<String, String> body);
+    Call<ResponseBody> sendOtp(@Body Map<String, String> body);
 
     @POST("api/nguoidung/reset-password")
     Call<ResponseBody> resetPassword(@Body Map<String, String> body);

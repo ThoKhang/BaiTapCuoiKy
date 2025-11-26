@@ -30,7 +30,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
 
-        // ✅ Cho phép sử dụng LocalDate, LocalDateTime trên API < 26
+        // Cho phép java.time (LocalDateTime) trên API < 26
         isCoreLibraryDesugaringEnabled = true
     }
     buildFeatures {

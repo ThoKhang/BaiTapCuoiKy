@@ -2,7 +2,6 @@ package com.example.apphoctapchotre.Activity.Account.QuenMatKau;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -14,7 +13,6 @@ import com.example.apphoctapchotre.Activity.Account.DangKy.DangKy;
 import com.example.apphoctapchotre.Api.ApiService;
 import com.example.apphoctapchotre.Api.RetrofitClient;
 import com.example.apphoctapchotre.R;
-
 import com.google.android.material.button.MaterialButton;
 
 import java.util.HashMap;
@@ -31,8 +29,8 @@ public class QuenMatKhauOTP extends AppCompatActivity {
     private TextView textOTP;                // Nút "Gửi OTP về email!"
     private MaterialButton btnTiepTuc;
 
-    // <<< CHẾ ĐỘ TEST - ĐỔI THÀNH false ĐỂ DÙNG SERVER THẬT >>>
-    private static final boolean TEST_MODE = true;
+    // ĐỂ DÙNG SERVER THẬT -> ĐỂ false
+    private static final boolean TEST_MODE = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,30 +63,38 @@ public class QuenMatKhauOTP extends AppCompatActivity {
                 return;
             }
 
+            // TEST MODE: chỉ giả lập, không gọi server
             if (TEST_MODE) {
                 Toast.makeText(this, "Đã gửi OTP (test mode): 123456", Toast.LENGTH_LONG).show();
                 return;
             }
 
-            // Code thật (giữ nguyên)
+            // Code gọi API thật
             Map<String, String> request = new HashMap<>();
             request.put("email", email);
 
-            RetrofitClient.getClient().create(ApiService.class)
-                    .forgotPassword(request)
-                    .enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            Toast.makeText(QuenMatKhauOTP.this,
-                                    response.isSuccessful() ? "Đã gửi OTP đến email của bạn!" : "Email không tồn tại!",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+            apiService.sendOtp(request).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(QuenMatKhauOTP.this,
+                                "Đã gửi OTP đến email của bạn!",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(QuenMatKhauOTP.this,
+                                "Email không tồn tại hoặc gửi OTP thất bại!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Toast.makeText(QuenMatKhauOTP.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(QuenMatKhauOTP.this,
+                            "Lỗi kết nối: " + t.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         // ====================== NÚT TIẾP TỤC (XÁC THỰC OTP) ======================
@@ -101,46 +107,57 @@ public class QuenMatKhauOTP extends AppCompatActivity {
                 return;
             }
 
+            // TEST MODE: OTP cố định 123456
             if (TEST_MODE) {
                 if (otp.equals("123456")) {
-                    Toast.makeText(this, "Xác thực OTP thành công (test mode)!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,
+                            "Xác thực OTP thành công (test mode)!",
+                            Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(QuenMatKhauOTP.this, QuenMatKhau.class);
                     intent.putExtra("EMAIL", email);
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(this, "OTP sai! Trong test mode phải nhập: 123456", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,
+                            "OTP sai! Trong test mode phải nhập: 123456",
+                            Toast.LENGTH_LONG).show();
                 }
                 return;
             }
 
-            // Code thật (giữ nguyên)
+            // Code gọi API thật
             Map<String, String> request = new HashMap<>();
             request.put("email", email);
             request.put("otp", otp);
 
-            RetrofitClient.getClient().create(ApiService.class)
-                    .verifyOTP(request)
-                    .enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            if (response.isSuccessful()) {
-                                Toast.makeText(QuenMatKhauOTP.this, "Xác thực OTP thành công!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(QuenMatKhauOTP.this, QuenMatKhau.class);
-                                intent.putExtra("EMAIL", email);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                Toast.makeText(QuenMatKhauOTP.this, "OTP không đúng hoặc đã hết hạn!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
+            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+            apiService.verifyOTP(request).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(QuenMatKhauOTP.this,
+                                "Xác thực OTP thành công!",
+                                Toast.LENGTH_SHORT).show();
 
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Toast.makeText(QuenMatKhauOTP.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        Intent intent = new Intent(QuenMatKhauOTP.this, QuenMatKhau.class);
+                        intent.putExtra("EMAIL", email);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(QuenMatKhauOTP.this,
+                                "OTP không đúng hoặc đã hết hạn!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(QuenMatKhauOTP.this,
+                            "Lỗi kết nối: " + t.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
         });
     }
 }
