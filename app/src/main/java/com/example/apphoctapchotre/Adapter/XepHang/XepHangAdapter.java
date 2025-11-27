@@ -17,26 +17,25 @@ import java.util.List;
 
 public class XepHangAdapter extends RecyclerView.Adapter<XepHangAdapter.ViewHolder> {
 
-    private List<XepHangItem> list;
+    private List<XepHangItem> danhSachXepHang;
 
-    public XepHangAdapter(List<XepHangItem> list) {
-        this.list = list;
+    public XepHangAdapter(List<XepHangItem> danhSachXepHang) {
+        this.danhSachXepHang = danhSachXepHang;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout itemRoot;
-        TextView tvRank, tvUsername, tvScore;
-        ImageView imgMedal;
-        ImageView imgAvatar;
+        TextView tvHang, tvTenNguoiChoi, tvTongDiem;
+        ImageView imgHuyChuong, imgAvatar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemRoot = itemView.findViewById(R.id.itemRoot);
-            tvRank = itemView.findViewById(R.id.tvRank);
-            imgMedal = itemView.findViewById(R.id.imgMedal);
+            tvHang = itemView.findViewById(R.id.tvRank);
+            imgHuyChuong = itemView.findViewById(R.id.imgMedal);
             imgAvatar = itemView.findViewById(R.id.imgAvatar);
-            tvUsername = itemView.findViewById(R.id.tvUsername);
-            tvScore = itemView.findViewById(R.id.tvScore);
+            tvTenNguoiChoi = itemView.findViewById(R.id.tvUsername);
+            tvTongDiem = itemView.findViewById(R.id.tvScore);
         }
     }
 
@@ -50,42 +49,49 @@ public class XepHangAdapter extends RecyclerView.Adapter<XepHangAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        XepHangItem item = list.get(position);
-        int rank = position + 1;
+        XepHangItem item = danhSachXepHang.get(position);
 
-        holder.tvUsername.setText(item.getUsername());
-        holder.tvScore.setText(String.format("%,d", item.getScore()));
+        int hang = position + 1;
 
-        switch (rank) {
+        holder.tvTenNguoiChoi.setText(item.getTenNguoiChoi());
+        holder.tvTongDiem.setText(String.format("%,d", item.getTongDiem()));
+
+        // ==========================
+        //   HIỂN THỊ THEO THỨ HẠNG
+        // ==========================
+        switch (hang) {
             case 1:
                 holder.itemRoot.setBackgroundResource(R.drawable.bg_rank_1);
-                holder.imgMedal.setImageResource(R.drawable.top1); // bạn tự tạo 3 icon huy chương hoặc dùng emoji cũng được
-                holder.imgMedal.setVisibility(View.VISIBLE);
-                holder.tvRank.setVisibility(View.GONE);
+                holder.imgHuyChuong.setVisibility(View.VISIBLE);
+                holder.imgHuyChuong.setImageResource(R.drawable.top1);
+                holder.tvHang.setVisibility(View.GONE);
                 break;
+
             case 2:
                 holder.itemRoot.setBackgroundResource(R.drawable.bg_rank_2);
-                holder.imgMedal.setImageResource(R.drawable.top2);
-                holder.imgMedal.setVisibility(View.VISIBLE);
-                holder.tvRank.setVisibility(View.GONE);
+                holder.imgHuyChuong.setVisibility(View.VISIBLE);
+                holder.imgHuyChuong.setImageResource(R.drawable.top2);
+                holder.tvHang.setVisibility(View.GONE);
                 break;
+
             case 3:
                 holder.itemRoot.setBackgroundResource(R.drawable.bg_rank_3);
-                holder.imgMedal.setImageResource(R.drawable.top3);
-                holder.imgMedal.setVisibility(View.VISIBLE);
-                holder.tvRank.setVisibility(View.GONE);
+                holder.imgHuyChuong.setVisibility(View.VISIBLE);
+                holder.imgHuyChuong.setImageResource(R.drawable.top3);
+                holder.tvHang.setVisibility(View.GONE);
                 break;
+
             default:
                 holder.itemRoot.setBackgroundResource(R.drawable.bg_rank_normal);
-                holder.imgMedal.setVisibility(View.GONE);
-                holder.tvRank.setVisibility(View.VISIBLE);
-                holder.tvRank.setText(String.valueOf(rank));
+                holder.imgHuyChuong.setVisibility(View.GONE);
+                holder.tvHang.setVisibility(View.VISIBLE);
+                holder.tvHang.setText(String.valueOf(hang));
                 break;
         }
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return danhSachXepHang.size();
     }
 }

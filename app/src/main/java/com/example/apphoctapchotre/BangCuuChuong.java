@@ -43,7 +43,7 @@ public class BangCuuChuong extends AppCompatActivity {
                 btn.setOnClickListener(v -> onNumberClicked(btn));
             }
         }
-        ImageButton btnLuyenTap = findViewById(R.id.btnLuyenTap);
+        AppCompatButton btnLuyenTap = findViewById(R.id.btnLuyenTap);
 
         btnLuyenTap.setOnClickListener(v -> {
             Intent intent = new Intent(BangCuuChuong.this, cungcokienthuc.class);

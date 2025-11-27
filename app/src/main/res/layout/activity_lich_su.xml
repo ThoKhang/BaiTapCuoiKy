@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LichSu">
+    tools:context=".Fragment.LichSuFragment">
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -32,6 +32,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tvTongDiem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -103,6 +104,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvDiemKiemTra"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10"
@@ -128,6 +130,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvDiemHoatDong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
