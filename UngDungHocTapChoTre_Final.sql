@@ -868,5 +868,5 @@ WHERE MaNguoiDung = 'ND002';
 use UngDungHocTapChoTre
 go 
 select * from NguoiDung
-
+select * from LichSuHoatDong
 GO

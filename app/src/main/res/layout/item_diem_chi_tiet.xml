@@ -19,8 +19,8 @@
 
         <!-- Phần số điểm: Icon + Text (bên trái, chiếm 1/3) -->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="18dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:orientation="horizontal"
             android:gravity="center_vertical">
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#2196F3"
                 android:shadowColor="#000000"
@@ -55,10 +55,10 @@
         <!-- Thời gian (giữa, wrap_content) -->
         <TextView
             android:id="@+id/txtThoiGian"
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:text="17/11/2025 15:30"
-            android:textSize="14sp"
+            android:textSize="11sp"
             android:textStyle="italic"
             android:textColor="#757575"
             android:layout_marginEnd="16dp" />
@@ -72,7 +72,7 @@
             android:textStyle="bold"
             android:text="Hoàn thành bài kiểm tra toán"
             android:padding="10dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="#212121"
             android:lineSpacingExtra="2dp"
             android:maxLines="2"

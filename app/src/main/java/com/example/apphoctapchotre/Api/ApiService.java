@@ -1,5 +1,6 @@
 package com.example.apphoctapchotre.Api;
 
+import com.example.apphoctapchotre.model.LichSuDiemResponse;
 import com.example.apphoctapchotre.model.NguoiDung;
 import com.example.apphoctapchotre.model.XepHangResponse;
 
@@ -42,5 +43,8 @@ public interface ApiService {
             @Query("email") String email,
             @Query("gioiHan") int gioiHan
     );
+
+    @POST("api/nguoidung/lich-su-diem")
+    Call<LichSuDiemResponse> layLichSuDiem(@Body Map<String, String> body);
 
 }
