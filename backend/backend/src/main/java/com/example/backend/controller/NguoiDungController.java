@@ -19,31 +19,64 @@ public class NguoiDungController {
     private INguoiDungService service;
 
     @PostMapping("/register")
-    public ResponseEntity<NguoiDungResponse> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(service.register(request));
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        try {
+            NguoiDungResponse res = service.register(request);
+            return ResponseEntity.ok(res);
+        } catch (RuntimeException ex) {
+            // Ví dụ: "Email đã tồn tại!", "Tên đăng nhập đã tồn tại!"
+            return ResponseEntity
+                    .badRequest()
+                    .body(ex.getMessage());
+        }
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(service.login(request));
+        try {
+            // Nếu đúng email + mật khẩu: service.login sẽ gửi OTP và trả về message
+            String result = service.login(request); // "OTP đã gửi, vui lòng kiểm tra email."
+            return ResponseEntity.ok(result);
+        } catch (RuntimeException ex) {
+            // Ví dụ: "Sai email hoặc mật khẩu!"
+            return ResponseEntity
+                    .badRequest()
+                    .body(ex.getMessage());
+        }
     }
 
     @PostMapping("/verify-otp")
     public ResponseEntity<String> verifyOtp(@RequestBody Map<String, String> body) {
         boolean ok = service.verifyOtp(body.get("email"), body.get("otp"));
-        if (ok) return ResponseEntity.ok("Xác thực OTP thành công!");
+        if (ok) {
+            return ResponseEntity.ok("Xác thực OTP thành công!");
+        }
         return ResponseEntity.badRequest().body("Mã OTP sai hoặc hết hạn!");
     }
 
     @PostMapping("/send-otp")
     public ResponseEntity<String> sendOtp(@RequestBody Map<String, String> body) {
-        service.sendOtp(body.get("email"));
-        return ResponseEntity.ok("Đã gửi OTP!");
+        try {
+            service.sendOtp(body.get("email"));
+            return ResponseEntity.ok("Đã gửi OTP!");
+        } catch (RuntimeException ex) {
+            // Ví dụ: "Email không tồn tại!"
+            return ResponseEntity
+                    .badRequest()
+                    .body(ex.getMessage());
+        }
     }
 
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> body) {
-        service.resetPassword(body.get("email"), body.get("newPassword"));
-        return ResponseEntity.ok("Đặt lại mật khẩu thành công!");
+        try {
+            service.resetPassword(body.get("email"), body.get("newPassword"));
+            return ResponseEntity.ok("Đặt lại mật khẩu thành công!");
+        } catch (RuntimeException ex) {
+            // Ví dụ: "Không tìm thấy người dùng."
+            return ResponseEntity
+                    .badRequest()
+                    .body(ex.getMessage());
+        }
     }
 }

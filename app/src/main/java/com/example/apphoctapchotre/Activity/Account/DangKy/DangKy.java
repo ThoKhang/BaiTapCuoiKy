@@ -46,6 +46,7 @@ public class DangKy extends AppCompatActivity {
             String matKhau = eTextMatKhau.getText().toString().trim();
             String nhapLaiMatKhau = eTextNhapLaiMatKhau.getText().toString().trim();
 
+            // ====== Validate cơ bản ======
             if (email.isEmpty() || matKhau.isEmpty() || nhapLaiMatKhau.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                 return;
@@ -56,9 +57,9 @@ public class DangKy extends AppCompatActivity {
                 return;
             }
 
-            // Chuẩn bị body gửi lên backend
+            // ====== Chuẩn bị body gửi lên backend ======
             Map<String, String> body = new HashMap<>();
-            // Backend yêu cầu tenDangNhap, tạm dùng email làm tên đăng nhập
+            // Backend yêu cầu tenDangNhap → tạm dùng email làm tên đăng nhập
             body.put("tenDangNhap", email);
             body.put("email", email);
             body.put("matKhau", matKhau);
@@ -68,6 +69,7 @@ public class DangKy extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
+                        // Đăng ký OK, backend đã gửi OTP về email
                         Toast.makeText(DangKy.this,
                                 "Đăng ký thành công! Vui lòng kiểm tra email để lấy OTP.",
                                 Toast.LENGTH_LONG).show();
@@ -78,15 +80,26 @@ public class DangKy extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        String err = "Đăng ký thất bại!";
+                        // ====== Xử lý TRÙNG EMAIL / TÊN ĐĂNG NHẬP ======
+                        String errMsg = "Đăng ký thất bại!";
                         try {
                             if (response.errorBody() != null) {
-                                err = response.errorBody().string();
+                                String raw = response.errorBody().string();
+                                if (raw != null) {
+                                    raw = raw.trim();
+                                    if (raw.contains("Email đã tồn tại")) {
+                                        errMsg = "Email này đã được sử dụng, vui lòng dùng email khác!";
+                                    } else {
+                                        // Nếu message khác thì show luôn cho dễ debug
+                                        errMsg = raw;
+                                    }
+                                }
                             }
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
 
                         Toast.makeText(DangKy.this,
-                                "Lỗi: " + err,
+                                errMsg,
                                 Toast.LENGTH_LONG).show();
                     }
                 }

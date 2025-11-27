@@ -864,3 +864,9 @@ VALUES (
 UPDATE NguoiDung
 SET TongDiem = TongDiem + 45
 WHERE MaNguoiDung = 'ND002';
+
+use UngDungHocTapChoTre
+go 
+select * from NguoiDung
+
+GO
