@@ -4,10 +4,15 @@ import com.example.backend.converter.NguoiDungConverter;
 import com.example.backend.dto.request.LoginRequest;
 import com.example.backend.dto.request.RegisterRequest;
 import com.example.backend.dto.response.NguoiDungResponse;
+import com.example.backend.dto.response.NguoiDungXepHangResponse;
+import com.example.backend.dto.response.XepHangResponse;
 import com.example.backend.entity.NguoiDung;
 import com.example.backend.repository.NguoiDungRepository;
 import com.example.backend.service.IService.INguoiDungService;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -98,4 +103,54 @@ public class NguoiDungService implements INguoiDungService {
 
         return NguoiDungConverter.toResponse(nd);
     }
+    @Override
+    public XepHangResponse layXepHang(String email, int gioiHan) {
+        if (gioiHan <= 0) gioiHan = 20;
+
+        XepHangResponse res = new XepHangResponse();
+
+        // Tổng số người chơi
+        long tongNguoiChoi = nguoiDungRepository.count();
+        res.setTongSoNguoiChoi(tongNguoiChoi);
+
+        // Lấy danh sách người dùng sắp xếp theo TongDiem giảm dần
+        List<NguoiDung> dsNguoiDung = nguoiDungRepository.findAll(
+                Sort.by(Sort.Direction.DESC, "tongDiem")
+        );
+
+        // Top N người chơi
+        List<NguoiDungXepHangResponse> dsTop = new ArrayList<>();
+        int hang = 1;
+        for (NguoiDung nd : dsNguoiDung) {
+            if (hang > gioiHan) break;
+            int diem = nd.getTongDiem() != null ? nd.getTongDiem() : 0;
+            NguoiDungXepHangResponse item = new NguoiDungXepHangResponse(
+                    nd.getTenDangNhap(),
+                    diem,
+                    hang
+            );
+            dsTop.add(item);
+            hang++;
+        }
+        res.setTopNguoiDung(dsTop);
+
+        // Người dùng hiện tại (theo email)
+        NguoiDung ndHienTai = nguoiDungRepository.findByEmail(email);
+        if (ndHienTai != null) {
+            int diemNguoiDung = ndHienTai.getTongDiem() != null ? ndHienTai.getTongDiem() : 0;
+            int hangNguoiDung = nguoiDungRepository.layHangNguoiDungTheoDiem(diemNguoiDung);
+
+            NguoiDungXepHangResponse nguoiDungHienTai = new NguoiDungXepHangResponse(
+                    ndHienTai.getTenDangNhap(),
+                    diemNguoiDung,
+                    hangNguoiDung
+            );
+            res.setNguoiDungHienTai(nguoiDungHienTai);
+        } else {
+            res.setNguoiDungHienTai(null);
+        }
+
+        return res;
+    }
+
 }

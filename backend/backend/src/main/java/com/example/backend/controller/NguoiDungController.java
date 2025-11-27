@@ -3,6 +3,7 @@ package com.example.backend.controller;
 import com.example.backend.dto.request.LoginRequest;
 import com.example.backend.dto.request.RegisterRequest;
 import com.example.backend.dto.response.NguoiDungResponse;
+import com.example.backend.dto.response.XepHangResponse;
 import com.example.backend.service.IService.INguoiDungService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -78,5 +79,14 @@ public class NguoiDungController {
                     .badRequest()
                     .body(ex.getMessage());
         }
+    }
+    // API lấy xếp hạng
+    @GetMapping("/xep-hang")
+    public ResponseEntity<XepHangResponse> layXepHang(
+            @RequestParam String email,
+            @RequestParam(name = "gioiHan", defaultValue = "20") int gioiHan
+    ) {
+        XepHangResponse res = service.layXepHang(email, gioiHan);
+        return ResponseEntity.ok(res);
     }
 }

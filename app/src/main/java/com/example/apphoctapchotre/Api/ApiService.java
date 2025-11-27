@@ -1,6 +1,8 @@
 package com.example.apphoctapchotre.Api;
 
 import com.example.apphoctapchotre.model.NguoiDung;
+import com.example.apphoctapchotre.model.XepHangResponse;
+
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -8,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -33,4 +36,11 @@ public interface ApiService {
     //test api cho ae
     @GET("api/ping")
     Call<ResponseBody> pingServer();
+
+    @GET("api/nguoidung/xep-hang")
+    Call<XepHangResponse> layXepHang(
+            @Query("email") String email,
+            @Query("gioiHan") int gioiHan
+    );
+
 }

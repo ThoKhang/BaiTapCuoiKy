@@ -1,21 +1,40 @@
 package com.example.apphoctapchotre.model;
 
 public class XepHangItem {
-    private String username;
-    private int score;
 
-    public XepHangItem(String username, int score) {
-        this.username = username;
-        this.score = score;
+    // Thuộc tính tiếng Việt
+    private String tenNguoiChoi;
+    private int tongDiem;
+
+    // Constructor
+    public XepHangItem(String tenNguoiChoi, int tongDiem) {
+        this.tenNguoiChoi = tenNguoiChoi;
+        this.tongDiem = tongDiem;
     }
 
-    // ===== THÊM 2 DÒNG GETTER NÀY =====
+    public String getTenNguoiChoi() {
+        return tenNguoiChoi;
+    }
+
+    public void setTenNguoiChoi(String tenNguoiChoi) {
+        this.tenNguoiChoi = tenNguoiChoi;
+    }
+
+    public int getTongDiem() {
+        return tongDiem;
+    }
+
+    public void setTongDiem(int tongDiem) {
+        this.tongDiem = tongDiem;
+    }
+
+    // Adapter hiện đang dùng getUsername() và getScore()
+
     public String getUsername() {
-        return username;
+        return tenNguoiChoi;
     }
 
     public int getScore() {
-        return score;
+        return tongDiem;
     }
-    // ================================
 }
