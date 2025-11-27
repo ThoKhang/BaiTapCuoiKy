@@ -13,7 +13,9 @@ import android.provider.Settings;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -24,21 +26,32 @@ import java.util.Calendar;
 
 public class ThongBao extends AppCompatActivity {
 
+    // Constants
+    private static final String PREF_NAME = "ALARM_PREF";
+    private static final int NOTIFICATION_PERMISSION_CODE = 101;
+    private static final String TIME_FORMAT = "%02d:%02d";
+
+    // Views
     private SwitchMaterial switchMorning, switchNoon, switchEvening;
     private TextView txtMorningTime, txtNoonTime, txtEveningTime;
 
+    // Data
     private SharedPreferences pref;
-    private static final int NOTIFICATION_PERMISSION_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thongbao);
 
-        requestExactAlarmPermission();
-        requestNotificationPermission();
+        initializeViews();
+        requestPermissions();
+        loadSavedData();
+        setupListeners();
+    }
 
-        pref = getSharedPreferences("ALARM_PREF", MODE_PRIVATE);
+    // Khởi tạo các views
+    private void initializeViews() {
+        pref = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> onBackPressed());
@@ -50,25 +63,34 @@ public class ThongBao extends AppCompatActivity {
         txtMorningTime = findViewById(R.id.txtMorningTime);
         txtNoonTime = findViewById(R.id.txtNoonTime);
         txtEveningTime = findViewById(R.id.txtEveningTime);
+    }
 
-        loadSavedData();
+    //Yêu cầu các quyền cần thiết
+    private void requestPermissions() {
+        requestExactAlarmPermission();
+        requestNotificationPermission();
+    }
 
-        // mở dialog layout
-        txtMorningTime.setOnClickListener(v -> showTimePickerDialog("morning", txtMorningTime));
-        txtNoonTime.setOnClickListener(v -> showTimePickerDialog("noon", txtNoonTime));
-        txtEveningTime.setOnClickListener(v -> showTimePickerDialog("evening", txtEveningTime));
+    //Thiết lập các listeners
+    private void setupListeners() {
+        // TextView click listeners
+        txtMorningTime.setOnClickListener(v ->
+                showTimePickerDialog("morning", txtMorningTime));
+        txtNoonTime.setOnClickListener(v ->
+                showTimePickerDialog("noon", txtNoonTime));
+        txtEveningTime.setOnClickListener(v ->
+                showTimePickerDialog("evening", txtEveningTime));
 
+        // Switch change listeners
         switchMorning.setOnCheckedChangeListener((b, checked) ->
                 handleAlarm("morning", checked, txtMorningTime.getText().toString(), "Báo thức sáng"));
-
         switchNoon.setOnCheckedChangeListener((b, checked) ->
                 handleAlarm("noon", checked, txtNoonTime.getText().toString(), "Báo thức trưa"));
-
         switchEvening.setOnCheckedChangeListener((b, checked) ->
                 handleAlarm("evening", checked, txtEveningTime.getText().toString(), "Báo thức tối"));
     }
 
-    // Yêu cầu cấp quyền
+    //Yêu cầu quyền thông báo
     private void requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this,
@@ -82,27 +104,49 @@ public class ThongBao extends AppCompatActivity {
         }
     }
 
+    //Yêu cầu quyền đặt báo thức chính xác
     private void requestExactAlarmPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
             if (am != null && !am.canScheduleExactAlarms()) {
-                Intent i = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         }
     }
 
-    //load giờ đã cài trước đó
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showToast("Đã cấp quyền thông báo");
+            } else {
+                showToast("Cần cấp quyền thông báo để báo thức hoạt động");
+            }
+        }
+    }
+
+    //Load dữ liệu đã lưu
     private void loadSavedData() {
+        // Load thời gian
         txtMorningTime.setText(pref.getString("time_morning", "06:00"));
         txtNoonTime.setText(pref.getString("time_noon", "12:00"));
         txtEveningTime.setText(pref.getString("time_evening", "20:00"));
 
+        // Load trạng thái switch
         switchMorning.setChecked(pref.getBoolean("alarm_morning", false));
         switchNoon.setChecked(pref.getBoolean("alarm_noon", false));
         switchEvening.setChecked(pref.getBoolean("alarm_evening", false));
 
+        // Kích hoạt lại báo thức nếu đã bật trước đó
+        restoreActiveAlarms();
+    }
+
+    //Khôi phục các báo thức đã kích hoạt
+    private void restoreActiveAlarms() {
         if (switchMorning.isChecked()) {
             handleAlarm("morning", true, txtMorningTime.getText().toString(), "Báo thức sáng");
         }
@@ -114,71 +158,126 @@ public class ThongBao extends AppCompatActivity {
         }
     }
 
+    //Lưu thời gian vào SharedPreferences
     private void saveTime(String key, String value) {
         pref.edit().putString(key, value).apply();
     }
 
+    //Lưu trạng thái switch vào SharedPreferences
     private void saveSwitch(String key, boolean value) {
         pref.edit().putBoolean(key, value).apply();
     }
 
-    // hàm gọi dialog
+    //Hiển thị dialog chọn giờ
     private void showTimePickerDialog(String type, TextView targetView) {
-
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_time_picker);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        android.widget.TimePicker tp = dialog.findViewById(R.id.timePicker);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        TimePicker timePicker = dialog.findViewById(R.id.timePicker);
         Button btnOk = dialog.findViewById(R.id.btnOk);
         Button btnCancel = dialog.findViewById(R.id.btnCancel);
 
-        tp.setIs24HourView(true);
+        // Cấu hình TimePicker
+        timePicker.setIs24HourView(true);
+        setTimePickerValue(timePicker, targetView.getText().toString());
 
+        // Xử lý nút Cancel
         btnCancel.setOnClickListener(v -> dialog.dismiss());
 
+        // Xử lý nút OK
         btnOk.setOnClickListener(v -> {
-            int hour = tp.getHour();
-            int minute = tp.getMinute();
-
-            String time = String.format("%02d:%02d", hour, minute);
-
-            targetView.setText(time);
-            saveTime("time_" + type, time);
-
-            switch (type) {
-                case "morning":
-                    if (switchMorning.isChecked())
-                        handleAlarm("morning", true, time, "Báo thức sáng");
-                    break;
-
-                case "noon":
-                    if (switchNoon.isChecked())
-                        handleAlarm("noon", true, time, "Báo thức trưa");
-                    break;
-
-                case "evening":
-                    if (switchEvening.isChecked())
-                        handleAlarm("evening", true, time, "Báo thức tối");
-                    break;
-            }
-
+            String time = getTimeFromPicker(timePicker);
+            updateTimeAndAlarm(type, time, targetView);
             dialog.dismiss();
         });
 
         dialog.show();
     }
 
-    // Cài/ hủy báo thức
-    private void handleAlarm(String type, boolean enable, String timeText, String title) {
+    //Set giá trị cho TimePicker từ chuỗi thời gian
+    private void setTimePickerValue(TimePicker timePicker, String timeString) {
+        String[] parts = timeString.split(":");
+        int hour = Integer.parseInt(parts[0]);
+        int minute = Integer.parseInt(parts[1]);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            timePicker.setHour(hour);
+            timePicker.setMinute(minute);
+        } else {
+            timePicker.setCurrentHour(hour);
+            timePicker.setCurrentMinute(minute);
+        }
+    }
+
+    //Lấy thời gian từ TimePicker
+    private String getTimeFromPicker(TimePicker timePicker) {
+        int hour, minute;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            hour = timePicker.getHour();
+            minute = timePicker.getMinute();
+        } else {
+            hour = timePicker.getCurrentHour();
+            minute = timePicker.getCurrentMinute();
+        }
+
+        return String.format(TIME_FORMAT, hour, minute);
+    }
+
+    //Cập nhật thời gian và báo thức
+    private void updateTimeAndAlarm(String type, String time, TextView targetView) {
+        targetView.setText(time);
+        saveTime("time_" + type, time);
+
+        // Cập nhật báo thức nếu switch đang bật
+        boolean isEnabled = false;
+        String title = "";
+
+        switch (type) {
+            case "morning":
+                isEnabled = switchMorning.isChecked();
+                title = "Báo thức sáng";
+                break;
+            case "noon":
+                isEnabled = switchNoon.isChecked();
+                title = "Báo thức trưa";
+                break;
+            case "evening":
+                isEnabled = switchEvening.isChecked();
+                title = "Báo thức tối";
+                break;
+        }
+
+        if (isEnabled) {
+            handleAlarm(type, true, time, title);
+        }
+    }
+
+    //Xử lý đặt/hủy báo thức
+    private void handleAlarm(String type, boolean enable, String timeText, String title) {
         saveSwitch("alarm_" + type, enable);
 
-        String[] split = timeText.split(":");
-        int hour = Integer.parseInt(split[0]);
-        int minute = Integer.parseInt(split[1]);
-
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager == null) return;
+
+        PendingIntent pendingIntent = createAlarmPendingIntent(type, timeText, title);
+
+        if (enable) {
+            setAlarm(alarmManager, timeText, pendingIntent, title);
+        } else {
+            cancelAlarm(alarmManager, pendingIntent, title);
+        }
+    }
+
+    //Tạo PendingIntent cho báo thức
+    private PendingIntent createAlarmPendingIntent(String type, String timeText, String title) {
+        String[] parts = timeText.split(":");
+        int hour = Integer.parseInt(parts[0]);
+        int minute = Integer.parseInt(parts[1]);
 
         Intent intent = new Intent(this, AlarmReceiver.class);
         intent.putExtra("title", title);
@@ -187,42 +286,64 @@ public class ThongBao extends AppCompatActivity {
         intent.putExtra("hour", hour);
         intent.putExtra("minute", minute);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+        return PendingIntent.getBroadcast(
                 this,
                 type.hashCode(),
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
+    }
 
-        if (enable) {
+    //Đặt báo thức
+    private void setAlarm(AlarmManager alarmManager, String timeText,
+                          PendingIntent pendingIntent, String title) {
+        Calendar calendar = getAlarmCalendar(timeText);
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, hour);
-            calendar.set(Calendar.MINUTE, minute);
-            calendar.set(Calendar.SECOND, 0);
-
-            if (calendar.before(Calendar.getInstance())) {
-                calendar.add(Calendar.DAY_OF_MONTH, 1);
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(
-                        AlarmManager.RTC_WAKEUP,
-                        calendar.getTimeInMillis(),
-                        pendingIntent
-                );
-            } else {
-                alarmManager.setExact(
-                        AlarmManager.RTC_WAKEUP,
-                        calendar.getTimeInMillis(),
-                        pendingIntent
-                );
-            }
-
-            Toast.makeText(this, "Đã đặt " + title + " lúc " + timeText, Toast.LENGTH_SHORT).show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    pendingIntent
+            );
         } else {
-            alarmManager.cancel(pendingIntent);
-            Toast.makeText(this, "Đã hủy " + title, Toast.LENGTH_SHORT).show();
+            alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    pendingIntent
+            );
         }
+
+        showToast("Đã đặt " + title + " lúc " + timeText);
+    }
+
+    //Hủy báo thức
+    private void cancelAlarm(AlarmManager alarmManager, PendingIntent pendingIntent, String title) {
+        alarmManager.cancel(pendingIntent);
+        showToast("Đã hủy " + title);
+    }
+
+    //Tạo Calendar cho báo thức
+    private Calendar getAlarmCalendar(String timeText) {
+        String[] parts = timeText.split(":");
+        int hour = Integer.parseInt(parts[0]);
+        int minute = Integer.parseInt(parts[1]);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        // Nếu thời gian đã qua trong ngày, chuyển sang ngày mai
+        if (calendar.before(Calendar.getInstance())) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        return calendar;
+    }
+
+    //Hiển thị Toast message
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
