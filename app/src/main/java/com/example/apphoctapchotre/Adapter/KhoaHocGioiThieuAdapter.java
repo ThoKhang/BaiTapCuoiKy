@@ -54,8 +54,8 @@ public class KhoaHocGioiThieuAdapter extends RecyclerView.Adapter<KhoaHocGioiThi
 
         public KhoaHocViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgHinhAnh = itemView.findViewById(R.id.imgCourse);
-            txtTenKhoaHoc = itemView.findViewById(R.id.txtCourseName);
+            imgHinhAnh = itemView.findViewById(R.id.imgKhoaHoc);
+            txtTenKhoaHoc = itemView.findViewById(R.id.txtKhoaHoc);
             txtDiem = itemView.findViewById(R.id.txtRating);
             ratingBar = itemView.findViewById(R.id.ratingBar);
         }

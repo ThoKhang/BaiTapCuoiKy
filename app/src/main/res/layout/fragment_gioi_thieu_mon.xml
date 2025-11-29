@@ -7,7 +7,7 @@
     android:background="#F0F7FF">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCourses"
+        android:id="@+id/rvKhoaHoc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"

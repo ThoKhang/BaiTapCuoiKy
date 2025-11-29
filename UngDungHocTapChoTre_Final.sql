@@ -115,7 +115,8 @@ INSERT INTO NguoiDung (MaNguoiDung, TenDangNhap, Email, MatKhauMaHoa, TongDiem) 
 ('ND002', N'minhanh', N'minhanh@gmail.com', N'hash', 55),
 ('ND003', N'tuan', N'tuan@gmail.com', N'hash', 50),
 ('ND004', N'lananh', N'lananh@gmail.com', N'hash', 140),
-('ND005', N'khang', N'khangheheqt@gmail.com', N'123', 35);
+('ND005', N'khang', N'khangheheqt@gmail.com', N'123', 35),
+('ND006', N'huynh', N'huynh746926@gmail.com', N'123', 27);
 GO
 
 -- 2) MonHoc

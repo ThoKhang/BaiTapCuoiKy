@@ -73,18 +73,19 @@ public class NotificationHelper {
 
         // Tạo notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_alarm)
-                .setContentTitle(title)
-                .setContentText(desc)
-                .setContentIntent(contentIntent)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .setSound(alarmSound)
-                .setVibrate(new long[]{0, 1000, 500, 1000})
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setFullScreenIntent(contentIntent, true) // Hiển thị toàn màn hình khi khóa
-                .setOngoing(false);
+                .setSmallIcon(R.drawable.ic_alarm)                     // Icon nhỏ của thông báo (bắt buộc)
+                .setContentTitle(title)                                // Tiêu đề thông báo
+                .setContentText(desc)                                  // Nội dung thông báo
+                .setContentIntent(contentIntent)                       // Khi bấm vào thông báo → mở Activity
+                .setAutoCancel(true)                                   // Thông báo tự biến mất khi bấm vào
+                .setPriority(NotificationCompat.PRIORITY_HIGH)         // Ưu tiên cao (hiện dạng popup heads-up)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)        // Xếp loại báo thức -> quyền ưu tiên cao nhất
+                .setSound(alarmSound)                                  // Âm thanh báo thức
+                .setVibrate(new long[]{0, 1000, 500, 1000})            // Rung: bắt đầu ngay -> rung 1s -> nghỉ 0.5s -> rung 1s
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)   // Hiển thị đầy đủ trên màn hình khóa
+                .setFullScreenIntent(contentIntent, true)    //Mở toàn màn hình khi khóa máy (giống báo thức thật)
+                .setOngoing(false);                                    // Không cố định, có thể vuốt để xóa
+
 
         // Hiển thị notification
         if (nm != null) {
