@@ -99,7 +99,7 @@
                     android:textStyle="bold"/>
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchMorning"
+                    android:id="@+id/ctSang"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:thumbTint="#007BAA"
@@ -137,7 +137,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/txtMorningTime"
+                    android:id="@+id/txtGioSang"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="06:00  >"
@@ -175,7 +175,7 @@
                     android:textStyle="bold"/>
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchNoon"
+                    android:id="@+id/ctTrua"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:thumbTint="#007BAA"
@@ -213,7 +213,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/txtNoonTime"
+                    android:id="@+id/txtGioTrua"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10:20  >"
@@ -251,7 +251,7 @@
                     android:textStyle="bold"/>
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchEvening"
+                    android:id="@+id/ctToi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:thumbTint="#007BAA"
@@ -288,7 +288,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/txtEveningTime"
+                    android:id="@+id/txtGioToi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="19:20  >"

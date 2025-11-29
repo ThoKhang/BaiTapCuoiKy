@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -24,8 +25,8 @@ import java.util.Calendar;
 
 public class ThongBao extends AppCompatActivity {
 
-    private SwitchMaterial switchMorning, switchNoon, switchEvening;
-    private TextView txtMorningTime, txtNoonTime, txtEveningTime;
+    private SwitchMaterial ctSang, ctTrua, ctToi;
+    private TextView txtGioSang, txtGioTrua, txtGioToi;
 
     private SharedPreferences pref;
     private static final int NOTIFICATION_PERMISSION_CODE = 101;
@@ -43,29 +44,29 @@ public class ThongBao extends AppCompatActivity {
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> onBackPressed());
 
-        switchMorning = findViewById(R.id.switchMorning);
-        switchNoon = findViewById(R.id.switchNoon);
-        switchEvening = findViewById(R.id.switchEvening);
+        ctSang = findViewById(R.id.ctSang);
+        ctTrua = findViewById(R.id.ctTrua);
+        ctToi = findViewById(R.id.ctToi);
 
-        txtMorningTime = findViewById(R.id.txtMorningTime);
-        txtNoonTime = findViewById(R.id.txtNoonTime);
-        txtEveningTime = findViewById(R.id.txtEveningTime);
+        txtGioSang = findViewById(R.id.txtGioSang);
+        txtGioTrua = findViewById(R.id.txtGioTrua);
+        txtGioToi = findViewById(R.id.txtGioToi);
 
         loadSavedData();
 
         // mở dialog layout
-        txtMorningTime.setOnClickListener(v -> showTimePickerDialog("morning", txtMorningTime));
-        txtNoonTime.setOnClickListener(v -> showTimePickerDialog("noon", txtNoonTime));
-        txtEveningTime.setOnClickListener(v -> showTimePickerDialog("evening", txtEveningTime));
+        txtGioSang.setOnClickListener(v -> showTimePickerDialog("morning", txtGioSang));
+        txtGioTrua.setOnClickListener(v -> showTimePickerDialog("noon", txtGioTrua));
+        txtGioToi.setOnClickListener(v -> showTimePickerDialog("evening", txtGioToi));
 
-        switchMorning.setOnCheckedChangeListener((b, checked) ->
-                handleAlarm("morning", checked, txtMorningTime.getText().toString(), "Báo thức sáng"));
+        ctSang.setOnCheckedChangeListener((b, checked) ->
+                handleAlarm("morning", checked, txtGioSang.getText().toString(), "Báo thức sáng"));
 
-        switchNoon.setOnCheckedChangeListener((b, checked) ->
-                handleAlarm("noon", checked, txtNoonTime.getText().toString(), "Báo thức trưa"));
+        ctTrua.setOnCheckedChangeListener((b, checked) ->
+                handleAlarm("noon", checked, txtGioTrua.getText().toString(), "Báo thức trưa"));
 
-        switchEvening.setOnCheckedChangeListener((b, checked) ->
-                handleAlarm("evening", checked, txtEveningTime.getText().toString(), "Báo thức tối"));
+        ctToi.setOnCheckedChangeListener((b, checked) ->
+                handleAlarm("evening", checked, txtGioToi.getText().toString(), "Báo thức tối"));
     }
 
     // Yêu cầu cấp quyền
@@ -95,22 +96,22 @@ public class ThongBao extends AppCompatActivity {
 
     //load giờ đã cài trước đó
     private void loadSavedData() {
-        txtMorningTime.setText(pref.getString("time_morning", "06:00"));
-        txtNoonTime.setText(pref.getString("time_noon", "12:00"));
-        txtEveningTime.setText(pref.getString("time_evening", "20:00"));
+        txtGioSang.setText(pref.getString("time_morning", "06:00"));
+        txtGioTrua.setText(pref.getString("time_noon", "12:00"));
+        txtGioToi.setText(pref.getString("time_evening", "20:00"));
 
-        switchMorning.setChecked(pref.getBoolean("alarm_morning", false));
-        switchNoon.setChecked(pref.getBoolean("alarm_noon", false));
-        switchEvening.setChecked(pref.getBoolean("alarm_evening", false));
+        ctSang.setChecked(pref.getBoolean("alarm_morning", false));
+        ctTrua.setChecked(pref.getBoolean("alarm_noon", false));
+        ctToi.setChecked(pref.getBoolean("alarm_evening", false));
 
-        if (switchMorning.isChecked()) {
-            handleAlarm("morning", true, txtMorningTime.getText().toString(), "Báo thức sáng");
+        if (ctSang.isChecked()) {
+            handleAlarm("morning", true, txtGioSang.getText().toString(), "Báo thức sáng");
         }
-        if (switchNoon.isChecked()) {
-            handleAlarm("noon", true, txtNoonTime.getText().toString(), "Báo thức trưa");
+        if (ctTrua.isChecked()) {
+            handleAlarm("noon", true, txtGioTrua.getText().toString(), "Báo thức trưa");
         }
-        if (switchEvening.isChecked()) {
-            handleAlarm("evening", true, txtEveningTime.getText().toString(), "Báo thức tối");
+        if (ctToi.isChecked()) {
+            handleAlarm("evening", true, txtGioToi.getText().toString(), "Báo thức tối");
         }
     }
 
@@ -129,9 +130,9 @@ public class ThongBao extends AppCompatActivity {
         dialog.setContentView(R.layout.dialog_time_picker);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        android.widget.TimePicker tp = dialog.findViewById(R.id.timePicker);
+        android.widget.TimePicker tp = dialog.findViewById(R.id.DongHo);
         Button btnOk = dialog.findViewById(R.id.btnOk);
-        Button btnCancel = dialog.findViewById(R.id.btnCancel);
+        Button btnCancel = dialog.findViewById(R.id.btnHuy);
 
         tp.setIs24HourView(true);
 
@@ -148,17 +149,17 @@ public class ThongBao extends AppCompatActivity {
 
             switch (type) {
                 case "morning":
-                    if (switchMorning.isChecked())
+                    if (ctSang.isChecked())
                         handleAlarm("morning", true, time, "Báo thức sáng");
                     break;
 
                 case "noon":
-                    if (switchNoon.isChecked())
+                    if (ctTrua.isChecked())
                         handleAlarm("noon", true, time, "Báo thức trưa");
                     break;
 
                 case "evening":
-                    if (switchEvening.isChecked())
+                    if (ctToi.isChecked())
                         handleAlarm("evening", true, time, "Báo thức tối");
                     break;
             }

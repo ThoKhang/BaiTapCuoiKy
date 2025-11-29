@@ -12,6 +12,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
 import com.example.apphoctapchotre.Activity.CungCo.cungcokienthuc;
+import com.example.apphoctapchotre.Activity.OnLuyen.OnLuyen;
 
 public class BangCuuChuong extends AppCompatActivity {
 
@@ -46,7 +47,7 @@ public class BangCuuChuong extends AppCompatActivity {
         AppCompatButton btnLuyenTap = findViewById(R.id.btnLuyenTap);
 
         btnLuyenTap.setOnClickListener(v -> {
-            Intent intent = new Intent(BangCuuChuong.this, cungcokienthuc.class);
+            Intent intent = new Intent(BangCuuChuong.this, OnLuyen.class);
             startActivity(intent);
         });
 

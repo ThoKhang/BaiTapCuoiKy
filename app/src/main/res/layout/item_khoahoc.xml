@@ -10,7 +10,7 @@
 
     <!-- Hình khóa học -->
     <ImageView
-        android:id="@+id/imgCourse"
+        android:id="@+id/imgKhoaHoc"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:scaleType="centerCrop"
@@ -25,7 +25,7 @@
         android:layout_marginStart="12dp">
 
         <TextView
-            android:id="@+id/txtCourseName"
+            android:id="@+id/txtKhoaHoc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tên khóa học"

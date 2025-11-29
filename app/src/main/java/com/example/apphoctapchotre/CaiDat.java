@@ -7,6 +7,9 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.example.apphoctapchotre.Activity.Account.DangNhap.GiaoDienDangNhap;
+import com.google.android.material.button.MaterialButton;
+
 
 public class CaiDat extends AppCompatActivity {
 
@@ -16,6 +19,7 @@ public class CaiDat extends AppCompatActivity {
         setContentView(R.layout.activity_cai_dat);
 
         ImageButton btnBack = findViewById(R.id.btnBack);
+        MaterialButton btnLogOut = findViewById(R.id.btnLogOut);
         CardView itemGioiThieu = findViewById(R.id.itemGioiThieu);
         CardView itemThongBao = findViewById(R.id.itemThongBao);
         CardView itemNgonNgu = findViewById(R.id.itemNgonNgu);
@@ -23,6 +27,14 @@ public class CaiDat extends AppCompatActivity {
 
 
         btnBack.setOnClickListener(v -> finish());
+        btnLogOut.setOnClickListener(v -> {
+            Intent intent = new Intent(this, GiaoDienDangNhap.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
 
         itemGioiThieu.setOnClickListener(v ->
                 startActivity(new Intent(this, GioiThieuKHViewPager.class))

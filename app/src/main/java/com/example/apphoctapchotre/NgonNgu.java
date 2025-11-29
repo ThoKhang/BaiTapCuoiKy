@@ -17,7 +17,7 @@ public class NgonNgu extends AppCompatActivity {
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> onBackPressed());
 
-        RadioGroup radioGroup = findViewById(R.id.radioGroupLang);
+        RadioGroup radioGroup = findViewById(R.id.radioGroup);
         RadioButton rbViet = findViewById(R.id.rbViet);
         RadioButton rbAnh = findViewById(R.id.rbAnh);
 

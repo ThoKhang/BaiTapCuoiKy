@@ -37,7 +37,7 @@ public class GioiThieuMonFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        RecyclerView rv = view.findViewById(R.id.rvCourses);
+        RecyclerView rv = view.findViewById(R.id.rvKhoaHoc);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
         monHoc = getArguments().getString(ARG_MON);

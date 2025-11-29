@@ -7,7 +7,7 @@
     android:background="@drawable/bg_board">
 
     <TextView
-        android:id="@+id/txtDialogTitle"
+        android:id="@+id/txtTieuDe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Chọn giờ báo thức"
@@ -25,7 +25,7 @@
         android:padding="8dp">
 
         <TimePicker
-            android:id="@+id/timePicker"
+            android:id="@+id/DongHo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:timePickerMode="spinner"
@@ -40,7 +40,7 @@
         android:paddingTop="14dp">
 
         <Button
-            android:id="@+id/btnCancel"
+            android:id="@+id/btnHuy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hủy"
