@@ -18,7 +18,7 @@ public interface LichSuHoatDongRepository extends JpaRepository<LichSuHoatDong, 
            "AND l.loaiDiem = :loaiDiem")
     int tongDiemTheoLoai(@Param("maNguoiDung") String maNguoiDung,
                          @Param("loaiDiem") String loaiDiem);
-    
+    //trigger
     //tổng tất cả điểm (mọi loại điểm)
     @Query("SELECT COALESCE(SUM(l.soDiem), 0) " +
            "FROM LichSuHoatDong l " +
