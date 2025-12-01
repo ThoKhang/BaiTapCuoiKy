@@ -4,32 +4,25 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.model.ui.LyThuyetItem;
-
+import com.example.apphoctapchotre.model.ui.LyThuyetItemResponse;
 import java.util.List;
-
-// Trong file LyThuyetAdapter.java
 
 public class LyThuyetAdapter extends RecyclerView.Adapter<LyThuyetAdapter.LyThuyetViewHolder> {
 
-    private final List<LyThuyetItem> list;
+    private final List<LyThuyetItemResponse> list;
     private final Context context;
-    private final OnItemClickListener listener;  // Thêm dòng này
+    private final OnItemClickListener listener;
 
-    // Interface để truyền sự kiện click ra ngoài
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    // Constructor mới có thêm listener
-    public LyThuyetAdapter(Context context, List<LyThuyetItem> list, OnItemClickListener listener) {
+    public LyThuyetAdapter(Context context, List<LyThuyetItemResponse> list, OnItemClickListener listener) {
         this.context = context;
         this.list = list;
         this.listener = listener;
@@ -44,17 +37,21 @@ public class LyThuyetAdapter extends RecyclerView.Adapter<LyThuyetAdapter.LyThuy
 
     @Override
     public void onBindViewHolder(@NonNull LyThuyetViewHolder holder, int position) {
-        LyThuyetItem item = list.get(position);
+        LyThuyetItemResponse item = list.get(position);
 
         holder.tvTieuDe.setText(item.getTieuDe());
-        holder.tvDiem.setText("+" + item.getDiemThuong() + " điểm");
 
-        // Xử lý click ở đây
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onItemClick(position);
-            }
-        });
+        // CHƯA HỌC → +10 | ĐÃ HỌC → TICK VÀNG
+        if (item.isDaHoanThanh()) {
+            holder.tvDiem.setVisibility(View.GONE);
+            holder.imgDone.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvDiem.setVisibility(View.VISIBLE);
+            holder.tvDiem.setText("+10 điểm");
+            holder.imgDone.setVisibility(View.GONE);
+        }
+
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(position));
     }
 
     @Override
@@ -64,13 +61,13 @@ public class LyThuyetAdapter extends RecyclerView.Adapter<LyThuyetAdapter.LyThuy
 
     public static class LyThuyetViewHolder extends RecyclerView.ViewHolder {
         TextView tvTieuDe, tvDiem;
-        FrameLayout itemContainer;
+        ImageView imgDone;
 
         public LyThuyetViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTieuDe = itemView.findViewById(R.id.tvTieuDe);
             tvDiem = itemView.findViewById(R.id.tvDiem);
-            itemContainer = itemView.findViewById(R.id.itemContainer);
+            imgDone = itemView.findViewById(R.id.imgDone);
         }
     }
 }

@@ -54,7 +54,7 @@
         <!-- android:name=".monhoctoan" -->
         <!-- android:exported="false" /> -->
         <activity android:name=".BangCuuChuong" />
-        <activity android:name=".Activity.MonHoc.NoiDungTiengViet" />
+        <activity android:name=".Activity.MonHoc.NoiDungLyThuyet" />
         <activity android:name=".Thuthach100Cau" />
         <activity android:name=".CauHoi100" />
         <activity

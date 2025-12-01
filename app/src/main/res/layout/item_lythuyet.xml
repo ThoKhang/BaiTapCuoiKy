@@ -6,14 +6,10 @@
     android:layout_marginTop="17dp"
     android:background="@drawable/gradient_lythuyetcoban">
 
-    <!-- Bọc toàn bộ nội dung -->
     <LinearLayout
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -25,17 +21,27 @@
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:fontFamily="@font/robotothin"
-            android:text="Đề ..."
+            android:text="Phép cộng cơ bản"
             android:textSize="16sp"/>
 
+        <!-- +10 điểm (chưa học) -->
         <TextView
             android:id="@+id/tvDiem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+50 điểm"
+            android:text="+10 điểm"
             android:textStyle="bold"
             android:textSize="14sp"
-            android:textColor="#FDC858"/>
-    </LinearLayout>
+            android:textColor="#FDC858" />
 
+        <!-- Tick vàng (khi đã hiểu) -->
+        <ImageView
+            android:id="@+id/imgDone"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/yellow_tick"
+            android:visibility="gone" />
+
+    </LinearLayout>
 </FrameLayout>

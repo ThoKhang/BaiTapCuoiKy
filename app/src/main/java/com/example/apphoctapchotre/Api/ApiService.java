@@ -3,8 +3,11 @@ package com.example.apphoctapchotre.Api;
 import com.example.apphoctapchotre.model.LichSuDiemResponse;
 import com.example.apphoctapchotre.model.NguoiDung;
 import com.example.apphoctapchotre.model.XepHangResponse;
-
+import com.example.apphoctapchotre.model.ui.HoanThanhLyThuyetRequest;
+import com.example.apphoctapchotre.model.ui.LyThuyetDetailResponse;
+import com.example.apphoctapchotre.model.ui.LyThuyetItemResponse;
 import java.util.Map;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -46,5 +49,18 @@ public interface ApiService {
 
     @POST("api/nguoidung/lich-su-diem")
     Call<LichSuDiemResponse> layLichSuDiem(@Body Map<String, String> body);
+    
+    @GET("api/lythuyet/danh-sach")
+    Call<List<LyThuyetItemResponse>> getDanhSach(
+            @Query("email") String email,
+            @Query("mon") String maMonHoc);   // MH001 = Toán, MH002 = Tiếng Việt
+    
+    @GET("api/lythuyet/chi-tiet")
+    Call<LyThuyetDetailResponse> getChiTietLyThuyet(
+            @Query("maHoatDong") String maHoatDong,
+            @Query("email") String email
+    );
 
+    @POST("api/lythuyet/hoan-thanh")
+    Call<ResponseBody> hoanThanh(@Body HoanThanhLyThuyetRequest request);
 }
