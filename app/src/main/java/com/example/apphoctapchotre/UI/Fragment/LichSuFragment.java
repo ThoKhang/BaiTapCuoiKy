@@ -13,25 +13,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.UI.Adapter.DiemChiTiet.AdapterDiemChiTiet;
-import com.example.apphoctapchotre.DATA.remote.ApiService;
-import com.example.apphoctapchotre.DATA.remote.RetrofitClient;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.DATA.model.DiemChiTiet;
-import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
+import com.example.apphoctapchotre.UI.viewmodel.LichSuViewModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LichSuFragment extends Fragment {
 
@@ -39,6 +32,8 @@ public class LichSuFragment extends Fragment {
     private RecyclerView danhSachChiTiet;
     private AdapterDiemChiTiet adapter;
     private final List<DiemChiTiet> danhSachMau = new ArrayList<>();
+
+    private LichSuViewModel lichSuViewModel;
 
     @Nullable
     @Override
@@ -48,6 +43,7 @@ public class LichSuFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_lich_su, container, false);
 
+        // Ánh xạ view
         tvTongDiem = view.findViewById(R.id.tvTongDiem);
         tvDiemKiemTra = view.findViewById(R.id.tvDiemKiemTra);
         tvDiemHoatDong = view.findViewById(R.id.tvDiemHoatDong);
@@ -66,62 +62,57 @@ public class LichSuFragment extends Fragment {
             }
         });
 
-        // Gọi API lấy dữ liệu thật
-        taiLichSuDiem();
+        // Khởi tạo ViewModel
+        lichSuViewModel = new ViewModelProvider(this).get(LichSuViewModel.class);
+
+        // Đăng ký observe LiveData
+        observeViewModel();
+
+        // Lấy email & gọi load dữ liệu
+        String email = docEmailNguoiDung();
+        lichSuViewModel.taiLichSuDiem(email);
 
         return view;
     }
 
-    private void taiLichSuDiem() {
+    private String docEmailNguoiDung() {
         Context context = requireContext();
         SharedPreferences prefs = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        String email = prefs.getString("userEmail", null);
+        return prefs.getString("userEmail", "");
+    }
 
-        if (email == null || email.isEmpty()) {
-            Toast.makeText(context, "Không tìm thấy người dùng, vui lòng đăng nhập lại!", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    private void observeViewModel() {
+        // Tổng điểm
+        lichSuViewModel.getTongDiem().observe(getViewLifecycleOwner(), tong -> {
+            tvTongDiem.setText(String.valueOf(tong));
+        });
 
-        Map<String, String> body = new HashMap<>();
-        body.put("email", email);
+        // Điểm kiểm tra
+        lichSuViewModel.getDiemKiemTra().observe(getViewLifecycleOwner(), diem -> {
+            tvDiemKiemTra.setText(String.valueOf(diem));
+        });
 
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        apiService.layLichSuDiem(body).enqueue(new Callback<LichSuDiemResponse>() {
-            @Override
-            public void onResponse(Call<LichSuDiemResponse> call, Response<LichSuDiemResponse> response) {
-                if (!isAdded()) return; // tránh crash khi fragment đã detach
+        // Điểm hoạt động
+        lichSuViewModel.getDiemHoatDong().observe(getViewLifecycleOwner(), diem -> {
+            tvDiemHoatDong.setText(String.valueOf(diem));
+        });
 
-                if (response.isSuccessful() && response.body() != null) {
-                    LichSuDiemResponse duLieu = response.body();
-
-                    // Set điểm
-                    tvTongDiem.setText(String.valueOf(duLieu.getTongDiem()));
-                    tvDiemKiemTra.setText(String.valueOf(duLieu.getDiemKiemTra()));
-                    tvDiemHoatDong.setText(String.valueOf(duLieu.getDiemHoatDong()));
-
-                    // Set danh sách chi tiết
-                    danhSachMau.clear();
-                    if (duLieu.getDanhSachChiTiet() != null) {
-                        danhSachMau.addAll(duLieu.getDanhSachChiTiet());
-                    }
-                    adapter.notifyDataSetChanged();
-
-                } else {
-                    String msg = "Lỗi tải lịch sử điểm!";
-                    try {
-                        if (response.errorBody() != null) {
-                            msg = response.errorBody().string();
-                        }
-                    } catch (Exception ignored) {}
-                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-                }
+        // Danh sách chi tiết
+        lichSuViewModel.getDanhSachChiTiet().observe(getViewLifecycleOwner(), list -> {
+            danhSachMau.clear();
+            if (list != null) {
+                danhSachMau.addAll(list);
             }
+            adapter.notifyDataSetChanged();
+        });
 
-            @Override
-            public void onFailure(Call<LichSuDiemResponse> call, Throwable t) {
-                if (!isAdded()) return;
-                Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+        // Lỗi
+        lichSuViewModel.getLoiLiveData().observe(getViewLifecycleOwner(), msg -> {
+            if (msg != null && !msg.isEmpty() && isAdded()) {
+                Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Nếu muốn dùng ProgressBar thì observe thêm getDangTaiLiveData()
     }
 }
