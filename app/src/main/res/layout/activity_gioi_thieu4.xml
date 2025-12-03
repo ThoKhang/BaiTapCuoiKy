@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.FragmentGioiThieu4">
+    tools:context=".UI.Fragment.FragmentGioiThieu4">
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"

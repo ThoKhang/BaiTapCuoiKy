@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.apphoctapchotre.Activity.CungCo.cungcokienthuc;
-import com.example.apphoctapchotre.Activity.OnLuyen.OnLuyen;
+import com.example.apphoctapchotre.UI.Activity.CungCo.cungcokienthuc;
+import com.example.apphoctapchotre.UI.Activity.OnLuyen.OnLuyen;
 
 import java.util.List;
 
