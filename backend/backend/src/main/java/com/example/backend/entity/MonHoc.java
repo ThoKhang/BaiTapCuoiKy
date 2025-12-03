@@ -17,10 +17,6 @@ import lombok.Setter;
  *
  * @author ADMIN
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "MonHoc")
 public class MonHoc {
@@ -31,4 +27,29 @@ public class MonHoc {
 
     @Column(name = "TenMonHoc", nullable = false, unique = true, length = 50)
     private String tenMonHoc;
+
+    public MonHoc(String maMonHoc, String tenMonHoc) {
+        this.maMonHoc = maMonHoc;
+        this.tenMonHoc = tenMonHoc;
+    }
+
+    public MonHoc() {
+    }
+
+    public String getMaMonHoc() {
+        return maMonHoc;
+    }
+
+    public void setMaMonHoc(String maMonHoc) {
+        this.maMonHoc = maMonHoc;
+    }
+
+    public String getTenMonHoc() {
+        return tenMonHoc;
+    }
+
+    public void setTenMonHoc(String tenMonHoc) {
+        this.tenMonHoc = tenMonHoc;
+    }
+    
 }

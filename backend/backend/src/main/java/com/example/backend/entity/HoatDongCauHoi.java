@@ -21,10 +21,6 @@ import lombok.Setter;
  *
  * @author ADMIN
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "HoatDong_CauHoi")
 public class HoatDongCauHoi {
@@ -49,6 +45,7 @@ public class HoatDongCauHoi {
     public void setCauHoi(CauHoi cauHoi) { this.cauHoi = cauHoi; }
     public Integer getThuTu() { return thuTu; }
     public void setThuTu(Integer thuTu) { this.thuTu = thuTu; }
+    
 }
 
 

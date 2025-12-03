@@ -19,10 +19,6 @@ import lombok.Setter;
  *
  * @author ADMIN
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "DapAn")
 public class DapAn {
@@ -40,6 +36,49 @@ public class DapAn {
 
     @Column(name = "LaDapAnDung")
     private Boolean laDapAnDung;
+
+    public DapAn() {
+    }
+
+    public DapAn(String maDapAn, CauHoi cauHoi, String noiDung, Boolean laDapAnDung) {
+        this.maDapAn = maDapAn;
+        this.cauHoi = cauHoi;
+        this.noiDung = noiDung;
+        this.laDapAnDung = laDapAnDung;
+    }
+
+    public String getMaDapAn() {
+        return maDapAn;
+    }
+
+    public void setMaDapAn(String maDapAn) {
+        this.maDapAn = maDapAn;
+    }
+
+    public CauHoi getCauHoi() {
+        return cauHoi;
+    }
+
+    public void setCauHoi(CauHoi cauHoi) {
+        this.cauHoi = cauHoi;
+    }
+
+    public String getNoiDung() {
+        return noiDung;
+    }
+
+    public void setNoiDung(String noiDung) {
+        this.noiDung = noiDung;
+    }
+
+    public Boolean getLaDapAnDung() {
+        return laDapAnDung;
+    }
+
+    public void setLaDapAnDung(Boolean laDapAnDung) {
+        this.laDapAnDung = laDapAnDung;
+    }
+    
 
 }
 
