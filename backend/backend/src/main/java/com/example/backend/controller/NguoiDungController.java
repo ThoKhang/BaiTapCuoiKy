@@ -89,7 +89,7 @@ public class NguoiDungController {
         XepHangResponse res = service.layXepHang(email, gioiHan);
         return ResponseEntity.ok(res);
     }
-    
+  
     @PostMapping("/lich-su-diem")
     public ResponseEntity<?> lichSuDiem(@RequestBody Map<String, String> body) {
         String email = body.get("email");
