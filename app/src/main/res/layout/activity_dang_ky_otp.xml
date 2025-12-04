@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Account.DangKy.DangKyOTP">
+    tools:context=".UI.Activity.Account.DangKy.DangKyOTP">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

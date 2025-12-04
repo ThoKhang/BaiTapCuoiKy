@@ -1,0 +1,40 @@
+package com.example.apphoctapchotre.UI.Adapter.GioiThieu;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.example.apphoctapchotre.UI.Fragment.FragmentGioiThieu1;
+import com.example.apphoctapchotre.UI.Fragment.FragmentGioiThieu2;
+import com.example.apphoctapchotre.UI.Fragment.FragmentGioiThieu3;
+import com.example.apphoctapchotre.UI.Fragment.FragmentGioiThieu4;
+
+public class OnboardingAdapter extends FragmentStateAdapter {
+
+    public OnboardingAdapter(@NonNull FragmentActivity fragmentActivity) {
+        super(fragmentActivity);
+    }
+
+    @NonNull
+    @Override
+    public Fragment createFragment(int position) {
+        switch (position) {
+            case 0:
+                return new FragmentGioiThieu1();
+            case 1:
+                return new FragmentGioiThieu2();
+            case 2:
+                return new FragmentGioiThieu3();
+            case 3:
+                return new FragmentGioiThieu4();
+            default:
+                return new FragmentGioiThieu1();  // Default
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return 4;  // Số lượng màn hình (thêm nếu cần)
+    }
+}

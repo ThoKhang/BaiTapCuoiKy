@@ -12,6 +12,8 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.apphoctapchotre.UI.Activity.Settings.ThongBao;
+
 public class NotificationHelper {
 
     public static final String CHANNEL_ID = "alarm_channel";
