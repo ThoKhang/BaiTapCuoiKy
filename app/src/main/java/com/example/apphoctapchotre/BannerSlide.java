@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.apphoctapchotre.UI.Activity.CungCo.cungcokienthuc;
+import com.example.apphoctapchotre.UI.Activity.CungCo.CungCoActivity;
 import com.example.apphoctapchotre.UI.Activity.OnLuyen.OnLuyen;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public class BannerSlide extends RecyclerView.Adapter<BannerSlide.BannerViewHold
 
             if (position == 0) {
                 // Banner 1: Củng cố kiến thức
-                intent = new Intent(context, cungcokienthuc.class);
+                intent = new Intent(context, CungCoActivity.class);
             } else if (position == 1) {
                 // Banner 2: Ôn luyện
                 intent = new Intent(context, OnLuyen.class);

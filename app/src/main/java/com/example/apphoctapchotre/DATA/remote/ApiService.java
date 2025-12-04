@@ -3,7 +3,7 @@ package com.example.apphoctapchotre.DATA.remote;
 import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
 import com.example.apphoctapchotre.DATA.model.NguoiDung;
 import com.example.apphoctapchotre.DATA.model.XepHangResponse;
-
+import com.example.apphoctapchotre.DATA.model.CungCoResponse;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -11,7 +11,9 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
+import java.util.List;
 
 public interface ApiService {
 
@@ -46,5 +48,9 @@ public interface ApiService {
 
     @POST("api/nguoidung/lich-su-diem")
     Call<LichSuDiemResponse> layLichSuDiem(@Body Map<String, String> body);
+
+    @GET("cungco/tiendo/{maNguoiDung}")
+    Call<List<CungCoResponse>> getTienDo(@Path("maNguoiDung") String maNguoiDung);
+
 
 }
