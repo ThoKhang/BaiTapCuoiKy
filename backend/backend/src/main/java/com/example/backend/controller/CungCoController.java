@@ -28,4 +28,14 @@ public class CungCoController {
     public ResponseEntity<?> getDanhSachCungCo(@PathVariable String maMonHoc) {
         return ResponseEntity.ok(service.getCungCoByMonHoc(maMonHoc));
     }
+
+    // ==========================================
+    // 3) API Lấy Danh Sách Bài Củng Cố Mà Người Dùng ĐÃ LÀM
+    // ==========================================
+    @GetMapping("/dalams")
+    public ResponseEntity<?> getCungCoDaLam(
+            @RequestParam String maMonHoc,
+            @RequestParam String maNguoiDung) {
+        return ResponseEntity.ok(service.getCungCoDaLam(maMonHoc, maNguoiDung));
+    }
 }

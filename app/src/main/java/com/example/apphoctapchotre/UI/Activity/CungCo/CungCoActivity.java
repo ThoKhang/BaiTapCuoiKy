@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.UI.ViewModel.CungCoViewModel;
 import com.example.apphoctapchotre.UI.Activity.CungCo.CungCoActivity2;
+import com.example.apphoctapchotre.UI.ViewModel.CungCoViewModel;
 
 public class CungCoActivity extends AppCompatActivity {
 
@@ -33,6 +33,12 @@ public class CungCoActivity extends AppCompatActivity {
 
         btnTiengViet = findViewById(R.id.btnTiengViet);
         btnToan = findViewById(R.id.btnToan);
+
+        TextView btnBack = findViewById(R.id.back);
+
+        btnBack.setOnClickListener(v -> {
+            finish(); // hoặc onBackPressed();
+        });
 
         // Tạo ViewModel
         CungCoViewModel viewModel = new ViewModelProvider(this).get(CungCoViewModel.class);
@@ -65,14 +71,14 @@ public class CungCoActivity extends AppCompatActivity {
         // ============================
 
         btnTiengViet.setOnClickListener(v -> {
-            Intent intent = new Intent(CungCoActivity.this, MonHocActivity2.class);
+            Intent intent = new Intent(CungCoActivity.this, CungCoActivity2.class);
             intent.putExtra("maMonHoc", "MH002");
             intent.putExtra("tenMonHoc", "Tiếng Việt");
             startActivity(intent);
         });
 
         btnToan.setOnClickListener(v -> {
-            Intent intent = new Intent(CungCoActivity.this, MonHocActivity2.class);
+            Intent intent = new Intent(CungCoActivity.this, CungCoActivity2.class);
             intent.putExtra("maMonHoc", "MH001");
             intent.putExtra("tenMonHoc", "Toán");
             startActivity(intent);

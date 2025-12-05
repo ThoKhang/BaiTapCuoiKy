@@ -23,7 +23,7 @@ import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.DATA.model.NguoiDungXepHang;
 import com.example.apphoctapchotre.DATA.model.XepHangItem;
 import com.example.apphoctapchotre.DATA.model.XepHangResponse;
-import com.example.apphoctapchotre.UI.viewmodel.XepHangViewModel;
+import com.example.apphoctapchotre.UI.ViewModel.XepHangViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

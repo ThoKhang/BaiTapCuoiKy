@@ -4,6 +4,9 @@ import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
 import com.example.apphoctapchotre.DATA.model.NguoiDung;
 import com.example.apphoctapchotre.DATA.model.XepHangResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoResponse;
+import com.example.apphoctapchotre.DATA.model.CungCoMonHocResponse;
+import com.example.apphoctapchotre.DATA.model.CungCoDaLamResponse;
+
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -52,5 +55,17 @@ public interface ApiService {
     @GET("cungco/tiendo/{maNguoiDung}")
     Call<List<CungCoResponse>> getTienDo(@Path("maNguoiDung") String maNguoiDung);
 
+    @GET("cungco/monhoc/{maMonHoc}")
+    Call<List<CungCoMonHocResponse>> getDanhSachCungCo(
+            @Path("maMonHoc") String maMonHoc
+    );
 
+    // ====================================================
+    // LẤY BÀI CỦNG CỐ MÀ NGƯỜI DÙNG ĐÃ LÀM
+    // ====================================================
+    @GET("cungco/dalams")
+    Call<List<CungCoDaLamResponse>> getCungCoDaLam(
+            @Query("maMonHoc") String maMonHoc,
+            @Query("maNguoiDung") String maNguoiDung
+    );
 }
