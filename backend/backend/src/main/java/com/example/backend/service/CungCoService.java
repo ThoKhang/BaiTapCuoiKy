@@ -1,16 +1,22 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.response.CungCoMonHocResponse;
 import com.example.backend.dto.response.CungCoDaLamResponse;
+import com.example.backend.dto.response.CungCoMonHocResponse;
 import com.example.backend.dto.response.TienDoResponse;
+import com.example.backend.entity.TienTrinhHocTap;
+import com.example.backend.repository.HoatDongHocTapRepository;
+import com.example.backend.repository.NguoiDungRepository;
+import com.example.backend.repository.TienTrinhHocTapRepository;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class CungCoService {
@@ -18,8 +24,16 @@ public class CungCoService {
     @Autowired
     private EntityManager em;
 
+    @Autowired
+    private TienTrinhHocTapRepository tienTrinhRepo;
+
+    @Autowired
+    private NguoiDungRepository nguoiDungRepo;
+
+    @Autowired
+    private HoatDongHocTapRepository hoatDongRepo;
     // ======================================================
-    // 1) HÀM CŨ: LẤY TIẾN ĐỘ
+    // 1) TIẾN ĐỘ THEO MÔN
     // ======================================================
     public List<TienDoResponse> getTienDo(String maNguoiDung) {
 
@@ -66,7 +80,7 @@ public class CungCoService {
     }
 
     // ======================================================
-    // 2) HÀM CŨ: LẤY DANH SÁCH BÀI CỦNG CỐ CỦA MỘT MÔN
+    // 2) DANH SÁCH CỦNG CỐ THEO MÔN
     // ======================================================
     public List<CungCoMonHocResponse> getCungCoByMonHoc(String maMonHoc) {
 
@@ -96,7 +110,7 @@ public class CungCoService {
     }
 
     // ======================================================
-    // 3) HÀM MỚI: LẤY TẤT CẢ BÀI CỦNG CỐ (đã làm + chưa làm)
+    // 3) DANH SÁCH CỦNG CỐ (ĐÃ LÀM + CHƯA LÀM)
     // ======================================================
     public List<CungCoDaLamResponse> getCungCoDaLam(String maMonHoc, String maNguoiDung) {
 
@@ -141,7 +155,6 @@ public class CungCoService {
             int soCauDaLam = ((Number) r[5]).intValue();
             int diemDatDuoc = ((Number) r[6]).intValue();
 
-            // Fix: DaHoanThanh là Boolean hoặc Integer tùy database
             boolean daHoanThanh = false;
             if (r[7] instanceof Boolean) {
                 daHoanThanh = (Boolean) r[7];
@@ -149,13 +162,64 @@ public class CungCoService {
                 daHoanThanh = ((Number) r[7]).intValue() == 1;
             }
 
-            java.time.LocalDateTime ngayBatDau = r[8] != null ? ((java.sql.Timestamp) r[8]).toLocalDateTime() : null;
-            java.time.LocalDateTime ngayHoanThanh = r[9] != null ? ((java.sql.Timestamp) r[9]).toLocalDateTime() : null;
+            LocalDateTime ngayBatDau = r[8] != null ? ((java.sql.Timestamp) r[8]).toLocalDateTime() : null;
+            LocalDateTime ngayHoanThanh = r[9] != null ? ((java.sql.Timestamp) r[9]).toLocalDateTime() : null;
 
-            result.add(new CungCoDaLamResponse(maHoatDong, tieuDe, moTa, tongDiemToiDa,
-                    soCauDung, soCauDaLam, diemDatDuoc, daHoanThanh, ngayBatDau, ngayHoanThanh));
+            result.add(new CungCoDaLamResponse(
+                    maHoatDong,
+                    tieuDe,
+                    moTa,
+                    tongDiemToiDa,
+                    soCauDung,
+                    soCauDaLam,
+                    diemDatDuoc,
+                    daHoanThanh,
+                    ngayBatDau,
+                    ngayHoanThanh
+            ));
         }
 
         return result;
+    }
+
+    // ===============================
+    // 4) HOÀN THÀNH HOẠT ĐỘNG
+    // ===============================
+    public boolean hoanThanhHoatDong(
+            String maNguoiDung,
+            String maHoatDong,
+            int soCauDung,
+            int tongCauHoi,
+            int diem) {
+
+        // Tìm bản ghi tiến trình nếu có
+        TienTrinhHocTap tt = tienTrinhRepo
+                .findByNguoiDung_MaNguoiDungAndHoatDong_MaHoatDong(maNguoiDung, maHoatDong)
+                .orElse(null);
+
+        // Nếu chưa có → tạo mới
+        if (tt == null) {
+
+            tt = new TienTrinhHocTap();
+
+            // Tạo ID mới
+            long count = tienTrinhRepo.count() + 1;
+            String id = "TT" + String.format("%03d", count);
+            tt.setMaTienTrinh(id);
+
+            tt.setNguoiDung(nguoiDungRepo.findById(maNguoiDung).orElseThrow());
+            tt.setHoatDong(hoatDongRepo.findById(maHoatDong).orElseThrow());
+            tt.setNgayBatDau(LocalDateTime.now());
+        }
+
+        // Cập nhật dữ liệu
+        tt.setSoCauDung(soCauDung);
+        tt.setSoCauDaLam(tongCauHoi);
+        tt.setDiemDatDuoc(diem);
+        tt.setDaHoanThanh(true);
+        tt.setNgayHoanThanh(LocalDateTime.now());
+
+        tienTrinhRepo.save(tt);
+        return true;
     }
 }

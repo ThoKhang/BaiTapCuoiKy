@@ -1,5 +1,7 @@
 package com.example.apphoctapchotre.DATA.remote;
 
+import com.example.apphoctapchotre.DATA.model.CauHoi;
+import com.example.apphoctapchotre.DATA.model.CauHoiDapAnResponse;
 import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
 import com.example.apphoctapchotre.DATA.model.NguoiDung;
 import com.example.apphoctapchotre.DATA.model.XepHangResponse;
@@ -60,12 +62,28 @@ public interface ApiService {
             @Path("maMonHoc") String maMonHoc
     );
 
-    // ====================================================
-    // LẤY BÀI CỦNG CỐ MÀ NGƯỜI DÙNG ĐÃ LÀM
-    // ====================================================
     @GET("cungco/dalams")
     Call<List<CungCoDaLamResponse>> getCungCoDaLam(
             @Query("maMonHoc") String maMonHoc,
             @Query("maNguoiDung") String maNguoiDung
     );
+    // Endpoint lấy câu hỏi theo ID - nếu có
+    @GET("cauhoi/{maCauHoi}")
+    Call<CauHoi> getCauHoiById(@Path("maCauHoi") String maCauHoi);
+    @GET("cauhoi/bailam/{maHoatDong}")
+    Call<List<CauHoi>> getDanhSachCauHoi(@Path("maHoatDong") String maHoatDong);
+
+    @GET("cauhoi/bailam/{maBaiLam}")
+    Call<List<CauHoiDapAnResponse>> getCauHoiBaiLam(@Path("maBaiLam") String maBaiLam);
+
+    @POST("cungco/hoanthanh")
+    Call<Void> hoanThanh(
+            @Query("maNguoiDung") String maNguoiDung,
+            @Query("maHoatDong") String maHoatDong,
+            @Query("soCauDung") int soCauDung,
+            @Query("tongCauHoi") int tongCauHoi,
+            @Query("diem") int diem
+    );
+
+
 }

@@ -9,6 +9,7 @@ import com.example.apphoctapchotre.DATA.model.CungCoDaLamResponse;
 import com.example.apphoctapchotre.DATA.remote.ApiService;
 import com.example.apphoctapchotre.DATA.remote.RetrofitClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -27,21 +28,22 @@ public class CungCoRepository {
     // 1) Lấy TIẾN ĐỘ môn học
     // =======================================================
     public LiveData<List<CungCoResponse>> getTienDo(String maNguoiDung) {
+
         MutableLiveData<List<CungCoResponse>> data = new MutableLiveData<>();
 
         apiService.getTienDo(maNguoiDung).enqueue(new Callback<List<CungCoResponse>>() {
             @Override
             public void onResponse(Call<List<CungCoResponse>> call, Response<List<CungCoResponse>> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     data.setValue(response.body());
                 } else {
-                    data.setValue(null);
+                    data.setValue(new ArrayList<>());  // ⭐ NEVER NULL
                 }
             }
 
             @Override
             public void onFailure(Call<List<CungCoResponse>> call, Throwable t) {
-                data.setValue(null);
+                data.setValue(new ArrayList<>());      // ⭐ NEVER NULL
             }
         });
 
@@ -49,24 +51,25 @@ public class CungCoRepository {
     }
 
     // =======================================================
-    // 2) Lấy DANH SÁCH BÀI CỦNG CỐ theo môn học
+    // 2) Lấy danh sách Củng cố theo môn
     // =======================================================
     public LiveData<List<CungCoMonHocResponse>> getDanhSachCungCo(String maMonHoc) {
+
         MutableLiveData<List<CungCoMonHocResponse>> data = new MutableLiveData<>();
 
         apiService.getDanhSachCungCo(maMonHoc).enqueue(new Callback<List<CungCoMonHocResponse>>() {
             @Override
             public void onResponse(Call<List<CungCoMonHocResponse>> call, Response<List<CungCoMonHocResponse>> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     data.setValue(response.body());
                 } else {
-                    data.setValue(null);
+                    data.setValue(new ArrayList<>());
                 }
             }
 
             @Override
             public void onFailure(Call<List<CungCoMonHocResponse>> call, Throwable t) {
-                data.setValue(null);
+                data.setValue(new ArrayList<>());
             }
         });
 
@@ -74,24 +77,25 @@ public class CungCoRepository {
     }
 
     // =======================================================
-    // 3) Lấy BÀI CỦNG CỐ MÀ NGƯỜI DÙNG ĐÃ LÀM
+    // 3) Lấy danh sách Củng cố ĐÃ LÀM
     // =======================================================
     public LiveData<List<CungCoDaLamResponse>> getDanhSachCungCoDaLam(String maMonHoc, String maNguoiDung) {
+
         MutableLiveData<List<CungCoDaLamResponse>> data = new MutableLiveData<>();
 
         apiService.getCungCoDaLam(maMonHoc, maNguoiDung).enqueue(new Callback<List<CungCoDaLamResponse>>() {
             @Override
             public void onResponse(Call<List<CungCoDaLamResponse>> call, Response<List<CungCoDaLamResponse>> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     data.setValue(response.body());
                 } else {
-                    data.setValue(null);
+                    data.setValue(new ArrayList<>());
                 }
             }
 
             @Override
             public void onFailure(Call<List<CungCoDaLamResponse>> call, Throwable t) {
-                data.setValue(null);
+                data.setValue(new ArrayList<>());
             }
         });
 

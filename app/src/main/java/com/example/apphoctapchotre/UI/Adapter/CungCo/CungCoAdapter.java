@@ -15,12 +15,28 @@ import java.util.List;
 public class CungCoAdapter extends ArrayAdapter<CungCoDaLamResponse> {
 
     private final Context context;
-    private final List<CungCoDaLamResponse> list;
+    private List<CungCoDaLamResponse> list; // ❌ bỏ final để cho phép update
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(CungCoDaLamResponse item, int position);
+    }
 
     public CungCoAdapter(Context context, List<CungCoDaLamResponse> list) {
         super(context, 0, list);
         this.context = context;
         this.list = list;
+    }
+
+    // Setter cho listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+    public void updateData(List<CungCoDaLamResponse> newList) {
+        this.list = newList;
+        clear();
+        addAll(newList);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -36,17 +52,23 @@ public class CungCoAdapter extends ArrayAdapter<CungCoDaLamResponse> {
         TextView tvTieuDe = convertView.findViewById(R.id.tvTieuDe);
         TextView tvDiem = convertView.findViewById(R.id.tvDiem);
 
-        // Gán tiêu đề
         tvTieuDe.setText(item.getTieuDe());
 
-        // Kiểm tra nếu đã hoàn thành thì hiện "✓ Đã hoàn thành"
+        // Nếu đã hoàn thành
         if (item.isDaHoanThanh()) {
             tvDiem.setText("✓ Đã hoàn thành");
-            tvDiem.setTextColor(context.getResources().getColor(android.R.color.holo_green_light));
+            tvDiem.setTextColor(context.getColor(android.R.color.holo_green_light));
+
         } else {
             tvDiem.setText("+" + item.getTongDiemToiDa() + " điểm");
-            tvDiem.setTextColor(context.getResources().getColor(android.R.color.holo_orange_light));
+            tvDiem.setTextColor(context.getColor(android.R.color.holo_orange_light));
         }
+
+        convertView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(item, position);
+            }
+        });
 
         return convertView;
     }

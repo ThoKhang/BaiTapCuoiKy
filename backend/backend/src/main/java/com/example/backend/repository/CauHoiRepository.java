@@ -55,4 +55,5 @@ public interface CauHoiRepository extends JpaRepository<CauHoi, String> {
             HQC.ThuTu, DAP.MaDapAn
     """, nativeQuery = true)
     List<Map<String, Object>> getCauHoiForLearning(@Param("maHoatDong") String maHoatDong);
+
 }

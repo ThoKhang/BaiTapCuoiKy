@@ -38,4 +38,18 @@ public class CungCoController {
             @RequestParam String maNguoiDung) {
         return ResponseEntity.ok(service.getCungCoDaLam(maMonHoc, maNguoiDung));
     }
+    @PostMapping("/hoanthanh")
+    public ResponseEntity<?> hoanThanh(
+            @RequestParam String maNguoiDung,
+            @RequestParam String maHoatDong,
+            @RequestParam int soCauDung,
+            @RequestParam int tongCauHoi,
+            @RequestParam int diem) {
+
+        service.hoanThanhHoatDong(maNguoiDung, maHoatDong, soCauDung, tongCauHoi, diem);
+
+        return ResponseEntity.ok("HOANTHANH");
+    }
+
+
 }

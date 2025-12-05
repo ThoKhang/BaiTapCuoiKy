@@ -1,32 +1,65 @@
 package com.example.apphoctapchotre.DATA.model;
 
-public class CauHoi {
-    private int maCauHoi;
-    private String noiDung;
-    private String giaiThich;
+import java.util.List;
 
-    // Getter và Setter
-    public int getMaCauHoi() {
+public class CauHoi {
+    private String maCauHoi;
+    private int thuTu;
+    private String noiDungCauHoi;
+    private int diemToiDa;
+    private List<DapAn> dapAn;
+
+    // Constructor
+    public CauHoi() {
+    }
+
+    public CauHoi(String maCauHoi, int thuTu, String noiDungCauHoi, int diemToiDa, List<DapAn> dapAn) {
+        this.maCauHoi = maCauHoi;
+        this.thuTu = thuTu;
+        this.noiDungCauHoi = noiDungCauHoi;
+        this.diemToiDa = diemToiDa;
+        this.dapAn = dapAn;
+    }
+
+    // Getters
+    public String getMaCauHoi() {
         return maCauHoi;
     }
 
-    public void setMaCauHoi(int maCauHoi) {
+    public int getThuTu() {
+        return thuTu;
+    }
+
+    public String getNoiDungCauHoi() {
+        return noiDungCauHoi;
+    }
+
+    public int getDiemToiDa() {
+        return diemToiDa;
+    }
+
+    public List<DapAn> getDapAn() {
+        return dapAn;
+    }
+
+    // Setters
+    public void setMaCauHoi(String maCauHoi) {
         this.maCauHoi = maCauHoi;
     }
 
-    public String getNoiDung() {
-        return noiDung;
+    public void setThuTu(int thuTu) {
+        this.thuTu = thuTu;
     }
 
-    public void setNoiDung(String noiDung) {
-        this.noiDung = noiDung;
+    public void setNoiDungCauHoi(String noiDungCauHoi) {
+        this.noiDungCauHoi = noiDungCauHoi;
     }
 
-    public String getGiaiThich() {
-        return giaiThich;
+    public void setDiemToiDa(int diemToiDa) {
+        this.diemToiDa = diemToiDa;
     }
 
-    public void setGiaiThich(String giaiThich) {
-        this.giaiThich = giaiThich;
+    public void setDapAn(List<DapAn> dapAn) {
+        this.dapAn = dapAn;
     }
 }

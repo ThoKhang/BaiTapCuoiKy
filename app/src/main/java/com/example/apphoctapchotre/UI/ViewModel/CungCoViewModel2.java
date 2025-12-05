@@ -1,37 +1,48 @@
 package com.example.apphoctapchotre.UI.ViewModel;
-import androidx.lifecycle.ViewModel;
-import com.example.apphoctapchotre.DATA.Repository.CungCoRepository;
-import com.example.apphoctapchotre.DATA.model.CungCoMonHocResponse;
-import com.example.apphoctapchotre.DATA.model.CungCoDaLamResponse;
+
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+import com.example.apphoctapchotre.DATA.Repository.CungCoRepository;
+import com.example.apphoctapchotre.DATA.model.CungCoDaLamResponse;
+import com.example.apphoctapchotre.DATA.model.CungCoMonHocResponse;
+
 import java.util.List;
 
 public class CungCoViewModel2 extends ViewModel {
 
     private final CungCoRepository repository = new CungCoRepository();
-    private LiveData<List<CungCoMonHocResponse>> danhSach;
-    private LiveData<List<CungCoDaLamResponse>> danhSachDaLam;
+
+    // LiveData ổn định — KHÔNG bị thay đổi reference
+    private final MutableLiveData<List<CungCoMonHocResponse>> danhSach = new MutableLiveData<>();
+    private final MutableLiveData<List<CungCoDaLamResponse>> danhSachDaLam = new MutableLiveData<>();
+
     private String maNguoiDung;
 
-    // ====================================================
-    // 1) LẤY BÀI CHƯA LÀM
-    // ====================================================
+    // ======================================================
+    // 1) LOAD DANH SÁCH BÀI CHƯA LÀM
+    // ======================================================
     public void loadDanhSach(String maMonHoc) {
-        danhSach = repository.getDanhSachCungCo(maMonHoc);
+        repository.getDanhSachCungCo(maMonHoc).observeForever(data -> {
+            danhSach.setValue(data);
+        });
     }
 
     public LiveData<List<CungCoMonHocResponse>> getDanhSach() {
         return danhSach;
     }
 
-    // ====================================================
-    // 2) LẤY BÀI ĐÃ LÀM (2 cách gọi - tên method khác nhau)
-    // ====================================================
+    // ======================================================
+    // 2) LOAD DANH SÁCH BÀI ĐÃ LÀM
+    // ======================================================
     public void loadDanhSachDaLam(String maMonHoc, String maNguoiDung) {
-        danhSachDaLam = repository.getDanhSachCungCoDaLam(maMonHoc, maNguoiDung);
+        repository.getDanhSachCungCoDaLam(maMonHoc, maNguoiDung)
+                .observeForever(data -> {
+                    danhSachDaLam.setValue(data);
+                });
     }
 
-    // Method khác - gọi với maNguoiDung đã set trước đó
     public void loadCungCoDaLam(String maMonHoc) {
         if (maNguoiDung != null) {
             loadDanhSachDaLam(maMonHoc, maNguoiDung);
@@ -42,9 +53,9 @@ public class CungCoViewModel2 extends ViewModel {
         return danhSachDaLam;
     }
 
-    // ====================================================
-    // 3) SETTER MaNguoiDung
-    // ====================================================
+    // ======================================================
+    // 3) SET MaNguoiDung
+    // ======================================================
     public void setMaNguoiDung(String maNguoiDung) {
         this.maNguoiDung = maNguoiDung;
     }

@@ -1,15 +1,17 @@
 package com.example.apphoctapchotre.UI.Activity.CungCo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ProgressBar;
 
-import com.example.apphoctapchotre.UI.Adapter.CungCo.CungCoAdapter;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import com.example.apphoctapchotre.UI.ViewModel.CungCoViewModel2;
 
+import com.example.apphoctapchotre.UI.Adapter.CungCo.CungCoAdapter;
+import com.example.apphoctapchotre.UI.ViewModel.CungCoViewModel2;
 import com.example.apphoctapchotre.R;
 
 public class CungCoActivity2 extends AppCompatActivity {
@@ -17,6 +19,25 @@ public class CungCoActivity2 extends AppCompatActivity {
     private ListView listBaiKiemTra;
     private CungCoViewModel2 vm;
     private String maNguoiDung;
+    private String maMon;
+
+    private CungCoAdapter adapter;
+
+    // Nhận kết quả từ màn làm bài
+    private final ActivityResultLauncher<Intent> cauHoiLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+
+                if (result.getResultCode() == RESULT_OK) {
+
+                    // 🔥 Reload danh sách bài củng cố
+                    vm.loadCungCoDaLam(maMon);
+
+                    // 🔥 Báo cho Activity 1 rằng đã thay đổi tiến độ
+                    setResult(RESULT_OK);
+
+                    // 🔥 Quan trọng: KHÔNG finish() → vẫn ở màn danh sách nhưng dữ liệu đã cập nhật
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,41 +47,45 @@ public class CungCoActivity2 extends AppCompatActivity {
         listBaiKiemTra = findViewById(R.id.listBaiKiemTra);
         TextView btnBack = findViewById(R.id.back);
 
-        // Lấy thông tin từ Intent
-        String maMon = getIntent().getStringExtra("maMonHoc");
-        maNguoiDung = getIntent().getStringExtra("maNguoiDung"); // Lấy từ Intent hoặc SharedPreferences
+        // ✔ Nhận dữ liệu từ Activity 1
+        maMon = getIntent().getStringExtra("maMonHoc");
+        maNguoiDung = getIntent().getStringExtra("maNguoiDung");
 
-        // Nếu không có từ Intent, dùng giá trị mặc định
         if (maNguoiDung == null) {
-            maNguoiDung = "ND002"; // Thay bằng người dùng thực tế
+            maNguoiDung = "ND004";
         }
 
-        // Khởi tạo ViewModel
+        // ViewModel
         vm = new ViewModelProvider(this).get(CungCoViewModel2.class);
         vm.setMaNguoiDung(maNguoiDung);
 
-        // ====================================================
-        // CHỌN 1 TRONG 2 CÁCH:
-        // ====================================================
-
-        // CÁCH 1: Hiển thị BÀI ĐÃ LÀM (hiện "✓ Đã hoàn thành")
+        // Load lần đầu
         vm.loadCungCoDaLam(maMon);
 
-        // CÁCH 2: Hiển thị BÀI CHƯA LÀM (hiện điểm)
-        // vm.loadDanhSach(maMon);
-
-        // Observe dữ liệu từ ViewModel
+        // Quan sát danh sách
         vm.getDanhSachDaLam().observe(this, list -> {
-            if (list != null && !list.isEmpty()) {
-                CungCoAdapter adapter = new CungCoAdapter(this, list);
+            if (list == null) return;
+
+            if (adapter == null) {
+                adapter = new CungCoAdapter(this, list);
+
+                adapter.setOnItemClickListener((item, position) -> {
+
+                    Intent intent = new Intent(CungCoActivity2.this, CauHoiActivity.class);
+                    intent.putExtra("maHoatDong", item.getMaHoatDong());
+                    intent.putExtra("maBaiLam", item.getMaHoatDong());
+                    intent.putExtra("tenHoatDong", item.getTieuDe());
+                    intent.putExtra("maNguoiDung", maNguoiDung);
+
+                    cauHoiLauncher.launch(intent);
+                });
+
                 listBaiKiemTra.setAdapter(adapter);
+            } else {
+                adapter.updateData(list);  // 🔥 cập nhật dữ liệu mà không tạo adapter mới
             }
         });
 
-
-        // Xử lý nút back
-        btnBack.setOnClickListener(v -> {
-            finish();
-        });
+        btnBack.setOnClickListener(v -> finish());
     }
 }
