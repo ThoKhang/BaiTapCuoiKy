@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HoatDongHocTapRepository extends JpaRepository<HoatDongHocTap, String> {
 
-    @Query("SELECT h FROM HoatDongHocTap h WHERE h.tieuDe LIKE :pattern")
-    List<HoatDongHocTap> findByTieuDePattern(@Param("pattern") String pattern);
+    @Query("SELECT h FROM HoatDongHocTap h WHERE h.tieuDe LIKE :pattern ORDER BY h.maHoatDong")
+    List<HoatDongHocTap> findByTitlePattern(@Param("pattern") String pattern);
 }
 

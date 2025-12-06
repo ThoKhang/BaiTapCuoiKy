@@ -17,10 +17,6 @@ import lombok.Setter;
  *
  * @author ADMIN
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "LoaiHoatDong")
 public class LoaiHoatDong {
@@ -34,5 +30,39 @@ public class LoaiHoatDong {
 
     @Column(name = "MoTaLoai", length = 100)
     private String moTaLoai;
+
+    public LoaiHoatDong(String maLoai, String tenLoai, String moTaLoai) {
+        this.maLoai = maLoai;
+        this.tenLoai = tenLoai;
+        this.moTaLoai = moTaLoai;
+    }
+
+    public LoaiHoatDong() {
+    }
+
+    public String getMaLoai() {
+        return maLoai;
+    }
+
+    public void setMaLoai(String maLoai) {
+        this.maLoai = maLoai;
+    }
+
+    public String getTenLoai() {
+        return tenLoai;
+    }
+
+    public void setTenLoai(String tenLoai) {
+        this.tenLoai = tenLoai;
+    }
+
+    public String getMoTaLoai() {
+        return moTaLoai;
+    }
+
+    public void setMoTaLoai(String moTaLoai) {
+        this.moTaLoai = moTaLoai;
+    }
+    
 }
 

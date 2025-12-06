@@ -15,10 +15,6 @@ import lombok.Setter;
  *
  * @author ADMIN
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Embeddable
 public class HoatDongCauHoiKey implements java.io.Serializable {
 
@@ -27,5 +23,30 @@ public class HoatDongCauHoiKey implements java.io.Serializable {
 
     @Column(name = "MaCauHoi", length = 5)
     private String maCauHoi;
+
+    public HoatDongCauHoiKey() {
+    }
+
+    public HoatDongCauHoiKey(String maHoatDong, String maCauHoi) {
+        this.maHoatDong = maHoatDong;
+        this.maCauHoi = maCauHoi;
+    }
+
+    public String getMaHoatDong() {
+        return maHoatDong;
+    }
+
+    public void setMaHoatDong(String maHoatDong) {
+        this.maHoatDong = maHoatDong;
+    }
+
+    public String getMaCauHoi() {
+        return maCauHoi;
+    }
+
+    public void setMaCauHoi(String maCauHoi) {
+        this.maCauHoi = maCauHoi;
+    }
+    
 
 }

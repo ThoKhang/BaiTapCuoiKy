@@ -1,5 +1,8 @@
 package com.example.apphoctapchotre.DATA.remote;
 
+import android.content.Context;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import com.google.gson.Gson;
@@ -13,13 +16,18 @@ public class RetrofitClient {
 
     private static Retrofit retrofit;
 
-    // ⚠️ KHÔNG còn @RequiresApi ở đây nữa
-    public static Retrofit getClient() {
+    // Thêm Context để đọc SharedPreferences
+    public static Retrofit getClient(Context context) {
+        // Thêm Interceptor chứa token
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new TokenInterceptor(context))
+                .build();
         if (retrofit == null) {
             Gson gson = GsonProvider.getGson();
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
+                    .client(client)   // GẮN CLIENT CÓ TOKEN
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }

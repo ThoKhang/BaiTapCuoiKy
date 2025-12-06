@@ -10,11 +10,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.apphoctapchotre.DATA.model.LoginResponse;
 import com.example.apphoctapchotre.DATA.remote.ApiService;
 import com.example.apphoctapchotre.DATA.remote.RetrofitClient;
 import com.example.apphoctapchotre.UI.Activity.Account.DangKy.DangKy;
 import com.example.apphoctapchotre.UI.Activity.Account.QuenMatKau.QuenMatKhauOTP;
 import com.example.apphoctapchotre.R;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,12 +69,11 @@ public class GiaoDienDangNhap extends AppCompatActivity {
                 return;
             }
 
-            // BODY gửi đúng theo backend
             Map<String, String> body = new HashMap<>();
             body.put("email", email);
             body.put("matKhau", matKhau);
 
-            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+            ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
             Call<ResponseBody> call = apiService.login(body);
 
             call.enqueue(new Callback<ResponseBody>() {
@@ -81,14 +82,34 @@ public class GiaoDienDangNhap extends AppCompatActivity {
                     try {
                         if (response.isSuccessful() && response.body() != null) {
 
-                            String message = response.body().string();
-                            Toast.makeText(GiaoDienDangNhap.this, message, Toast.LENGTH_SHORT).show();
+                            // Đọc JSON
+                            String json = response.body().string();
+                            Log.d("LOGIN_JSON", json);
+
+                            // Parse JSON thành đối tượng
+                            Gson gson = new Gson();
+                            LoginResponse loginRes = gson.fromJson(json, LoginResponse.class);
+
+                            if (loginRes.token == null) {
+                                Toast.makeText(GiaoDienDangNhap.this, "Sai email hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            // Lưu token & maNguoiDung
+                            getSharedPreferences("USER_DATA", MODE_PRIVATE)
+                                    .edit()
+                                    .putString("TOKEN", loginRes.token)
+                                    .putString("MA_NGUOI_DUNG", loginRes.maNguoiDung)
+                                    .apply();
+
+                            Toast.makeText(GiaoDienDangNhap.this, loginRes.message, Toast.LENGTH_SHORT).show();
 
                             // Chuyển sang OTP
                             Intent intent = new Intent(GiaoDienDangNhap.this, DangNhapOTP.class);
                             intent.putExtra("EMAIL", email);
                             startActivity(intent);
                             finish();
+
                         } else {
                             String message = response.errorBody() != null
                                     ? response.errorBody().string()
@@ -96,8 +117,8 @@ public class GiaoDienDangNhap extends AppCompatActivity {
                             Toast.makeText(GiaoDienDangNhap.this, message, Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
-                        Log.e("LOGIN_ERROR", "Lỗi xử lý phản hồi: " + e.getMessage());
-                        Toast.makeText(GiaoDienDangNhap.this, "Lỗi đọc phản hồi từ server!", Toast.LENGTH_SHORT).show();
+                        Log.e("LOGIN_ERROR", "Lỗi: " + e.getMessage());
+                        Toast.makeText(GiaoDienDangNhap.this, "Lỗi đọc phản hồi!", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -107,5 +128,6 @@ public class GiaoDienDangNhap extends AppCompatActivity {
                 }
             });
         });
+
     }
 }

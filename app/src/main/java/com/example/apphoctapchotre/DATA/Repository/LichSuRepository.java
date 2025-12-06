@@ -1,5 +1,7 @@
 package com.example.apphoctapchotre.DATA.Repository;
 
+import android.content.Context;
+
 import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
 import com.example.apphoctapchotre.DATA.remote.ApiService;
 import com.example.apphoctapchotre.DATA.remote.RetrofitClient;
@@ -20,8 +22,8 @@ public class LichSuRepository {
 
     private final ApiService apiService;
 
-    public LichSuRepository() {
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+    public LichSuRepository(Context context) {
+        apiService = RetrofitClient.getClient(context).create(ApiService.class);
     }
 
     public void layLichSuDiem(String email, RepositoryCallback<LichSuDiemResponse> callback) {

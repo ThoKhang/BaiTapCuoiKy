@@ -4,8 +4,9 @@
  */
 package com.example.backend.service.IService;
 
-import com.example.backend.dto.response.onluyen.MucDoDTO;
-import com.example.backend.dto.response.onluyen.ResponseOnLuyenDTO;
+import com.example.backend.dto.response.onluyen.DeDTO;
+import com.example.backend.dto.response.onluyen.OnLuyenLoaiResponse;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,6 +14,10 @@ import java.util.Set;
  * @author ADMIN
  */
 public interface IHoatDongHocTapService {
-    ResponseOnLuyenDTO layThongTinOnLuyen(String maNguoiDung);
-    MucDoDTO taoMucDo(String pattern, Set<String> dsDaLam);
+
+    OnLuyenLoaiResponse getTongQuan(String maNguoiDung);
+
+    List<DeDTO> getDanhSachDe(String loai, String maNguoiDung);
+
+//    ChiTietDeDTO getChiTietDe(String maHoatDong);
 }

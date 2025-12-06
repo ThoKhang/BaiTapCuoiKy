@@ -17,10 +17,6 @@ import lombok.Setter;
  *
  * @author ADMIN
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "CauHoi")
 public class CauHoi {
@@ -37,5 +33,47 @@ public class CauHoi {
 
     @Column(name = "DiemToiDa")
     private Integer diemToiDa;
+
+    public CauHoi() {
+    }
+
+    public CauHoi(String maCauHoi, String noiDungCauHoi, String giaiThich, Integer diemToiDa) {
+        this.maCauHoi = maCauHoi;
+        this.noiDungCauHoi = noiDungCauHoi;
+        this.giaiThich = giaiThich;
+        this.diemToiDa = diemToiDa;
+    }
+
+    public String getMaCauHoi() {
+        return maCauHoi;
+    }
+
+    public void setMaCauHoi(String maCauHoi) {
+        this.maCauHoi = maCauHoi;
+    }
+
+    public String getNoiDungCauHoi() {
+        return noiDungCauHoi;
+    }
+
+    public void setNoiDungCauHoi(String noiDungCauHoi) {
+        this.noiDungCauHoi = noiDungCauHoi;
+    }
+
+    public String getGiaiThich() {
+        return giaiThich;
+    }
+
+    public void setGiaiThich(String giaiThich) {
+        this.giaiThich = giaiThich;
+    }
+
+    public Integer getDiemToiDa() {
+        return diemToiDa;
+    }
+
+    public void setDiemToiDa(Integer diemToiDa) {
+        this.diemToiDa = diemToiDa;
+    }
 
 }

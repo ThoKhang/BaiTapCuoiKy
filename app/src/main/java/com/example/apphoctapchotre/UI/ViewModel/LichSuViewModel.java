@@ -1,5 +1,7 @@
 package com.example.apphoctapchotre.UI.viewmodel;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -23,8 +25,8 @@ public class LichSuViewModel extends ViewModel {
     private final MutableLiveData<Boolean> dangTaiLiveData = new MutableLiveData<>(false);
     private final MutableLiveData<String> loiLiveData = new MutableLiveData<>();
 
-    public LichSuViewModel() {
-        repository = new LichSuRepository();
+    public LichSuViewModel(Context context) {
+        repository = new LichSuRepository(context);
     }
 
     public LiveData<Integer> getTongDiem() {

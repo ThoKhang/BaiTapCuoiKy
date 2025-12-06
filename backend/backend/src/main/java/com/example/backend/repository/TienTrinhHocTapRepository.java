@@ -17,8 +17,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TienTrinhHocTapRepository extends JpaRepository<TienTrinhHocTap, String> {
-
-    @Query("SELECT t FROM TienTrinhHocTap t WHERE t.nguoiDung.maNguoiDung = :maNguoiDung")
-    List<TienTrinhHocTap> findByNguoiDung(@Param("maNguoiDung") String maNguoiDung);
+    @Query("SELECT t FROM TienTrinhHocTap t WHERE t.nguoiDung.maNguoiDung = :userId")
+    List<TienTrinhHocTap> findByNguoiDung(@Param("userId") String userId);
 }
 
