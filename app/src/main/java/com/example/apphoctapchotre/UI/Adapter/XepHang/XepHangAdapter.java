@@ -23,6 +23,12 @@ public class XepHangAdapter extends RecyclerView.Adapter<XepHangAdapter.ViewHold
         this.danhSachXepHang = danhSachXepHang;
     }
 
+    // 👉 THÊM HÀM NÀY
+    public void setData(List<XepHangItem> newData) {
+        this.danhSachXepHang = newData;
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout itemRoot;
         TextView tvHang, tvTenNguoiChoi, tvTongDiem;
@@ -92,6 +98,6 @@ public class XepHangAdapter extends RecyclerView.Adapter<XepHangAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return danhSachXepHang.size();
+        return danhSachXepHang != null ? danhSachXepHang.size() : 0;
     }
 }

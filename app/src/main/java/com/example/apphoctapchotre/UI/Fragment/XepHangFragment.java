@@ -60,11 +60,14 @@ public class XepHangFragment extends Fragment {
             }
         });
 
-        // Khởi tạo ViewModel
+        // ViewModel
         xepHangViewModel = new ViewModelProvider(this).get(XepHangViewModel.class);
 
         // Observe dữ liệu xếp hạng
-        xepHangViewModel.getXepHangLiveData().observe(getViewLifecycleOwner(), this::hienThiXepHang);
+        xepHangViewModel.getXepHangLiveData().observe(
+                getViewLifecycleOwner(),
+                this::hienThiXepHang
+        );
 
         // Observe lỗi
         xepHangViewModel.getLoiLiveData().observe(getViewLifecycleOwner(), msg -> {
@@ -73,13 +76,17 @@ public class XepHangFragment extends Fragment {
             }
         });
 
-        // (Optional) Observe trạng thái loading nếu muốn show ProgressBar
-        // xepHangViewModel.getDangTaiLiveData().observe(...);
-
-        // Gọi tải dữ liệu
+        // Lần đầu vào fragment → tải dữ liệu luôn
         taiDuLieu();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Mỗi lần tab Xếp hạng được hiển thị lại → reload dữ liệu mới nhất
+        taiDuLieu();
     }
 
     private void taiDuLieu() {
@@ -105,7 +112,7 @@ public class XepHangFragment extends Fragment {
     private void hienThiXepHang(XepHangResponse duLieu) {
         if (!isAdded() || duLieu == null) return;
 
-        // ======= Thông tin người dùng hiện tại =======
+        // ===== Thông tin người dùng hiện tại =====
         NguoiDungXepHang nguoiDungHienTai = duLieu.getNguoiDungHienTai();
         if (nguoiDungHienTai != null) {
             tvYourName.setText("Bạn (" + nguoiDungHienTai.getTenDangNhap() + ")");
@@ -117,10 +124,10 @@ public class XepHangFragment extends Fragment {
             tvYourScore.setText("0");
         }
 
-        // ======= Tổng số người chơi =======
+        // ===== Tổng số người chơi =====
         tvTotalPlayers.setText("Tổng cộng " + duLieu.getTongSoNguoiChoi() + " người chơi");
 
-        // ======= Danh sách top người chơi =======
+        // ===== Danh sách top người chơi =====
         List<XepHangItem> danhSachHienThi = new ArrayList<>();
         if (duLieu.getTopNguoiDung() != null) {
             for (NguoiDungXepHang nd : duLieu.getTopNguoiDung()) {
@@ -135,9 +142,8 @@ public class XepHangFragment extends Fragment {
             xepHangAdapter = new XepHangAdapter(danhSachHienThi);
             recyclerXepHang.setAdapter(xepHangAdapter);
         } else {
-            // Nếu bạn muốn update lại list, có thể thêm hàm setData trong adapter
-            xepHangAdapter = new XepHangAdapter(danhSachHienThi);
-            recyclerXepHang.setAdapter(xepHangAdapter);
+            // Nếu adapter đã có → chỉ cần cập nhật lại dữ liệu
+            xepHangAdapter.setData(danhSachHienThi);
         }
     }
 }
