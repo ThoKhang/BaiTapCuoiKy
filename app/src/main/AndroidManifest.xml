@@ -48,8 +48,14 @@
             android:name=".UI.Activity.GioiThieu.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".UI.Activity.CungCo.cungcokienthuc"
-            android:exported="false" /> <!-- ai làm gì môn học toán hả cấn lỗi t comment -->
+            android:name=".UI.Activity.CungCo.CungCoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.CungCo.CungCoActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.CungCo.CauHoiActivity"
+            android:exported="false" /><!-- ai làm gì môn học toán hả cấn lỗi t comment -->
         <!-- <activity -->
         <!-- android:name=".monhoctoan" -->
         <!-- android:exported="false" /> -->

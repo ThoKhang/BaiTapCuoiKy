@@ -1,4 +1,4 @@
-package com.example.apphoctapchotre.UI.viewmodel;
+package com.example.apphoctapchotre.UI.ViewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

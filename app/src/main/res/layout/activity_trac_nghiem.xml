@@ -175,7 +175,7 @@
                     android:layout_marginBottom="12dp"
                     android:text="20 + 16 = ...."
                     android:textColor="#000"
-                    android:textSize="28sp" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/tvDapAnA"
@@ -184,7 +184,7 @@
                     android:layout_marginBottom="4dp"
                     android:text="A. 49"
                     android:textColor="#000"
-                    android:textSize="26sp" />
+                    android:textSize="22sp" />
 
                 <TextView
                     android:id="@+id/tvDapAnB"
@@ -193,7 +193,7 @@
                     android:layout_marginBottom="4dp"
                     android:text="B. 36"
                     android:textColor="#000"
-                    android:textSize="26sp" />
+                    android:textSize="22sp" />
 
                 <TextView
                     android:id="@+id/tvDapAnC"
@@ -202,7 +202,7 @@
                     android:layout_marginBottom="4dp"
                     android:text="C. 51"
                     android:textColor="#000"
-                    android:textSize="26sp" />
+                    android:textSize="22sp" />
 
                 <TextView
                     android:id="@+id/tvDapAnD"
@@ -211,7 +211,16 @@
                     android:layout_marginBottom="8dp"
                     android:text="D. 52"
                     android:textColor="#000"
-                    android:textSize="26sp" />
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/tvGiaiThich"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Đây là giải thích"
+                    android:textColor="#C8B213"
+                    android:textSize="22sp" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

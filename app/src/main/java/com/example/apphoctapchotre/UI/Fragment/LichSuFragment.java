@@ -21,7 +21,7 @@ import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.UI.Adapter.DiemChiTiet.AdapterDiemChiTiet;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.DATA.model.DiemChiTiet;
-import com.example.apphoctapchotre.UI.viewmodel.LichSuViewModel;
+import com.example.apphoctapchotre.UI.ViewModel.LichSuViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
