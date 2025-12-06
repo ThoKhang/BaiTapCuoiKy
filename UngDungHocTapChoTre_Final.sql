@@ -871,3 +871,344 @@ go
 select * from NguoiDung
 select * from LichSuHoatDong
 GO
+
+
+USE UngDungHocTapChoTre;
+GO
+
+-- Xóa mapping để không bị vướng FK khác
+DELETE FROM HoatDong_CauHoi;
+-- Xóa tất cả đáp án
+DELETE FROM DapAn;
+-- Xóa tất cả câu hỏi
+DELETE FROM CauHoi;
+GO
+-- Kiểm tra số lượng câu hỏi sau khi xóa
+SELECT COUNT(*) AS SoCauHoi FROM CauHoi;
+SELECT COUNT(*) AS SoDapAn FROM DapAn;
+---------------------------------------------
+-- TẠO 155 CÂU TOÁN CH001–CH155
+---------------------------------------------
+;WITH nums AS (
+    SELECT TOP (155)
+        ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS n
+    FROM sys.all_objects
+),
+CauHoiToan AS (
+    SELECT
+        n,
+        'CH' + RIGHT('000' + CAST(n AS VARCHAR(3)), 3) AS MaCauHoi,
+        ((n - 1) % 10) + 1 AS SoA,
+        ((n - 1) / 10) % 10 + 1 AS SoB
+    FROM nums
+),
+CauHoiToanFinal AS (
+    SELECT
+        MaCauHoi,
+        N'Hãy tính ' + CAST(SoA AS NVARCHAR(10)) + N' + ' + CAST(SoB AS NVARCHAR(10)) + N' = ?' AS NoiDungCauHoi,
+        N'Cộng ' + CAST(SoA AS NVARCHAR(10)) + N' với ' + CAST(SoB AS NVARCHAR(10)) + N' để được kết quả.' AS GiaiThich,
+        5 AS DiemToiDa,
+        SoA + SoB AS DapAnDung,
+        n
+    FROM CauHoiToan
+)
+INSERT INTO CauHoi (MaCauHoi, NoiDungCauHoi, GiaiThich, DiemToiDa)
+SELECT
+    MaCauHoi,
+    NoiDungCauHoi,
+    GiaiThich,
+    DiemToiDa
+FROM CauHoiToanFinal;
+GO
+
+---------------------------------------------
+-- TẠO 4 ĐÁP ÁN CHO MỖI CÂU TOÁN
+---------------------------------------------
+;WITH nums AS (
+    SELECT TOP (155)
+        ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS n
+    FROM sys.all_objects
+),
+CauHoiToan AS (
+    SELECT
+        n,
+        'CH' + RIGHT('000' + CAST(n AS VARCHAR(3)), 3) AS MaCauHoi,
+        ((n - 1) % 10) + 1 AS SoA,
+        ((n - 1) / 10) % 10 + 1 AS SoB
+    FROM nums
+),
+CauHoiToanFinal AS (
+    SELECT
+        n,
+        MaCauHoi,
+        SoA + SoB AS DapAnDung
+    FROM CauHoiToan
+),
+DapAnToan AS (
+    SELECT
+        n,
+        MaCauHoi,
+        1 AS AnsIndex,
+        CAST(DapAnDung AS NVARCHAR(10)) AS NoiDungDapAn,
+        CAST(1 AS BIT) AS LaDapAnDung
+    FROM CauHoiToanFinal
+    UNION ALL
+    SELECT
+        n,
+        MaCauHoi,
+        2,
+        CAST(DapAnDung + 1 AS NVARCHAR(10)),
+        CAST(0 AS BIT)
+    FROM CauHoiToanFinal
+    UNION ALL
+    SELECT
+        n,
+        MaCauHoi,
+        3,
+        CAST(CASE WHEN DapAnDung > 1 THEN DapAnDung - 1 ELSE DapAnDung + 2 END AS NVARCHAR(10)),
+        CAST(0 AS BIT)
+    FROM CauHoiToanFinal
+    UNION ALL
+    SELECT
+        n,
+        MaCauHoi,
+        4,
+        CAST(DapAnDung + 2 AS NVARCHAR(10)),
+        CAST(0 AS BIT)
+    FROM CauHoiToanFinal
+),
+DanhSoDapAn AS (
+    SELECT
+        (n - 1) * 4 + AnsIndex AS DapSo,
+        MaCauHoi,
+        NoiDungDapAn,
+        LaDapAnDung
+    FROM DapAnToan
+)
+INSERT INTO DapAn (MaDapAn, MaCauHoi, NoiDungDapAn, LaDapAnDung)
+SELECT
+    'DA' + RIGHT('0000' + CAST(DapSo AS VARCHAR(4)), 4),
+    MaCauHoi,
+    NoiDungDapAn,
+    LaDapAnDung
+FROM DanhSoDapAn;
+GO
+
+---------------------------------------------
+-- TẠO 155 CÂU TIẾNG VIỆT CH156–CH310
+---------------------------------------------
+;WITH numsTV AS (
+    SELECT TOP (155)
+        ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS n
+    FROM sys.all_objects
+),
+MauCauTV AS (
+    SELECT
+        n,
+        155 + n AS STT,
+        'CH' + RIGHT('000' + CAST(155 + n AS VARCHAR(3)), 3) AS MaCauHoi,
+        ((n - 1) % 10) + 1 AS MauID
+    FROM numsTV
+),
+CauHoiTV AS (
+    SELECT
+        MaCauHoi,
+        CASE MauID
+            WHEN 1 THEN N'Trong các từ sau, từ nào là danh từ chỉ người?'
+            WHEN 2 THEN N'Trong các từ sau, từ nào là động từ (chỉ hoạt động)?'
+            WHEN 3 THEN N'Trong các từ sau, từ nào là tính từ (chỉ đặc điểm)?'
+            WHEN 4 THEN N'Từ nào được viết đúng chính tả?'
+            WHEN 5 THEN N'Trong các từ sau, từ nào chỉ con vật?'
+            WHEN 6 THEN N'Câu nào là câu hoàn chỉnh, có đủ chủ ngữ và vị ngữ?'
+            WHEN 7 THEN N'Trong các từ sau, từ nào là từ trái nghĩa với "cao"?'
+            WHEN 8 THEN N'Trong các dấu sau, dấu nào dùng để kết thúc câu kể?'
+            WHEN 9 THEN N'Trong các tiếng sau, tiếng nào có chứa thanh hỏi?'
+            WHEN 10 THEN N'Trong các từ sau, từ nào là từ chỉ đồ vật?'
+        END AS NoiDungCauHoi,
+        CASE MauID
+            WHEN 1 THEN N'Danh từ chỉ người là các từ như: bé, mẹ, bố,...'
+            WHEN 2 THEN N'Động từ chỉ hoạt động như: chạy, nhảy, hát,...'
+            WHEN 3 THEN N'Tính từ chỉ đặc điểm như: đẹp, xấu, cao, thấp,...'
+            WHEN 4 THEN N'Một từ viết đúng chính tả có đầy đủ dấu và chữ cái.'
+            WHEN 5 THEN N'Từ chỉ con vật là tên của các loài động vật.'
+            WHEN 6 THEN N'Câu hoàn chỉnh thường có "ai" làm gì, hoặc "cái gì" làm gì.'
+            WHEN 7 THEN N'Từ trái nghĩa là từ mang nghĩa ngược lại.'
+            WHEN 8 THEN N'Dấu chấm dùng để kết thúc câu kể.'
+            WHEN 9 THEN N'Thanh hỏi là dấu hỏi (?).'
+            WHEN 10 THEN N'Từ chỉ đồ vật là tên các sự vật mình có thể cầm, nắm được.'
+        END AS GiaiThich,
+        MauID,
+        STT
+    FROM MauCauTV
+)
+INSERT INTO CauHoi (MaCauHoi, NoiDungCauHoi, GiaiThich, DiemToiDa)
+SELECT
+    MaCauHoi,
+    NoiDungCauHoi,
+    GiaiThich,
+    5
+FROM CauHoiTV;
+GO
+
+---------------------------------------------
+-- TẠO 4 ĐÁP ÁN CHO MỖI CÂU TIẾNG VIỆT
+---------------------------------------------
+;WITH numsTV AS (
+    SELECT TOP (155)
+        ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS n
+    FROM sys.all_objects
+),
+MauCauTV AS (
+    SELECT
+        n,
+        155 + n AS STT,
+        'CH' + RIGHT('000' + CAST(155 + n AS VARCHAR(3)), 3) AS MaCauHoi,
+        ((n - 1) % 10) + 1 AS MauID
+    FROM numsTV
+),
+DapAnTVRaw AS (
+    SELECT
+        STT,
+        MaCauHoi,
+        MauID,
+        CASE MauID
+            WHEN 1 THEN N'bé'
+            WHEN 2 THEN N'chạy'
+            WHEN 3 THEN N'đẹp'
+            WHEN 4 THEN N'ngon'
+            WHEN 5 THEN N'con mèo'
+            WHEN 6 THEN N'Bé Lan đang đọc sách.'
+            WHEN 7 THEN N'thấp'
+            WHEN 8 THEN N'.'
+            WHEN 9 THEN N'mỏi'
+            WHEN 10 THEN N'cái bàn'
+        END AS DapAnDung,
+        CASE MauID
+            WHEN 1 THEN N'xanh'
+            WHEN 2 THEN N'cái bàn'
+            WHEN 3 THEN N'cái ghế'
+            WHEN 4 THEN N'ngôn'      -- cố ý sai chính tả
+            WHEN 5 THEN N'đỏ'
+            WHEN 6 THEN N'Đang đọc.'
+            WHEN 7 THEN N'cao hơn'
+            WHEN 8 THEN N','
+            WHEN 9 THEN N'mai'
+            WHEN 10 THEN N'đẹp'
+        END AS DapSai1,
+        CASE MauID
+            WHEN 1 THEN N'chạy'
+            WHEN 2 THEN N'đẹp'
+            WHEN 3 THEN N'chạy'
+            WHEN 4 THEN N'ngo''n'    -- dùng 2 dấu nháy trong T-SQL
+            WHEN 5 THEN N'cái bàn'
+            WHEN 6 THEN N'Lan.'
+            WHEN 7 THEN N'ngon'
+            WHEN 8 THEN N'?'
+            WHEN 9 THEN N'mở'
+            WHEN 10 THEN N'bé'
+        END AS DapSai2,
+        CASE MauID
+            WHEN 1 THEN N'cao'
+            WHEN 2 THEN N'cao'
+            WHEN 3 THEN N'mèo'
+            WHEN 4 THEN N'ngoan'
+            WHEN 5 THEN N'cái ghế'
+            WHEN 6 THEN N'Bé Lan.'
+            WHEN 7 THEN N'lớn'
+            WHEN 8 THEN N'!'
+            WHEN 9 THEN N'mơ'
+            WHEN 10 THEN N'con mèo'
+        END AS DapSai3
+    FROM MauCauTV
+),
+DapAnTV AS (
+    SELECT STT, MaCauHoi, 1 AS AnsIndex, DapAnDung AS NoiDungDapAn, CAST(1 AS BIT) AS LaDapAnDung FROM DapAnTVRaw
+    UNION ALL
+    SELECT STT, MaCauHoi, 2, DapSai1, CAST(0 AS BIT) FROM DapAnTVRaw
+    UNION ALL
+    SELECT STT, MaCauHoi, 3, DapSai2, CAST(0 AS BIT) FROM DapAnTVRaw
+    UNION ALL
+    SELECT STT, MaCauHoi, 4, DapSai3, CAST(0 AS BIT) FROM DapAnTVRaw
+),
+DanhSoDapAnTV AS (
+    -- 620 đáp án Toán đã có: DA0001–DA0620, nên TV bắt đầu từ 621
+    SELECT
+        620 + (STT - 156) * 4 + AnsIndex AS DapSoTV,
+        MaCauHoi,
+        NoiDungDapAn,
+        LaDapAnDung
+    FROM DapAnTV
+)
+INSERT INTO DapAn (MaDapAn, MaCauHoi, NoiDungDapAn, LaDapAnDung)
+SELECT
+    'DA' + RIGHT('0000' + CAST(DapSoTV AS VARCHAR(4)), 4),
+    MaCauHoi,
+    NoiDungDapAn,
+    LaDapAnDung
+FROM DanhSoDapAnTV;
+GO
+--Kiểm tra về câu hỏi và đáp án 
+SELECT COUNT(*) FROM CauHoi;   -- phải = 310
+SELECT COUNT(*) FROM DapAn;    -- phải = 1240
+SELECT MIN(MaCauHoi), MAX(MaCauHoi) FROM CauHoi;   -- CH001 -> CH310
+SELECT MIN(MaDapAn), MAX(MaDapAn) FROM DapAn;      -- DA0001 -> DA1240
+
+--Map câu hỏi cho Củng Cố (CC001–CC020) → CH001–CH200
+DECLARE @cc_fix INT = 1, @ch_fix INT = 1;
+WHILE @cc_fix <= 20
+BEGIN
+    DECLARE @thuTu_cc_fix INT = 1;
+    WHILE @thuTu_cc_fix <= 10
+    BEGIN
+        INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
+        VALUES (
+            'CC' + RIGHT('000' + CAST(@cc_fix AS VARCHAR(3)), 3),
+            'CH' + RIGHT('000' + CAST(@ch_fix AS VARCHAR(3)), 3),
+            @thuTu_cc_fix
+        );
+
+        SET @ch_fix = @ch_fix + 1;          -- sang câu hỏi tiếp theo
+        SET @thuTu_cc_fix = @thuTu_cc_fix + 1; -- tăng thứ tự trong bài
+    END
+
+    SET @cc_fix = @cc_fix + 1; -- sang bài Củng cố tiếp theo
+END
+GO
+--Map câu hỏi cho Ôn Luyện (OL001–OL009) → CH201–CH290
+DECLARE @ol_fix INT = 1, @ch_ol_fix INT = 201;
+WHILE @ol_fix <= 9
+BEGIN
+    DECLARE @thuTu_ol_fix INT = 1;
+    WHILE @thuTu_ol_fix <= 10
+    BEGIN
+        INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
+        VALUES (
+            'OL' + RIGHT('000' + CAST(@ol_fix AS VARCHAR(3)), 3),
+            'CH' + RIGHT('000' + CAST(@ch_ol_fix AS VARCHAR(3)), 3),
+            @thuTu_ol_fix
+        );
+
+        SET @ch_ol_fix = @ch_ol_fix + 1;
+        SET @thuTu_ol_fix = @thuTu_ol_fix + 1;
+    END
+
+    SET @ol_fix = @ol_fix + 1;
+END
+GO
+--Map câu hỏi cho Thử Thách (TT001) → CH291–CH310
+DECLARE @ch_tt_fix INT = 291;
+DECLARE @thuTu_tt_fix INT = 1;
+
+WHILE @thuTu_tt_fix <= 20
+BEGIN
+    INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
+    VALUES (
+        'TT001',
+        'CH' + RIGHT('000' + CAST(@ch_tt_fix AS VARCHAR(3)), 3),
+        @thuTu_tt_fix
+    );
+
+    SET @ch_tt_fix = @ch_tt_fix + 1;
+    SET @thuTu_tt_fix = @thuTu_tt_fix + 1;
+END
+GO
