@@ -94,16 +94,7 @@ CREATE TABLE TienTrinhHocTap (
     DaHoanThanh BIT NOT NULL DEFAULT 0
 );
 GO
--- 9. bảng LichSuHoatDong
-CREATE TABLE LichSuHoatDong (
-    MaLichSu char(8) PRIMARY KEY,
-    MaNguoiDung char(5) FOREIGN KEY REFERENCES NguoiDung(MaNguoiDung),
-    ThoiGian DATETIME2 DEFAULT SYSUTCDATETIME(),
-    LoaiDiem NVARCHAR(50) NOT NULL, -- Ví dụ: 'Kiểm tra', 'Hàng ngày', 'Thưởng'
-    SoDiem INT NOT NULL,
-    ChiTiet NVARCHAR(200) NULL
-);
-GO
+
 
 ---------------------------------------------------------------------
 -- DML: INSERT DỮ LIỆU
@@ -815,28 +806,7 @@ WHERE
 ORDER BY
     HQC.ThuTu, DAP.MaDapAn;
 
--- 8. Lấy TỔNG ĐIỂM và phân loại Điểm Kiểm Tra / Điểm Hàng Ngày (theo yêu cầu giao diện)
-SELECT
-    (SELECT SUM(SoDiem) FROM LichSuHoatDong WHERE MaNguoiDung = 'ND002') AS TongDiem,
-    ISNULL(SUM(CASE WHEN LoaiDiem = N'Kiểm tra' THEN SoDiem ELSE 0 END), 0) AS DiemKiemTra,
-    ISNULL(SUM(CASE WHEN LoaiDiem = N'Hàng ngày' OR LoaiDiem = N'Streaks' THEN SoDiem ELSE 0 END), 0) AS DiemHangNgay
-FROM
-    LichSuHoatDong
-WHERE
-    MaNguoiDung = 'ND002';
 
-
---9. Lấy chi tiết lịch sử điểm (như trong ảnh giao diện)
-SELECT
-    SoDiem,
-    ThoiGian,
-    ChiTiet
-FROM
-    LichSuHoatDong
-WHERE
-    MaNguoiDung = 'ND002'
-ORDER BY
-    ThoiGian DESC;
 
 -- 10. Lấy TOP 5 người dùng có điểm cao nhất
 SELECT TOP 5
@@ -848,18 +818,6 @@ FROM
 ORDER BY
     TongDiem DESC;
 
--- GIẢ ĐỊNH: Người dùng ND002 làm xong bài 'CC003' và được 45 điểm
--- Bước 1: Ghi nhận điểm vào Lịch sử hoạt động
--- làm gì: Chèn một bản ghi mới vào lịch sử điểm.
-INSERT INTO LichSuHoatDong (MaLichSu, MaNguoiDung, LoaiDiem, SoDiem, ChiTiet)
-VALUES (
-    'LS000001', -- Cần logic tạo ID duy nhất
-    'ND002',
-    N'Kiểm tra',
-    45,
-    N'Hoàn thành Củng cố Toán 3'
-);
-
 -- Bước 2: Cập nhật lại Tổng Điểm trong bảng NguoiDung
 -- làm gì: Cộng điểm mới vào TongDiem của người dùng.
 UPDATE NguoiDung
@@ -869,7 +827,6 @@ WHERE MaNguoiDung = 'ND002';
 use UngDungHocTapChoTre
 go 
 select * from NguoiDung
-select * from LichSuHoatDong
 GO
 
 
@@ -1212,3 +1169,4 @@ BEGIN
     SET @thuTu_tt_fix = @thuTu_tt_fix + 1;
 END
 GO
+
