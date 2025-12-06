@@ -26,78 +26,84 @@
             android:enabled="true"
             android:exported="true" />
         <activity
-            android:name=".Activity.Games.sudoku"
+            android:name=".UI.Activity.Games.sudoku"
             android:exported="false" />
         <activity
-            android:name=".Activity.GiaoDienTong.GiaoDienTong"
+            android:name=".UI.Activity.GiaoDienTong.GiaoDienTong"
             android:exported="false" />
         <activity
-            android:name=".TracNghiem"
+            android:name=".UI.Activity.LyThuyet.TracNghiem"
             android:exported="false" />
         <!--<activity
             android:name=".TroChoi"
             android:exported="false"
             android:theme="@style/Theme.AppHocTapChoTre" />-->
         <activity
-            android:name=".CaiDat"
+            android:name=".UI.Activity.Settings.CaiDat"
             android:exported="false" />
-        <activity android:name=".GioiThieuKHViewPager" />
-        <activity android:name=".NgonNgu" />
-        <activity android:name=".ThongBao" />
+        <activity android:name=".UI.Activity.Settings.Viewpager2.GioiThieuKHViewPager" />
+        <activity android:name=".UI.Activity.Settings.NgonNgu" />
+        <activity android:name=".UI.Activity.Settings.ThongBao" />
         <activity
-            android:name=".OnboardingActivity"
+            android:name=".UI.Activity.GioiThieu.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.CungCo.cungcokienthuc"
-            android:exported="false" /> <!-- ai làm gì môn học toán hả cấn lỗi t comment -->
+            android:name=".UI.Activity.CungCo.CungCoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.CungCo.CungCoActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.CungCo.CauHoiActivity"
+            android:exported="false" /><!-- ai làm gì môn học toán hả cấn lỗi t comment -->
         <!-- <activity -->
         <!-- android:name=".monhoctoan" -->
         <!-- android:exported="false" /> -->
-        <activity android:name=".BangCuuChuong" />
-        <activity android:name=".Activity.MonHoc.NoiDungTiengViet" />
-        <activity android:name=".Thuthach100Cau" />
-        <activity android:name=".CauHoi100" />
+        <activity android:name=".UI.Activity.LyThuyet.BangCuuChuong" />
+        <activity android:name=".UI.Activity.MonHoc.NoiDungTiengViet" />
+        <activity android:name=".UI.Activity.HoatDongDangDienRa.Thuthach100Cau" />
+        <activity android:name=".UI.Activity.HoatDongDangDienRa.CauHoi100" />
         <activity
-            android:name=".Activity.TroChoi.Trochoi"
+            android:name=".UI.Activity.TroChoi.Trochoi"
             android:exported="false" />
         <activity
-            android:name=".Activity.OnLuyen.OnLuyen"
+            android:name=".UI.Activity.OnLuyen.OnLuyen"
             android:exported="false" />
         <activity
-            android:name=".Activity.OnLuyen.DeCoBan"
+            android:name=".UI.Activity.OnLuyen.DeCoBan"
             android:exported="false" />
         <activity
-            android:name=".Activity.OnLuyen.DeTrungBinh"
+            android:name=".UI.Activity.OnLuyen.DeTrungBinh"
             android:exported="false" />
         <activity
-            android:name=".Activity.OnLuyen.DeNangCao"
+            android:name=".UI.Activity.OnLuyen.DeNangCao"
             android:exported="false" />
         <activity
-            android:name=".Activity.MonHoc.LyThuyetCoBan"
+            android:name=".UI.Activity.MonHoc.LyThuyetCoBan"
             android:exported="false" />
         <activity
-            android:name=".Activity.MonHoc.MonHocTiengViet"
+            android:name=".UI.Activity.MonHoc.MonHocTiengViet"
             android:exported="false" />
         <activity
-            android:name=".Activity.MonHoc.MonHocToan"
+            android:name=".UI.Activity.MonHoc.MonHocToan"
             android:exported="false" />
         <activity
-            android:name=".Activity.Account.DangKy.DangKyOTP"
+            android:name=".UI.Activity.Account.DangKy.DangKyOTP"
             android:exported="false" />
         <activity
-            android:name=".Activity.Account.QuenMatKau.QuenMatKhauOTP"
+            android:name=".UI.Activity.Account.QuenMatKau.QuenMatKhauOTP"
             android:exported="false" />
         <activity
-            android:name=".Activity.Account.DangKy.DangKy"
+            android:name=".UI.Activity.Account.DangKy.DangKy"
             android:exported="false" />
         <activity
-            android:name=".Activity.Account.QuenMatKau.QuenMatKhau"
+            android:name=".UI.Activity.Account.QuenMatKau.QuenMatKhau"
             android:exported="false" />
         <activity
-            android:name=".Activity.Account.DangNhap.DangNhapOTP"
+            android:name=".UI.Activity.Account.DangNhap.DangNhapOTP"
             android:exported="false" />
         <activity
-            android:name=".Activity.Account.DangNhap.GiaoDienDangNhap"
+            android:name=".UI.Activity.Account.DangNhap.GiaoDienDangNhap"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

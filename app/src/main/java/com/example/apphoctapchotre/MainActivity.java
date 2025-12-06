@@ -14,9 +14,9 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.apphoctapchotre.Activity.Account.DangNhap.GiaoDienDangNhap;
-import com.example.apphoctapchotre.Api.ApiService;
-import com.example.apphoctapchotre.Api.RetrofitClient;
+import com.example.apphoctapchotre.UI.Activity.Account.DangNhap.GiaoDienDangNhap;
+import com.example.apphoctapchotre.DATA.remote.ApiService;
+import com.example.apphoctapchotre.DATA.remote.RetrofitClient;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

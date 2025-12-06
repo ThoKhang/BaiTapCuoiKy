@@ -89,7 +89,7 @@ public class NguoiDungController {
         XepHangResponse res = service.layXepHang(email, gioiHan);
         return ResponseEntity.ok(res);
     }
-    
+  
     @PostMapping("/lich-su-diem")
     public ResponseEntity<?> lichSuDiem(@RequestBody Map<String, String> body) {
         String email = body.get("email");
@@ -101,6 +101,21 @@ public class NguoiDungController {
         } catch (RuntimeException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
+    }
+    @PostMapping("/get-by-email")
+    public ResponseEntity<?> getByEmail(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        if (email == null || email.isBlank()) {
+            return ResponseEntity.badRequest().body("Email không được để trống!");
+        }
+
+        NguoiDungResponse nd = service.getByEmail(email);
+        if (nd == null) {
+            return ResponseEntity.status(404)
+                    .body("Không tìm thấy người dùng với email: " + email);
+        }
+
+        return ResponseEntity.ok(nd);
     }
 
 }
