@@ -1,7 +1,9 @@
 package com.example.backend.converter;
 
+import com.example.backend.config.NguoiDungDetails;
 import com.example.backend.entity.NguoiDung;
 import com.example.backend.dto.response.NguoiDungResponse;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public class NguoiDungConverter {
 
@@ -13,5 +15,8 @@ public class NguoiDungConverter {
         dto.setTongDiem(entity.getTongDiem());
         dto.setNgayTao(entity.getNgayTao());
         return dto;
+    }
+    public static UserDetails toUserDetails(NguoiDung entity) {
+        return new NguoiDungDetails(entity); 
     }
 }

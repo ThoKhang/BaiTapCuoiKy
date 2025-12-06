@@ -5,6 +5,7 @@ import com.example.backend.dto.request.RegisterRequest;
 import com.example.backend.dto.response.LichSuDiemResponse;
 import com.example.backend.dto.response.NguoiDungResponse;
 import com.example.backend.dto.response.XepHangResponse;
+import com.example.backend.entity.NguoiDung;
 
 public interface INguoiDungService {
 
@@ -24,5 +25,6 @@ public interface INguoiDungService {
     XepHangResponse layXepHang(String email, int gioiHan);
     
     LichSuDiemResponse layThongKeDiemVaLichSu(String email);
+    public NguoiDung verifyOtpAndReturnUser(String email, String otp);
 }
 
