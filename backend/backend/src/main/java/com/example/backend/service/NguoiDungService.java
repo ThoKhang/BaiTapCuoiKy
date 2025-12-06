@@ -258,4 +258,16 @@ public class NguoiDungService implements INguoiDungService {
         return res;
     }
 
+    @Override
+    public NguoiDung verifyOtpAndReturnUser(String email, String otp) {
+        boolean hopLe = otpService.validateOTP(email, otp);
+
+        if (!hopLe) {
+            return null; 
+        }
+        NguoiDung nd = nguoiDungRepository.findByEmail(email);
+        capNhatDangNhapHangNgay(email);
+        return nd;
+    }
+
 }
