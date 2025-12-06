@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +28,9 @@ import retrofit2.Response;
 
 public class CauHoiActivity extends AppCompatActivity {
 
-    private TextView tvCauHoi, tvQuestionNumber, tvDapAnA, tvDapAnB, tvDapAnC, tvDapAnD;
+    private TextView tvCauHoi, tvQuestionNumber, tvDapAnA, tvDapAnB, tvDapAnC, tvDapAnD, tvGiaiThich;
     private Button btnA, btnB, btnC, btnD, btnTiepTuc;
+    private View btnHuongDan;
 
     private ApiService api;
     private List<List<CauHoiDapAnResponse>> nhomCauHoi = new ArrayList<>();
@@ -38,10 +40,10 @@ public class CauHoiActivity extends AppCompatActivity {
     private String maHoatDong;
     private String maNguoiDung;
 
-    private int soCauDung = 0;     // tổng số câu đúng người dùng chọn
-    private int tongCauHoi = 0;   // gửi qua backend
+    private int soCauDung = 0;
+    private int tongCauHoi = 0;
 
-    private boolean daChonDapAn = false; // để tránh click nhiều lần trong 1 câu
+    private boolean daChonDapAn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,9 @@ public class CauHoiActivity extends AppCompatActivity {
         tvDapAnB = findViewById(R.id.tvDapAnB);
         tvDapAnC = findViewById(R.id.tvDapAnC);
         tvDapAnD = findViewById(R.id.tvDapAnD);
+        tvGiaiThich = findViewById(R.id.tvGiaiThich);
+
+        btnHuongDan = findViewById(R.id.btn_huong_dan);
 
         btnA = findViewById(R.id.btnA);
         btnB = findViewById(R.id.btnB);
@@ -136,6 +141,20 @@ public class CauHoiActivity extends AppCompatActivity {
         tvDapAnC.setText("C. " + cauHoi.get(2).getNoiDungDapAn());
         tvDapAnD.setText("D. " + cauHoi.get(3).getNoiDungDapAn());
 
+        // ================== GIẢI THÍCH ==================
+        tvGiaiThich.setText(cauHoi.get(0).getGiaiThich());
+        tvGiaiThich.setVisibility(View.GONE);   // ⬅ TẮT GIẢI THÍCH KHI SANG CÂU MỚI
+
+        // Nút hướng dẫn để bật/tắt giải thích
+        btnHuongDan.setOnClickListener(v -> {
+            if (tvGiaiThich.getVisibility() == View.GONE) {
+                tvGiaiThich.setVisibility(View.VISIBLE);
+            } else {
+                tvGiaiThich.setVisibility(View.GONE);
+            }
+        });
+
+        // ================== ĐÁP ÁN ==================
         btnA.setTag(cauHoi.get(0));
         btnB.setTag(cauHoi.get(1));
         btnC.setTag(cauHoi.get(2));
@@ -150,14 +169,14 @@ public class CauHoiActivity extends AppCompatActivity {
         for (Button b : arr) {
             b.setOnClickListener(v -> {
 
-                if (daChonDapAn) return; // tránh chọn nhiều lần
+                if (daChonDapAn) return;
 
                 daChonDapAn = true;
                 CauHoiDapAnResponse dap = (CauHoiDapAnResponse) b.getTag();
 
                 if (dap.isLaDapAnDung()) {
                     tintButton(b, Color.GREEN);
-                    soCauDung++;  // chỉ cộng khi người dùng CHỌN đúng
+                    soCauDung++;
                 } else {
                     tintButton(b, Color.RED);
                 }
@@ -169,13 +188,10 @@ public class CauHoiActivity extends AppCompatActivity {
 
         btnTiepTuc.setOnClickListener(v -> {
             index++;
-            hienThiCauHoi();
+            hienThiCauHoi();  // ⬅ MỖI LẦN QUA CÂU → GIẢI THÍCH TỰ TẮT
         });
     }
 
-    // ======================================================
-    // GỌI API HOÀN THÀNH
-    // ======================================================
     private void hoanThanhBaiLam() {
 
         int diem = soCauDung * 5;

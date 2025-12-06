@@ -15,7 +15,7 @@ import java.util.List;
 public class CungCoAdapter extends ArrayAdapter<CungCoDaLamResponse> {
 
     private final Context context;
-    private List<CungCoDaLamResponse> list; // ❌ bỏ final để cho phép update
+    private List<CungCoDaLamResponse> list; // bỏ final để cho phép update
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {

@@ -27,7 +27,7 @@ public class CungCoActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> launcher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
-                    loadTienDo(); // 🔥 Reload giao diện
+                    loadTienDo(); // Reload giao diện
                 }
             });
 
@@ -83,7 +83,7 @@ public class CungCoActivity extends AppCompatActivity {
         });
     }
 
-    // 🔥 Gọi API lấy tiến độ
+    // Gọi API lấy tiến độ
     private void loadTienDo() {
         viewModel.loadTienDo(maNguoiDung);
     }
@@ -93,6 +93,6 @@ public class CungCoActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CungCoActivity2.class);
         intent.putExtra("maMonHoc", maMon);
         intent.putExtra("maNguoiDung", maNguoiDung);
-        launcher.launch(intent); // 🔥 MUST HAVE
+        launcher.launch(intent); // MUST HAVE
     }
 }

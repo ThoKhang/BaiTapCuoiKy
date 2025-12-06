@@ -29,13 +29,13 @@ public class CungCoActivity2 extends AppCompatActivity {
 
                 if (result.getResultCode() == RESULT_OK) {
 
-                    // 🔥 Reload danh sách bài củng cố
+                    //  Reload danh sách bài củng cố
                     vm.loadCungCoDaLam(maMon);
 
-                    // 🔥 Báo cho Activity 1 rằng đã thay đổi tiến độ
+                    // Báo cho Activity 1 rằng đã thay đổi tiến độ
                     setResult(RESULT_OK);
 
-                    // 🔥 Quan trọng: KHÔNG finish() → vẫn ở màn danh sách nhưng dữ liệu đã cập nhật
+                    //  KHÔNG finish() → vẫn ở màn danh sách nhưng dữ liệu đã cập nhật
                 }
             });
 
@@ -82,7 +82,7 @@ public class CungCoActivity2 extends AppCompatActivity {
 
                 listBaiKiemTra.setAdapter(adapter);
             } else {
-                adapter.updateData(list);  // 🔥 cập nhật dữ liệu mà không tạo adapter mới
+                adapter.updateData(list);
             }
         });
 

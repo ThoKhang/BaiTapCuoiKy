@@ -14,7 +14,7 @@ public class CungCoViewModel extends ViewModel {
 
     private final CungCoRepository repository = new CungCoRepository();
 
-    // 🔥 KHỞI TẠO LUÔN ĐỂ TRÁNH NULL
+    // KHỞI TẠO LUÔN ĐỂ TRÁNH NULL
     private final MutableLiveData<List<CungCoResponse>> tienDoLiveData =
             new MutableLiveData<>(new ArrayList<>());
 
@@ -22,7 +22,7 @@ public class CungCoViewModel extends ViewModel {
         return tienDoLiveData;
     }
 
-    // 🔥 LUÔN GÁN GIÁ TRỊ CHO LiveData
+    // LUÔN GÁN GIÁ TRỊ CHO LiveData
     public void loadTienDo(String maNguoiDung) {
         repository.getTienDo(maNguoiDung).observeForever(list -> {
             if (list != null) {

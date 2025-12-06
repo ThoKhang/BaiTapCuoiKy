@@ -67,9 +67,10 @@ public interface ApiService {
             @Query("maMonHoc") String maMonHoc,
             @Query("maNguoiDung") String maNguoiDung
     );
-    // Endpoint lấy câu hỏi theo ID - nếu có
+
     @GET("cauhoi/{maCauHoi}")
     Call<CauHoi> getCauHoiById(@Path("maCauHoi") String maCauHoi);
+
     @GET("cauhoi/bailam/{maHoatDong}")
     Call<List<CauHoi>> getDanhSachCauHoi(@Path("maHoatDong") String maHoatDong);
 

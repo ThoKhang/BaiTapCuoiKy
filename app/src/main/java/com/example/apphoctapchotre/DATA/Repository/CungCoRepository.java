@@ -37,13 +37,13 @@ public class CungCoRepository {
                 if (response.isSuccessful() && response.body() != null) {
                     data.setValue(response.body());
                 } else {
-                    data.setValue(new ArrayList<>());  // ⭐ NEVER NULL
+                    data.setValue(new ArrayList<>());
                 }
             }
 
             @Override
             public void onFailure(Call<List<CungCoResponse>> call, Throwable t) {
-                data.setValue(new ArrayList<>());      // ⭐ NEVER NULL
+                data.setValue(new ArrayList<>());
             }
         });
 
