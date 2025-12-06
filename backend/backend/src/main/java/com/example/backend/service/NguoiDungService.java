@@ -8,10 +8,10 @@ import com.example.backend.dto.response.LichSuDiemResponse;
 import com.example.backend.dto.response.NguoiDungResponse;
 import com.example.backend.dto.response.NguoiDungXepHangResponse;
 import com.example.backend.dto.response.XepHangResponse;
-import com.example.backend.entity.LichSuHoatDong;
 import com.example.backend.entity.NguoiDung;
-import com.example.backend.repository.LichSuHoatDongRepository;
+import com.example.backend.entity.TienTrinhHocTap;
 import com.example.backend.repository.NguoiDungRepository;
+import com.example.backend.repository.TienTrinhHocTapRepository;
 import com.example.backend.service.IService.INguoiDungService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,17 +27,13 @@ public class NguoiDungService implements INguoiDungService {
 
     @Autowired
     private NguoiDungRepository nguoiDungRepository;
-
     @Autowired
     private EmailService emailService;
-
     @Autowired
     private OTPService otpService;
-    
     @Autowired
-    private LichSuHoatDongRepository lichSuHoatDongRepository;
-    
-    @Override
+    private TienTrinhHocTapRepository tienTrinhHocTapRepository;
+    @Override   
     public NguoiDungResponse register(RegisterRequest request) {
 
         if (nguoiDungRepository.findByEmail(request.getEmail()) != null) {
@@ -76,18 +72,6 @@ public class NguoiDungService implements INguoiDungService {
 
         return "OTP đã gửi, vui lòng kiểm tra email.";
     }
-    private int tinhTongDiemNguoiDung(NguoiDung nguoiDung) {
-        if (nguoiDung == null) return 0;
-
-        int soLanTrucTuyen = (nguoiDung.getSoLanTrucTuyen() == null)
-                ? 0
-                : nguoiDung.getSoLanTrucTuyen();
-
-        int tongDiemLichSu = lichSuHoatDongRepository
-                .tongDiemTatCa(nguoiDung.getMaNguoiDung());
-
-        return soLanTrucTuyen + tongDiemLichSu;
-    }
     private void capNhatDangNhapHangNgay(String email) {
         NguoiDung nd = nguoiDungRepository.findByEmail(email);
         if (nd == null) {
@@ -112,11 +96,6 @@ public class NguoiDungService implements INguoiDungService {
 
         // Luôn cập nhật thời gian đăng nhập cuối
         nd.setLanDangNhapCuoi(nowUtc);
-
-        // 👉 Cập nhật lại tổng điểm theo công thức: SoLanTrucTuyen + tổng điểm history
-        int tongDiemMoi = tinhTongDiemNguoiDung(nd);
-        nd.setTongDiem(tongDiemMoi);
-
         nguoiDungRepository.save(nd);
     }
 
@@ -124,14 +103,11 @@ public class NguoiDungService implements INguoiDungService {
     @Override
     public boolean verifyOtp(String email, String otp) {
         boolean hopLe = otpService.validateOTP(email, otp);
-
         if (!hopLe) {
             return false;
         }
-
         //  OTP đúng → coi như đăng nhập thành công → cập nhật lần đăng nhập + số lần trực tuyến
         capNhatDangNhapHangNgay(email);
-
         return true;
     }
     
@@ -216,45 +192,67 @@ public class NguoiDungService implements INguoiDungService {
 
         return res;
     }
-    
+
     @Override
     public LichSuDiemResponse layThongKeDiemVaLichSu(String email) {
-        NguoiDung nguoiDung = nguoiDungRepository.findByEmail(email);
-        if (nguoiDung == null) {
-            throw new RuntimeException("Không tìm thấy người dùng!");
+        NguoiDung nd = nguoiDungRepository.findByEmail(email);
+        if (nd == null) {
+            throw new RuntimeException("Không tìm thấy người dùng.");
         }
 
-        int tongDiem = nguoiDung.getTongDiem();
+        // ===== Điểm hàng ngày =====
+        Integer soLanTrucTuyen = nd.getSoLanTrucTuyen();
+        if (soLanTrucTuyen == null) soLanTrucTuyen = 0;
+        final int DIEM_MOI_LAN_DANG_NHAP = 10;
+        int diemHoatDong = soLanTrucTuyen * DIEM_MOI_LAN_DANG_NHAP;
 
-        // Tổng điểm loại "Kiểm tra"
-        int diemKiemTra = lichSuHoatDongRepository
-                .tongDiemTheoLoai(nguoiDung.getMaNguoiDung(), "Kiểm tra");
+        // ===== Điểm kiểm tra + lịch sử bài làm =====
+        List<TienTrinhHocTap> list =
+                tienTrinhHocTapRepository.findByNguoiDung_MaNguoiDung(nd.getMaNguoiDung());
 
-        if (diemKiemTra < 0) diemKiemTra = 0;
+        System.out.println(">>> TienTrinh size = " + list.size());   // LOG
 
-        // Điểm hoạt động = Tổng - điểm kiểm tra (nếu âm thì đưa về 0 cho an toàn)
-        int diemHoatDong = tongDiem - diemKiemTra;
-        if (diemHoatDong < 0) diemHoatDong = 0;
+        int diemKiemTra = 0;
+        List<LichSuDiemItem> chiTiet = new ArrayList<>();
 
-        // Danh sách chi tiết lịch sử
-        List<LichSuHoatDong> lichSu = lichSuHoatDongRepository
-                .findByNguoiDungOrderByThoiGianDesc(nguoiDung);
+        for (TienTrinhHocTap tt : list) {
+            // CHỈ tính bài đã hoàn thành (nếu muốn tất cả thì bỏ if này)
+            if (!tt.isDaHoanThanh()) {
+                continue;
+            }
 
-        List<LichSuDiemItem> dsChiTiet = lichSu.stream().map(ls -> {
+            int diem = tt.getDiemDatDuoc();
+            diemKiemTra += diem;
+
             LichSuDiemItem item = new LichSuDiemItem();
-            item.setSoDiem(ls.getSoDiem());
-            item.setThongTin(ls.getChiTiet());
-            item.setThoiGian(ls.getThoiGian() != null
-                    ? ls.getThoiGian().toString()   // ví dụ: "2025-11-17T15:30:00"
-                    : "");
-            return item;
-        }).toList();
+            item.setSoDiem(diem);
+            item.setThongTin("Hoàn thành: " + tt.getHoatDong().getTieuDe());
+            item.setThoiGian(
+                    tt.getNgayHoanThanh() != null
+                            ? tt.getNgayHoanThanh().toString()
+                            : ""
+            );
+            chiTiet.add(item);
 
+            System.out.println(">>> item: " + item.getThongTin()
+                    + " | diem=" + item.getSoDiem()
+                    + " | time=" + item.getThoiGian());             // LOG
+        }
+
+        System.out.println(">>> So item tra ve = " + chiTiet.size()); // LOG
+
+        // ===== Tổng điểm + ghi lại vào NguoiDung =====
+        int tongDiem = diemHoatDong + diemKiemTra;
+        nd.setTongDiem(tongDiem);
+        nguoiDungRepository.save(nd);
+
+        // ===== Trả về =====
         LichSuDiemResponse res = new LichSuDiemResponse();
         res.setTongDiem(tongDiem);
-        res.setDiemKiemTra(diemKiemTra);
         res.setDiemHoatDong(diemHoatDong);
-        res.setDanhSachChiTiet(dsChiTiet);
+        res.setDiemKiemTra(diemKiemTra);
+        res.setDanhSachChiTiet(chiTiet);
+
         return res;
     }
 
