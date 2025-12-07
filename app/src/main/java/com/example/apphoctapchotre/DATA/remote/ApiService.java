@@ -4,6 +4,7 @@ import com.example.apphoctapchotre.DATA.model.CauHoi;
 import com.example.apphoctapchotre.DATA.model.CauHoiDapAnResponse;
 import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
 import com.example.apphoctapchotre.DATA.model.NguoiDung;
+import com.example.apphoctapchotre.DATA.model.OnLuyen;
 import com.example.apphoctapchotre.DATA.model.XepHangResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoMonHocResponse;
@@ -86,5 +87,7 @@ public interface ApiService {
             @Query("diem") int diem
     );
 
+    @GET("onluyen")
+    Call<OnLuyen> onLuyen(@Query("email") String email);
 
 }
