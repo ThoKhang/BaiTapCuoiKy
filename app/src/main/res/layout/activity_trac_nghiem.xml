@@ -68,12 +68,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Củng cố phép cộng"
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/imgVuongMieng"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:contentDescription="Crown"

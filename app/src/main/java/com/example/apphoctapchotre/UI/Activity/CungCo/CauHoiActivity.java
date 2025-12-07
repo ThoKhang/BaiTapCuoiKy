@@ -29,7 +29,7 @@ import retrofit2.Response;
 
 public class CauHoiActivity extends AppCompatActivity {
 
-    private TextView tvCauHoi, tvQuestionNumber, tvDapAnA, tvDapAnB, tvDapAnC, tvDapAnD, tvGiaiThich;
+    private TextView tvCauHoi, tvQuestionNumber, tvDapAnA, tvDapAnB, tvDapAnC, tvDapAnD, tvGiaiThich, tvTieuDePhu ;
     private Button btnA, btnB, btnC, btnD, btnTiepTuc;
     private View btnHuongDan;
 
@@ -59,6 +59,11 @@ public class CauHoiActivity extends AppCompatActivity {
         maHoatDong = getIntent().getStringExtra("maHoatDong");
         maNguoiDung = getIntent().getStringExtra("maNguoiDung");
 
+        String tenHoatDong = getIntent().getStringExtra("tenHoatDong");
+        if (tenHoatDong != null && !tenHoatDong.isEmpty()) {
+            tvTieuDePhu.setText(tenHoatDong);
+        }
+
         if (maNguoiDung == null || maNguoiDung.isEmpty()) {
             SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
             maNguoiDung = prefs.getString("MA_NGUOI_DUNG", null);
@@ -78,6 +83,7 @@ public class CauHoiActivity extends AppCompatActivity {
         findViewById(R.id.quayLai).setOnClickListener(v -> finish());
     }
 
+
     private void bindUI() {
         tvCauHoi = findViewById(R.id.tvCauHoi);
         tvQuestionNumber = findViewById(R.id.tv_question_number);
@@ -89,6 +95,7 @@ public class CauHoiActivity extends AppCompatActivity {
         tvGiaiThich = findViewById(R.id.tvGiaiThich);
 
         btnHuongDan = findViewById(R.id.btn_huong_dan);
+        tvTieuDePhu = findViewById(R.id.tvTieuDePhu);
 
         btnA = findViewById(R.id.btnA);
         btnB = findViewById(R.id.btnB);
