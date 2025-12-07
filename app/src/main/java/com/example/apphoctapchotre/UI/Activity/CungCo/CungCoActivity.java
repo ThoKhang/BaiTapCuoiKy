@@ -1,9 +1,11 @@
 package com.example.apphoctapchotre.UI.Activity.CungCo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -21,13 +23,12 @@ public class CungCoActivity extends AppCompatActivity {
     private LinearLayout btnTiengViet, btnToan;
 
     private CungCoViewModel viewModel;
-    private final String maNguoiDung = "ND004"; // FIXED CHO TEST
+    private String maNguoiDung;
 
-    // Nhận kết quả từ Activity2 để reload tiến độ
     private final ActivityResultLauncher<Intent> launcher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
-                    loadTienDo(); // Reload giao diện
+                    loadTienDo();
                 }
             });
 
@@ -38,12 +39,20 @@ public class CungCoActivity extends AppCompatActivity {
 
         bindUI();
 
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        maNguoiDung = prefs.getString("MA_NGUOI_DUNG", null);
+
+        if (maNguoiDung == null || maNguoiDung.isEmpty()) {
+            Toast.makeText(this, "Không tìm thấy mã người dùng. Vui lòng đăng nhập lại.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         viewModel = new ViewModelProvider(this).get(CungCoViewModel.class);
 
-        observeTienDo();  // Quan sát 1 lần
-        loadTienDo();     // Load tiến độ ban đầu
+        observeTienDo();
+        loadTienDo();
 
-        // Click chọn môn
         btnTiengViet.setOnClickListener(v -> openMon("MH002"));
         btnToan.setOnClickListener(v -> openMon("MH001"));
     }
@@ -65,16 +74,13 @@ public class CungCoActivity extends AppCompatActivity {
             if (list == null) return;
 
             for (var item : list) {
-
-                // Tiếng Việt
-                if (item.getMaMonHoc().equals("MH002")) {
+                if ("MH002".equals(item.getMaMonHoc())) {
                     tvTenMonHocTV.setText(item.getTenMonHoc());
                     txtTienDoTV.setText("Tổng số bài đã học: "
                             + item.getSoDaHoc() + "/" + item.getTongSoBai());
                 }
 
-                // Toán
-                if (item.getMaMonHoc().equals("MH001")) {
+                if ("MH001".equals(item.getMaMonHoc())) {
                     txtTenMonHocT.setText(item.getTenMonHoc());
                     txtTienDoT.setText("Tổng số bài đã học: "
                             + item.getSoDaHoc() + "/" + item.getTongSoBai());
@@ -83,16 +89,14 @@ public class CungCoActivity extends AppCompatActivity {
         });
     }
 
-    // Gọi API lấy tiến độ
     private void loadTienDo() {
         viewModel.loadTienDo(maNguoiDung);
     }
 
-    // Mở Activity2 và đợi kết quả
     private void openMon(String maMon) {
         Intent intent = new Intent(this, CungCoActivity2.class);
         intent.putExtra("maMonHoc", maMon);
         intent.putExtra("maNguoiDung", maNguoiDung);
-        launcher.launch(intent); // MUST HAVE
+        launcher.launch(intent);
     }
 }

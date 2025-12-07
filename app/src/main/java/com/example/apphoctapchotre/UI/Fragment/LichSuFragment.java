@@ -68,11 +68,30 @@ public class LichSuFragment extends Fragment {
         // Đăng ký observe LiveData
         observeViewModel();
 
-        // Lấy email & gọi load dữ liệu
-        String email = docEmailNguoiDung();
-        lichSuViewModel.taiLichSuDiem(email);
+        // Lần đầu vào fragment thì load luôn dữ liệu
+        taiLichSu();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Mỗi lần fragment hiển thị lại → reload lịch sử mới nhất
+        taiLichSu();
+    }
+
+    private void taiLichSu() {
+        String email = docEmailNguoiDung();
+        if (email == null || email.isEmpty()) {
+            if (isAdded()) {
+                Toast.makeText(requireContext(),
+                        "Không tìm thấy email người dùng, vui lòng đăng nhập lại!",
+                        Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        lichSuViewModel.taiLichSuDiem(email);
     }
 
     private String docEmailNguoiDung() {
@@ -92,7 +111,7 @@ public class LichSuFragment extends Fragment {
             tvDiemKiemTra.setText(String.valueOf(diem));
         });
 
-        // Điểm hoạt động
+        // Điểm hoạt động (điểm hằng ngày)
         lichSuViewModel.getDiemHoatDong().observe(getViewLifecycleOwner(), diem -> {
             tvDiemHoatDong.setText(String.valueOf(diem));
         });
@@ -112,7 +131,5 @@ public class LichSuFragment extends Fragment {
                 Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Nếu muốn dùng ProgressBar thì observe thêm getDangTaiLiveData()
     }
 }
