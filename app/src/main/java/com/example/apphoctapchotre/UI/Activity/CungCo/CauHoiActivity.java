@@ -95,6 +95,12 @@ public class CauHoiActivity extends AppCompatActivity {
         btnC = findViewById(R.id.btnC);
         btnD = findViewById(R.id.btnD);
         btnTiepTuc = findViewById(R.id.btnTiepTuc);
+        // Mở trang Premium khi bấm vào icon vương miện
+        findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
+            Intent intent = new Intent(CauHoiActivity.this,
+                    com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
+            startActivity(intent);
+        });
     }
 
     private void loadData() {

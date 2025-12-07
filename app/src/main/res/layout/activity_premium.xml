@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:clipChildren="false"
     android:clipToPadding="false"
@@ -11,7 +11,7 @@
     <!-- Thanh tiêu đề -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="4dp"
@@ -37,12 +37,14 @@
     </LinearLayout>
 
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/Daylaframe"
+        android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/backgroundsale">
 
-        <!-- Left side content -->
+
+    <!-- Left side content -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -105,13 +107,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="251dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="40dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingEnd="20dp">
+            android:orientation="horizontal">
 
             <FrameLayout
                 android:layout_width="32dp"
@@ -214,11 +216,13 @@
     </FrameLayout>
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:fillViewport="true">
 
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FEFFFD"
@@ -344,6 +348,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/gia1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="516.000 đ/1 năm"
@@ -416,6 +421,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/gia2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="316.000 đ/6 tháng"
@@ -467,6 +473,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/gia3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="116.000 đ/1 tháng"
