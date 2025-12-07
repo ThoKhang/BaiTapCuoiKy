@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.UI.Activity.CungCo.CauHoiActivity;
 
 public class LyThuyetCoBan extends AppCompatActivity {
 
@@ -45,5 +46,11 @@ public class LyThuyetCoBan extends AppCompatActivity {
 
         TextView back = findViewById(R.id.back);
         back.setOnClickListener(v -> finish());
+        // Mở trang Premium khi bấm vào icon vương miện
+        findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
+            Intent intent = new Intent(LyThuyetCoBan.this,
+                    com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
+            startActivity(intent);
+        });
     }
 }

@@ -1,5 +1,6 @@
 package com.example.apphoctapchotre.UI.Activity.OnLuyen;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apphoctapchotre.DATA.model.ui.DeItem;
+import com.example.apphoctapchotre.UI.Activity.MonHoc.LyThuyetCoBan;
 import com.example.apphoctapchotre.UI.Adapter.OnLuyen.DeAdapter;
 import com.example.apphoctapchotre.R;
 
@@ -31,5 +33,11 @@ public class DeTrungBinh extends AppCompatActivity {
         }
 
         rv.setAdapter(new DeAdapter(this, list, R.drawable.gadient_detrungbinh));
+        // Mở trang Premium khi bấm vào icon vương miện
+        findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
+            Intent intent = new Intent(DeTrungBinh.this,
+                    com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
+            startActivity(intent);
+        });
     }
 }

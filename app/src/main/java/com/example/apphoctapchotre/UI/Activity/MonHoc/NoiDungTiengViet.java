@@ -1,5 +1,6 @@
 package com.example.apphoctapchotre.UI.Activity.MonHoc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -17,5 +18,11 @@ public class NoiDungTiengViet extends AppCompatActivity {
         // Nút back
         TextView back = findViewById(R.id.back);
         back.setOnClickListener(v -> finish());
+        // Mở trang Premium khi bấm vào icon vương miện
+        findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
+            Intent intent = new Intent(NoiDungTiengViet.this,
+                    com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
+            startActivity(intent);
+        });
     }
 }

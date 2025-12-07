@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.UI.Activity.MonHoc.LyThuyetCoBan;
 
 public class OnLuyen extends AppCompatActivity {
     private Button btnDeCoBan,btndeTrungBinh,btnDeNangCao;
@@ -45,6 +46,12 @@ public class OnLuyen extends AppCompatActivity {
         back =findViewById(R.id.back);
         back.setOnClickListener(v -> {
             Intent intent = new Intent(this, GiaoDienTong.class);
+            startActivity(intent);
+        });
+        // Mở trang Premium khi bấm vào icon vương miện
+        findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
+            Intent intent = new Intent(OnLuyen.this,
+                    com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
             startActivity(intent);
         });
     }
