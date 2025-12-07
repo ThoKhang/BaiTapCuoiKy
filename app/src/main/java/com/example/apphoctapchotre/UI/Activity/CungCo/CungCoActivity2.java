@@ -1,9 +1,11 @@
 package com.example.apphoctapchotre.UI.Activity.CungCo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -23,19 +25,11 @@ public class CungCoActivity2 extends AppCompatActivity {
 
     private CungCoAdapter adapter;
 
-    // Nhận kết quả từ màn làm bài
     private final ActivityResultLauncher<Intent> cauHoiLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-
                 if (result.getResultCode() == RESULT_OK) {
-
-                    //  Reload danh sách bài củng cố
                     vm.loadCungCoDaLam(maMon);
-
-                    // Báo cho Activity 1 rằng đã thay đổi tiến độ
                     setResult(RESULT_OK);
-
-                    //  KHÔNG finish() → vẫn ở màn danh sách nhưng dữ liệu đã cập nhật
                 }
             });
 
@@ -47,22 +41,25 @@ public class CungCoActivity2 extends AppCompatActivity {
         listBaiKiemTra = findViewById(R.id.listBaiKiemTra);
         TextView btnBack = findViewById(R.id.back);
 
-        // ✔ Nhận dữ liệu từ Activity 1
         maMon = getIntent().getStringExtra("maMonHoc");
         maNguoiDung = getIntent().getStringExtra("maNguoiDung");
 
-        if (maNguoiDung == null) {
-            maNguoiDung = "ND004";
+        if (maNguoiDung == null || maNguoiDung.isEmpty()) {
+            SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+            maNguoiDung = prefs.getString("MA_NGUOI_DUNG", null);
         }
 
-        // ViewModel
+        if (maNguoiDung == null || maNguoiDung.isEmpty()) {
+            Toast.makeText(this, "Không tìm thấy mã người dùng. Vui lòng đăng nhập lại.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         vm = new ViewModelProvider(this).get(CungCoViewModel2.class);
         vm.setMaNguoiDung(maNguoiDung);
 
-        // Load lần đầu
         vm.loadCungCoDaLam(maMon);
 
-        // Quan sát danh sách
         vm.getDanhSachDaLam().observe(this, list -> {
             if (list == null) return;
 
@@ -70,7 +67,6 @@ public class CungCoActivity2 extends AppCompatActivity {
                 adapter = new CungCoAdapter(this, list);
 
                 adapter.setOnItemClickListener((item, position) -> {
-
                     Intent intent = new Intent(CungCoActivity2.this, CauHoiActivity.class);
                     intent.putExtra("maHoatDong", item.getMaHoatDong());
                     intent.putExtra("maBaiLam", item.getMaHoatDong());

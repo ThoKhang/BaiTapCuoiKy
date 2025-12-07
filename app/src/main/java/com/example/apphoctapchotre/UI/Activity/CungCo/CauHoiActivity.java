@@ -1,6 +1,7 @@
 package com.example.apphoctapchotre.UI.Activity.CungCo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -58,8 +59,13 @@ public class CauHoiActivity extends AppCompatActivity {
         maHoatDong = getIntent().getStringExtra("maHoatDong");
         maNguoiDung = getIntent().getStringExtra("maNguoiDung");
 
+        if (maNguoiDung == null || maNguoiDung.isEmpty()) {
+            SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+            maNguoiDung = prefs.getString("MA_NGUOI_DUNG", null);
+        }
+
         if (maBaiLam == null || maHoatDong == null || maNguoiDung == null) {
-            Toast.makeText(this, "Thiếu dữ liệu!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Thiếu dữ liệu! Vui lòng quay lại.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -92,7 +98,6 @@ public class CauHoiActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-
         api.getCauHoiBaiLam(maBaiLam).enqueue(new Callback<List<CauHoiDapAnResponse>>() {
             @Override
             public void onResponse(Call<List<CauHoiDapAnResponse>> call, Response<List<CauHoiDapAnResponse>> res) {
@@ -107,9 +112,7 @@ public class CauHoiActivity extends AppCompatActivity {
                         res.body().stream().collect(Collectors.groupingBy(CauHoiDapAnResponse::getMaCauHoi));
 
                 nhomCauHoi = new ArrayList<>(grouped.values());
-
                 tongCauHoi = nhomCauHoi.size();
-
                 index = 0;
                 hienThiCauHoi();
             }
@@ -141,11 +144,9 @@ public class CauHoiActivity extends AppCompatActivity {
         tvDapAnC.setText("C. " + cauHoi.get(2).getNoiDungDapAn());
         tvDapAnD.setText("D. " + cauHoi.get(3).getNoiDungDapAn());
 
-        // ================== GIẢI THÍCH ==================
         tvGiaiThich.setText(cauHoi.get(0).getGiaiThich());
-        tvGiaiThich.setVisibility(View.GONE);   // ⬅ TẮT GIẢI THÍCH KHI SANG CÂU MỚI
+        tvGiaiThich.setVisibility(View.GONE);
 
-        // Nút hướng dẫn để bật/tắt giải thích
         btnHuongDan.setOnClickListener(v -> {
             if (tvGiaiThich.getVisibility() == View.GONE) {
                 tvGiaiThich.setVisibility(View.VISIBLE);
@@ -154,7 +155,6 @@ public class CauHoiActivity extends AppCompatActivity {
             }
         });
 
-        // ================== ĐÁP ÁN ==================
         btnA.setTag(cauHoi.get(0));
         btnB.setTag(cauHoi.get(1));
         btnC.setTag(cauHoi.get(2));
@@ -188,7 +188,7 @@ public class CauHoiActivity extends AppCompatActivity {
 
         btnTiepTuc.setOnClickListener(v -> {
             index++;
-            hienThiCauHoi();  // ⬅ MỖI LẦN QUA CÂU → GIẢI THÍCH TỰ TẮT
+            hienThiCauHoi();
         });
     }
 
@@ -220,7 +220,6 @@ public class CauHoiActivity extends AppCompatActivity {
         });
     }
 
-    // ================= Hiệu ứng màu =================
     private void tintButton(Button btn, int color) {
         Drawable wrapped = DrawableCompat.wrap(btn.getBackground().mutate());
         DrawableCompat.setTint(wrapped, color);
