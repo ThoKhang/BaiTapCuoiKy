@@ -23,7 +23,7 @@ public class NguoiDungDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getMatKhauMaHoa(); // bạn không mã hóa thì để vậy
+        return user.getMatKhauMaHoa(); //không mã hóa thì để vậy
     }
 
     @Override

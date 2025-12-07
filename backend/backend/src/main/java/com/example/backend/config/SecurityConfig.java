@@ -41,6 +41,7 @@ public class SecurityConfig {
     }
 
     // ⭐ SecurityFilterChain chính
+    /*
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -52,6 +53,8 @@ public class SecurityConfig {
                     "/api/nguoidung/login",
                     "/api/nguoidung/verify-otp",
                     "/api/nguoidung/send-otp",
+                    "/api/nguoidung/get-by-email",
+                    "/api/ping",
                     "/api/nguoidung/reset-password"
                 ).permitAll()
                 .anyRequest().authenticated()
@@ -63,5 +66,22 @@ public class SecurityConfig {
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    } */
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()   //MỞ TOANG HẾT
+            )
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .authenticationProvider(authenticationProvider())
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
+
 }
