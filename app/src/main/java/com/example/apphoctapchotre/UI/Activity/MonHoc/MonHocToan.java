@@ -62,5 +62,11 @@ public class MonHocToan extends AppCompatActivity {
         });
 
         rv.setAdapter(adapter);
+        // Mở trang Premium khi bấm vào icon vương miện
+        findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
+            Intent intent = new Intent(MonHocToan.this,
+                    com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
+            startActivity(intent);
+        });
     }
 }
