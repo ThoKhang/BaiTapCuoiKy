@@ -87,7 +87,7 @@ public interface ApiService {
             @Query("diem") int diem
     );
 
-    @GET("onluyen")
+    @GET("api/onluyen")
     Call<OnLuyen> onLuyen(@Query("email") String email);
 
 }

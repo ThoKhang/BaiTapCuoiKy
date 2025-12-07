@@ -1170,3 +1170,38 @@ BEGIN
 END
 GO
 
+select* from hoatdonghoctap
+  --củng cố
+  DECLARE @maNguoiDung NVARCHAR(50) = 'ND007';
+SELECT COUNT(DISTINCT h.MaHoatDong) AS SoDeCoBanDaLam
+FROM TienTrinhHocTap t
+JOIN HoatDongHocTap h ON t.MaHoatDong = h.MaHoatDong
+WHERE t.MaNguoiDung = @maNguoiDung
+  AND h.TieuDe LIKE N'Ôn cơ bản%';
+
+SELECT COUNT(*) AS TongSoDeCoBan
+FROM HoatDongHocTap
+WHERE TieuDe LIKE N'Ôn cơ bản%';
+
+DECLARE @maNguoiDung NVARCHAR(50) = 'ND007';
+SELECT COUNT(DISTINCT h.MaHoatDong) AS SoDeTrungBinhDaLam
+FROM TienTrinhHocTap t
+JOIN HoatDongHocTap h ON t.MaHoatDong = h.MaHoatDong
+WHERE t.MaNguoiDung = @maNguoiDung
+  AND h.TieuDe LIKE N'Ôn TB%';
+
+
+SELECT COUNT(*) AS TongSoDeTrungBinh
+FROM HoatDongHocTap
+WHERE TieuDe LIKE N'Ôn TB%';
+
+DECLARE @maNguoiDung NVARCHAR(50) = 'ND007';
+SELECT COUNT(DISTINCT h.MaHoatDong) AS SoDeNangCaoDaLam
+FROM TienTrinhHocTap t
+JOIN HoatDongHocTap h ON t.MaHoatDong = h.MaHoatDong
+WHERE t.MaNguoiDung = @maNguoiDung
+  AND h.TieuDe LIKE N'Ôn NC%';
+
+SELECT COUNT(*) AS TongSoDeNangCao
+FROM HoatDongHocTap
+WHERE TieuDe LIKE N'Ôn NC%';
