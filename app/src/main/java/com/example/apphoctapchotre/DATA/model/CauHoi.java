@@ -8,6 +8,7 @@ public class CauHoi {
     private String noiDungCauHoi;
     private int diemToiDa;
     private List<DapAn> dapAn;
+    private String GiaiThich;
 
     // Constructor
     public CauHoi() {
@@ -19,6 +20,14 @@ public class CauHoi {
         this.noiDungCauHoi = noiDungCauHoi;
         this.diemToiDa = diemToiDa;
         this.dapAn = dapAn;
+    }
+
+    public String getGiaiThich() {
+        return GiaiThich;
+    }
+
+    public void setGiaiThich(String giaiThich) {
+        GiaiThich = giaiThich;
     }
 
     // Getters

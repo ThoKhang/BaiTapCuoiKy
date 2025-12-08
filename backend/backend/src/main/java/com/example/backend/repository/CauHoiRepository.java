@@ -61,9 +61,9 @@ public interface CauHoiRepository extends JpaRepository<CauHoi, String> {
             + "join HoatDong_CauHoi hc on h.MaHoatDong = hc.MaHoatDong "
             + "join CauHoi c on c.MaCauHoi=hc.MaCauHoi "
             + "join DapAn d on d.MaCauHoi=c.MaCauHoi "
-            + "where h.TieuDe=N'Ôn cơ bản ' +CAST(:soDe as nvarchar(5)) "
+            + "where h.TieuDe=:tieuDe "
             + "order by c.MaCauHoi, d.MaDapAn ",nativeQuery = true)
-    List<Object[]> deCoBan(int soDe);
+    List<Object[]> deCoBan(@Param("tieuDe") String tieuDe);
     //End : Ôn luyện
 
 }

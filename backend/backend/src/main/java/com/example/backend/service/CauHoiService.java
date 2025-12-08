@@ -2,7 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.dto.response.CauHoiResponse;
 import com.example.backend.dto.response.DapAnResponse;
-import com.example.backend.dto.response.DeCoBanResponse;
+import com.example.backend.dto.response.DeOnLuyenResponse;
 import com.example.backend.repository.CauHoiRepository;
 import com.example.backend.service.IService.ICauHoiService;
 import jakarta.persistence.EntityManager;
@@ -264,9 +264,9 @@ public class CauHoiService implements ICauHoiService{
     @Autowired
     private CauHoiRepository cauhoirepo;
     @Override
-    public DeCoBanResponse getDeCoBan(int soDe) {
-        DeCoBanResponse coBanResponse= new DeCoBanResponse();
-        List<Object[]> listCoBan=cauhoirepo.deCoBan(soDe);
+    public DeOnLuyenResponse getDeCoBan(String tD) {
+        DeOnLuyenResponse coBanResponse= new DeOnLuyenResponse();
+        List<Object[]> listCoBan=cauhoirepo.deCoBan(tD);
         if(listCoBan.isEmpty())
             return null;
         Map<String,CauHoiResponse> map = new LinkedHashMap<>();

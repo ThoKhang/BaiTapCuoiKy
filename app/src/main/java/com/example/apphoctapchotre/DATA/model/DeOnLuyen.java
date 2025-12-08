@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.example.backend.dto.response;
+package com.example.apphoctapchotre.DATA.model;
 
 import java.util.List;
 
-/**
- *
- * @author ADMIN
- */
-public class DeCoBanResponse {
+public class DeOnLuyen {
     private String maHoatDong;
     private String tieuDe;
     private List<CauHoiResponse> danhSachCauHoi;
@@ -23,14 +15,6 @@ public class DeCoBanResponse {
         this.maHoatDong = maHoatDong;
     }
 
-    public String getTieuDe() {
-        return tieuDe;
-    }
-
-    public void setTieuDe(String tieuDe) {
-        this.tieuDe = tieuDe;
-    }
-
     public List<CauHoiResponse> getDanhSachCauHoi() {
         return danhSachCauHoi;
     }
@@ -38,5 +22,12 @@ public class DeCoBanResponse {
     public void setDanhSachCauHoi(List<CauHoiResponse> danhSachCauHoi) {
         this.danhSachCauHoi = danhSachCauHoi;
     }
-    
+
+    public String getTieuDe() {
+        return tieuDe;
+    }
+
+    public void setTieuDe(String tieuDe) {
+        this.tieuDe = tieuDe;
+    }
 }

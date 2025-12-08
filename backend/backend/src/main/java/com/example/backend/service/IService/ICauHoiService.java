@@ -4,12 +4,12 @@
  */
 package com.example.backend.service.IService;
 
-import com.example.backend.dto.response.DeCoBanResponse;
+import com.example.backend.dto.response.DeOnLuyenResponse;
 
 /**
  *
  * @author ADMIN
  */
 public interface ICauHoiService {
-    DeCoBanResponse getDeCoBan(int soDe);
+    DeOnLuyenResponse getDeCoBan(String tieuDe);
 }

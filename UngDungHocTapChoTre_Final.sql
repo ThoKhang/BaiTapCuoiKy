@@ -1205,3 +1205,22 @@ WHERE t.MaNguoiDung = @maNguoiDung
 SELECT COUNT(*) AS TongSoDeNangCao
 FROM HoatDongHocTap
 WHERE TieuDe LIKE N'Ôn NC%';
+
+SELECT 
+    h.MaHoatDong,
+    h.TieuDe,
+    c.MaCauHoi,
+    c.DiemToiDa,
+    c.NoiDungCauHoi AS CauHoi,
+    d.MaDapAn,
+    d.NoiDungDapAn AS DapAn,
+    d.LaDapAnDung
+FROM HoatDongHocTap h
+JOIN HoatDong_CauHoi hc 
+    ON h.MaHoatDong = hc.MaHoatDong
+JOIN CauHoi c 
+    ON hc.MaCauHoi = c.MaCauHoi
+JOIN DapAn d 
+    ON c.MaCauHoi = d.MaCauHoi
+WHERE h.TieuDe = N'Ôn cơ bản 1'
+ORDER BY c.MaCauHoi, d.MaDapAn;
