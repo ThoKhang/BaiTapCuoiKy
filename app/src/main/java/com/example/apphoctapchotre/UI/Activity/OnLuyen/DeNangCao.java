@@ -26,9 +26,9 @@ public class DeNangCao extends AppCompatActivity {
         RecyclerView rv = findViewById(R.id.rvDe);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
+        int tongDe=getIntent().getIntExtra("TONG_DE_NANG_CAO",0);
         List<DeItem> list = new ArrayList<>();
-        list.add(new DeItem("Đề nâng cao số 1", 100, 9, 10));
-        for (int i = 2; i <= 10; i++) {
+        for (int i = 1; i <= tongDe; i++) {
             list.add(new DeItem("Đề nâng cao số " + i, 100, 0, 10));
         }
 

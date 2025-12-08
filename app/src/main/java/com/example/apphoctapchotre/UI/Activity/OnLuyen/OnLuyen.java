@@ -23,6 +23,7 @@ public class OnLuyen extends AppCompatActivity {
     private Button btnDeCoBan,btndeTrungBinh,btnDeNangCao,btnSoCauDeCoBan,btnSoCauDeTrungBinh,btnSoCauDeNangCao;
     private TextView back;
     private OnLuyenViewModel viewModel;
+    private com.example.apphoctapchotre.DATA.model.OnLuyen onLuyenPutextra;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,14 +48,17 @@ public class OnLuyen extends AppCompatActivity {
         btnSoCauDeNangCao=findViewById(R.id.btnSoCauDeNC);
         btnDeCoBan.setOnClickListener(v -> {
             Intent intent = new Intent(this, DeCoBan.class);
+            intent.putExtra("TONG_DE_CO_BAN", onLuyenPutextra.getTongSoDeCoBan());
             startActivity(intent);
         });
         btndeTrungBinh.setOnClickListener(v -> {
             Intent intent = new Intent(this, DeTrungBinh.class);
+            intent.putExtra("TONG_DE_TRUNG_BINH", onLuyenPutextra.getTongSoDeTrungBinh());
             startActivity(intent);
         });
         btnDeNangCao.setOnClickListener(v -> {
             Intent intent = new Intent(this, DeNangCao.class);
+            intent.putExtra("TONG_DE_NANG_CAO", onLuyenPutextra.getTongSoDeNangCao());
             startActivity(intent);
         });
         back =findViewById(R.id.back);
@@ -70,6 +74,7 @@ public class OnLuyen extends AppCompatActivity {
         });
         viewModel.onLuyen.observe(this,onLuyen -> {
             if (onLuyen != null) {
+                onLuyenPutextra=onLuyen;
                 btnSoCauDeCoBan.setText("Tổng số đề đã làm: " + onLuyen.getSoDeCoBanDaLam()+"/"+onLuyen.getTongSoDeCoBan());
                 btnSoCauDeTrungBinh.setText("Tổng số đề đã làm: " + onLuyen.getSoDeTrungBinhDaLam()+"/"+onLuyen.getTongSoDeTrungBinh());
                 btnSoCauDeNangCao.setText("Tổng số đề đã làm: " + onLuyen.getSoDeNangCaoDaLam()+"/"+onLuyen.getTongSoDeNangCao());
