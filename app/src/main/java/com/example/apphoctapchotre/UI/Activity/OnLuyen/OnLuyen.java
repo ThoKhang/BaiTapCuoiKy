@@ -33,8 +33,8 @@ public class OnLuyen extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        SharedPreferences prefs = getSharedPreferences("User_data", MODE_PRIVATE);
-        String email=prefs.getString("email",null);
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String email=prefs.getString("userEmail",null);
         viewModel=new ViewModelProvider(this).get(OnLuyenViewModel.class);
         if(email!=null)
             viewModel.loadOnLuyen(email);
