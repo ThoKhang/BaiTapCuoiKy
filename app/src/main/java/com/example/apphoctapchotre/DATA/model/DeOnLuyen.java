@@ -5,7 +5,7 @@ import java.util.List;
 public class DeOnLuyen {
     private String maHoatDong;
     private String tieuDe;
-    private List<CauHoiResponse> danhSachCauHoi;
+    private List<CauHoi> danhSachCauHoi;
 
     public String getMaHoatDong() {
         return maHoatDong;
@@ -15,11 +15,11 @@ public class DeOnLuyen {
         this.maHoatDong = maHoatDong;
     }
 
-    public List<CauHoiResponse> getDanhSachCauHoi() {
+    public List<CauHoi> getDanhSachCauHoi() {
         return danhSachCauHoi;
     }
 
-    public void setDanhSachCauHoi(List<CauHoiResponse> danhSachCauHoi) {
+    public void setDanhSachCauHoi(List<CauHoi> danhSachCauHoi) {
         this.danhSachCauHoi = danhSachCauHoi;
     }
 

@@ -2,6 +2,7 @@ package com.example.apphoctapchotre.DATA.remote;
 
 import com.example.apphoctapchotre.DATA.model.CauHoi;
 import com.example.apphoctapchotre.DATA.model.CauHoiDapAnResponse;
+import com.example.apphoctapchotre.DATA.model.DeOnLuyen;
 import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
 import com.example.apphoctapchotre.DATA.model.NguoiDung;
 import com.example.apphoctapchotre.DATA.model.OnLuyen;
@@ -89,7 +90,7 @@ public interface ApiService {
 
     @GET("api/onluyen")
     Call<OnLuyen> onLuyen(@Query("email") String email);
-//    @GET("onluyen-coban")
-//    Call<>
+    @GET("cauhoi/onluyen-coban")
+    Call<DeOnLuyen> deOnLuyen(@Query("tieuDe") String tieuDe);
 
 }

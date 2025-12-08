@@ -260,7 +260,7 @@ public class CauHoiService implements ICauHoiService{
             return errorList;
         }
     }
-    //Start : decoban
+    //Start : deOnLuyen
     @Autowired
     private CauHoiRepository cauhoirepo;
     @Override
@@ -304,5 +304,5 @@ public class CauHoiService implements ICauHoiService{
         coBanResponse.setDanhSachCauHoi(new ArrayList<>(map.values()));
         return coBanResponse;
     }
-    //End : decoban
+    //End : deOnLuyen
 }

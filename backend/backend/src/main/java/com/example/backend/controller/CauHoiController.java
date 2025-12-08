@@ -55,7 +55,7 @@ public class CauHoiController {
         return ResponseEntity.ok(service.checkCungCoDat());
     }
     
-    //Start : decoban
+    //Start : deOnLuyen
     @Autowired
     private ICauHoiService cauhoi;
     @GetMapping("/onluyen-coban")
@@ -65,5 +65,5 @@ public class CauHoiController {
             return ResponseEntity.badRequest().body("Khôn tìm thấy đề : "+tieuDe);
         return ResponseEntity.ok(coBanResponse);
     }
-    //End : decoban
+    //End : deOnLuyen
 }
