@@ -4,73 +4,70 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
+import com.example.apphoctapchotre.DATA.model.LyThuyetDaLamResponse;
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.DATA.model.ui.LyThuyetItem;
 
 import java.util.List;
 
-// Trong file LyThuyetAdapter.java
+public class LyThuyetAdapter extends ArrayAdapter<LyThuyetDaLamResponse> {
 
-public class LyThuyetAdapter extends RecyclerView.Adapter<LyThuyetAdapter.LyThuyetViewHolder> {
-
-    private final List<LyThuyetItem> list;
     private final Context context;
-    private final OnItemClickListener listener;  // Thêm dòng này
+    private List<LyThuyetDaLamResponse> list;
+    private OnItemClickListener listener;
 
-    // Interface để truyền sự kiện click ra ngoài
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(LyThuyetDaLamResponse item, int position);
     }
 
-    // Constructor mới có thêm listener
-    public LyThuyetAdapter(Context context, List<LyThuyetItem> list, OnItemClickListener listener) {
+    public LyThuyetAdapter(Context context, List<LyThuyetDaLamResponse> list) {
+        super(context, 0, list);
         this.context = context;
         this.list = list;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
-    @NonNull
-    @Override
-    public LyThuyetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.item_lythuyet, parent, false);
-        return new LyThuyetViewHolder(v);
+    public void updateData(List<LyThuyetDaLamResponse> newList) {
+        this.list = newList;
+        clear();
+        addAll(newList);
+        notifyDataSetChanged();
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LyThuyetViewHolder holder, int position) {
-        LyThuyetItem item = list.get(position);
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-        holder.tvTieuDe.setText(item.getTieuDe());
-        holder.tvDiem.setText("+" + item.getDiemThuong() + " điểm");
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context)
+                    .inflate(R.layout.item_lythuyet, parent, false);
+        }
 
-        // Xử lý click ở đây
-        holder.itemView.setOnClickListener(v -> {
+        LyThuyetDaLamResponse item = list.get(position);
+
+        TextView tvTieuDe = convertView.findViewById(R.id.tvTieuDe);
+        TextView tvDiem = convertView.findViewById(R.id.tvDiem);
+
+        tvTieuDe.setText(item.getTieuDe());
+
+        if (item.isDaHoanThanh()) {
+            tvDiem.setText("✓ Đã hoàn thành");
+            tvDiem.setTextColor(context.getColor(android.R.color.holo_green_light));
+        } else {
+            tvDiem.setText("+" + item.getTongDiemToiDa() + " điểm");
+            tvDiem.setTextColor(context.getColor(android.R.color.holo_orange_light));
+        }
+
+        convertView.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onItemClick(position);
+                listener.onItemClick(item, position);
             }
         });
-    }
 
-    @Override
-    public int getItemCount() {
-        return list != null ? list.size() : 0;
-    }
-
-    public static class LyThuyetViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTieuDe, tvDiem;
-        FrameLayout itemContainer;
-
-        public LyThuyetViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvTieuDe = itemView.findViewById(R.id.tvTieuDe);
-            tvDiem = itemView.findViewById(R.id.tvDiem);
-            itemContainer = itemView.findViewById(R.id.itemContainer);
-        }
+        return convertView;
     }
 }

@@ -3,6 +3,9 @@ package com.example.apphoctapchotre.DATA.remote;
 import com.example.apphoctapchotre.DATA.model.CauHoi;
 import com.example.apphoctapchotre.DATA.model.CauHoiDapAnResponse;
 import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
+import com.example.apphoctapchotre.DATA.model.LyThuyetDaLamResponse;
+import com.example.apphoctapchotre.DATA.model.LyThuyetMonHocResponse;
+import com.example.apphoctapchotre.DATA.model.LyThuyetResponse;
 import com.example.apphoctapchotre.DATA.model.NguoiDung;
 import com.example.apphoctapchotre.DATA.model.XepHangResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoResponse;
@@ -85,6 +88,25 @@ public interface ApiService {
             @Query("tongCauHoi") int tongCauHoi,
             @Query("diem") int diem
     );
+    @GET("lythuyet/tiendo/{maNguoiDung}")
+    Call<List<LyThuyetResponse>> getTienDoLyThuyet(@Path("maNguoiDung") String maNguoiDung);
 
+    @GET("lythuyet/monhoc/{maMonHoc}")
+    Call<List<LyThuyetMonHocResponse>> getDanhSachLyThuyet(
+            @Path("maMonHoc") String maMonHoc
+    );
+
+    @GET("lythuyet/dalams")
+    Call<List<LyThuyetDaLamResponse>> getLyThuyetDaLam(
+            @Query("maMonHoc") String maMonHoc,
+            @Query("maNguoiDung") String maNguoiDung
+    );
+
+    @POST("lythuyet/hoanthanh")
+    Call<Void> hoanThanhLyThuyet(
+            @Query("maNguoiDung") String maNguoiDung,
+            @Query("maHoatDong") String maHoatDong,
+            @Query("diem") int diem  // Loại soCauDung, tongCauHoi
+    );
 
 }

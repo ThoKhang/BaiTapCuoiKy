@@ -60,7 +60,7 @@
         <!-- android:name=".monhoctoan" -->
         <!-- android:exported="false" /> -->
         <activity android:name=".UI.Activity.LyThuyet.BangCuuChuong" />
-        <activity android:name=".UI.Activity.MonHoc.NoiDungTiengViet" />
+
         <activity android:name=".UI.Activity.HoatDongDangDienRa.Thuthach100Cau" />
         <activity android:name=".UI.Activity.HoatDongDangDienRa.CauHoi100" />
         <activity
@@ -79,13 +79,10 @@
             android:name=".UI.Activity.OnLuyen.DeNangCao"
             android:exported="false" />
         <activity
-            android:name=".UI.Activity.MonHoc.LyThuyetCoBan"
+            android:name=".UI.Activity.MonHoc.LyThuyetActivity"
             android:exported="false" />
         <activity
-            android:name=".UI.Activity.MonHoc.MonHocTiengViet"
-            android:exported="false" />
-        <activity
-            android:name=".UI.Activity.MonHoc.MonHocToan"
+            android:name=".UI.Activity.MonHoc.LyThuyetActivity2"
             android:exported="false" />
         <activity
             android:name=".UI.Activity.Account.DangKy.DangKyOTP"
