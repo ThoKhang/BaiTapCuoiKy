@@ -1,6 +1,8 @@
 package com.example.backend.controller;
 
+import com.example.backend.dto.response.DeCoBanResponse;
 import com.example.backend.service.CauHoiService;
+import com.example.backend.service.IService.ICauHoiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,4 +54,17 @@ public class CauHoiController {
     public ResponseEntity<?> checkCungCoDat() {
         return ResponseEntity.ok(service.checkCungCoDat());
     }
+    
+    //Start : decoban
+    @Autowired
+    private ICauHoiService cauhoi;
+    @GetMapping("/onluyen-coban")
+    public ResponseEntity<?> deCoBan(@RequestParam("soDe") int soDe){
+        DeCoBanResponse coBanResponse = cauhoi.getDeCoBan(soDe);
+        if(coBanResponse==null)
+            return ResponseEntity.badRequest().body("Khôn tìm thấy đề : "+soDe);
+        return ResponseEntity.ok(coBanResponse);
+    }
+    
+    //End : decoban
 }

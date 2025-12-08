@@ -55,5 +55,15 @@ public interface CauHoiRepository extends JpaRepository<CauHoi, String> {
             HQC.ThuTu, DAP.MaDapAn
     """, nativeQuery = true)
     List<Map<String, Object>> getCauHoiForLearning(@Param("maHoatDong") String maHoatDong);
+    
+    //Start : Ôn luyện
+    @Query(value = "Select h.MaHoatDong,h.TieuDe,c.MaCauHoi,c.NoiDungCauHoi,c.DiemToiDa,d.MaDapAn,d.NoiDungDapAn,d.LaDapAnDung from HoatDongHocTap h "
+            + "join HoatDong_CauHoi hc on h.MaHoatDong = hc.MaHoatDong "
+            + "join CauHoi c on c.MaCauHoi=hc.MaCauHoi "
+            + "join DapAn d on d.MaCauHoi=c.MaCauHoi "
+            + "where h.TieuDe=N'Ôn cơ bản ' +CAST(:soDe as nvarchar(5)) "
+            + "order by c.MaCauHoi, d.MaDapAn ",nativeQuery = true)
+    List<Object[]> deCoBan(int soDe);
+    //End : Ôn luyện
 
 }

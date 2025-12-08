@@ -1,5 +1,10 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.response.CauHoiResponse;
+import com.example.backend.dto.response.DapAnResponse;
+import com.example.backend.dto.response.DeCoBanResponse;
+import com.example.backend.repository.CauHoiRepository;
+import com.example.backend.service.IService.ICauHoiService;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
-public class CauHoiService {
+public class CauHoiService implements ICauHoiService{
 
     @Autowired
     private EntityManager em;
@@ -255,4 +260,49 @@ public class CauHoiService {
             return errorList;
         }
     }
+    //Start : decoban
+    @Autowired
+    private CauHoiRepository cauhoirepo;
+    @Override
+    public DeCoBanResponse getDeCoBan(int soDe) {
+        DeCoBanResponse coBanResponse= new DeCoBanResponse();
+        List<Object[]> listCoBan=cauhoirepo.deCoBan(soDe);
+        if(listCoBan.isEmpty())
+            return null;
+        Map<String,CauHoiResponse> map = new LinkedHashMap<>();
+        for(Object[] row : listCoBan){
+            String maHD=(String) row[0];
+            String tieuDe=(String) row[1];
+            String MaCauHoi=(String) row[2];
+            String NoiDungCauHoi=(String) row[3];
+            int diemToiDa=(int)row[4];
+            String MaDapAn=(String) row[5];
+            String NoiDungDapAn=(String) row[6];
+            boolean LaDapAnDung=(boolean) row[7];
+            
+            coBanResponse.setMaHoatDong(maHD);
+            coBanResponse.setTieuDe(tieuDe);
+            
+            CauHoiResponse cauHoiRespons=map.get(MaCauHoi);
+            if(cauHoiRespons==null){
+                cauHoiRespons = new CauHoiResponse();
+                cauHoiRespons.setMaCauHoi(MaCauHoi);
+                cauHoiRespons.setNoiDungCauHoi(NoiDungCauHoi);
+                cauHoiRespons.setDiemToiDa(diemToiDa);
+                cauHoiRespons.setDapAn(new ArrayList<>());
+                map.put(MaCauHoi, cauHoiRespons);
+            }
+            
+            DapAnResponse DAResponse = new DapAnResponse();
+            DAResponse.setLaDapAnDung(LaDapAnDung);
+            DAResponse.setMaCauHoi(MaCauHoi);
+            DAResponse.setMaDapAn(MaDapAn);
+            DAResponse.setNoiDungDapAn(NoiDungDapAn);
+            cauHoiRespons.getDapAn().add(DAResponse);
+            
+        }
+        coBanResponse.setDanhSachCauHoi(new ArrayList<>(map.values()));
+        return coBanResponse;
+    }
+    //End : decoban
 }
