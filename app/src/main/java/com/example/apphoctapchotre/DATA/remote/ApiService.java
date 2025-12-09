@@ -6,6 +6,7 @@ import com.example.apphoctapchotre.DATA.model.DeOnLuyen;
 import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
 import com.example.apphoctapchotre.DATA.model.NguoiDung;
 import com.example.apphoctapchotre.DATA.model.OnLuyen;
+import com.example.apphoctapchotre.DATA.model.TienTrinh;
 import com.example.apphoctapchotre.DATA.model.XepHangResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoMonHocResponse;
@@ -92,5 +93,8 @@ public interface ApiService {
     Call<OnLuyen> onLuyen(@Query("email") String email);
     @GET("cauhoi/onluyen-coban")
     Call<DeOnLuyen> deOnLuyen(@Query("tieuDe") String tieuDe);
+    @POST("cauhoi/tientrinh/onluyen")
+    Call<Void> taoTienTrinh(@Body TienTrinh tienTrinh);
+
 
 }
