@@ -2,6 +2,7 @@ package com.example.apphoctapchotre.UI.Activity.HoatDongDangDienRa;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.example.apphoctapchotre.DATA.model.CauHoiDapAnResponse;
 import com.example.apphoctapchotre.DATA.remote.ApiService;
@@ -49,7 +51,7 @@ public class CauHoi100 extends AppCompatActivity {
 
         apiService = RetrofitClient.getClient().create(ApiService.class);
 
-        startTime = System.currentTimeMillis(); // bắt đầu tính giờ
+        startTime = System.currentTimeMillis();
 
         loadData();
 
@@ -104,7 +106,9 @@ public class CauHoi100 extends AppCompatActivity {
 
         List<CauHoiDapAnResponse> cauHoi = nhomCauHoi.get(index);
 
+        // HIỂN THỊ ĐỀ BÀI ĐÚNG
         tvQuestion.setText(cauHoi.get(0).getNoiDungCauHoi());
+
         tvTitleTop.setText("Câu hỏi " + (index + 1) + "/" + nhomCauHoi.size());
 
         btnAns1.setText(cauHoi.get(0).getNoiDungDapAn());
@@ -118,29 +122,57 @@ public class CauHoi100 extends AppCompatActivity {
         btnAns2.setOnClickListener(v -> xuLyChon(btnAns2, cauHoi.get(1)));
         btnAns3.setOnClickListener(v -> xuLyChon(btnAns3, cauHoi.get(2)));
         btnAns4.setOnClickListener(v -> xuLyChon(btnAns4, cauHoi.get(3)));
+
+        btnAns1.setTag(cauHoi.get(0));
+        btnAns2.setTag(cauHoi.get(1));
+        btnAns3.setTag(cauHoi.get(2));
+        btnAns4.setTag(cauHoi.get(3));
     }
+
 
     private void xuLyChon(Button btn, CauHoiDapAnResponse dapAn) {
 
+        Button[] allButtons = {btnAns1, btnAns2, btnAns3, btnAns4};
+
+        // Nếu người dùng chọn đúng
         if (dapAn.isLaDapAnDung()) {
-            btn.setBackgroundColor(Color.parseColor("#4CAF50"));
+            tintButton(btn, Color.parseColor("#4CAF50")); // Xanh lá
             soCauDung++;
         } else {
-            btn.setBackgroundColor(Color.parseColor("#F44336"));
+            // Tô đỏ nút người dùng vừa chọn
+            tintButton(btn, Color.parseColor("#F44336"));
             soCauSai++;
+
+            // Highlight đáp án đúng
+            for (Button b : allButtons) {
+                CauHoiDapAnResponse dap = (CauHoiDapAnResponse) b.getTag(); // lấy đáp án gán vào nút
+                if (dap != null && dap.isLaDapAnDung()) {
+                    tintButton(b, Color.parseColor("#4CAF50")); // tô xanh cho đáp án đúng
+                    break;
+                }
+            }
         }
 
+        // Đợi 1.5 giây rồi chuyển câu
         new Handler().postDelayed(() -> {
             index++;
             hienThiCauHoi();
         }, 1500);
     }
 
+
     private void resetButtonColor() {
         btnAns1.setBackgroundResource(R.drawable.answer_bg);
         btnAns2.setBackgroundResource(R.drawable.answer_bg);
         btnAns3.setBackgroundResource(R.drawable.answer_bg);
         btnAns4.setBackgroundResource(R.drawable.answer_bg);
+    }
+
+    // 📌 HÀM MỚI — đổi màu nhưng GIỮ BO GÓC answer_bg
+    private void tintButton(Button btn, int color) {
+        Drawable drawable = DrawableCompat.wrap(btn.getBackground().mutate());
+        DrawableCompat.setTint(drawable, color);
+        btn.setBackground(drawable);
     }
 
     private void moManHinhKetQua() {
@@ -151,14 +183,11 @@ public class CauHoi100 extends AppCompatActivity {
         int tongCau = nhomCauHoi.size();
         int diem = soCauDung * 5;
 
-        // Lấy mã người dùng
         String maNguoiDung = getSharedPreferences("UserPrefs", MODE_PRIVATE)
                 .getString("MA_NGUOI_DUNG", null);
 
-        // Mã hoạt động thử thách
         String maHoatDong = "TT001";
 
-        // GỌI API HOÀN THÀNH
         apiService.hoanThanh(
                 maNguoiDung,
                 maHoatDong,
@@ -169,7 +198,6 @@ public class CauHoi100 extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
 
-                // Sau khi cập nhật tiến trình → chuyển màn hình kết quả
                 Intent intent = new Intent(CauHoi100.this, KetQuaActivity.class);
                 intent.putExtra("SO_CAU_DUNG", soCauDung);
                 intent.putExtra("SO_CAU_SAI", soCauSai);
@@ -185,7 +213,6 @@ public class CauHoi100 extends AppCompatActivity {
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(CauHoi100.this, "Không thể cập nhật tiến trình!", Toast.LENGTH_SHORT).show();
 
-                // Nếu API lỗi vẫn mở trang kết quả
                 Intent intent = new Intent(CauHoi100.this, KetQuaActivity.class);
                 intent.putExtra("SO_CAU_DUNG", soCauDung);
                 intent.putExtra("SO_CAU_SAI", soCauSai);
@@ -198,6 +225,4 @@ public class CauHoi100 extends AppCompatActivity {
             }
         });
     }
-
-
 }

@@ -20,7 +20,6 @@ public class Thuthach100Cau extends AppCompatActivity {
         // Sửa đúng kiểu view từ XML
         ImageView btnBack = findViewById(R.id.quayLai);
         Button btnPlay = findViewById(R.id.btnPlay);
-        TextView btnRank = findViewById(R.id.btnRank);
 
         // Back → quay lại
         btnBack.setOnClickListener(v -> onBackPressed());
@@ -30,9 +29,12 @@ public class Thuthach100Cau extends AppCompatActivity {
             Intent intent = new Intent(Thuthach100Cau.this, CauHoi100.class);
             startActivity(intent);
         });
-
-        btnRank.setOnClickListener(v -> {
-
+        // Mở trang Premium khi bấm vào icon vương miện
+        findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
+            Intent intent = new Intent(Thuthach100Cau.this,
+                    com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
+            startActivity(intent);
         });
+
     }
 }

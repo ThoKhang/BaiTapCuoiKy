@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.UI.Fragment.TrangChuFragment;
+import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
 
 public class KetQuaActivity extends AppCompatActivity {
 
@@ -23,6 +23,12 @@ public class KetQuaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ket_qua_thu_thach);
 
+        // Mở trang Premium khi bấm vào icon vương miện
+        findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
+            Intent intent = new Intent(KetQuaActivity.this,
+                    com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
+            startActivity(intent);
+        });
         // Ánh xạ view
         tvScore = findViewById(R.id.tv_score);
         tvCorrect = findViewById(R.id.tv_correct);
@@ -92,14 +98,13 @@ public class KetQuaActivity extends AppCompatActivity {
         // BUTTON QUAY LẠI TRANG CHỦ
         // ================================
         btnQuayLai.setOnClickListener(v -> {
+            Intent intent = new Intent(KetQuaActivity.this, GiaoDienTong.class);
+            intent.putExtra("OPEN_HOME", true);
 
-            Intent intent = new Intent(KetQuaActivity.this, TrangChuFragment.class);
-
-            // Xóa stack activity để không quay lại bài kiểm tra
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
             startActivity(intent);
             finish();
         });
+
     }
 }

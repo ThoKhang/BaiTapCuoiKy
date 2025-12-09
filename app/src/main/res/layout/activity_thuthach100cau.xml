@@ -95,16 +95,6 @@
             app:backgroundTint="#1294D4" />
 
         <!-- Xếp hạng -->
-        <TextView
-            android:id="@+id/btnRank"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Xếp hạng"
-            android:textColor="#1294D4"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:layout_marginTop="18dp" />
 
     </LinearLayout>
 </ScrollView>
