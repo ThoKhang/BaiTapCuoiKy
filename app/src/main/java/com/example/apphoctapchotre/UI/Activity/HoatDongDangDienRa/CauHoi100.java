@@ -146,18 +146,58 @@ public class CauHoi100 extends AppCompatActivity {
     private void moManHinhKetQua() {
 
         long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime; // tính thời gian làm bài
+        long duration = endTime - startTime;
 
-        int diem = soCauDung * 5; // điểm dựa theo số câu đúng
+        int tongCau = nhomCauHoi.size();
+        int diem = soCauDung * 5;
 
-        Intent intent = new Intent(CauHoi100.this, KetQuaActivity.class);
-        intent.putExtra("SO_CAU_DUNG", soCauDung);
-        intent.putExtra("SO_CAU_SAI", soCauSai);
-        intent.putExtra("TONG_CAU", nhomCauHoi.size());
-        intent.putExtra("THOI_GIAN", duration);
-        intent.putExtra("TOTAL_SCORE", diem);
+        // Lấy mã người dùng
+        String maNguoiDung = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                .getString("MA_NGUOI_DUNG", null);
 
-        startActivity(intent);
-        finish();
+        // Mã hoạt động thử thách
+        String maHoatDong = "TT001";
+
+        // GỌI API HOÀN THÀNH
+        apiService.hoanThanh(
+                maNguoiDung,
+                maHoatDong,
+                soCauDung,
+                tongCau,
+                diem
+        ).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                // Sau khi cập nhật tiến trình → chuyển màn hình kết quả
+                Intent intent = new Intent(CauHoi100.this, KetQuaActivity.class);
+                intent.putExtra("SO_CAU_DUNG", soCauDung);
+                intent.putExtra("SO_CAU_SAI", soCauSai);
+                intent.putExtra("TONG_CAU", tongCau);
+                intent.putExtra("THOI_GIAN", duration);
+                intent.putExtra("TOTAL_SCORE", diem);
+
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(CauHoi100.this, "Không thể cập nhật tiến trình!", Toast.LENGTH_SHORT).show();
+
+                // Nếu API lỗi vẫn mở trang kết quả
+                Intent intent = new Intent(CauHoi100.this, KetQuaActivity.class);
+                intent.putExtra("SO_CAU_DUNG", soCauDung);
+                intent.putExtra("SO_CAU_SAI", soCauSai);
+                intent.putExtra("TONG_CAU", tongCau);
+                intent.putExtra("THOI_GIAN", duration);
+                intent.putExtra("TOTAL_SCORE", diem);
+
+                startActivity(intent);
+                finish();
+            }
+        });
     }
+
+
 }
