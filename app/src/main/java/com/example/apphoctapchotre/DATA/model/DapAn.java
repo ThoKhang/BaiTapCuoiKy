@@ -6,6 +6,7 @@ public class DapAn {
     private boolean isSelected; // Để tracking đáp án được chọn
     private boolean laDapAnDung; // THÊM từ API
     private String giaiThich;    // THÊM từ API
+    private String maCauHoi;
 
     // Constructor
     public DapAn() {
@@ -17,6 +18,14 @@ public class DapAn {
         this.laDapAnDung = laDapAnDung;
         this.giaiThich = giaiThich;
         this.isSelected = false;
+    }
+
+    public String getMaCauHoi() {
+        return maCauHoi;
+    }
+
+    public void setMaCauHoi(String maCauHoi) {
+        this.maCauHoi = maCauHoi;
     }
 
     // Getters

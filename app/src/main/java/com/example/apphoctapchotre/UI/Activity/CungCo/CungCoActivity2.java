@@ -83,5 +83,11 @@ public class CungCoActivity2 extends AppCompatActivity {
         });
 
         btnBack.setOnClickListener(v -> finish());
+        // Mở trang Premium khi bấm vào icon vương miện
+        findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
+            Intent intent = new Intent(CungCoActivity2.this,
+                    com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
+            startActivity(intent);
+        });
     }
 }

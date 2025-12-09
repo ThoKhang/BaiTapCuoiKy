@@ -15,15 +15,6 @@
         android:clipToPadding="false">
 
         <!-- LỚP DƯỚI CÙNG: xanh nhạt nhất (lòi ra nhiều và hẹp nhất) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="-25dp"
-            android:background="@drawable/bg_border_tn"
-            android:backgroundTint="#98D9F9" />
 
         <!-- LỚP GIỮA: xanh sáng hơn (lòi ra ít hơn, rộng hơn chút) -->
         <LinearLayout
@@ -68,12 +59,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Củng cố phép cộng"
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/imgVuongMieng"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:contentDescription="Crown"
@@ -221,6 +212,7 @@
                     android:text="Đây là giải thích"
                     android:textColor="#C8B213"
                     android:textSize="22sp" />
+
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
