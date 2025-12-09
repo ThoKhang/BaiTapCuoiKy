@@ -28,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TracNghiem extends AppCompatActivity {
-    private TextView tvCauHoi, tvDapAnA, tvDapAnB, tvDapAnC, tvDapAnD, tvGiaiThich;
+    private TextView tvCauHoi, tvDapAnA, tvDapAnB, tvDapAnC, tvDapAnD, tvGiaiThich, tvQuestionNumber;
     private RadioButton btnA, btnB, btnC, btnD;
     private Button btnTiepTuc;
     private ImageView backButton;
@@ -49,13 +49,12 @@ public class TracNghiem extends AppCompatActivity {
         tvDapAnC = findViewById(R.id.tvDapAnC);
         tvDapAnD = findViewById(R.id.tvDapAnD);
         tvGiaiThich = findViewById(R.id.tvGiaiThich);
-
         btnA = findViewById(R.id.btnA);
         btnB = findViewById(R.id.btnB);
         btnC = findViewById(R.id.btnC);
         btnD = findViewById(R.id.btnD);
-
         btnTiepTuc = findViewById(R.id.btnTiepTuc);
+        tvQuestionNumber = findViewById(R.id.tv_question_number);
 
         backButton = findViewById(R.id.quayLai);
         if (backButton != null) {
@@ -108,6 +107,8 @@ public class TracNghiem extends AppCompatActivity {
                 tienTrinh.setSoCauDung(demCauDung);
                 tienTrinh.setSoCauDaLam(demCauDung+demCauSai);
                 tienTrinh.setDiemDatDuoc(demCauDung*diemThuong);
+                if(tienTrinh.getSoCauDung()==tienTrinh.getSoCauDaLam())
+                    tienTrinh.setDaHoanThanh(1);
                 taoTienTrinh();
             }
         });
@@ -117,12 +118,12 @@ public class TracNghiem extends AppCompatActivity {
         CauHoi cauHoi = danhSachCauHoi.get(currentIndex);
         tvCauHoi.setText(cauHoi.getNoiDungCauHoi());
         tvGiaiThich.setText(cauHoi.getGiaiThich());
+        tvGiaiThich.setVisibility(View.INVISIBLE);
+        tvQuestionNumber.setText("Câu " + (currentIndex + 1) + "/" + danhSachCauHoi.size());
         tvDapAnA.setText("A."+cauHoi.getDapAn().get(0).getNoiDungDapAn());
         tvDapAnB.setText("B."+cauHoi.getDapAn().get(1).getNoiDungDapAn());
         tvDapAnC.setText("C."+cauHoi.getDapAn().get(2).getNoiDungDapAn());
         tvDapAnD.setText("D."+cauHoi.getDapAn().get(3).getNoiDungDapAn());
-
-        tvGiaiThich.setVisibility(View.INVISIBLE);
 
     }
 
@@ -141,6 +142,11 @@ public class TracNghiem extends AppCompatActivity {
         btnB.setEnabled(true);
         btnC.setEnabled(true);
         btnD.setEnabled(true);
+
+        btnA.setClickable(true);
+        btnB.setClickable(true);
+        btnC.setClickable(true);
+        btnD.setClickable(true);
 
         btnA.setAlpha(1f);
         btnB.setAlpha(1f);

@@ -36,6 +36,11 @@ public class TienTrinhService implements ITienTrinhService{
         if(request.getMaHoatDong()!=null)
             hoatDongHocTap=hoatDongRepo.findById(request.getMaHoatDong()).orElse(null);
         TienTrinhHocTap tienTrinh = TienTrinhConverter.toEntity(request, nguoiDung, hoatDongHocTap);
+        String idLonNhat=tienTrinhrepo.findIdLonNhat();
+        int laySoLonNhat=Integer.parseInt(idLonNhat.substring(2));
+        laySoLonNhat++;
+        idLonNhat=String.format("TT%03d",laySoLonNhat );
+        tienTrinh.setMaTienTrinh(idLonNhat);
         tienTrinhrepo.save(tienTrinh);
     }
     

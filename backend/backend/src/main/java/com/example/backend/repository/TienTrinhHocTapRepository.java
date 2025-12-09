@@ -26,6 +26,9 @@ public interface TienTrinhHocTapRepository extends JpaRepository<TienTrinhHocTap
     @Query(
       value = "SELECT COUNT(DISTINCT h.mahoatdong) FROM TienTrinhHocTap t JOIN HoatDongHocTap h ON t.mahoatdong = h.mahoatdong WHERE t.manguoidung = :maNguoiDung AND h.TieuDe LIKE N'Ôn NC%'",nativeQuery = true)
     int soDeNangCaoDaLam(String maNguoiDung);
+    
+    @Query("SELECT MAX(t.maTienTrinh) FROM TienTrinhHocTap t")
+    String findIdLonNhat();
     //End : lấy tiến trình cho ôn luyện
 
 }

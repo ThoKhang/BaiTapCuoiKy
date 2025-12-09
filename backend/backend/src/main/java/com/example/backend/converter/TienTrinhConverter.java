@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 public class TienTrinhConverter {
     public static TienTrinhHocTap toEntity(TienTrinhRequest req,NguoiDung nguoiDung,HoatDongHocTap hoatDong) {
         TienTrinhHocTap tt = new TienTrinhHocTap();
-        tt.setMaTienTrinh("TT" + System.currentTimeMillis());
         tt.setNguoiDung(nguoiDung);
         tt.setHoatDong(hoatDong);
         tt.setNgayBatDau(req.getNgayBatDau() != null ? req.getNgayBatDau() : LocalDateTime.now());

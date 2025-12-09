@@ -93,7 +93,7 @@ public interface ApiService {
     Call<OnLuyen> onLuyen(@Query("email") String email);
     @GET("cauhoi/onluyen-coban")
     Call<DeOnLuyen> deOnLuyen(@Query("tieuDe") String tieuDe);
-    @POST("cauhoi/tientrinh/onluyen")
+    @POST("api/tientrinh/onluyen")
     Call<Void> taoTienTrinh(@Body TienTrinh tienTrinh);
 
 

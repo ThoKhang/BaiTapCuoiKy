@@ -7,8 +7,8 @@ package com.example.backend.controller;
 import com.example.backend.dto.request.TienTrinhRequest;
 import com.example.backend.service.IService.ITienTrinhService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +22,7 @@ public class TienTrinhController {
     @Autowired
     private ITienTrinhService tienTrinhSe;
     @PostMapping("onluyen")
-    public void taoTienTrinh(TienTrinhRequest tienTrinh){
+    public void taoTienTrinh(@RequestBody TienTrinhRequest tienTrinh){
         if(tienTrinh.getMaHoatDong()!=null){
             tienTrinhSe.taoTienTrinh(tienTrinh);
         }
