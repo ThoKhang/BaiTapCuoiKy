@@ -8,7 +8,7 @@ import com.example.apphoctapchotre.DATA.model.XepHangResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoMonHocResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoDaLamResponse;
-
+import com.example.apphoctapchotre.DATA.model.AuthenticationResponse;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -30,10 +30,9 @@ public interface ApiService {
     Call<ResponseBody> register(@Body Map<String, String> body);
 
     @POST("api/nguoidung/login")
-    Call<ResponseBody> login(@Body Map<String, String> body);
-
+    Call<ResponseBody> dangNhap(@Body Map<String, String> body);
     @POST("api/nguoidung/verify-otp")
-    Call<ResponseBody> verifyOTP(@Body Map<String, String> body);
+    Call<AuthenticationResponse> verifyOTP(@Body Map<String, String> body);
 
     @POST("api/nguoidung/send-otp")
     Call<ResponseBody> sendOtp(@Body Map<String, String> body);

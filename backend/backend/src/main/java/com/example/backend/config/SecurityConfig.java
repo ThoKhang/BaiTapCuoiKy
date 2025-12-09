@@ -67,6 +67,7 @@ public class SecurityConfig {
 
         return http.build();
     } */
+    /*
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -83,5 +84,33 @@ public class SecurityConfig {
 
         return http.build();
     }
+    */
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                    "/api/nguoidung/register",
+                    "/api/nguoidung/login",
+                    "/api/nguoidung/verify-otp",
+                    "/api/nguoidung/send-otp",
+                    "/api/nguoidung/reset-password",
+                    "/api/nguoidung/get-by-email",
+                    "/api/ping"
+                ).permitAll() // 6 API công khai
+
+                .anyRequest().authenticated() // 🔥 TẤT CẢ API KHÁC YÊU CẦU TOKEN
+            )
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .authenticationProvider(authenticationProvider())
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
+
 
 }

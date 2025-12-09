@@ -11,24 +11,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.apphoctapchotre.DATA.remote.ApiService;
-import com.example.apphoctapchotre.DATA.remote.RetrofitClient;
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.UI.ViewModel.DangKyViewModel;
 import com.google.android.material.button.MaterialButton;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DangKy extends AppCompatActivity {
 
     private EditText eTextEmail, eTextMatKhau, eTextNhapLaiMatKhau;
     private MaterialButton btnDangKy;
+    private DangKyViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +34,15 @@ public class DangKy extends AppCompatActivity {
         eTextNhapLaiMatKhau = findViewById(R.id.eTextNhapLaiMatKhau);
         btnDangKy = findViewById(R.id.btnDangKy);
 
+        viewModel = new ViewModelProvider(this).get(DangKyViewModel.class);
+        observeViewModel();
+
         btnDangKy.setOnClickListener(v -> {
             String email = eTextEmail.getText().toString().trim();
             String matKhau = eTextMatKhau.getText().toString().trim();
             String nhapLaiMatKhau = eTextNhapLaiMatKhau.getText().toString().trim();
 
-            // ====== Validate cơ bản ======
+            // Validate basic
             if (email.isEmpty() || matKhau.isEmpty() || nhapLaiMatKhau.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                 return;
@@ -57,60 +53,7 @@ public class DangKy extends AppCompatActivity {
                 return;
             }
 
-            // ====== Chuẩn bị body gửi lên backend ======
-            Map<String, String> body = new HashMap<>();
-            // Backend yêu cầu tenDangNhap → tạm dùng email làm tên đăng nhập
-            body.put("tenDangNhap", email);
-            body.put("email", email);
-            body.put("matKhau", matKhau);
-
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
-            api.register(body).enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        // Đăng ký OK, backend đã gửi OTP về email
-                        Toast.makeText(DangKy.this,
-                                "Đăng ký thành công! Vui lòng kiểm tra email để lấy OTP.",
-                                Toast.LENGTH_LONG).show();
-
-                        // 👉 Chuyển sang màn Đăng ký OTP, mang theo email
-                        Intent intent = new Intent(DangKy.this, DangKyOTP.class);
-                        intent.putExtra("EMAIL", email);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        // ====== Xử lý TRÙNG EMAIL / TÊN ĐĂNG NHẬP ======
-                        String errMsg = "Đăng ký thất bại!";
-                        try {
-                            if (response.errorBody() != null) {
-                                String raw = response.errorBody().string();
-                                if (raw != null) {
-                                    raw = raw.trim();
-                                    if (raw.contains("Email đã tồn tại")) {
-                                        errMsg = "Email này đã được sử dụng, vui lòng dùng email khác!";
-                                    } else {
-                                        // Nếu message khác thì show luôn cho dễ debug
-                                        errMsg = raw;
-                                    }
-                                }
-                            }
-                        } catch (Exception ignored) {
-                        }
-
-                        Toast.makeText(DangKy.this,
-                                errMsg,
-                                Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(DangKy.this,
-                            "Lỗi kết nối: " + t.getMessage(),
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+            viewModel.dangKy(email, matKhau);
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -121,5 +64,24 @@ public class DangKy extends AppCompatActivity {
 
         ImageButton ibtnBack = findViewById(R.id.ibtnBack);
         ibtnBack.setOnClickListener(v -> finish());
+    }
+
+    private void observeViewModel() {
+        viewModel.getDangKyResult().observe(this, result -> {
+            if (result == null) return;
+
+            Toast.makeText(this, result.getMessage(), Toast.LENGTH_LONG).show();
+
+            if (result.isSuccess()) {
+                // Đăng ký OK → chuyển sang màn OTP, mang theo email
+                Intent intent = new Intent(DangKy.this, DangKyOTP.class);
+                intent.putExtra("EMAIL", result.getEmail());
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        // Nếu bạn có progress bar thì observe loading ở đây
+        // viewModel.getLoading().observe(this, isLoading -> {...});
     }
 }

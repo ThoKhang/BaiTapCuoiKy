@@ -11,26 +11,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.apphoctapchotre.UI.Activity.Account.DangNhap.GiaoDienDangNhap;
-import com.example.apphoctapchotre.DATA.remote.ApiService;
-import com.example.apphoctapchotre.DATA.remote.RetrofitClient;
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.UI.Activity.Account.DangNhap.GiaoDienDangNhap;
+import com.example.apphoctapchotre.UI.ViewModel.DangKyOtpViewModel;
 import com.google.android.material.button.MaterialButton;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DangKyOTP extends AppCompatActivity {
 
     private EditText eTextOtpDangKy;
     private MaterialButton btnDangNhapVaoTrangChu;
     private String email;
+
+    private DangKyOtpViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +42,9 @@ public class DangKyOTP extends AppCompatActivity {
             return;
         }
 
+        viewModel = new ViewModelProvider(this).get(DangKyOtpViewModel.class);
+        observeViewModel();
+
         btnDangNhapVaoTrangChu.setOnClickListener(v -> {
             String otp = eTextOtpDangKy.getText().toString().trim();
 
@@ -56,39 +53,7 @@ public class DangKyOTP extends AppCompatActivity {
                 return;
             }
 
-            Map<String, String> body = new HashMap<>();
-            body.put("email", email);
-            body.put("otp", otp);
-
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
-            api.verifyOTP(body).enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(DangKyOTP.this,
-                                "Xác thực OTP thành công! Bạn có thể đăng nhập.",
-                                Toast.LENGTH_LONG).show();
-
-                        // 👉 Sau khi xác thực thành công, chuyển sang màn đăng nhập
-                        Intent intent = new Intent(DangKyOTP.this, GiaoDienDangNhap.class);
-                        // Nếu muốn fill sẵn email ở màn đăng nhập:
-                        intent.putExtra("EMAIL", email);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(DangKyOTP.this,
-                                "OTP không đúng hoặc đã hết hạn!",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(DangKyOTP.this,
-                            "Lỗi kết nối: " + t.getMessage(),
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+            viewModel.xacThucOtpDangKy(email, otp);
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -99,5 +64,27 @@ public class DangKyOTP extends AppCompatActivity {
 
         ImageButton ibtnBack = findViewById(R.id.ibtnBack);
         ibtnBack.setOnClickListener(v -> finish());
+    }
+
+    private void observeViewModel() {
+        viewModel.getMessage().observe(this, msg -> {
+            if (msg != null && !msg.isEmpty()) {
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        viewModel.getOtpSuccess().observe(this, success -> {
+            if (success == null) return;
+            if (success) {
+                // Xác thực OK → chuyển sang màn đăng nhập
+                Intent intent = new Intent(DangKyOTP.this, GiaoDienDangNhap.class);
+                intent.putExtra("EMAIL", email);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        // Nếu có progress bar thì observe loading ở đây
+        // viewModel.getLoading().observe(this, isLoading -> {...});
     }
 }
