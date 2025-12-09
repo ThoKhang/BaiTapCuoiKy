@@ -22,7 +22,7 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <receiver
-            android:name=".AlarmReceiver"
+            android:name=".Utility.AlarmReceiver"
             android:enabled="true"
             android:exported="true" />
         <activity
