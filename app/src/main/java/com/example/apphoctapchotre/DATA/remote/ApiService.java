@@ -5,6 +5,7 @@ import com.example.apphoctapchotre.DATA.model.CauHoiDapAnResponse;
 import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
 import com.example.apphoctapchotre.DATA.model.LyThuyetDaLamResponse;
 import com.example.apphoctapchotre.DATA.model.LyThuyetMonHocResponse;
+import com.example.apphoctapchotre.DATA.model.LyThuyetNoiDungResponse;
 import com.example.apphoctapchotre.DATA.model.LyThuyetResponse;
 import com.example.apphoctapchotre.DATA.model.NguoiDung;
 import com.example.apphoctapchotre.DATA.model.XepHangResponse;
@@ -101,7 +102,8 @@ public interface ApiService {
             @Query("maMonHoc") String maMonHoc,
             @Query("maNguoiDung") String maNguoiDung
     );
-
+    @GET("lythuyet-noidung/{maHoatDong}")
+    Call<LyThuyetNoiDungResponse> getNoiDungLyThuyet(@Path("maHoatDong") String maHoatDong);
     @POST("lythuyet/hoanthanh")
     Call<Void> hoanThanhLyThuyet(
             @Query("maNguoiDung") String maNguoiDung,

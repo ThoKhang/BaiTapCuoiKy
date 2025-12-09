@@ -85,6 +85,9 @@
             android:name=".UI.Activity.MonHoc.LyThuyetActivity2"
             android:exported="false" />
         <activity
+            android:name=".UI.Activity.MonHoc.LyThuyetNoiDungActivity"
+            android:exported="false" />
+        <activity
             android:name=".UI.Activity.Account.DangKy.DangKyOTP"
             android:exported="false" />
         <activity
