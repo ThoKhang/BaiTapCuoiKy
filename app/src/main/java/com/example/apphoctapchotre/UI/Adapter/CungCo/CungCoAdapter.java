@@ -56,13 +56,25 @@ public class CungCoAdapter extends ArrayAdapter<CungCoDaLamResponse> {
 
         // Nếu đã hoàn thành
         if (item.isDaHoanThanh()) {
-            tvDiem.setText("✓ Đã hoàn thành");
-            tvDiem.setTextColor(context.getColor(android.R.color.holo_green_light));
+
+            tvDiem.setText(item.getSoCauDung() + "/" + item.getSoCauDaLam());
+
+            // Chữ trắng
+            tvDiem.setTextColor(context.getColor(android.R.color.white));
+
+            // Gán nền vàng bo tròn
+            tvDiem.setBackgroundResource(R.drawable.border_done);
 
         } else {
+
             tvDiem.setText("+" + item.getTongDiemToiDa() + " điểm");
             tvDiem.setTextColor(context.getColor(android.R.color.holo_orange_light));
+
+            // Xóa nền nếu trước đó đã có
+            tvDiem.setBackground(null);
         }
+
+
 
         convertView.setOnClickListener(v -> {
             if (listener != null) {
