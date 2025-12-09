@@ -29,9 +29,9 @@ public class DeCoBan extends AppCompatActivity {
         RecyclerView rv = findViewById(R.id.rvDe);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
+        int tongDe=getIntent().getIntExtra("TONG_DE_CO_BAN",0);
         List<DeItem> list = new ArrayList<>();
-        list.add(new DeItem("Đề cơ bản số 1", 50, 9, 10));
-        for (int i = 2; i <= 10; i++) {
+        for (int i = 1; i <= tongDe; i++) {
             list.add(new DeItem("Đề cơ bản số " + i, 50, 0, 10));
         }
 

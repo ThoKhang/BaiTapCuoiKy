@@ -26,9 +26,9 @@ public class DeTrungBinh extends AppCompatActivity {
         RecyclerView rv = findViewById(R.id.rvDe);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
+        int tongDe=getIntent().getIntExtra("TONG_DE_TRUNG_BINH",0);
         List<DeItem> list = new ArrayList<>();
-        list.add(new DeItem("Đề trung bình số 1", 80, 9, 10));
-        for (int i = 2; i <= 10; i++) {
+        for (int i = 1; i <= tongDe; i++) {
             list.add(new DeItem("Đề trung bình số " + i, 80, 0, 10));
         }
 

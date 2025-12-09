@@ -15,15 +15,6 @@
         android:clipToPadding="false">
 
         <!-- LỚP DƯỚI CÙNG: xanh nhạt nhất (lòi ra nhiều và hẹp nhất) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="-25dp"
-            android:background="@drawable/bg_border_tn"
-            android:backgroundTint="#98D9F9" />
 
         <!-- LỚP GIỮA: xanh sáng hơn (lòi ra ít hơn, rộng hơn chút) -->
         <LinearLayout
@@ -221,6 +212,16 @@
                     android:text="Đây là giải thích"
                     android:textColor="#C8B213"
                     android:textSize="22sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="-25dp"
+                    android:background="@drawable/bg_border_tn"
+                    android:backgroundTint="#98D9F9" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
