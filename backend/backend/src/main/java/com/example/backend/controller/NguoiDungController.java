@@ -1,21 +1,29 @@
 package com.example.backend.controller;
 
+import com.example.backend.converter.NguoiDungConverter;
 import com.example.backend.dto.request.LoginRequest;
 import com.example.backend.dto.request.RegisterRequest;
+import com.example.backend.dto.response.AuthenticationResponse;
 import com.example.backend.dto.response.NguoiDungResponse;
 import com.example.backend.dto.response.XepHangResponse;
+import com.example.backend.entity.NguoiDung;
 import com.example.backend.service.IService.INguoiDungService;
+import com.example.backend.service.JwtTokenProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @RestController
 @RequestMapping("/api/nguoidung")
 @CrossOrigin("*")
 public class NguoiDungController {
 
+    @Autowired
+    private JwtTokenProviderService jwtTokenProvider;
+    
     @Autowired
     private INguoiDungService service;
 
@@ -47,10 +55,15 @@ public class NguoiDungController {
     }
 
     @PostMapping("/verify-otp")
-    public ResponseEntity<String> verifyOtp(@RequestBody Map<String, String> body) {
-        boolean ok = service.verifyOtp(body.get("email"), body.get("otp"));
-        if (ok) {
-            return ResponseEntity.ok("Xác thực OTP thành công!");
+    public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        String otp = body.get("otp");
+
+        NguoiDung nguoiDung = service.verifyOtpAndReturnUser(email, otp); 
+        if (nguoiDung != null) {
+            UserDetails userDetails = NguoiDungConverter.toUserDetails(nguoiDung); 
+            String jwt = jwtTokenProvider.generateToken(userDetails);
+            return ResponseEntity.ok(new AuthenticationResponse(jwt)); 
         }
         return ResponseEntity.badRequest().body("Mã OTP sai hoặc hết hạn!");
     }
