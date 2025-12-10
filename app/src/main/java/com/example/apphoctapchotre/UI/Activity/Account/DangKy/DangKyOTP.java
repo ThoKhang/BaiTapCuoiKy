@@ -11,93 +11,72 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.apphoctapchotre.UI.Activity.Account.DangNhap.GiaoDienDangNhap;
-import com.example.apphoctapchotre.DATA.remote.ApiService;
-import com.example.apphoctapchotre.DATA.remote.RetrofitClient;
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.UI.Activity.Account.DangNhap.GiaoDienDangNhap;
+import com.example.apphoctapchotre.UI.ViewModel.DangKyOtpViewModel;
 import com.google.android.material.button.MaterialButton;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DangKyOTP extends AppCompatActivity {
 
     private EditText eTextOtpDangKy;
     private MaterialButton btnDangNhapVaoTrangChu;
+    private ImageButton ibtnBack;
     private String email;
+    private DangKyOtpViewModel viewModel;
+    private String currentOtp = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_dang_ky_otp);
-
+        // Ánh xạ view
         eTextOtpDangKy = findViewById(R.id.eTextOtpDangKy);
         btnDangNhapVaoTrangChu = findViewById(R.id.btnDangNhapVaoTrangChu);
-
+        ibtnBack = findViewById(R.id.ibtnBack);
+        // Lấy email
         email = getIntent().getStringExtra("EMAIL");
         if (email == null || email.isEmpty()) {
             Toast.makeText(this, "Lỗi: Không nhận được email!", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-
-        btnDangNhapVaoTrangChu.setOnClickListener(v -> {
-            String otp = eTextOtpDangKy.getText().toString().trim();
-
-            if (otp.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập mã OTP!", Toast.LENGTH_SHORT).show();
-                return;
+        // ViewModel
+        viewModel = new ViewModelProvider(this).get(DangKyOtpViewModel.class);
+        // Observe message
+        viewModel.toastMessage.observe(this, msg -> {
+            if (msg != null && !msg.isEmpty()) {
+                Toast.makeText(DangKyOTP.this, msg, Toast.LENGTH_LONG).show();
             }
-
-            Map<String, String> body = new HashMap<>();
-            body.put("email", email);
-            body.put("otp", otp);
-
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
-            api.verifyOTP(body).enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(DangKyOTP.this,
-                                "Xác thực OTP thành công! Bạn có thể đăng nhập.",
-                                Toast.LENGTH_LONG).show();
-
-                        // 👉 Sau khi xác thực thành công, chuyển sang màn đăng nhập
-                        Intent intent = new Intent(DangKyOTP.this, GiaoDienDangNhap.class);
-                        // Nếu muốn fill sẵn email ở màn đăng nhập:
-                        intent.putExtra("EMAIL", email);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(DangKyOTP.this,
-                                "OTP không đúng hoặc đã hết hạn!",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(DangKyOTP.this,
-                            "Lỗi kết nối: " + t.getMessage(),
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
         });
+        // Observe verify success
+        viewModel.verifySuccess.observe(this, success -> {
+            if (success != null && success) {
+                // Xác thực OTP ok → chuyển sang màn đăng nhập
+                openLoginScreen(email);
+            }
+        });
+        // Click xác thực OTP
+        btnDangNhapVaoTrangChu.setOnClickListener(v -> {
+            currentOtp = eTextOtpDangKy.getText().toString().trim();
+            viewModel.verifyOtp(email, currentOtp);
+        });
+        // Back
+        ibtnBack.setOnClickListener(v -> finish());
 
+        // Giữ lại phần insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        ImageButton ibtnBack = findViewById(R.id.ibtnBack);
-        ibtnBack.setOnClickListener(v -> finish());
+    }
+    private void openLoginScreen(String email) {
+        Intent intent = new Intent(DangKyOTP.this, GiaoDienDangNhap.class);
+        intent.putExtra("EMAIL", email); // nếu muốn fill sẵn email
+        startActivity(intent);
+        finish();
     }
 }

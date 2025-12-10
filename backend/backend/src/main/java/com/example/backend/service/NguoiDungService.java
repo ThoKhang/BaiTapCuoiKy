@@ -13,17 +13,26 @@ import com.example.backend.entity.TienTrinhHocTap;
 import com.example.backend.repository.NguoiDungRepository;
 import com.example.backend.repository.TienTrinhHocTapRepository;
 import com.example.backend.service.IService.INguoiDungService;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
 public class NguoiDungService implements INguoiDungService {
+
+    private static final String GOOGLE_CLIENT_ID =
+        "770393692760-to1bqmiu4gkrtcjgha0ok23ejej9cmjr.apps.googleusercontent.com";
 
     @Autowired
     private NguoiDungRepository nguoiDungRepository;
@@ -33,7 +42,8 @@ public class NguoiDungService implements INguoiDungService {
     private OTPService otpService;
     @Autowired
     private TienTrinhHocTapRepository tienTrinhHocTapRepository;
-    @Override   
+
+    @Override
     public NguoiDungResponse register(RegisterRequest request) {
 
         if (nguoiDungRepository.findByEmail(request.getEmail()) != null) {
@@ -72,6 +82,7 @@ public class NguoiDungService implements INguoiDungService {
 
         return "OTP đã gửi, vui lòng kiểm tra email.";
     }
+
     private void capNhatDangNhapHangNgay(String email) {
         NguoiDung nd = nguoiDungRepository.findByEmail(email);
         if (nd == null) {
@@ -99,18 +110,16 @@ public class NguoiDungService implements INguoiDungService {
         nguoiDungRepository.save(nd);
     }
 
-
     @Override
     public boolean verifyOtp(String email, String otp) {
         boolean hopLe = otpService.validateOTP(email, otp);
         if (!hopLe) {
             return false;
         }
-        //  OTP đúng → coi như đăng nhập thành công → cập nhật lần đăng nhập + số lần trực tuyến
+        // OTP đúng → coi như đăng nhập thành công → cập nhật lần đăng nhập + số lần trực tuyến
         capNhatDangNhapHangNgay(email);
         return true;
     }
-    
 
     @Override
     public void sendOtp(String email) {
@@ -143,6 +152,7 @@ public class NguoiDungService implements INguoiDungService {
 
         return NguoiDungConverter.toResponse(nd);
     }
+
     @Override
     public XepHangResponse layXepHang(String email, int gioiHan) {
         if (gioiHan <= 0) gioiHan = 20;
@@ -254,6 +264,59 @@ public class NguoiDungService implements INguoiDungService {
         res.setDanhSachChiTiet(chiTiet);
 
         return res;
+    }
+
+    @Override
+    public NguoiDungResponse loginWithGoogle(String idToken) {
+
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
+                .Builder(new NetHttpTransport(), new GsonFactory())
+                .setAudience(List.of(GOOGLE_CLIENT_ID))
+                .setIssuer("https://accounts.google.com")
+                .build();
+
+        GoogleIdToken token;
+        try {
+            token = verifier.verify(idToken);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Token Google không hợp lệ!");
+        }
+
+        if (token == null) {
+            throw new RuntimeException("Xác thực Google thất bại!");
+        }
+
+        GoogleIdToken.Payload payload = token.getPayload();
+
+        System.out.println("===== GOOGLE ID TOKEN PAYLOAD =====");
+        System.out.println("audience        : " + payload.getAudience());
+        System.out.println("authorizedParty : " + payload.getAuthorizedParty());
+        System.out.println("issuer          : " + payload.getIssuer());
+        System.out.println("email           : " + payload.getEmail());
+        System.out.println("===================================");
+
+        String email = payload.getEmail();
+        String name  = (String) payload.get("name");
+
+        NguoiDung existing = nguoiDungRepository.findByEmail(email);
+
+        if (existing == null) {
+            String newId = "ND" + String.format("%03d", nguoiDungRepository.count() + 1);
+
+            NguoiDung nd = new NguoiDung();
+            nd.setMaNguoiDung(newId);
+            nd.setTenDangNhap(name);
+            nd.setEmail(email);
+            nd.setMatKhauMaHoa("GOOGLE");
+
+            nguoiDungRepository.save(nd);
+            capNhatDangNhapHangNgay(email);
+            return NguoiDungConverter.toResponse(nd);
+        }
+
+        capNhatDangNhapHangNgay(email);
+        return NguoiDungConverter.toResponse(existing);
     }
 
 }

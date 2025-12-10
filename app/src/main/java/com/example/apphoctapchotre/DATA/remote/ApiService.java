@@ -4,6 +4,10 @@ import com.example.apphoctapchotre.DATA.model.CauHoi;
 import com.example.apphoctapchotre.DATA.model.CauHoiDapAnResponse;
 import com.example.apphoctapchotre.DATA.model.DeOnLuyen;
 import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
+import com.example.apphoctapchotre.DATA.model.LyThuyetDaLamResponse;
+import com.example.apphoctapchotre.DATA.model.LyThuyetMonHocResponse;
+import com.example.apphoctapchotre.DATA.model.LyThuyetNoiDungResponse;
+import com.example.apphoctapchotre.DATA.model.LyThuyetResponse;
 import com.example.apphoctapchotre.DATA.model.NguoiDung;
 import com.example.apphoctapchotre.DATA.model.OnLuyen;
 import com.example.apphoctapchotre.DATA.model.TienTrinh;
@@ -88,15 +92,38 @@ public interface ApiService {
             @Query("tongCauHoi") int tongCauHoi,
             @Query("diem") int diem
     );
+    @GET("lythuyet/tiendo/{maNguoiDung}")
+    Call<List<LyThuyetResponse>> getTienDoLyThuyet(@Path("maNguoiDung") String maNguoiDung);
 
+
+    @GET("lythuyet/monhoc/{maMonHoc}")
+    Call<List<LyThuyetMonHocResponse>> getDanhSachLyThuyet(
+            @Path("maMonHoc") String maMonHoc
+    );
+
+    @GET("lythuyet/dalams")
+    Call<List<LyThuyetDaLamResponse>> getLyThuyetDaLam(
+            @Query("maMonHoc") String maMonHoc,
+            @Query("maNguoiDung") String maNguoiDung
+    );
+    @GET("lythuyet-noidung/{maHoatDong}")
+    Call<LyThuyetNoiDungResponse> getNoiDungLyThuyet(@Path("maHoatDong") String maHoatDong);
+    @POST("lythuyet/hoanthanh")
+    Call<Void> hoanThanhLyThuyet(
+            @Query("maNguoiDung") String maNguoiDung,
+            @Query("maHoatDong") String maHoatDong,
+            @Query("diem") int diem  // Loại soCauDung, tongCauHoi
+    );
     @GET("api/onluyen")
     Call<OnLuyen> onLuyen(@Query("email") String email);
     @GET("cauhoi/onluyen-coban")
     Call<DeOnLuyen> deOnLuyen(@Query("tieuDe") String tieuDe);
     @POST("api/tientrinh/onluyen")
     Call<Void> taoTienTrinh(@Body TienTrinh tienTrinh);
+    @POST("api/nguoidung/login-google")
+    Call<NguoiDung> loginWithGoogle(@Body Map<String, String> body);
+
     @GET("api/tientrinh/socaudalam-onluyen")
     Call<List<TienTrinh>> soCauDaLam(@Query("email") String email, @Query("tieuDe") String tieuDe);
-
 
 }

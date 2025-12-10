@@ -1,36 +1,65 @@
 package com.example.apphoctapchotre.UI.Activity.Account.DangNhap;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.apphoctapchotre.DATA.remote.ApiService;
-import com.example.apphoctapchotre.DATA.remote.RetrofitClient;
+import com.example.apphoctapchotre.DATA.model.NguoiDung;
+import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.Account.DangKy.DangKy;
 import com.example.apphoctapchotre.UI.Activity.Account.QuenMatKau.QuenMatKhauOTP;
-import com.example.apphoctapchotre.R;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.example.apphoctapchotre.UI.Activity.GioiThieu.OnboardingActivity;
+import com.example.apphoctapchotre.UI.ViewModel.GiaoDienDangNhapViewModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.gms.tasks.Task;
 
 public class GiaoDienDangNhap extends AppCompatActivity {
 
     private EditText eTextEmail, eTextMatKhau;
     private Button btnDangNhap;
+    private TextView textQuenMatKhau, textDangKyNgay;
+    private MaterialCardView btnGoogle; // from layout
 
-    // <<< CHẾ ĐỘ TEST - ĐỔI THÀNH false ĐỂ DÙNG SERVER THẬT >>>
-    private static final boolean TEST_MODE = false;
+    private GiaoDienDangNhapViewModel viewModel;
+    private String currentEmail = "";
+
+    private GoogleSignInClient googleSignInClient;
+
+    private final ActivityResultLauncher<Intent> googleLoginLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Intent data = result.getData();
+                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                    try {
+                        GoogleSignInAccount account = task.getResult(ApiException.class);
+                        if (account != null) {
+                            String idToken = account.getIdToken();
+                            viewModel.loginWithGoogle(idToken);
+                        } else {
+                            Toast.makeText(this, "Không lấy được tài khoản Google", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (ApiException e) {
+                        Toast.makeText(this, "Google sign-in failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Hủy đăng nhập Google", Toast.LENGTH_SHORT).show();
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +69,41 @@ public class GiaoDienDangNhap extends AppCompatActivity {
         eTextEmail = findViewById(R.id.eTextEmail);
         eTextMatKhau = findViewById(R.id.eTextMatKhau);
         btnDangNhap = findViewById(R.id.btnDangNhap);
+        textQuenMatKhau = findViewById(R.id.textQuenMatKhau);
+        textDangKyNgay = findViewById(R.id.textDangKyNgay);
+        btnGoogle = findViewById(R.id.btnGoogle);
+
+        viewModel = new ViewModelProvider(this).get(GiaoDienDangNhapViewModel.class);
+
+        // Config GoogleSignIn
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        // Observe toast messages
+        viewModel.toastMessage.observe(this, msg -> {
+            if (msg != null && !msg.isEmpty()) {
+                Toast.makeText(GiaoDienDangNhap.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Observe login success (email/mật khẩu) -> sang màn OTP
+        viewModel.loginSuccess.observe(this, success -> {
+            if (success != null && success) {
+                openOtpScreen(currentEmail);
+            }
+        });
+
+        // Observe Google user -> đã đăng nhập xong, vào app luôn
+        viewModel.googleUser.observe(this, user -> {
+            if (user != null) {
+                onGoogleLoginSuccess(user);
+            }
+        });
 
         // Quên mật khẩu
-        TextView textQuenMatKhau = findViewById(R.id.textQuenMatKhau);
         textQuenMatKhau.setOnClickListener(v -> {
             String email = eTextEmail.getText().toString().trim();
             Intent intent = new Intent(GiaoDienDangNhap.this, QuenMatKhauOTP.class);
@@ -53,59 +114,44 @@ public class GiaoDienDangNhap extends AppCompatActivity {
         });
 
         // Đăng ký
-        TextView textDangKyNgay = findViewById(R.id.textDangKyNgay);
-        textDangKyNgay.setOnClickListener(v -> {
-            startActivity(new Intent(GiaoDienDangNhap.this, DangKy.class));
-        });
+        textDangKyNgay.setOnClickListener(v ->
+                startActivity(new Intent(GiaoDienDangNhap.this, DangKy.class))
+        );
 
+        // Đăng nhập thường
         btnDangNhap.setOnClickListener(v -> {
             String email = eTextEmail.getText().toString().trim();
-            String matKhau = eTextMatKhau.getText().toString().trim();
-
-            if (email.isEmpty() || matKhau.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập email và mật khẩu!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // BODY gửi đúng theo backend
-            Map<String, String> body = new HashMap<>();
-            body.put("email", email);
-            body.put("matKhau", matKhau);
-
-            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-            Call<ResponseBody> call = apiService.login(body);
-
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    try {
-                        if (response.isSuccessful() && response.body() != null) {
-
-                            String message = response.body().string();
-                            Toast.makeText(GiaoDienDangNhap.this, message, Toast.LENGTH_SHORT).show();
-
-                            // Chuyển sang OTP
-                            Intent intent = new Intent(GiaoDienDangNhap.this, DangNhapOTP.class);
-                            intent.putExtra("EMAIL", email);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            String message = response.errorBody() != null
-                                    ? response.errorBody().string()
-                                    : "Đăng nhập thất bại!";
-                            Toast.makeText(GiaoDienDangNhap.this, message, Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Exception e) {
-                        Log.e("LOGIN_ERROR", "Lỗi xử lý phản hồi: " + e.getMessage());
-                        Toast.makeText(GiaoDienDangNhap.this, "Lỗi đọc phản hồi từ server!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(GiaoDienDangNhap.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            String password = eTextMatKhau.getText().toString().trim();
+            currentEmail = email;
+            viewModel.login(email, password);
         });
+
+        // Đăng nhập Google
+        btnGoogle.setOnClickListener(v -> {
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            googleLoginLauncher.launch(signInIntent);
+        });
+    }
+
+    private void openOtpScreen(String email) {
+        Intent intent = new Intent(GiaoDienDangNhap.this, DangNhapOTP.class);
+        intent.putExtra("EMAIL", email);
+        startActivity(intent);
+        finish();
+    }
+
+    private void onGoogleLoginSuccess(NguoiDung nguoiDung) {
+        // Lưu SharedPreferences giống OTP login
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        prefs.edit()
+                .putBoolean("isLoggedIn", true)
+                .putString("userEmail", nguoiDung.getEmail())
+                .putString("MA_NGUOI_DUNG", nguoiDung.getMaNguoiDung())
+                .apply();
+
+        Intent intent = new Intent(GiaoDienDangNhap.this, OnboardingActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }
