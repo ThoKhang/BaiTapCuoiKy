@@ -61,6 +61,12 @@ public class GiaoDienTong extends AppCompatActivity {
 
         // Mở mặc định Trang Chủ
         viewPager2.setCurrentItem(0, false);
+
+        boolean openHome = getIntent().getBooleanExtra("OPEN_HOME", false);
+        if (openHome) {
+            viewPager2.setCurrentItem(0, false); // 0 = Trang Chủ
+        }
+
     }
     public ViewPager2 getViewPager2() {
         return viewPager2;

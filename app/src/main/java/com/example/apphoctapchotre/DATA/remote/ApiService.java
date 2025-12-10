@@ -2,12 +2,15 @@ package com.example.apphoctapchotre.DATA.remote;
 
 import com.example.apphoctapchotre.DATA.model.CauHoi;
 import com.example.apphoctapchotre.DATA.model.CauHoiDapAnResponse;
+import com.example.apphoctapchotre.DATA.model.DeOnLuyen;
 import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
 import com.example.apphoctapchotre.DATA.model.LyThuyetDaLamResponse;
 import com.example.apphoctapchotre.DATA.model.LyThuyetMonHocResponse;
 import com.example.apphoctapchotre.DATA.model.LyThuyetNoiDungResponse;
 import com.example.apphoctapchotre.DATA.model.LyThuyetResponse;
 import com.example.apphoctapchotre.DATA.model.NguoiDung;
+import com.example.apphoctapchotre.DATA.model.OnLuyen;
+import com.example.apphoctapchotre.DATA.model.TienTrinh;
 import com.example.apphoctapchotre.DATA.model.XepHangResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoMonHocResponse;
@@ -92,6 +95,7 @@ public interface ApiService {
     @GET("lythuyet/tiendo/{maNguoiDung}")
     Call<List<LyThuyetResponse>> getTienDoLyThuyet(@Path("maNguoiDung") String maNguoiDung);
 
+
     @GET("lythuyet/monhoc/{maMonHoc}")
     Call<List<LyThuyetMonHocResponse>> getDanhSachLyThuyet(
             @Path("maMonHoc") String maMonHoc
@@ -110,5 +114,11 @@ public interface ApiService {
             @Query("maHoatDong") String maHoatDong,
             @Query("diem") int diem  // Loại soCauDung, tongCauHoi
     );
-
+    @GET("api/onluyen")
+    Call<OnLuyen> onLuyen(@Query("email") String email);
+    @GET("cauhoi/onluyen-coban")
+    Call<DeOnLuyen> deOnLuyen(@Query("tieuDe") String tieuDe);
+    @POST("api/tientrinh/onluyen")
+    Call<Void> taoTienTrinh(@Body TienTrinh tienTrinh);
+    
 }

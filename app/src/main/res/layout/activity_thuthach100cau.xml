@@ -14,24 +14,40 @@
         android:paddingTop="16dp"
         android:paddingBottom="32dp">
 
-        <!-- Nút Back -->
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:src="@drawable/arrow_back" />
-
-        <!-- Tiêu đề -->
-        <TextView
+        <!-- Thanh tiêu đề -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Thử thách 20 câu hỏi"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:gravity="center"
-            android:layout_marginTop="12dp" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="4dp"
+            android:layout_marginTop="15dp">
+
+            <ImageView
+                android:id="@+id/quayLai"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Back"
+                android:src="@drawable/arrow_back" />
+
+            <TextView
+                android:id="@+id/tvTieuDePhu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Thử thách 20 câu hỏi"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imgVuongMieng"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="Crown"
+                android:src="@drawable/vm" />
+        </LinearLayout>
 
         <!-- Ảnh -->
         <ImageView
@@ -48,23 +64,23 @@
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Thử thách 20 Câu Hỏi Toán 🧩"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:textSize="22sp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:layout_marginTop="20dp" />
+            android:text="Thử thách 20 Câu Hỏi Khó Nhất 🧩"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <!-- Mô tả -->
         <TextView
             android:id="@+id/tvNho"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Giải 20 bài toán nhanh nhất có thể."
-            android:textColor="#555555"
-            android:textSize="16sp"
+            android:layout_marginTop="6dp"
             android:gravity="center"
-            android:layout_marginTop="6dp" />
+            android:text="Giải 20 bài nhanh nhất có thể."
+            android:textColor="#555555"
+            android:textSize="16sp" />
 
         <!-- Nút Thử ngay -->
         <Button
@@ -79,16 +95,6 @@
             app:backgroundTint="#1294D4" />
 
         <!-- Xếp hạng -->
-        <TextView
-            android:id="@+id/btnRank"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Xếp hạng"
-            android:textColor="#1294D4"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:layout_marginTop="18dp" />
 
     </LinearLayout>
 </ScrollView>

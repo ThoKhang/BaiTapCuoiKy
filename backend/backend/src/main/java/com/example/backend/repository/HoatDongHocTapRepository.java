@@ -41,4 +41,14 @@ public interface HoatDongHocTapRepository extends JpaRepository<HoatDongHocTap, 
             @Param("maMonHoc") String maMonHoc,
             @Param("maNguoiDung") String maNguoiDung
     );
+    
+    // Lấy ôn luyện
+    @Query(value = "SELECT COUNT(*) FROM HoatDongHocTap WHERE TieuDe LIKE N'Ôn cơ bản%'", nativeQuery = true)
+    int tongSoDeCoBan();
+    @Query(value = "SELECT COUNT(*) FROM HoatDongHocTap WHERE TieuDe LIKE N'Ôn TB%'", nativeQuery = true)
+    int tongSoDeTrungBinh();
+    @Query(value = "SELECT COUNT(*) FROM HoatDongHocTap WHERE TieuDe LIKE N'Ôn NC%'", nativeQuery = true)
+    int tongSoDeNangCao();
+    //End Lấy ôn luyện
+
 }

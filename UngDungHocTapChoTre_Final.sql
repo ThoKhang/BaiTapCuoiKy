@@ -56,7 +56,7 @@ GO
 
 -- 5. Bảng CauHoi (Question)
 CREATE TABLE CauHoi (
-    MaCauHoi char(5) PRIMARY KEY,
+    MaCauHoi char(6) PRIMARY KEY,
     NoiDungCauHoi NVARCHAR(300) NOT NULL,
     GiaiThich NVARCHAR(300) NULL,
     DiemToiDa INT NOT NULL -- Điểm tối đa cho 1 câu hỏi
@@ -66,7 +66,7 @@ GO
 -- 6. Bảng DapAn (Answer)
 CREATE TABLE DapAn (
     MaDapAn char(6) PRIMARY KEY,
-    MaCauHoi char(5) FOREIGN KEY REFERENCES CauHoi(MaCauHoi),
+    MaCauHoi char(6) FOREIGN KEY REFERENCES CauHoi(MaCauHoi),
     NoiDungDapAn NVARCHAR(100) NOT NULL,
     LaDapAnDung BIT NOT NULL -- Sử dụng BIT (1=Đúng, 0=Sai)
 );
@@ -75,7 +75,7 @@ GO
 -- 7. Bảng HoatDong_CauHoi (M:N link giữa Hoạt động và Câu hỏi)
 CREATE TABLE HoatDong_CauHoi (
     MaHoatDong char(5) FOREIGN KEY REFERENCES HoatDongHocTap(MaHoatDong),
-    MaCauHoi char(5) FOREIGN KEY REFERENCES CauHoi(MaCauHoi),
+    MaCauHoi char(6) FOREIGN KEY REFERENCES CauHoi(MaCauHoi),
     ThuTu INT NOT NULL,
     PRIMARY KEY (MaHoatDong, MaCauHoi)
 );
@@ -843,330 +843,2018 @@ GO
 -- Kiểm tra số lượng câu hỏi sau khi xóa
 SELECT COUNT(*) AS SoCauHoi FROM CauHoi;
 SELECT COUNT(*) AS SoDapAn FROM DapAn;
----------------------------------------------
--- TẠO 155 CÂU TOÁN CH001–CH155
----------------------------------------------
-;WITH nums AS (
-    SELECT TOP (155)
-        ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS n
-    FROM sys.all_objects
-),
-CauHoiToan AS (
-    SELECT
-        n,
-        'CH' + RIGHT('000' + CAST(n AS VARCHAR(3)), 3) AS MaCauHoi,
-        ((n - 1) % 10) + 1 AS SoA,
-        ((n - 1) / 10) % 10 + 1 AS SoB
-    FROM nums
-),
-CauHoiToanFinal AS (
-    SELECT
-        MaCauHoi,
-        N'Hãy tính ' + CAST(SoA AS NVARCHAR(10)) + N' + ' + CAST(SoB AS NVARCHAR(10)) + N' = ?' AS NoiDungCauHoi,
-        N'Cộng ' + CAST(SoA AS NVARCHAR(10)) + N' với ' + CAST(SoB AS NVARCHAR(10)) + N' để được kết quả.' AS GiaiThich,
-        5 AS DiemToiDa,
-        SoA + SoB AS DapAnDung,
-        n
-    FROM CauHoiToan
-)
-INSERT INTO CauHoi (MaCauHoi, NoiDungCauHoi, GiaiThich, DiemToiDa)
-SELECT
-    MaCauHoi,
-    NoiDungCauHoi,
-    GiaiThich,
-    DiemToiDa
-FROM CauHoiToanFinal;
+USE UngDungHocTapChoTre;
 GO
 
+-- Xoá câu hỏi cũ (nếu cần)
+-- DELETE FROM CauHoi;
+-- GO
+
+INSERT INTO CauHoi (MaCauHoi, NoiDungCauHoi, GiaiThich, DiemToiDa)
+VALUES
+-- =========================================================
+-- 1) CỦNG CỐ TOÁN: 100 câu (CH001–CH100)
+-- Bài 1 (CH001–CH010)
+('CH001', N'2 + 3 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH002', N'5 - 1 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH003', N'4 + 4 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH004', N'9 - 3 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH005', N'7 + 1 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH006', N'12 - 5 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH007', N'8 + 6 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH008', N'13 - 4 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH009', N'15 - 7 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH010', N'9 + 8 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+
+-- Bài 2 (CH011–CH020)
+('CH011', N'3 + 6 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH012', N'10 - 2 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH013', N'1 + 8 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH014', N'6 - 4 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH015', N'7 + 3 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH016', N'14 - 6 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH017', N'11 + 5 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH018', N'12 - 3 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH019', N'16 - 9 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH020', N'9 + 7 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+
+-- Bài 3 (CH021–CH030)
+('CH021', N'5 + 2 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH022', N'9 - 1 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH023', N'4 + 5 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH024', N'8 - 2 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH025', N'3 + 7 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH026', N'11 - 4 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH027', N'6 + 9 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH028', N'13 - 6 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH029', N'17 - 8 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH030', N'9 + 9 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+
+-- Bài 4 (CH031–CH040)
+('CH031', N'4 + 6 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH032', N'7 - 2 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH033', N'2 + 9 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH034', N'10 - 5 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH035', N'3 + 4 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH036', N'15 - 6 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH037', N'8 + 7 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH038', N'14 - 5 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH039', N'18 - 9 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH040', N'11 + 8 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+
+-- Bài 5 (CH041–CH050)
+('CH041', N'5 + 4 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH042', N'6 - 1 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH043', N'9 + 2 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH044', N'7 - 3 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH045', N'3 + 8 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH046', N'12 - 4 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH047', N'8 + 5 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH048', N'14 - 7 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH049', N'16 - 8 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH050', N'7 + 9 = ?', N'Đây là phép tính cộng/trừ đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+
+-- Bài 6 (CH051–CH060) – có nhân/chia
+('CH051', N'6 × 2 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH052', N'12 ÷ 3 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH053', N'7 + 12 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH054', N'20 - 9 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH055', N'5 × 3 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH056', N'18 ÷ 2 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH057', N'14 + 15 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH058', N'28 - 13 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH059', N'9 × 4 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH060', N'36 ÷ 6 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+
+-- Bài 7 (CH061–CH070)
+('CH061', N'4 × 3 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH062', N'16 ÷ 4 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH063', N'11 + 8 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH064', N'25 - 14 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH065', N'3 × 6 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH066', N'21 ÷ 3 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH067', N'17 + 12 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH068', N'32 - 17 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH069', N'8 × 5 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH070', N'42 ÷ 7 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+
+-- Bài 8 (CH071–CH080)
+('CH071', N'7 × 3 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH072', N'18 ÷ 2 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH073', N'14 + 9 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH074', N'29 - 16 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH075', N'9 × 2 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH076', N'30 ÷ 5 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH077', N'13 + 17 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH078', N'33 - 14 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH079', N'6 × 7 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH080', N'48 ÷ 8 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+
+-- Bài 9 (CH081–CH090)
+('CH081', N'8 × 3 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH082', N'20 ÷ 4 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH083', N'15 + 13 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH084', N'27 - 15 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH085', N'5 × 4 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH086', N'24 ÷ 6 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH087', N'18 + 11 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH088', N'35 - 19 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH089', N'9 × 5 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH090', N'45 ÷ 9 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+
+-- Bài 10 (CH091–CH100)
+('CH091', N'6 × 4 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH092', N'28 ÷ 4 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH093', N'19 + 12 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH094', N'31 - 18 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH095', N'7 × 3 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH096', N'32 ÷ 8 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH097', N'21 + 17 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH098', N'40 - 23 = ?', N'Đây là phép tính cộng/trừ. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH099', N'8 × 6 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+('CH100', N'54 ÷ 6 = ?', N'Đây là phép nhân/chia đơn giản. Con hãy tính rồi chọn đáp án đúng.', 5),
+
+-- =========================================================
+-- 2) CỦNG CỐ TIẾNG VIỆT: 100 câu (CH101–CH200)
+-- Dạng 1: Danh từ (CH101–CH120)
+('CH101', N'Từ nào là danh từ? (bé, chạy, đẹp, nhanh)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH102', N'Từ nào là danh từ? (mèo, cao, ăn, đỏ)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH103', N'Từ nào là danh từ? (cái bàn, ngủ, đẹp, to)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH104', N'Từ nào là danh từ? (quả cam, viết, đẹp, mệt)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH105', N'Từ nào là danh từ? (bố, nhỏ, nhảy, vàng)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH106', N'Từ nào là danh từ? (con chó, xanh, đi, cao)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH107', N'Từ nào là danh từ? (ngôi nhà, buồn, ăn, thấp)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH108', N'Từ nào là danh từ? (cái ghế, chạy, vui, to)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH109', N'Từ nào là danh từ? (quyển sách, ngủ, đỏ, đẹp)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH110', N'Từ nào là danh từ? (con gà, nhanh, vui, to)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH111', N'Từ nào là danh từ? (bạn Nam, hát, cao, buồn)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH112', N'Từ nào là danh từ? (cái bóng, vui, ăn, sạch)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH113', N'Từ nào là danh từ? (mẹ, chạy, xanh, nhỏ)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH114', N'Từ nào là danh từ? (cha, vui, to, đi)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH115', N'Từ nào là danh từ? (em bé, xinh, ăn, ngồi)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH116', N'Từ nào là danh từ? (quả táo, đỏ, mở, nhanh)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH117', N'Từ nào là danh từ? (bạn Lan, cao, chạy, mệt)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH118', N'Từ nào là danh từ? (bạn nhỏ, buồn, khóc, xinh)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH119', N'Từ nào là danh từ? (cái nón, vàng, ăn, lạnh)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH120', N'Từ nào là danh từ? (mặt trời, sáng, vui, thấp)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+
+-- Dạng 2: Động từ (CH121–CH140)
+('CH121', N'Từ nào là động từ? (ăn, đỏ, bé, đẹp)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH122', N'Từ nào là động từ? (nhảy, cao, mèo, vàng)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH123', N'Từ nào là động từ? (chạy, xanh, vui, nhỏ)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH124', N'Từ nào là động từ? (ngủ, to, bàn, mệt)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH125', N'Từ nào là động từ? (hát, thấp, sách, vàng)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH126', N'Từ nào là động từ? (đọc, buồn, ghế, ấm)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH127', N'Từ nào là động từ? (đi, bé, cây, cao)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH128', N'Từ nào là động từ? (cười, to, mèo, đẹp)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH129', N'Từ nào là động từ? (nhìn, xanh, táo, vui)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH130', N'Từ nào là động từ? (bay, nhỏ, bút, đỏ)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH131', N'Từ nào là động từ? (viết, cao, nước, lạnh)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH132', N'Từ nào là động từ? (ngồi, to, bông hoa, sạch)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH133', N'Từ nào là động từ? (bơi, mệt, con chó, vàng)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH134', N'Từ nào là động từ? (mở, xanh, cái ghế, buồn)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH135', N'Từ nào là động từ? (đẩy, to, đồ chơi, vui)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH136', N'Từ nào là động từ? (nấu, nóng, sách, cao)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH137', N'Từ nào là động từ? (uống, vàng, bút chì, mặn)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH138', N'Từ nào là động từ? (học, ấm, đàn, xanh)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH139', N'Từ nào là động từ? (vẽ, mỏng, quả cam, cao)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH140', N'Từ nào là động từ? (leo, buồn, con mèo, sạch)', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+
+-- Dạng 3: Tính từ (CH141–CH160)
+('CH141', N'Từ nào là tính từ? (cao, mèo, chạy, uống)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH142', N'Từ nào là tính từ? (đẹp, cái bàn, đi, ăn)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH143', N'Từ nào là tính từ? (vui, sách, uống, chạy)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH144', N'Từ nào là tính từ? (buồn, con chó, ngồi, xanh)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH145', N'Từ nào là tính từ? (xanh, ghế, ăn, đá)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH146', N'Từ nào là tính từ? (ấm, mèo, chạy, to)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH147', N'Từ nào là tính từ? (lạnh, em bé, viết, nấu)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH148', N'Từ nào là tính từ? (mệt, cái thước, cười, đọc)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH149', N'Từ nào là tính từ? (nhanh, bé, ngồi, hát)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH150', N'Từ nào là tính từ? (sạch, bàn, ăn, uống)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH151', N'Từ nào là tính từ? (vàng, mèo, mở, nấu)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH152', N'Từ nào là tính từ? (thấp, sách, đi, hát)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH153', N'Từ nào là tính từ? (to, bút, ăn, ngồi)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH154', N'Từ nào là tính từ? (nhỏ, bé, chạy, mở)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH155', N'Từ nào là tính từ? (hiền, con chó, uống, bay)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH156', N'Từ nào là tính từ? (ngọt, quả táo, ngồi, nhảy)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH157', N'Từ nào là tính từ? (thơm, hoa, nhìn, hát)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH158', N'Từ nào là tính từ? (trẻ, học sinh, viết, đi)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH159', N'Từ nào là tính từ? (dài, cái thước, đọc, khóc)', N'Tính từ là từ chỉ đặc điểm.', 5),
+('CH160', N'Từ nào là tính từ? (cao lớn, bạn Nam, ngủ, nhảy)', N'Tính từ là từ chỉ đặc điểm.', 5),
+
+-- Dạng 4: Chính tả (CH161–CH180)
+('CH161', N'Từ nào viết đúng? (nghỉ, nghi~, nghiỉ, nghị~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH162', N'Từ nào viết đúng? (ngọt, ngo~t, ngot~, ngọt~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH163', N'Từ nào viết đúng? (trượt, chượt, truột, chuột~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH164', N'Từ nào viết đúng? (thuyền, thuỳen, thuyên~, thuyển~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH165', N'Từ nào viết đúng? (giờ, giờ~, gờ, giơ~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH166', N'Từ nào viết đúng? (bún, búnn, bủn, bùn~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH167', N'Từ nào viết đúng? (mảnh, mãnh~, mánh, manh~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH168', N'Từ nào viết đúng? (gạo, gạoo, gảo, gao~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH169', N'Từ nào viết đúng? (lạnh, lanh~, lãnh~, lảnh~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH170', N'Từ nào viết đúng? (nghiêng, nghiêng~, ngiêng, nghieng)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH171', N'Từ nào viết đúng? (mèo, meò, mèo~, meo~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH172', N'Từ nào viết đúng? (mũi, mũii, mùi~, mui~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH173', N'Từ nào viết đúng? (đẹp, đẹpp, dẹp, đẹp~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH174', N'Từ nào viết đúng? (vẽ, vẻ~, ve~, vẽ~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH175', N'Từ nào viết đúng? (gió, giáo~, gió~, gio~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH176', N'Từ nào viết đúng? (cánh, cáng~, cãnh~, cánh~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH177', N'Từ nào viết đúng? (bút, bụt, but~, bút~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH178', N'Từ nào viết đúng? (mưa, mưa~, mư~, mưa~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH179', N'Từ nào viết đúng? (sữa, sưã, sữa~, su~a)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH180', N'Từ nào viết đúng? (bàn, bằn, bàn~, ban~)', N'Hãy chọn từ viết đúng chính tả.', 5),
+
+-- Dạng 5: Hoàn thiện câu (CH181–CH200)
+('CH181', N'Bé đang ___ bóng.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH182', N'Con mèo ___ trên ghế.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH183', N'Bạn Nam rất ___ khi được khen.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH184', N'Mẹ mua cho em một ___ mới.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH185', N'Em bé đang ___ sữa.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH186', N'Bố đi làm bằng ___.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH187', N'Hôm nay trời rất ___.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH188', N'Cô giáo đang ___ bài.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH189', N'Bạn nhỏ đang ___ tranh.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH190', N'Con chó chạy ___ sân.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH191', N'Mẹ bảo em phải ___ tay trước khi ăn.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH192', N'Bé Lan đang ___ sách.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH193', N'Ông nội đang ___ báo.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH194', N'Chị gái em rất ___.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH195', N'Em đi học mang theo một chiếc ___.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH196', N'Bạn nhỏ chơi ___ cùng bạn.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH197', N'Bé cười rất ___.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH198', N'Em đặt cặp lên ___.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH199', N'Bạn nhỏ đang ___ bánh.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+('CH200', N'Mẹ đang chuẩn bị ___ cho cả nhà.', N'Hãy chọn từ thích hợp để hoàn thành câu.', 5),
+
+-- =========================================================
+-- 3) ÔN LUYỆN: 90 câu (CH201–CH290)
+-- Mức Cơ bản (OL001–OL003): CH201–CH230
+('CH201', N'7 + 4 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH202', N'15 - 6 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH203', N'3 × 3 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH204', N'16 ÷ 4 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH205', N'12 + 5 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH206', N'Từ nào là danh từ? (bàn, chạy, đỏ, cao)', N'Câu ôn luyện TV mức cơ bản: danh từ.', 5),
+('CH207', N'Từ nào là động từ? (ăn, mèo, đẹp, bé)', N'Câu ôn luyện TV mức cơ bản: động từ.', 5),
+('CH208', N'Hoàn thiện câu: "Bé đang ___ sách."', N'Câu ôn luyện TV mức cơ bản: hoàn thiện câu.', 5),
+('CH209', N'Từ nào viết đúng? (ngọt, ngoạt~, ngọt~, ngọt~)', N'Câu ôn luyện TV mức cơ bản: chính tả.', 5),
+('CH210', N'Từ nào là tính từ? (xanh, chạy, ăn, ghế)', N'Câu ôn luyện TV mức cơ bản: tính từ.', 5),
+
+('CH211', N'18 - 9 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH212', N'9 + 7 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH213', N'4 × 5 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH214', N'20 ÷ 5 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH215', N'13 + 11 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH216', N'Từ nào viết đúng? (mưa, mư~, mu~a, mưa~)', N'Câu ôn luyện TV mức cơ bản: chính tả.', 5),
+('CH217', N'Chọn động từ: (nhảy, đẹp, bàn, vàng)', N'Câu ôn luyện TV mức cơ bản: động từ.', 5),
+('CH218', N'Hoàn thiện câu: "Con chó đang ___ xương."', N'Câu ôn luyện TV mức cơ bản: hoàn thiện câu.', 5),
+('CH219', N'Danh từ là? (cái ghế, đỏ, chạy, mệt)', N'Câu ôn luyện TV mức cơ bản: danh từ.', 5),
+('CH220', N'Tính từ là? (buồn, chạy, ăn, mèo)', N'Câu ôn luyện TV mức cơ bản: tính từ.', 5),
+
+('CH221', N'25 - 8 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH222', N'14 + 6 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH223', N'6 × 3 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH224', N'30 ÷ 6 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH225', N'17 + 12 = ?', N'Câu ôn luyện Toán mức cơ bản.', 5),
+('CH226', N'Từ nào là động từ? (viết, đỏ, bé, vàng)', N'Câu ôn luyện TV mức cơ bản: động từ.', 5),
+('CH227', N'Từ nào là danh từ? (con mèo, xanh, ăn, vui)', N'Câu ôn luyện TV mức cơ bản: danh từ.', 5),
+('CH228', N'Hoàn thiện câu: "Mẹ đang ___ cơm."', N'Câu ôn luyện TV mức cơ bản: hoàn thiện câu.', 5),
+('CH229', N'Từ nào viết đúng? (bút, but~, bụt, búc)', N'Câu ôn luyện TV mức cơ bản: chính tả.', 5),
+('CH230', N'Tính từ là? (dài, chạy, ăn, ngủ)', N'Câu ôn luyện TV mức cơ bản: tính từ.', 5),
+
+-- Mức Trung bình (OL004–OL006): CH231–CH260
+('CH231', N'28 - 13 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH232', N'19 + 15 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH233', N'7 × 4 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH234', N'40 ÷ 5 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH235', N'26 - 9 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH236', N'Hoàn thiện câu: "Bạn nhỏ rất ___ khi được khen."', N'Câu ôn luyện TV mức trung bình.', 5),
+('CH237', N'Chọn động từ: (học, đẹp, mèo, xanh)', N'Câu ôn luyện TV mức trung bình.', 5),
+('CH238', N'Từ nào viết đúng? (vẽ, vẻ~, vẽ~, ve~)', N'Câu ôn luyện TV mức trung bình: chính tả.', 5),
+('CH239', N'Danh từ là? (cái nón, chạy, to, nhanh)', N'Câu ôn luyện TV mức trung bình: danh từ.', 5),
+('CH240', N'Tính từ là? (ấm, chạy, viết, mèo)', N'Câu ôn luyện TV mức trung bình: tính từ.', 5),
+
+('CH241', N'36 - 17 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH242', N'18 + 16 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH243', N'8 × 6 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH244', N'45 ÷ 9 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH245', N'33 - 14 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH246', N'Hoàn thiện câu: "Quyển vở có màu ___."', N'Câu ôn luyện TV mức trung bình.', 5),
+('CH247', N'Từ nào là động từ? (ngồi, bàn, xanh, vàng)', N'Câu ôn luyện TV mức trung bình: động từ.', 5),
+('CH248', N'Tính từ là? (nhỏ, mèo, ăn, uống)', N'Câu ôn luyện TV mức trung bình: tính từ.', 5),
+('CH249', N'Danh từ? (quả táo, đỏ, chạy, mệt)', N'Câu ôn luyện TV mức trung bình: danh từ.', 5),
+('CH250', N'Từ nào viết đúng? (mũi, mu~i, mũii, mủi)', N'Câu ôn luyện TV mức trung bình: chính tả.', 5),
+
+('CH251', N'42 - 18 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH252', N'27 + 19 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH253', N'9 × 7 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH254', N'50 ÷ 10 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH255', N'38 - 21 = ?', N'Câu ôn luyện Toán mức trung bình.', 5),
+('CH256', N'Hoàn thiện câu: "Bé Lan đang ___ bài."', N'Câu ôn luyện TV mức trung bình.', 5),
+('CH257', N'Danh từ là? (cái nhà, đẹp, ăn, vui)', N'Câu ôn luyện TV mức trung bình: danh từ.', 5),
+('CH258', N'Động từ là? (mở, to, chó, đỏ)', N'Câu ôn luyện TV mức trung bình: động từ.', 5),
+('CH259', N'Tính từ là? (thơm, mèo, mở, chạy)', N'Câu ôn luyện TV mức trung bình: tính từ.', 5),
+('CH260', N'Từ nào viết đúng? (giờ, gio~, giơ~, giờ~)', N'Câu ôn luyện TV mức trung bình: chính tả.', 5),
+
+-- Mức Nâng cao (OL007–OL009): CH261–CH290
+('CH261', N'56 - 27 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH262', N'31 + 28 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH263', N'12 × 4 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH264', N'64 ÷ 8 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH265', N'45 - 23 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH266', N'Từ nào viết đúng? (cánh, cãnh~, cáng~, cánh~)', N'Câu ôn luyện TV mức nâng cao: chính tả.', 5),
+('CH267', N'Tính từ là? (sáng, chạy, ăn, bàn)', N'Câu ôn luyện TV mức nâng cao: tính từ.', 5),
+('CH268', N'Hoàn thiện câu: "Bố đang ___ xe."', N'Câu ôn luyện TV mức nâng cao.', 5),
+('CH269', N'Động từ là? (bơi, mèo, to, đẹp)', N'Câu ôn luyện TV mức nâng cao: động từ.', 5),
+('CH270', N'Danh từ là? (cái bút, xanh, vui, ngồi)', N'Câu ôn luyện TV mức nâng cao: danh từ.', 5),
+
+('CH271', N'63 - 29 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH272', N'34 + 27 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH273', N'11 × 6 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH274', N'72 ÷ 9 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH275', N'58 - 19 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH276', N'Hoàn thiện câu: "Con mèo đang ___ bóng."', N'Câu ôn luyện TV mức nâng cao.', 5),
+('CH277', N'Động từ là? (nhảy, ghế, to, cao)', N'Câu ôn luyện TV mức nâng cao: động từ.', 5),
+('CH278', N'Tính từ là? (lạnh, mèo, mở, nhìn)', N'Câu ôn luyện TV mức nâng cao: tính từ.', 5),
+('CH279', N'Danh từ là? (con chó, chạy, xanh, buồn)', N'Câu ôn luyện TV mức nâng cao: danh từ.', 5),
+('CH280', N'Từ đúng chính tả? (lạnh, lảnh~, lanh~, lănh~)', N'Câu ôn luyện TV mức nâng cao: chính tả.', 5),
+
+('CH281', N'72 - 34 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH282', N'43 + 26 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH283', N'13 × 7 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH284', N'81 ÷ 9 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH285', N'67 - 25 = ?', N'Câu ôn luyện Toán mức nâng cao.', 5),
+('CH286', N'Hoàn thiện câu: "Bạn nhỏ đang ___ bánh."', N'Câu ôn luyện TV mức nâng cao.', 5),
+('CH287', N'Từ nào là động từ? (leo, đẹp, mèo, xanh)', N'Câu ôn luyện TV mức nâng cao: động từ.', 5),
+('CH288', N'Tính từ là? (sạch, con mèo, ngồi, chạy)', N'Câu ôn luyện TV mức nâng cao: tính từ.', 5),
+('CH289', N'Danh từ là? (cái thước, vui, ăn, to)', N'Câu ôn luyện TV mức nâng cao: danh từ.', 5),
+('CH290', N'Từ nào viết đúng? (bàn, ban~, bằn, bàn~)', N'Câu ôn luyện TV mức nâng cao: chính tả.', 5),
+
+-- =========================================================
+-- 4) THỬ THÁCH: 20 câu (CH291–CH310)
+-- Toán thử thách (CH291–CH302)
+('CH291', N'Hãy tính: 7 + 9 × 2 = ?', N'Nhân trước, cộng sau.', 5),
+('CH292', N'Hãy tính: (18 ÷ 3) + 14 = ?', N'Tính trong ngoặc, rồi cộng.', 5),
+('CH293', N'Hãy tính: 45 - 16 + 7 = ?', N'Tính lần lượt từ trái sang phải.', 5),
+('CH294', N'Hãy tính: 6 × 3 - 5 = ?', N'Nhân trước rồi trừ.', 5),
+('CH295', N'Hãy tính: 12 + 8 × 2 = ?', N'Nhân trước rồi cộng.', 5),
+('CH296', N'Hãy tính: (20 - 6) ÷ 2 = ?', N'Tính trong ngoặc rồi chia.', 5),
+('CH297', N'Hãy tính: 9 × 4 - 12 = ?', N'Nhân trước rồi trừ.', 5),
+('CH298', N'Hãy tính: 50 ÷ 5 + 7 = ?', N'Chia trước rồi cộng.', 5),
+('CH299', N'Hãy tính: (15 + 9) ÷ 4 = ?', N'Tính trong ngoặc rồi chia.', 5),
+('CH300', N'Hãy tính: 8 × 3 + 6 = ?', N'Nhân trước rồi cộng.', 5),
+('CH301', N'Hãy tính: 100 ÷ (10 - 5) = ?', N'Tính trong ngoặc rồi chia.', 5),
+('CH302', N'Hãy tính: 36 ÷ 3 + 4 × 2 = ?', N'Chia và nhân trước, sau đó cộng.', 5),
+
+-- TV thử thách (CH303–CH310)
+('CH303', N'Trong câu "Bé Lan đang đọc sách", từ nào là động từ?', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH304', N'Chọn từ đúng để hoàn thành câu: "Bạn nhỏ rất ___ khi giúp đỡ mọi người." (vui, chạy, cao, đọc)', N'Hãy chọn từ chỉ cảm xúc phù hợp.', 5),
+('CH305', N'Từ nào có nghĩa trái ngược với "mạnh"? (yếu, nhanh, đẹp, cao)', N'Từ trái nghĩa là từ có nghĩa ngược lại.', 5),
+('CH306', N'Từ nào viết đúng chính tả? (khỏe, khoẻ~, khỏe~, khoẽ)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH307', N'Hoàn thành câu: "Hôm nay thời tiết thật ___, phù hợp để đi chơi." (đẹp, chạy, bé, bàn)', N'Hãy chọn tính từ phù hợp.', 5),
+('CH308', N'Trong các từ sau, từ nào là danh từ? (con đường, cao, ăn, ngủ)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH309', N'Trong câu "Mẹ đang chuẩn bị bữa tối", từ "chuẩn bị" thuộc loại nào?', N'Động từ là từ chỉ hoạt động.', 5),
+('CH310', N'Hoàn thiện câu: "Bé Nam cố gắng ___ bài toán khó." (giải, đẹp, ăn, xanh)', N'Hãy chọn động từ phù hợp.', 5),
+
+-- =========================================================
+-- 5) TRÒ CHƠI: 40 câu (CHG001–CHG040)
+-- Hoàn thiện câu từ (CHG001–CHG020)
+('CHG001', N'Bé đang ___ bóng.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG002', N'Con mèo ___ trên sân.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG003', N'Bạn nhỏ rất ___ khi được khen.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG004', N'Mẹ mua cho em một chiếc ___ mới.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG005', N'Bố đang ___ xe máy.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG006', N'Em bé đang ___ sữa.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG007', N'Ông nội đang ___ báo.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG008', N'Cô giáo đang ___ bài.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG009', N'Bé Lan ___ tóc cho em gái.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG010', N'Trời hôm nay rất ___.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG011', N'Bạn Nam đang ___ nhà.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG012', N'Con chim đang ___ trên cành.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG013', N'Em đặt cặp lên ___.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG014', N'Bé đi học mang theo một cái ___.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG015', N'Bạn nhỏ đang ___ tranh.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG016', N'Em phải ___ tay trước khi ăn.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG017', N'Con chó chạy ___ sân.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG018', N'Bé cười rất ___.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG019', N'Bạn nhỏ đang ___ bánh.', N'Câu trò chơi: hoàn thiện câu.', 5),
+('CHG020', N'Mẹ đang chuẩn bị ___ cho cả nhà.', N'Câu trò chơi: hoàn thiện câu.', 5),
+
+-- Trùm tính nhẩm (CHG021–CHG040)
+('CHG021', N'Tính: 6 + 3 × 4 = ?', N'Câu trò chơi tính nhẩm: hãy làm phép nhân trước.', 5),
+('CHG022', N'Tính: (10 - 2) × 3 = ?', N'Tính trong ngoặc rồi nhân.', 5),
+('CHG023', N'Tính: 25 ÷ 5 + 7 = ?', N'Chia trước, sau đó cộng.', 5),
+('CHG024', N'Tính: 18 - 6 × 2 = ?', N'Nhân trước, rồi trừ.', 5),
+('CHG025', N'Tính: (12 ÷ 3) + 15 = ?', N'Tính trong ngoặc, rồi cộng.', 5),
+('CHG026', N'Tính: 9 × 5 - 8 = ?', N'Nhân trước, rồi trừ.', 5),
+('CHG027', N'Tính: 50 ÷ (10 - 5) = ?', N'Tính trong ngoặc, rồi chia.', 5),
+('CHG028', N'Tính: 7 × 4 + 6 = ?', N'Nhân trước, rồi cộng.', 5),
+('CHG029', N'Tính: (20 - 8) ÷ 2 = ?', N'Tính trong ngoặc, rồi chia.', 5),
+('CHG030', N'Tính: 36 ÷ 6 + 4 × 2 = ?', N'Chia và nhân trước, sau đó cộng.', 5),
+('CHG031', N'Tính: 45 - 9 × 4 = ?', N'Nhân trước, rồi trừ.', 5),
+('CHG032', N'Tính: (16 + 8) ÷ 4 = ?', N'Tính trong ngoặc, rồi chia.', 5),
+('CHG033', N'Tính: 5 × 7 - 6 = ?', N'Nhân trước, rồi trừ.', 5),
+('CHG034', N'Tính: 72 ÷ 8 + 9 = ?', N'Chia trước, rồi cộng.', 5),
+('CHG035', N'Tính: (18 - 3) × 2 = ?', N'Tính trong ngoặc, rồi nhân.', 5),
+('CHG036', N'Tính: 63 ÷ 9 + 5 = ?', N'Chia trước, rồi cộng.', 5),
+('CHG037', N'Tính: 14 × 2 - 7 = ?', N'Nhân trước, rồi trừ.', 5),
+('CHG038', N'Tính: (9 + 12) ÷ 3 = ?', N'Tính trong ngoặc, rồi chia.', 5),
+('CHG039', N'Tính: 48 ÷ (12 - 8) = ?', N'Tính trong ngoặc, rồi chia.', 5),
+('CHG040', N'Tính: 30 - 6 × 3 = ?', N'Nhân trước, rồi trừ.', 5);
+GO
 ---------------------------------------------
--- TẠO 4 ĐÁP ÁN CHO MỖI CÂU TOÁN
+-- TẠO DAPAN CHO CÁC CÂU TOÁN
 ---------------------------------------------
-;WITH nums AS (
-    SELECT TOP (155)
-        ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS n
-    FROM sys.all_objects
+-- Bảng tạm lưu đáp án ĐÚNG cho các câu TOÁN
+IF OBJECT_ID('tempdb..#MathKey') IS NOT NULL DROP TABLE #MathKey;
+CREATE TABLE #MathKey (
+    MaCauHoi  VARCHAR(10) PRIMARY KEY,
+    DapAnDung INT NOT NULL
+);
+
+INSERT INTO #MathKey (MaCauHoi, DapAnDung) VALUES
+    -- CỦNG CỐ TOÁN CH001–CH100
+    ('CH001',  5),  -- 2 + 3
+    ('CH002',  4),  -- 5 - 1
+    ('CH003',  8),  -- 4 + 4
+    ('CH004',  6),  -- 9 - 3
+    ('CH005',  8),  -- 7 + 1
+    ('CH006',  7),  -- 12 - 5
+    ('CH007', 14),  -- 8 + 6
+    ('CH008',  9),  -- 13 - 4
+    ('CH009',  8),  -- 15 - 7
+    ('CH010', 17),  -- 9 + 8
+
+    ('CH011',  9),  -- 3 + 6
+    ('CH012',  8),  -- 10 - 2
+    ('CH013',  9),  -- 1 + 8
+    ('CH014',  2),  -- 6 - 4
+    ('CH015', 10),  -- 7 + 3
+    ('CH016',  8),  -- 14 - 6
+    ('CH017', 16),  -- 11 + 5
+    ('CH018',  9),  -- 12 - 3
+    ('CH019',  7),  -- 16 - 9
+    ('CH020', 16),  -- 9 + 7
+
+    ('CH021',  7),  -- 5 + 2
+    ('CH022',  8),  -- 9 - 1
+    ('CH023',  9),  -- 4 + 5
+    ('CH024',  6),  -- 8 - 2
+    ('CH025', 10),  -- 3 + 7
+    ('CH026',  7),  -- 11 - 4
+    ('CH027', 15),  -- 6 + 9
+    ('CH028',  7),  -- 13 - 6
+    ('CH029',  9),  -- 17 - 8
+    ('CH030', 18),  -- 9 + 9
+
+    ('CH031', 10),  -- 4 + 6
+    ('CH032',  5),  -- 7 - 2
+    ('CH033', 11),  -- 2 + 9
+    ('CH034',  5),  -- 10 - 5
+    ('CH035',  7),  -- 3 + 4
+    ('CH036',  9),  -- 15 - 6
+    ('CH037', 15),  -- 8 + 7
+    ('CH038',  9),  -- 14 - 5
+    ('CH039',  9),  -- 18 - 9
+    ('CH040', 19),  -- 11 + 8
+
+    ('CH041',  9),  -- 5 + 4
+    ('CH042',  5),  -- 6 - 1
+    ('CH043', 11),  -- 9 + 2
+    ('CH044',  4),  -- 7 - 3
+    ('CH045', 11),  -- 3 + 8
+    ('CH046',  8),  -- 12 - 4
+    ('CH047', 13),  -- 8 + 5
+    ('CH048',  7),  -- 14 - 7
+    ('CH049',  8),  -- 16 - 8
+    ('CH050', 16),  -- 7 + 9
+
+    ('CH051', 12),  -- 6 × 2
+    ('CH052',  4),  -- 12 ÷ 3
+    ('CH053', 19),  -- 7 + 12
+    ('CH054', 11),  -- 20 - 9
+    ('CH055', 15),  -- 5 × 3
+    ('CH056',  9),  -- 18 ÷ 2
+    ('CH057', 29),  -- 14 + 15
+    ('CH058', 15),  -- 28 - 13
+    ('CH059', 36),  -- 9 × 4
+    ('CH060',  6),  -- 36 ÷ 6
+
+    ('CH061', 12),  -- 4 × 3
+    ('CH062',  4),  -- 16 ÷ 4
+    ('CH063', 19),  -- 11 + 8
+    ('CH064', 11),  -- 25 - 14
+    ('CH065', 18),  -- 3 × 6
+    ('CH066',  7),  -- 21 ÷ 3
+    ('CH067', 29),  -- 17 + 12
+    ('CH068', 15),  -- 32 - 17
+    ('CH069', 40),  -- 8 × 5
+    ('CH070',  6),  -- 42 ÷ 7
+
+    ('CH071', 21),  -- 7 × 3
+    ('CH072',  9),  -- 18 ÷ 2
+    ('CH073', 23),  -- 14 + 9
+    ('CH074', 13),  -- 29 - 16
+    ('CH075', 18),  -- 9 × 2
+    ('CH076',  6),  -- 30 ÷ 5
+    ('CH077', 30),  -- 13 + 17
+    ('CH078', 19),  -- 33 - 14
+    ('CH079', 42),  -- 6 × 7
+    ('CH080',  6),  -- 48 ÷ 8
+
+    ('CH081', 24),  -- 8 × 3
+    ('CH082',  5),  -- 20 ÷ 4
+    ('CH083', 28),  -- 15 + 13
+    ('CH084', 12),  -- 27 - 15
+    ('CH085', 20),  -- 5 × 4
+    ('CH086',  4),  -- 24 ÷ 6
+    ('CH087', 29),  -- 18 + 11
+    ('CH088', 16),  -- 35 - 19
+    ('CH089', 45),  -- 9 × 5
+    ('CH090',  5),  -- 45 ÷ 9
+
+    ('CH091', 24),  -- 6 × 4
+    ('CH092',  7),  -- 28 ÷ 4
+    ('CH093', 31),  -- 19 + 12
+    ('CH094', 13),  -- 31 - 18
+    ('CH095', 21),  -- 7 × 3
+    ('CH096',  4),  -- 32 ÷ 8
+    ('CH097', 38),  -- 21 + 17
+    ('CH098', 17),  -- 40 - 23
+    ('CH099', 48),  -- 8 × 6
+    ('CH100',  9),  -- 54 ÷ 6
+
+    -- ÔN LUYỆN TOÁN
+    -- OL001 (CH201–CH205)
+    ('CH201', 11),  -- 7 + 4
+    ('CH202',  9),  -- 15 - 6
+    ('CH203',  9),  -- 3 × 3
+    ('CH204',  4),  -- 16 ÷ 4
+    ('CH205', 17),  -- 12 + 5
+
+    -- OL002 (CH211–CH215)
+    ('CH211',  9),  -- 18 - 9
+    ('CH212', 16),  -- 9 + 7
+    ('CH213', 20),  -- 4 × 5
+    ('CH214',  4),  -- 20 ÷ 5
+    ('CH215', 24),  -- 13 + 11
+
+    -- OL003 (CH221–CH225)
+    ('CH221', 17),  -- 25 - 8
+    ('CH222', 20),  -- 14 + 6
+    ('CH223', 18),  -- 6 × 3
+    ('CH224',  5),  -- 30 ÷ 6
+    ('CH225', 29),  -- 17 + 12
+
+    -- OL004 (CH231–CH235)
+    ('CH231', 15),  -- 28 - 13
+    ('CH232', 34),  -- 19 + 15
+    ('CH233', 28),  -- 7 × 4
+    ('CH234',  8),  -- 40 ÷ 5
+    ('CH235', 17),  -- 26 - 9
+
+    -- OL005 (CH241–CH245)
+    ('CH241', 19),  -- 36 - 17
+    ('CH242', 34),  -- 18 + 16
+    ('CH243', 48),  -- 8 × 6
+    ('CH244',  5),  -- 45 ÷ 9
+    ('CH245', 19),  -- 33 - 14
+
+    -- OL006 (CH251–CH255)
+    ('CH251', 24),  -- 42 - 18
+    ('CH252', 46),  -- 27 + 19
+    ('CH253', 63),  -- 9 × 7
+    ('CH254',  5),  -- 50 ÷ 10
+    ('CH255', 17),  -- 38 - 21
+
+    -- OL007 (CH261–CH265)
+    ('CH261', 29),  -- 56 - 27
+    ('CH262', 59),  -- 31 + 28
+    ('CH263', 48),  -- 12 × 4
+    ('CH264',  8),  -- 64 ÷ 8
+    ('CH265', 22),  -- 45 - 23
+
+    -- OL008 (CH271–CH275)
+    ('CH271', 34),  -- 63 - 29
+    ('CH272', 61),  -- 34 + 27
+    ('CH273', 66),  -- 11 × 6
+    ('CH274',  8),  -- 72 ÷ 9
+    ('CH275', 39),  -- 58 - 19
+
+    -- OL009 (CH281–CH285)
+    ('CH281', 38),  -- 72 - 34
+    ('CH282', 69),  -- 43 + 26
+    ('CH283', 91),  -- 13 × 7
+    ('CH284',  9),  -- 81 ÷ 9
+    ('CH285', 42),  -- 67 - 25
+
+    -- THỬ THÁCH TOÁN CH291–CH302
+    ('CH291', 25),  -- 7 + 9×2
+    ('CH292', 20),  -- (18÷3)+14
+    ('CH293', 36),  -- 45-16+7
+    ('CH294', 13),  -- 6×3-5
+    ('CH295', 28),  -- 12+8×2
+    ('CH296',  7),  -- (20-6)÷2
+    ('CH297', 24),  -- 9×4-12
+    ('CH298', 17),  -- 50÷5+7
+    ('CH299',  6),  -- (15+9)÷4
+    ('CH300', 30),  -- 8×3+6
+    ('CH301', 20),  -- 100÷(10-5)
+    ('CH302', 20),  -- 36÷3 +4×2
+
+    -- GAME: TRÙM TÍNH NHẨM CHG021–CHG040
+    ('CHG021', 18), -- 6 + 3×4
+    ('CHG022', 24), -- (10-2)×3
+    ('CHG023', 12), -- 25÷5 +7
+    ('CHG024',  6), -- 18-6×2
+    ('CHG025', 19), -- (12÷3)+15
+    ('CHG026', 37), -- 9×5 -8
+    ('CHG027', 10), -- 50÷(10-5)
+    ('CHG028', 34), -- 7×4+6
+    ('CHG029',  6), -- (20-8)÷2
+    ('CHG030', 14), -- 36÷6+4×2
+    ('CHG031',  9), -- 45-9×4
+    ('CHG032',  6), -- (16+8)÷4
+    ('CHG033', 29), -- 5×7-6
+    ('CHG034', 18), -- 72÷8+9
+    ('CHG035', 30), -- (18-3)×2
+    ('CHG036', 12), -- 63÷9+5
+    ('CHG037', 21), -- 14×2-7
+    ('CHG038',  7), -- (9+12)÷3
+    ('CHG039', 12), -- 48÷(12-8)
+    ('CHG040', 12); -- 30-6×3
+GO
+--Tạo 3 đáp án sai
+;WITH Q AS (
+    SELECT 
+        ROW_NUMBER() OVER (ORDER BY C.MaCauHoi) AS QNum,
+        C.MaCauHoi,
+        M.DapAnDung
+    FROM CauHoi C
+    JOIN #MathKey M ON C.MaCauHoi = M.MaCauHoi
 ),
-CauHoiToan AS (
-    SELECT
-        n,
-        'CH' + RIGHT('000' + CAST(n AS VARCHAR(3)), 3) AS MaCauHoi,
-        ((n - 1) % 10) + 1 AS SoA,
-        ((n - 1) / 10) % 10 + 1 AS SoB
-    FROM nums
+Pos AS (
+    SELECT 
+        QNum,
+        MaCauHoi,
+        DapAnDung,
+        ((QNum - 1) % 4) + 1 AS PosDung,           -- vị trí 1..4 sẽ là đáp án đúng
+        DapAnDung + 1 AS Sai1,
+        DapAnDung - 1 AS Sai2,
+        DapAnDung + 2 AS Sai3
+    FROM Q
 ),
-CauHoiToanFinal AS (
-    SELECT
-        n,
-        MaCauHoi,
-        SoA + SoB AS DapAnDung
-    FROM CauHoiToan
-),
-DapAnToan AS (
-    SELECT
-        n,
-        MaCauHoi,
-        1 AS AnsIndex,
-        CAST(DapAnDung AS NVARCHAR(10)) AS NoiDungDapAn,
-        CAST(1 AS BIT) AS LaDapAnDung
-    FROM CauHoiToanFinal
-    UNION ALL
-    SELECT
-        n,
-        MaCauHoi,
-        2,
-        CAST(DapAnDung + 1 AS NVARCHAR(10)),
-        CAST(0 AS BIT)
-    FROM CauHoiToanFinal
-    UNION ALL
-    SELECT
-        n,
-        MaCauHoi,
-        3,
-        CAST(CASE WHEN DapAnDung > 1 THEN DapAnDung - 1 ELSE DapAnDung + 2 END AS NVARCHAR(10)),
-        CAST(0 AS BIT)
-    FROM CauHoiToanFinal
-    UNION ALL
-    SELECT
-        n,
-        MaCauHoi,
-        4,
-        CAST(DapAnDung + 2 AS NVARCHAR(10)),
-        CAST(0 AS BIT)
-    FROM CauHoiToanFinal
-),
-DanhSoDapAn AS (
-    SELECT
-        (n - 1) * 4 + AnsIndex AS DapSo,
-        MaCauHoi,
-        NoiDungDapAn,
-        LaDapAnDung
-    FROM DapAnToan
+A AS (
+    SELECT 
+        P.QNum,
+        P.MaCauHoi,
+        V.AnsIndex,
+        P.PosDung,
+        -- chọn nội dung theo vị trí đúng / sai
+        CASE 
+            WHEN V.AnsIndex = P.PosDung THEN P.DapAnDung
+            WHEN V.AnsIndex = ((P.PosDung) % 4) + 1 THEN P.Sai1
+            WHEN V.AnsIndex = ((P.PosDung + 1) % 4) + 1 THEN P.Sai2
+            ELSE P.Sai3
+        END AS GiaTri,
+        ((P.QNum - 1) * 4 + V.AnsIndex) AS DapSo
+    FROM Pos P
+    CROSS APPLY (VALUES (1),(2),(3),(4)) V(AnsIndex)
 )
 INSERT INTO DapAn (MaDapAn, MaCauHoi, NoiDungDapAn, LaDapAnDung)
 SELECT
-    'DA' + RIGHT('0000' + CAST(DapSo AS VARCHAR(4)), 4),
+    'DA' + RIGHT('0000' + CAST(DapSo AS VARCHAR(10)), 4) AS MaDapAn,
     MaCauHoi,
-    NoiDungDapAn,
-    LaDapAnDung
-FROM DanhSoDapAn;
+    CAST(GiaTri AS NVARCHAR(10)) AS NoiDungDapAn,
+    CASE WHEN AnsIndex = PosDung THEN 1 ELSE 0 END AS LaDapAnDung
+FROM A
+ORDER BY MaCauHoi, AnsIndex;
 GO
 
 ---------------------------------------------
--- TẠO 155 CÂU TIẾNG VIỆT CH156–CH310
+-- TẠO DAPAN CHO CÁC CÂU TV
 ---------------------------------------------
-;WITH numsTV AS (
-    SELECT TOP (155)
-        ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS n
-    FROM sys.all_objects
-),
-MauCauTV AS (
-    SELECT
-        n,
-        155 + n AS STT,
-        'CH' + RIGHT('000' + CAST(155 + n AS VARCHAR(3)), 3) AS MaCauHoi,
-        ((n - 1) % 10) + 1 AS MauID
-    FROM numsTV
-),
-CauHoiTV AS (
-    SELECT
-        MaCauHoi,
-        CASE MauID
-            WHEN 1 THEN N'Trong các từ sau, từ nào là danh từ chỉ người?'
-            WHEN 2 THEN N'Trong các từ sau, từ nào là động từ (chỉ hoạt động)?'
-            WHEN 3 THEN N'Trong các từ sau, từ nào là tính từ (chỉ đặc điểm)?'
-            WHEN 4 THEN N'Từ nào được viết đúng chính tả?'
-            WHEN 5 THEN N'Trong các từ sau, từ nào chỉ con vật?'
-            WHEN 6 THEN N'Câu nào là câu hoàn chỉnh, có đủ chủ ngữ và vị ngữ?'
-            WHEN 7 THEN N'Trong các từ sau, từ nào là từ trái nghĩa với "cao"?'
-            WHEN 8 THEN N'Trong các dấu sau, dấu nào dùng để kết thúc câu kể?'
-            WHEN 9 THEN N'Trong các tiếng sau, tiếng nào có chứa thanh hỏi?'
-            WHEN 10 THEN N'Trong các từ sau, từ nào là từ chỉ đồ vật?'
-        END AS NoiDungCauHoi,
-        CASE MauID
-            WHEN 1 THEN N'Danh từ chỉ người là các từ như: bé, mẹ, bố,...'
-            WHEN 2 THEN N'Động từ chỉ hoạt động như: chạy, nhảy, hát,...'
-            WHEN 3 THEN N'Tính từ chỉ đặc điểm như: đẹp, xấu, cao, thấp,...'
-            WHEN 4 THEN N'Một từ viết đúng chính tả có đầy đủ dấu và chữ cái.'
-            WHEN 5 THEN N'Từ chỉ con vật là tên của các loài động vật.'
-            WHEN 6 THEN N'Câu hoàn chỉnh thường có "ai" làm gì, hoặc "cái gì" làm gì.'
-            WHEN 7 THEN N'Từ trái nghĩa là từ mang nghĩa ngược lại.'
-            WHEN 8 THEN N'Dấu chấm dùng để kết thúc câu kể.'
-            WHEN 9 THEN N'Thanh hỏi là dấu hỏi (?).'
-            WHEN 10 THEN N'Từ chỉ đồ vật là tên các sự vật mình có thể cầm, nắm được.'
-        END AS GiaiThich,
-        MauID,
-        STT
-    FROM MauCauTV
-)
-INSERT INTO CauHoi (MaCauHoi, NoiDungCauHoi, GiaiThich, DiemToiDa)
-SELECT
-    MaCauHoi,
-    NoiDungCauHoi,
-    GiaiThich,
-    5
-FROM CauHoiTV;
+USE UngDungHocTapChoTre;
 GO
 
----------------------------------------------
--- TẠO 4 ĐÁP ÁN CHO MỖI CÂU TIẾNG VIỆT
----------------------------------------------
-;WITH numsTV AS (
-    SELECT TOP (155)
-        ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS n
-    FROM sys.all_objects
-),
-MauCauTV AS (
-    SELECT
-        n,
-        155 + n AS STT,
-        'CH' + RIGHT('000' + CAST(155 + n AS VARCHAR(3)), 3) AS MaCauHoi,
-        ((n - 1) % 10) + 1 AS MauID
-    FROM numsTV
-),
-DapAnTVRaw AS (
-    SELECT
-        STT,
-        MaCauHoi,
-        MauID,
-        CASE MauID
-            WHEN 1 THEN N'bé'
-            WHEN 2 THEN N'chạy'
-            WHEN 3 THEN N'đẹp'
-            WHEN 4 THEN N'ngon'
-            WHEN 5 THEN N'con mèo'
-            WHEN 6 THEN N'Bé Lan đang đọc sách.'
-            WHEN 7 THEN N'thấp'
-            WHEN 8 THEN N'.'
-            WHEN 9 THEN N'mỏi'
-            WHEN 10 THEN N'cái bàn'
-        END AS DapAnDung,
-        CASE MauID
-            WHEN 1 THEN N'xanh'
-            WHEN 2 THEN N'cái bàn'
-            WHEN 3 THEN N'cái ghế'
-            WHEN 4 THEN N'ngôn'      -- cố ý sai chính tả
-            WHEN 5 THEN N'đỏ'
-            WHEN 6 THEN N'Đang đọc.'
-            WHEN 7 THEN N'cao hơn'
-            WHEN 8 THEN N','
-            WHEN 9 THEN N'mai'
-            WHEN 10 THEN N'đẹp'
-        END AS DapSai1,
-        CASE MauID
-            WHEN 1 THEN N'chạy'
-            WHEN 2 THEN N'đẹp'
-            WHEN 3 THEN N'chạy'
-            WHEN 4 THEN N'ngo''n'    -- dùng 2 dấu nháy trong T-SQL
-            WHEN 5 THEN N'cái bàn'
-            WHEN 6 THEN N'Lan.'
-            WHEN 7 THEN N'ngon'
-            WHEN 8 THEN N'?'
-            WHEN 9 THEN N'mở'
-            WHEN 10 THEN N'bé'
-        END AS DapSai2,
-        CASE MauID
-            WHEN 1 THEN N'cao'
-            WHEN 2 THEN N'cao'
-            WHEN 3 THEN N'mèo'
-            WHEN 4 THEN N'ngoan'
-            WHEN 5 THEN N'cái ghế'
-            WHEN 6 THEN N'Bé Lan.'
-            WHEN 7 THEN N'lớn'
-            WHEN 8 THEN N'!'
-            WHEN 9 THEN N'mơ'
-            WHEN 10 THEN N'con mèo'
-        END AS DapSai3
-    FROM MauCauTV
-),
-DapAnTV AS (
-    SELECT STT, MaCauHoi, 1 AS AnsIndex, DapAnDung AS NoiDungDapAn, CAST(1 AS BIT) AS LaDapAnDung FROM DapAnTVRaw
-    UNION ALL
-    SELECT STT, MaCauHoi, 2, DapSai1, CAST(0 AS BIT) FROM DapAnTVRaw
-    UNION ALL
-    SELECT STT, MaCauHoi, 3, DapSai2, CAST(0 AS BIT) FROM DapAnTVRaw
-    UNION ALL
-    SELECT STT, MaCauHoi, 4, DapSai3, CAST(0 AS BIT) FROM DapAnTVRaw
-),
-DanhSoDapAnTV AS (
-    -- 620 đáp án Toán đã có: DA0001–DA0620, nên TV bắt đầu từ 621
-    SELECT
-        620 + (STT - 156) * 4 + AnsIndex AS DapSoTV,
-        MaCauHoi,
-        NoiDungDapAn,
-        LaDapAnDung
-    FROM DapAnTV
-)
+-- Thêm đáp án mới, rõ nghĩa, xoay vị trí đáp án đúng
 INSERT INTO DapAn (MaDapAn, MaCauHoi, NoiDungDapAn, LaDapAnDung)
-SELECT
-    'DA' + RIGHT('0000' + CAST(DapSoTV AS VARCHAR(4)), 4),
-    MaCauHoi,
-    NoiDungDapAn,
-    LaDapAnDung
-FROM DanhSoDapAnTV;
-GO
---Kiểm tra về câu hỏi và đáp án 
-SELECT COUNT(*) FROM CauHoi;   -- phải = 310
-SELECT COUNT(*) FROM DapAn;    -- phải = 1240
-SELECT MIN(MaCauHoi), MAX(MaCauHoi) FROM CauHoi;   -- CH001 -> CH310
-SELECT MIN(MaDapAn), MAX(MaDapAn) FROM DapAn;      -- DA0001 -> DA1240
+VALUES
+	-- CH101: (bé, chạy, đẹp, nhanh) -> đúng: "bé"
+    ('DA2001', 'CH101', N'chạy',   0),
+    ('DA2002', 'CH101', N'nhanh',  0),
+    ('DA2003', 'CH101', N'bé',     1),
+    ('DA2004', 'CH101', N'đẹp',    0),
 
---Map câu hỏi cho Củng Cố (CC001–CC020) → CH001–CH200
-DECLARE @cc_fix INT = 1, @ch_fix INT = 1;
-WHILE @cc_fix <= 20
+    -- CH102: (mèo, cao, ăn, đỏ) -> đúng: "mèo"
+    ('DA2005', 'CH102', N'ăn',     0),
+    ('DA2006', 'CH102', N'mèo',    1),
+    ('DA2007', 'CH102', N'đỏ',     0),
+    ('DA2008', 'CH102', N'cao',    0),
+
+    -- CH103: (cái bàn, ngủ, to, nhanh) -> đúng: "cái bàn"
+    ('DA2009', 'CH103', N'cái bàn', 1),
+    ('DA2010', 'CH103', N'nhanh',   0),
+    ('DA2011', 'CH103', N'to',      0),
+    ('DA2012', 'CH103', N'ngủ',     0),
+
+    -- CH104: (quả cam, viết, đẹp, mệt) -> đúng: "quả cam"
+    ('DA2013', 'CH104', N'mệt',     0),
+    ('DA2014', 'CH104', N'viết',    0),
+    ('DA2015', 'CH104', N'quả cam', 1),
+    ('DA2016', 'CH104', N'đẹp',     0),
+
+    -- CH105: (bố, nhỏ, nhảy, vàng) -> đúng: "bố"
+    ('DA2017', 'CH105', N'nhảy',    0),
+    ('DA2018', 'CH105', N'bố',      1),
+    ('DA2019', 'CH105', N'vàng',    0),
+    ('DA2020', 'CH105', N'nhỏ',     0),
+
+    -- CH106: (con chó, xanh, đi, cao) -> đúng: "con chó"
+    ('DA2021', 'CH106', N'con chó', 1),
+    ('DA2022', 'CH106', N'cao',     0),
+    ('DA2023', 'CH106', N'xanh',    0),
+    ('DA2024', 'CH106', N'đi',      0),
+
+    -- CH107: (ngôi nhà, buồn, ăn, thấp) -> đúng: "ngôi nhà"
+    ('DA2025', 'CH107', N'buồn',    0),
+    ('DA2026', 'CH107', N'thấp',    0),
+    ('DA2027', 'CH107', N'ăn',      0),
+    ('DA2028', 'CH107', N'ngôi nhà', 1),
+
+    -- CH108: (cái ghế, chạy, vui, to) -> đúng: "cái ghế"
+    ('DA2029', 'CH108', N'cái ghế', 1),
+    ('DA2030', 'CH108', N'chạy',    0),
+    ('DA2031', 'CH108', N'to',      0),
+    ('DA2032', 'CH108', N'vui',     0),
+
+    -- CH109: (quyển sách, ngủ, đỏ, đẹp) -> đúng: "quyển sách"
+    ('DA2033', 'CH109', N'đỏ',      0),
+    ('DA2034', 'CH109', N'quyển sách', 1),
+    ('DA2035', 'CH109', N'ngủ',     0),
+    ('DA2036', 'CH109', N'đẹp',     0),
+
+    -- CH110: (con gà, nhanh, vui, to) -> đúng: "con gà"
+    ('DA2037', 'CH110', N'con gà',  1),
+    ('DA2038', 'CH110', N'nhanh',   0),
+    ('DA2039', 'CH110', N'to',      0),
+    ('DA2040', 'CH110', N'vui',     0),
+
+    -- CH111: (bạn Nam, hát, cao, buồn) -> đúng: "bạn Nam"
+    ('DA2041', 'CH111', N'hát',     0),
+    ('DA2042', 'CH111', N'cao',     0),
+    ('DA2043', 'CH111', N'buồn',    0),
+    ('DA2044', 'CH111', N'bạn Nam', 1),
+
+    -- CH112: (cái bóng, vui, ăn, sạch) -> đúng: "cái bóng"
+    ('DA2045', 'CH112', N'ăn',      0),
+    ('DA2046', 'CH112', N'cái bóng', 1),
+    ('DA2047', 'CH112', N'sạch',    0),
+    ('DA2048', 'CH112', N'vui',     0),
+
+    -- CH113: (mẹ, chạy, xanh, nhỏ) -> đúng: "mẹ"
+    ('DA2049', 'CH113', N'chạy',    0),
+    ('DA2050', 'CH113', N'nhỏ',     0),
+    ('DA2051', 'CH113', N'mẹ',      1),
+    ('DA2052', 'CH113', N'xanh',    0),
+
+    -- CH114: (cha, vui, to, đi) -> đúng: "cha"
+    ('DA2053', 'CH114', N'to',      0),
+    ('DA2054', 'CH114', N'đi',      0),
+    ('DA2055', 'CH114', N'cha',     1),
+    ('DA2056', 'CH114', N'vui',     0),
+
+    -- CH115: (em bé, xinh, ăn, ngồi) -> đúng: "em bé"
+    ('DA2057', 'CH115', N'em bé',   1),
+    ('DA2058', 'CH115', N'ngồi',    0),
+    ('DA2059', 'CH115', N'ăn',      0),
+    ('DA2060', 'CH115', N'xinh',    0),
+
+    -- CH116: (quả táo, đỏ, mở, nhanh) -> đúng: "quả táo"
+    ('DA2061', 'CH116', N'mở',      0),
+    ('DA2062', 'CH116', N'quả táo', 1),
+    ('DA2063', 'CH116', N'đỏ',      0),
+    ('DA2064', 'CH116', N'nhanh',   0),
+
+    -- CH117: (bạn Lan, cao, chạy, mệt) -> đúng: "bạn Lan"
+    ('DA2065', 'CH117', N'cao',     0),
+    ('DA2066', 'CH117', N'mệt',     0),
+    ('DA2067', 'CH117', N'chạy',    0),
+    ('DA2068', 'CH117', N'bạn Lan', 1),
+
+    -- CH118: (bạn nhỏ, buồn, khóc, xinh) -> đúng: "bạn nhỏ"
+    ('DA2069', 'CH118', N'bạn nhỏ', 1),
+    ('DA2070', 'CH118', N'buồn',    0),
+    ('DA2071', 'CH118', N'xinh',    0),
+    ('DA2072', 'CH118', N'khóc',    0),
+
+    -- CH119: (cái nón, vàng, ăn, lạnh) -> đúng: "cái nón"
+    ('DA2073', 'CH119', N'ăn',      0),
+    ('DA2074', 'CH119', N'lạnh',    0),
+    ('DA2075', 'CH119', N'cái nón', 1),
+    ('DA2076', 'CH119', N'vàng',    0),
+
+    -- CH120: (mặt trời, sáng, vui, thấp) -> đúng: "mặt trời"
+    ('DA2077', 'CH120', N'vui',     0),
+    ('DA2078', 'CH120', N'mặt trời', 1),
+    ('DA2079', 'CH120', N'sáng',    0),
+    ('DA2080', 'CH120', N'thấp',    0),
+    -- CH121: đúng "ăn"
+    ('DA2081', 'CH121', N'đỏ',   0),
+    ('DA2082', 'CH121', N'ăn',   1),
+    ('DA2083', 'CH121', N'bé',   0),
+    ('DA2084', 'CH121', N'đẹp',  0),
+
+    -- CH122: đúng "nhảy"
+    ('DA2085', 'CH122', N'mèo',   0),
+    ('DA2086', 'CH122', N'nhảy',  1),
+    ('DA2087', 'CH122', N'cao',   0),
+    ('DA2088', 'CH122', N'vàng',  0),
+
+    -- CH123: đúng "chạy"
+    ('DA2089', 'CH123', N'chạy',  1),
+    ('DA2090', 'CH123', N'vui',   0),
+    ('DA2091', 'CH123', N'xanh',  0),
+    ('DA2092', 'CH123', N'nhỏ',   0),
+
+    -- CH124: đúng "ngủ"
+    ('DA2093', 'CH124', N'to',    0),
+    ('DA2094', 'CH124', N'bàn',   0),
+    ('DA2095', 'CH124', N'ngủ',   1),
+    ('DA2096', 'CH124', N'mệt',   0),
+
+    -- CH125: đúng "hát"
+    ('DA2097', 'CH125', N'thấp',  0),
+    ('DA2098', 'CH125', N'sách',  0),
+    ('DA2099', 'CH125', N'hát',   1),
+    ('DA2100', 'CH125', N'vàng',  0),
+
+    -- CH126: đúng "đọc"
+    ('DA2101', 'CH126', N'ghế',   0),
+    ('DA2102', 'CH126', N'buồn',  0),
+    ('DA2103', 'CH126', N'đọc',   1),
+    ('DA2104', 'CH126', N'ấm',    0),
+
+    -- CH127: đúng "đi"
+    ('DA2105', 'CH127', N'bé',    0),
+    ('DA2106', 'CH127', N'đi',    1),
+    ('DA2107', 'CH127', N'cây',   0),
+    ('DA2108', 'CH127', N'cao',   0),
+
+    -- CH128: đúng "cười"
+    ('DA2109', 'CH128', N'cười',  1),
+    ('DA2110', 'CH128', N'mèo',   0),
+    ('DA2111', 'CH128', N'đẹp',   0),
+    ('DA2112', 'CH128', N'to',    0),
+
+    -- CH129: đúng "nhìn"
+    ('DA2113', 'CH129', N'xanh',  0),
+    ('DA2114', 'CH129', N'vui',   0),
+    ('DA2115', 'CH129', N'nhìn',  1),
+    ('DA2116', 'CH129', N'táo',   0),
+
+    -- CH130: đúng "bay"
+    ('DA2117', 'CH130', N'nhỏ',   0),
+    ('DA2118', 'CH130', N'bút',   0),
+    ('DA2119', 'CH130', N'bay',   1),
+    ('DA2120', 'CH130', N'đỏ',    0),
+
+    -- CH131: đúng "viết"
+    ('DA2121', 'CH131', N'cao',   0),
+    ('DA2122', 'CH131', N'viết',  1),
+    ('DA2123', 'CH131', N'nước',  0),
+    ('DA2124', 'CH131', N'lạnh',  0),
+
+    -- CH132: đúng "ngồi"
+    ('DA2125', 'CH132', N'ngồi',      1),
+    ('DA2126', 'CH132', N'bông hoa',  0),
+    ('DA2127', 'CH132', N'sạch',      0),
+    ('DA2128', 'CH132', N'to',        0),
+
+    -- CH133: đúng "bơi"
+    ('DA2129', 'CH133', N'mệt',      0),
+    ('DA2130', 'CH133', N'bơi',      1),
+    ('DA2131', 'CH133', N'con chó',  0),
+    ('DA2132', 'CH133', N'vàng',     0),
+
+    -- CH134: đúng "mở"
+    ('DA2133', 'CH134', N'xanh',     0),
+    ('DA2134', 'CH134', N'cái ghế',  0),
+    ('DA2135', 'CH134', N'mở',       1),
+    ('DA2136', 'CH134', N'buồn',     0),
+
+    -- CH135: đúng "đẩy"
+    ('DA2137', 'CH135', N'to',       0),
+    ('DA2138', 'CH135', N'đẩy',      1),
+    ('DA2139', 'CH135', N'đồ chơi',  0),
+    ('DA2140', 'CH135', N'vui',      0),
+
+    -- CH136: đúng "nấu"
+    ('DA2141', 'CH136', N'nấu',   1),
+    ('DA2142', 'CH136', N'sách',  0),
+    ('DA2143', 'CH136', N'cao',   0),
+    ('DA2144', 'CH136', N'nóng',  0),
+
+    -- CH137: đúng "uống"
+    ('DA2145', 'CH137', N'vàng',     0),
+    ('DA2146', 'CH137', N'bút chì',  0),
+    ('DA2147', 'CH137', N'uống',     1),
+    ('DA2148', 'CH137', N'mặn',      0),
+
+    -- CH138: đúng "học"
+    ('DA2149', 'CH138', N'ấm',    0),
+    ('DA2150', 'CH138', N'đàn',   0),
+    ('DA2151', 'CH138', N'xanh',  0),
+    ('DA2152', 'CH138', N'học',   1),
+
+    -- CH139: đúng "vẽ"
+    ('DA2153', 'CH139', N'mỏng',    0),
+    ('DA2154', 'CH139', N'vẽ',      1),
+    ('DA2155', 'CH139', N'quả cam', 0),
+    ('DA2156', 'CH139', N'cao',     0),
+
+    -- CH140: đúng "leo"
+    ('DA2157', 'CH140', N'buồn',    0),
+    ('DA2158', 'CH140', N'leo',     1),
+    ('DA2159', 'CH140', N'sạch',    0),
+    ('DA2160', 'CH140', N'con mèo', 0),
+
+    -- CH141: đúng "cao"
+    ('DA2161', 'CH141', N'mèo',   0),
+    ('DA2162', 'CH141', N'cao',   1),
+    ('DA2163', 'CH141', N'chạy',  0),
+    ('DA2164', 'CH141', N'uống',  0),
+
+    -- CH142: đúng "đẹp"
+    ('DA2165', 'CH142', N'cái bàn', 0),
+    ('DA2166', 'CH142', N'đi',      0),
+    ('DA2167', 'CH142', N'đẹp',     1),
+    ('DA2168', 'CH142', N'ăn',      0),
+
+    -- CH143: đúng "vui"
+    ('DA2169', 'CH143', N'sách',  0),
+    ('DA2170', 'CH143', N'vui',   1),
+    ('DA2171', 'CH143', N'uống',  0),
+    ('DA2172', 'CH143', N'chạy',  0),
+
+    -- CH144: đúng "buồn"
+    ('DA2173', 'CH144', N'con chó', 0),
+    ('DA2174', 'CH144', N'ngồi',    0),
+    ('DA2175', 'CH144', N'buồn',    1),
+    ('DA2176', 'CH144', N'xanh',    0),
+
+    -- CH145: đúng "xanh"
+    ('DA2177', 'CH145', N'ghế',   0),
+    ('DA2178', 'CH145', N'xanh',  1),
+    ('DA2179', 'CH145', N'ăn',    0),
+    ('DA2180', 'CH145', N'đá',    0),
+
+    -- CH146: đúng "ấm"
+    ('DA2181', 'CH146', N'mèo',   0),
+    ('DA2182', 'CH146', N'chạy',  0),
+    ('DA2183', 'CH146', N'ấm',    1),
+    ('DA2184', 'CH146', N'to',    0),
+
+    -- CH147: đúng "lạnh"
+    ('DA2185', 'CH147', N'em bé', 0),
+    ('DA2186', 'CH147', N'viết',  0),
+    ('DA2187', 'CH147', N'nấu',   0),
+    ('DA2188', 'CH147', N'lạnh',  1),
+
+    -- CH148: đúng "mệt"
+    ('DA2189', 'CH148', N'cái thước', 0),
+    ('DA2190', 'CH148', N'mệt',       1),
+    ('DA2191', 'CH148', N'đọc',       0),
+    ('DA2192', 'CH148', N'cười',      0),
+
+    -- CH149: đúng "nhanh"
+    ('DA2193', 'CH149', N'bé',    0),
+    ('DA2194', 'CH149', N'ngồi',  0),
+    ('DA2195', 'CH149', N'nhanh', 1),
+    ('DA2196', 'CH149', N'hát',   0),
+
+    -- CH150: đúng "sạch"
+    ('DA2197', 'CH150', N'bàn',   0),
+    ('DA2198', 'CH150', N'ăn',    0),
+    ('DA2199', 'CH150', N'sạch',  1),
+    ('DA2200', 'CH150', N'uống',  0),
+
+    -- CH151: đúng "vàng"
+    ('DA2201', 'CH151', N'mèo',   0),
+    ('DA2202', 'CH151', N'vàng',  1),
+    ('DA2203', 'CH151', N'mở',    0),
+    ('DA2204', 'CH151', N'nấu',   0),
+
+    -- CH152: đúng "thấp"
+    ('DA2205', 'CH152', N'sách',  0),
+    ('DA2206', 'CH152', N'đi',    0),
+    ('DA2207', 'CH152', N'thấp',  1),
+    ('DA2208', 'CH152', N'hát',   0),
+
+    -- CH153: đúng "to"
+    ('DA2209', 'CH153', N'bút',   0),
+    ('DA2210', 'CH153', N'to',    1),
+    ('DA2211', 'CH153', N'ăn',    0),
+    ('DA2212', 'CH153', N'ngồi',  0),
+
+    -- CH154: đúng "nhỏ"
+    ('DA2213', 'CH154', N'bé',    0),
+    ('DA2214', 'CH154', N'chạy',  0),
+    ('DA2215', 'CH154', N'nhỏ',   1),
+    ('DA2216', 'CH154', N'mở',    0),
+
+    -- CH155: đúng "hiền"
+    ('DA2217', 'CH155', N'con chó', 0),
+    ('DA2218', 'CH155', N'uống',    0),
+    ('DA2219', 'CH155', N'bay',     0),
+    ('DA2220', 'CH155', N'hiền',    1),
+
+    -- CH156: đúng "ngọt"
+    ('DA2221', 'CH156', N'quả táo', 0),
+    ('DA2222', 'CH156', N'ngọt',    1),
+    ('DA2223', 'CH156', N'nhảy',    0),
+    ('DA2224', 'CH156', N'ngồi',    0),
+
+    -- CH157: đúng "thơm"
+    ('DA2225', 'CH157', N'hoa',   0),
+    ('DA2226', 'CH157', N'nhìn',  0),
+    ('DA2227', 'CH157', N'thơm',  1),
+    ('DA2228', 'CH157', N'hát',   0),
+
+    -- CH158: đúng "trẻ"
+    ('DA2229', 'CH158', N'học sinh', 0),
+    ('DA2230', 'CH158', N'viết',     0),
+    ('DA2231', 'CH158', N'trẻ',      1),
+    ('DA2232', 'CH158', N'đi',       0),
+
+    -- CH159: đúng "dài"
+    ('DA2233', 'CH159', N'cái thước', 0),
+    ('DA2234', 'CH159', N'dài',       1),
+    ('DA2235', 'CH159', N'đọc',       0),
+    ('DA2236', 'CH159', N'khóc',      0),
+
+    -- CH160: đúng "cao lớn"
+    ('DA2237', 'CH160', N'bạn Nam', 0),
+    ('DA2238', 'CH160', N'ngủ',     0),
+    ('DA2239', 'CH160', N'cao lớn', 1),
+    ('DA2240', 'CH160', N'nhảy',    0),
+
+    -- CH161: đúng "nghỉ"
+    ('DA2241', 'CH161', N'nghi~', 0),
+    ('DA2242', 'CH161', N'nghỉ',  1),
+    ('DA2243', 'CH161', N'nghỉ~', 0),
+    ('DA2244', 'CH161', N'nghị~', 0),
+
+    -- CH162: đúng "ngọt"
+    ('DA2245', 'CH162', N'ngo~t', 0),
+    ('DA2246', 'CH162', N'ngot~', 0),
+    ('DA2247', 'CH162', N'ngọt',  1),
+    ('DA2248', 'CH162', N'ngọt~', 0),
+
+    -- CH163: đúng "trượt"
+    ('DA2249', 'CH163', N'chượt',  0),
+    ('DA2250', 'CH163', N'trượt',  1),
+    ('DA2251', 'CH163', N'truột',  0),
+    ('DA2252', 'CH163', N'chuột~', 0),
+
+    -- CH164: đúng "thuyền"
+    ('DA2253', 'CH164', N'thuỳen',  0),
+    ('DA2254', 'CH164', N'thuyền',  1),
+    ('DA2255', 'CH164', N'thuyên~', 0),
+    ('DA2256', 'CH164', N'thuyển~', 0),
+
+    -- CH165: đúng "giờ"
+    ('DA2257', 'CH165', N'gờ',   0),
+    ('DA2258', 'CH165', N'giơ~', 0),
+    ('DA2259', 'CH165', N'giò',  0),
+    ('DA2260', 'CH165', N'giờ',  1),
+
+    -- CH166: đúng "bún"
+    ('DA2261', 'CH166', N'búnn', 0),
+    ('DA2262', 'CH166', N'bún',  1),
+    ('DA2263', 'CH166', N'bủn',  0),
+    ('DA2264', 'CH166', N'bùn~', 0),
+
+    -- CH167: đúng "mảnh"
+    ('DA2265', 'CH167', N'mãnh~', 0),
+    ('DA2266', 'CH167', N'mánh',  0),
+    ('DA2267', 'CH167', N'mảnh',  1),
+    ('DA2268', 'CH167', N'manh~', 0),
+
+    -- CH168: đúng "gạo"
+    ('DA2269', 'CH168', N'gạoo', 0),
+    ('DA2270', 'CH168', N'gảo',  0),
+    ('DA2271', 'CH168', N'gạo',  1),
+    ('DA2272', 'CH168', N'gao~', 0),
+
+    -- CH169: đúng "lạnh"
+    ('DA2273', 'CH169', N'lanh~', 0),
+    ('DA2274', 'CH169', N'lạnh',  1),
+    ('DA2275', 'CH169', N'lãnh~', 0),
+    ('DA2276', 'CH169', N'lảnh~', 0),
+
+    -- CH170: đúng "nghiêng"
+    ('DA2277', 'CH170', N'ngiêng',  0),
+    ('DA2278', 'CH170', N'nghieng', 0),
+    ('DA2279', 'CH170', N'nghiêng', 1),
+    ('DA2280', 'CH170', N'nghiền~', 0),
+
+    -- CH171: đúng "mèo"
+    ('DA2281', 'CH171', N'meò',  0),
+    ('DA2282', 'CH171', N'mèo~', 0),
+    ('DA2283', 'CH171', N'mèo',  1),
+    ('DA2284', 'CH171', N'meo~', 0),
+
+    -- CH172: đúng "mũi"
+    ('DA2285', 'CH172', N'mũii', 0),
+    ('DA2286', 'CH172', N'mùi~', 0),
+    ('DA2287', 'CH172', N'mui~', 0),
+    ('DA2288', 'CH172', N'mũi',  1),
+
+    -- CH173: đúng "đẹp"
+    ('DA2289', 'CH173', N'đẹpp', 0),
+    ('DA2290', 'CH173', N'đẹp',  1),
+    ('DA2291', 'CH173', N'dẹp',  0),
+    ('DA2292', 'CH173', N'đẹp~', 0),
+
+    -- CH174: đúng "vẽ"
+    ('DA2293', 'CH174', N've~,', 0),
+    ('DA2294', 'CH174', N've~',  0),
+    ('DA2295', 'CH174', N'vẽ',   1),
+    ('DA2296', 'CH174', N'vẽ~',  0),
+
+    -- CH175: đúng "gió"
+    ('DA2297', 'CH175', N'giáo~', 0),
+    ('DA2298', 'CH175', N'gió~',  0),
+    ('DA2299', 'CH175', N'gió',   1),
+    ('DA2300', 'CH175', N'gio~',  0),
+
+    -- CH176: đúng "cánh"
+    ('DA2301', 'CH176', N'cáng~', 0),
+    ('DA2302', 'CH176', N'cãnh~', 0),
+    ('DA2303', 'CH176', N'cánh',  1),
+    ('DA2304', 'CH176', N'cánh~', 0),
+
+    -- CH177: đúng "bút"
+    ('DA2305', 'CH177', N'bút',  1),
+    ('DA2306', 'CH177', N'bụt',  0),
+    ('DA2307', 'CH177', N'but~', 0),
+    ('DA2308', 'CH177', N'búc',  0),
+
+    -- CH178: đúng "mưa"
+    ('DA2309', 'CH178', N'mư~',  0),
+    ('DA2310', 'CH178', N'mưa~', 0),
+    ('DA2311', 'CH178', N'mưa',  1),
+    ('DA2312', 'CH178', N'mu~a', 0),
+
+    -- CH179: đúng "sữa"
+    ('DA2313', 'CH179', N'sưã',  0),
+    ('DA2314', 'CH179', N'sữa~', 0),
+    ('DA2315', 'CH179', N'su~a', 0),
+    ('DA2316', 'CH179', N'sữa',  1),
+
+    -- CH180: đúng "bàn"
+    ('DA2317', 'CH180', N'bằn',  0),
+    ('DA2318', 'CH180', N'ban~', 0),
+    ('DA2319', 'CH180', N'bàn',  1),
+    ('DA2320', 'CH180', N'bàn~', 0),
+
+    -- CH181: Bé đang ___ bóng. (đúng: đá)
+    ('DA2321', 'CH181', N'ăn',   0),
+    ('DA2322', 'CH181', N'vẽ',   0),
+    ('DA2323', 'CH181', N'đọc',  0),
+    ('DA2324', 'CH181', N'đá',   1),
+
+    -- CH182: Con mèo ___ trên ghế. (đúng: nằm)
+    ('DA2325', 'CH182', N'nhảy', 0),
+    ('DA2326', 'CH182', N'đi',   0),
+    ('DA2327', 'CH182', N'nằm',  1),
+    ('DA2328', 'CH182', N'vui',  0),
+
+    -- CH183: Bạn Nam rất ___ khi được khen. (đúng: vui)
+    ('DA2329', 'CH183', N'buồn', 0),
+    ('DA2330', 'CH183', N'đẹp',  0),
+    ('DA2331', 'CH183', N'cao',  0),
+    ('DA2332', 'CH183', N'vui',  1),
+
+    -- CH184: Mẹ mua cho em một ___ mới. (đúng: áo)
+    ('DA2333', 'CH184', N'bút',  0),
+    ('DA2334', 'CH184', N'sách', 0),
+    ('DA2335', 'CH184', N'áo',   1),
+    ('DA2336', 'CH184', N'quạt', 0),
+
+    -- CH185: Em bé đang ___ sữa. (đúng: uống)
+    ('DA2337', 'CH185', N'uống', 1),
+    ('DA2338', 'CH185', N'nhảy', 0),
+    ('DA2339', 'CH185', N'đọc',  0),
+    ('DA2340', 'CH185', N'chơi', 0),
+
+    -- CH186: Bố đi làm bằng ___. (đúng: xe máy)
+    ('DA2341', 'CH186', N'xe đạp',  0),
+    ('DA2342', 'CH186', N'ca nô',   0),
+    ('DA2343', 'CH186', N'xe máy',  1),
+    ('DA2344', 'CH186', N'máy bay', 0),
+
+    -- CH187: Hôm nay trời rất ___. (đúng: đẹp)
+    ('DA2345', 'CH187', N'buồn', 0),
+    ('DA2346', 'CH187', N'đẹp',  1),
+    ('DA2347', 'CH187', N'lạnh', 0),
+    ('DA2348', 'CH187', N'tối',  0),
+
+    -- CH188: Cô giáo đang ___ bài. (đúng: giảng)
+    ('DA2349', 'CH188', N'vẽ',    0),
+    ('DA2350', 'CH188', N'nhảy',  0),
+    ('DA2351', 'CH188', N'giảng', 1),
+    ('DA2352', 'CH188', N'chơi',  0),
+
+    -- CH189: Bạn nhỏ đang ___ tranh. (đúng: tô)
+    ('DA2353', 'CH189', N'xé',   0),
+    ('DA2354', 'CH189', N'đẩy',  0),
+    ('DA2355', 'CH189', N'tô',   1),
+    ('DA2356', 'CH189', N'viết', 0),
+
+    -- CH190: Con chó chạy ___ sân. (đúng: quanh)
+    ('DA2357', 'CH190', N'vào',   0),
+    ('DA2358', 'CH190', N'quanh', 1),
+    ('DA2359', 'CH190', N'lên',   0),
+    ('DA2360', 'CH190', N'xún',   0),
+
+    -- CH191: Mẹ bảo em phải ___ tay trước khi ăn. (đúng: rửa)
+    ('DA2361', 'CH191', N'nắm',  0),
+    ('DA2362', 'CH191', N'rửa',  1),
+    ('DA2363', 'CH191', N'dùng', 0),
+    ('DA2364', 'CH191', N'mở',   0),
+
+    -- CH192: Bé Lan đang ___ sách. (đúng: đọc)
+    ('DA2365', 'CH192', N'quăng', 0),
+    ('DA2366', 'CH192', N'mua',   0),
+    ('DA2367', 'CH192', N'viết',  0),
+    ('DA2368', 'CH192', N'đọc',   1),
+
+    -- CH193: Ông nội đang ___ báo. (đúng: đọc)
+    ('DA2369', 'CH193', N'đọc', 1),
+    ('DA2370', 'CH193', N'đập', 0),
+    ('DA2371', 'CH193', N'viết',0),
+    ('DA2372', 'CH193', N'vẽ',  0),
+
+    -- CH194: Chị gái em rất ___. (đúng: hiền)
+    ('DA2373', 'CH194', N'cao',  0),
+    ('DA2374', 'CH194', N'hiền', 1),
+    ('DA2375', 'CH194', N'đỏ',   0),
+    ('DA2376', 'CH194', N'lớn',  0),
+
+    -- CH195: Em đi học mang theo một chiếc ___. (đúng: cặp)
+    ('DA2377', 'CH195', N'kéo',  0),
+    ('DA2378', 'CH195', N'bút',  0),
+    ('DA2379', 'CH195', N'sô',   0),
+    ('DA2380', 'CH195', N'cặp',  1),
+
+    -- CH196: Bạn nhỏ chơi ___ cùng bạn. (đúng: bóng)
+    ('DA2381', 'CH196', N'cờ',   0),
+    ('DA2382', 'CH196', N'bóng', 1),
+    ('DA2383', 'CH196', N'lá',   0),
+    ('DA2384', 'CH196', N'kéo',  0),
+
+    -- CH197: Bé cười rất ___. (đúng: tươi)
+    ('DA2385', 'CH197', N'lạnh', 0),
+    ('DA2386', 'CH197', N'chậm', 0),
+    ('DA2387', 'CH197', N'tươi', 1),
+    ('DA2388', 'CH197', N'tối',  0),
+
+    -- CH198: Em đặt cặp lên ___. (đúng: bàn)
+    ('DA2389', 'CH198', N'ghế',   0),
+    ('DA2390', 'CH198', N'sàn',   0),
+    ('DA2391', 'CH198', N'tường', 0),
+    ('DA2392', 'CH198', N'bàn',   1),
+
+    -- CH199: Bạn nhỏ đang ___ bánh. (đúng: ăn)
+    ('DA2393', 'CH199', N'nướng', 0),
+    ('DA2394', 'CH199', N'ăn',    1),
+    ('DA2395', 'CH199', N'trét',  0),
+    ('DA2396', 'CH199', N'xé',    0),
+
+    -- CH200: Mẹ đang chuẩn bị ___ cho cả nhà. (đúng: bữa ăn)
+    ('DA2397', 'CH200', N'bữa ăn',  1),
+    ('DA2398', 'CH200', N'quần áo', 0),
+    ('DA2399', 'CH200', N'bánh',    0),
+    ('DA2400', 'CH200', N'nước',    0),
+
+--------------------------------------------------
+    -- PHẦN ÔN LUYỆN
+-------------------------------------------------
+	
+-- MỨC DỄ
+    -- CH206: Danh từ? (bàn, chạy, đỏ, cao) -> đúng: "bàn"
+    ('DA2401', 'CH206', N'đỏ',   0),
+    ('DA2402', 'CH206', N'chạy', 0),
+    ('DA2403', 'CH206', N'bàn',  1),
+    ('DA2404', 'CH206', N'cao',  0),
+
+    -- CH207: Động từ? (ăn, mèo, đẹp, bé) -> đúng: "ăn"
+    ('DA2405', 'CH207', N'ăn',   1),
+    ('DA2406', 'CH207', N'mèo',  0),
+    ('DA2407', 'CH207', N'bé',   0),
+    ('DA2408', 'CH207', N'đẹp',  0),
+
+    -- CH208: Hoàn thiện: "Bé đang ___ sách." -> đúng: "đọc"
+    ('DA2409', 'CH208', N'vẽ',   0),
+    ('DA2410', 'CH208', N'đọc',  1),
+    ('DA2411', 'CH208', N'chơi', 0),
+    ('DA2412', 'CH208', N'ngủ',  0),
+
+    -- CH209: Từ nào viết đúng? (ngọt, ngoạt~, ngọt~, ngọt~) -> "ngọt"
+    ('DA2413', 'CH209', N'ngoạt~', 0),
+    ('DA2414', 'CH209', N'ngọt',   1),
+    ('DA2415', 'CH209', N'ngọt~',  0),
+    ('DA2416', 'CH209', N'ngọtt~', 0),
+
+    -- CH210: Tính từ? (xanh, chạy, ăn, ghế) -> "xanh"
+    ('DA2417', 'CH210', N'chạy', 0),
+    ('DA2418', 'CH210', N'xanh', 1),
+    ('DA2419', 'CH210', N'ăn',   0),
+    ('DA2420', 'CH210', N'ghế',  0),
+
+    -- CH216: Từ nào viết đúng? (mưa, mư~, mu~a, mưa~) -> "mưa"
+    ('DA2421', 'CH216', N'mư~',  0),
+    ('DA2422', 'CH216', N'mu~a', 0),
+    ('DA2423', 'CH216', N'mưa',  1),
+    ('DA2424', 'CH216', N'mưa~', 0),
+
+    -- CH217: Chọn động từ: (nhảy, đẹp, bàn, vàng) -> "nhảy"
+    ('DA2425', 'CH217', N'nhảy', 1),
+    ('DA2426', 'CH217', N'bàn',  0),
+    ('DA2427', 'CH217', N'đẹp',  0),
+    ('DA2428', 'CH217', N'vàng', 0),
+
+    -- CH218: "Con chó đang ___ xương." -> "gặm"
+    ('DA2429', 'CH218', N'đọc',  0),
+    ('DA2430', 'CH218', N'vẽ',   0),
+    ('DA2431', 'CH218', N'gặm',  1),
+    ('DA2432', 'CH218', N'nhìn', 0),
+
+    -- CH219: Danh từ? (cái ghế, đỏ, chạy, mệt) -> "cái ghế"
+    ('DA2433', 'CH219', N'đỏ',      0),
+    ('DA2434', 'CH219', N'chạy',    0),
+    ('DA2435', 'CH219', N'cái ghế', 1),
+    ('DA2436', 'CH219', N'mệt',     0),
+
+    -- CH220: Tính từ? (buồn, chạy, ăn, mèo) -> "buồn"
+    ('DA2437', 'CH220', N'chạy', 0),
+    ('DA2438', 'CH220', N'ăn',   0),
+    ('DA2439', 'CH220', N'mèo',  0),
+    ('DA2440', 'CH220', N'buồn', 1),
+
+    -- CH226: Động từ? (viết, đỏ, bé, vàng) -> "viết"
+    ('DA2441', 'CH226', N'viết', 1),
+    ('DA2442', 'CH226', N'bé',   0),
+    ('DA2443', 'CH226', N'đỏ',   0),
+    ('DA2444', 'CH226', N'vàng', 0),
+
+    -- CH227: Danh từ? (con mèo, xanh, ăn, vui) -> "con mèo"
+    ('DA2445', 'CH227', N'xanh',    0),
+    ('DA2446', 'CH227', N'con mèo', 1),
+    ('DA2447', 'CH227', N'vui',     0),
+    ('DA2448', 'CH227', N'ăn',      0),
+
+    -- CH228: "Mẹ đang ___ cơm." -> "nấu"
+    ('DA2449', 'CH228', N'vẽ',   0),
+    ('DA2450', 'CH228', N'giặt', 0),
+    ('DA2451', 'CH228', N'nấu',  1),
+    ('DA2452', 'CH228', N'chơi', 0),
+
+    -- CH229: Từ viết đúng? (bút, but~, bụt, búc) -> "bút"
+    ('DA2453', 'CH229', N'but~', 0),
+    ('DA2454', 'CH229', N'bút',  1),
+    ('DA2455', 'CH229', N'búc',  0),
+    ('DA2456', 'CH229', N'bụt',  0),
+
+    -- CH230: Tính từ? (dài, chạy, ăn, ngủ) -> "dài"
+    ('DA2457', 'CH230', N'chạy', 0),
+    ('DA2458', 'CH230', N'dài',  1),
+    ('DA2459', 'CH230', N'ăn',   0),
+    ('DA2460', 'CH230', N'ngủ',  0),
+
+    -- CH236: "Bạn nhỏ rất ___ khi được khen." -> "vui"
+    ('DA2461', 'CH236', N'buồn',    0),
+    ('DA2462', 'CH236', N'vui',     1),
+    ('DA2463', 'CH236', N'im lặng', 0),
+    ('DA2464', 'CH236', N'lạnh',    0),
+
+-- MỨC TRUNG BÌNH
+
+    -- CH237: Động từ? (học, đẹp, mèo, xanh) -> "học"
+    ('DA2465', 'CH237', N'đẹp',  0),
+    ('DA2466', 'CH237', N'học',  1),
+    ('DA2467', 'CH237', N'mèo',  0),
+    ('DA2468', 'CH237', N'xanh', 0),
+
+    -- CH238: Từ viết đúng? (vẽ, vẻ~, vẽ~, ve~) -> "vẽ"
+    ('DA2469', 'CH238', N've~',  0),
+    ('DA2470', 'CH238', N'vẽ~',  0),
+    ('DA2471', 'CH238', N'vẽ',   1),
+    ('DA2472', 'CH238', N'vẻ~',  0),
+
+    -- CH239: Danh từ? (cái nón, chạy, to, nhanh) -> "cái nón"
+    ('DA2473', 'CH239', N'cái nón', 1),
+    ('DA2474', 'CH239', N'to',      0),
+    ('DA2475', 'CH239', N'chạy',    0),
+    ('DA2476', 'CH239', N'nhanh',   0),
+
+    -- CH240: Tính từ? (ấm, chạy, viết, mèo) -> "ấm"
+    ('DA2477', 'CH240', N'chạy', 0),
+    ('DA2478', 'CH240', N'viết', 0),
+    ('DA2479', 'CH240', N'ấm',   1),
+    ('DA2480', 'CH240', N'mèo',  0),
+
+    -- CH246: "Quyển vở có màu ___." -> "xanh"
+    ('DA2481', 'CH246', N'ăn',   0),
+    ('DA2482', 'CH246', N'cao',  0),
+    ('DA2483', 'CH246', N'xanh', 1),
+    ('DA2484', 'CH246', N'ngọt', 0),
+
+    -- CH247: Động từ? (ngồi, bàn, xanh, vàng) -> "ngồi"
+    ('DA2485', 'CH247', N'bàn',  0),
+    ('DA2486', 'CH247', N'xanh', 0),
+    ('DA2487', 'CH247', N'ngồi', 1),
+    ('DA2488', 'CH247', N'vàng', 0),
+
+    -- CH248: Tính từ? (nhỏ, mèo, ăn, uống) -> "nhỏ"
+    ('DA2489', 'CH248', N'mèo',  0),
+    ('DA2490', 'CH248', N'nhỏ',  1),
+    ('DA2491', 'CH248', N'ăn',   0),
+    ('DA2492', 'CH248', N'uống', 0),
+
+    -- CH249: Danh từ? (quả táo, đỏ, chạy, mệt) -> "quả táo"
+    ('DA2493', 'CH249', N'đỏ',      0),
+    ('DA2494', 'CH249', N'quả táo', 1),
+    ('DA2495', 'CH249', N'mệt',     0),
+    ('DA2496', 'CH249', N'chạy',    0),
+
+    -- CH250: Từ viết đúng? (mũi, mu~i, mũii, mủi) -> "mũi"
+    ('DA2497', 'CH250', N'mũii', 0),
+    ('DA2498', 'CH250', N'mu~i', 0),
+    ('DA2499', 'CH250', N'mũi',  1),
+    ('DA2500', 'CH250', N'mủi',  0),
+
+    -- CH256: "Bé Lan đang ___ bài." -> "làm"
+    ('DA2501', 'CH256', N'xóa',  0),
+    ('DA2502', 'CH256', N'tô',   0),
+    ('DA2503', 'CH256', N'làm',  1),
+    ('DA2504', 'CH256', N'uống', 0),
+
+    -- CH257: Danh từ? (cái nhà, đẹp, ăn, vui) -> "cái nhà"
+    ('DA2505', 'CH257', N'đẹp',     0),
+    ('DA2506', 'CH257', N'cái nhà', 1),
+    ('DA2507', 'CH257', N'ăn',      0),
+    ('DA2508', 'CH257', N'vui',     0),
+
+    -- CH258: Động từ? (mở, to, chó, đỏ) -> "mở"
+    ('DA2509', 'CH258', N'mở',  1),
+    ('DA2510', 'CH258', N'chó', 0),
+    ('DA2511', 'CH258', N'đỏ',  0),
+    ('DA2512', 'CH258', N'to',  0),
+
+    -- CH259: Tính từ? (thơm, mèo, mở, chạy) -> "thơm"
+    ('DA2513', 'CH259', N'mèo',  0),
+    ('DA2514', 'CH259', N'thơm', 1),
+    ('DA2515', 'CH259', N'mở',   0),
+    ('DA2516', 'CH259', N'chạy', 0),
+
+    -- CH260: Từ viết đúng? (giờ, gio~, giơ~, giờ~) -> "giờ"
+    ('DA2517', 'CH260', N'gio~', 0),
+    ('DA2518', 'CH260', N'giơ~', 0),
+    ('DA2519', 'CH260', N'giờ',  1),
+    ('DA2520', 'CH260', N'giờ~', 0),
+
+
+-- MỨC NÂNG CAO
+
+    -- CH266: Từ viết đúng? (cánh, cãnh~, cáng~, cánh~) -> "cánh"
+    ('DA2521', 'CH266', N'cãnh~', 0),
+    ('DA2522', 'CH266', N'cánh',  1),
+    ('DA2523', 'CH266', N'cáng~', 0),
+    ('DA2524', 'CH266', N'cánh~', 0),
+
+    -- CH267: Tính từ? (sáng, chạy, ăn, bàn) -> "sáng"
+    ('DA2525', 'CH267', N'chạy', 0),
+    ('DA2526', 'CH267', N'sáng', 1),
+    ('DA2527', 'CH267', N'bàn',  0),
+    ('DA2528', 'CH267', N'ăn',   0),
+
+    -- CH268: "Bố đang ___ xe." -> "lái"
+    ('DA2529', 'CH268', N'ăn',   0),
+    ('DA2530', 'CH268', N'lái',  1),
+    ('DA2531', 'CH268', N'vẽ',   0),
+    ('DA2532', 'CH268', N'ngủ',  0),
+
+    -- CH269: Động từ? (bơi, mèo, to, đẹp) -> "bơi"
+    ('DA2533', 'CH269', N'mèo',  0),
+    ('DA2534', 'CH269', N'to',   0),
+    ('DA2535', 'CH269', N'bơi',  1),
+    ('DA2536', 'CH269', N'đẹp',  0),
+
+    -- CH270: Danh từ? (cái bút, xanh, vui, ngồi) -> "cái bút"
+    ('DA2537', 'CH270', N'xanh',    0),
+    ('DA2538', 'CH270', N'cái bút', 1),
+    ('DA2539', 'CH270', N'vui',     0),
+    ('DA2540', 'CH270', N'ngồi',    0),
+
+    -- CH276: "Con mèo đang ___ bóng." -> "đuổi"
+    ('DA2541', 'CH276', N'ăn',   0),
+    ('DA2542', 'CH276', N'đuổi', 1),
+    ('DA2543', 'CH276', N'nhảy', 0),
+    ('DA2544', 'CH276', N'đọc',  0),
+
+    -- CH277: Động từ? (nhảy, ghế, to, cao) -> "nhảy"
+    ('DA2545', 'CH277', N'ghế',  0),
+    ('DA2546', 'CH277', N'nhảy', 1),
+    ('DA2547', 'CH277', N'to',   0),
+    ('DA2548', 'CH277', N'cao',  0),
+
+    -- CH278: Tính từ? (lạnh, mèo, mở, nhìn) -> "lạnh"
+    ('DA2549', 'CH278', N'mèo',  0),
+    ('DA2550', 'CH278', N'mở',   0),
+    ('DA2551', 'CH278', N'lạnh', 1),
+    ('DA2552', 'CH278', N'nhìn', 0),
+
+    -- CH279: Danh từ? (con chó, chạy, xanh, buồn) -> "con chó"
+    ('DA2553', 'CH279', N'chạy',    0),
+    ('DA2554', 'CH279', N'con chó', 1),
+    ('DA2555', 'CH279', N'xanh',    0),
+    ('DA2556', 'CH279', N'buồn',    0),
+
+    -- CH280: Từ đúng chính tả? (lạnh, lảnh~, lanh~, lănh~) -> "lạnh"
+    ('DA2557', 'CH280', N'lảnh~', 0),
+    ('DA2558', 'CH280', N'lạnh',  1),
+    ('DA2559', 'CH280', N'lănh~', 0),
+    ('DA2560', 'CH280', N'lanh~', 0),
+
+    -- CH286: "Bạn nhỏ đang ___ bánh." -> "ăn"
+    ('DA2561', 'CH286', N'vẽ',   0),
+    ('DA2562', 'CH286', N'ăn',   1),
+    ('DA2563', 'CH286', N'ném',  0),
+    ('DA2564', 'CH286', N'giấu', 0),
+
+    -- CH287: Động từ? (leo, đẹp, mèo, xanh) -> "leo"
+    ('DA2565', 'CH287', N'leo',  1),
+    ('DA2566', 'CH287', N'đẹp',  0),
+    ('DA2567', 'CH287', N'mèo',  0),
+    ('DA2568', 'CH287', N'xanh', 0),
+
+    -- CH288: Tính từ? (sạch, con mèo, ngồi, chạy) -> "sạch"
+    ('DA2569', 'CH288', N'con mèo', 0),
+    ('DA2570', 'CH288', N'sạch',    1),
+    ('DA2571', 'CH288', N'ngồi',    0),
+    ('DA2572', 'CH288', N'chạy',    0),
+
+    -- CH289: Danh từ? (cái thước, vui, ăn, to) -> "cái thước"
+    ('DA2573', 'CH289', N'cái thước', 1),
+    ('DA2574', 'CH289', N'ăn',        0),
+    ('DA2575', 'CH289', N'to',        0),
+    ('DA2576', 'CH289', N'vui',       0),
+
+    -- CH290: Từ viết đúng? (bàn, ban~, bằn, bàn~) -> "bàn"
+    ('DA2577', 'CH290', N'ban~', 0),
+    ('DA2578', 'CH290', N'bàn',  1),
+    ('DA2579', 'CH290', N'bằn',  0),
+    ('DA2580', 'CH290', N'bàn~', 0),
+
+--------------------------------------------------
+    --PHHẦN THỬ THÁCH
+--------------------------------------------------
+
+	-- CH303: "Bé Lan đang đọc sách" – động từ là gì? -> đúng: "đọc"
+    ('DA3001', 'CH303', N'Lan',  0),
+    ('DA3002', 'CH303', N'bé',   0),
+    ('DA3003', 'CH303', N'đọc',  1),
+    ('DA3004', 'CH303', N'sách', 0),
+
+    -- CH304: "Bạn nhỏ rất ___ khi giúp đỡ mọi người." -> đúng: "vui"
+    ('DA3005', 'CH304', N'cao',  0),
+    ('DA3006', 'CH304', N'vui',  1),
+    ('DA3007', 'CH304', N'đọc',  0),
+    ('DA3008', 'CH304', N'chạy', 0),
+
+    -- CH305: Từ trái nghĩa với "mạnh"? -> đúng: "yếu"
+    ('DA3009', 'CH305', N'nhanh', 0),
+    ('DA3010', 'CH305', N'yếu',   1),
+    ('DA3011', 'CH305', N'cao',   0),
+    ('DA3012', 'CH305', N'đẹp',   0),
+
+    -- CH306: Từ viết đúng chính tả? -> đúng: "khỏe"
+    ('DA3013', 'CH306', N'khỏe',  1),
+    ('DA3014', 'CH306', N'khỏe~', 0),
+    ('DA3015', 'CH306', N'khoẽ',  0),
+    ('DA3016', 'CH306', N'khoẻ~', 0),
+
+    -- CH307: "Hôm nay thời tiết thật ___, phù hợp để đi chơi." -> đúng: "đẹp"
+    ('DA3017', 'CH307', N'bé',   0),
+    ('DA3018', 'CH307', N'đẹp',  1),
+    ('DA3019', 'CH307', N'bàn',  0),
+    ('DA3020', 'CH307', N'chạy', 0),
+
+    -- CH308: Danh từ? -> đúng: "con đường"
+    ('DA3021', 'CH308', N'cao',       0),
+    ('DA3022', 'CH308', N'ăn',        0),
+    ('DA3023', 'CH308', N'con đường', 1),
+    ('DA3024', 'CH308', N'ngủ',       0),
+
+    -- CH309: Từ "chuẩn bị" thuộc loại nào? -> đúng: "động từ"
+    ('DA3025', 'CH309', N'danh từ', 0),
+    ('DA3026', 'CH309', N'động từ', 1),
+    ('DA3027', 'CH309', N'tính từ', 0),
+    ('DA3028', 'CH309', N'đại từ',  0),
+
+    -- CH310: "Bé Nam cố gắng ___ bài toán khó." -> đúng: "giải"
+    ('DA3029', 'CH310', N'giải', 1),
+    ('DA3030', 'CH310', N'ăn',   0),
+    ('DA3031', 'CH310', N'xanh', 0),
+    ('DA3032', 'CH310', N'đẹp',  0),
+
+--------------------------------------------------
+    -- TRÒ CHƠI
+--------------------------------------------------
+	
+	-- CHG001: Bé đang ___ bóng. (đúng: đá)
+    ('DA3033', 'CHG001', N'ăn',   0),
+    ('DA3034', 'CHG001', N'đá',   1),
+    ('DA3035', 'CHG001', N'ngủ',  0),
+    ('DA3036', 'CHG001', N'vẽ',   0),
+
+    -- CHG002: Con mèo ___ trên sân. (đúng: nằm)
+    ('DA3037', 'CHG002', N'bay',  0),
+    ('DA3038', 'CHG002', N'bơi',  0),
+    ('DA3039', 'CHG002', N'nằm',  1),
+    ('DA3040', 'CHG002', N'đọc',  0),
+
+    -- CHG003: Bạn nhỏ rất ___ khi được khen. (đúng: vui)
+    ('DA3041', 'CHG003', N'vui',  1),
+    ('DA3042', 'CHG003', N'buồn', 0),
+    ('DA3043', 'CHG003', N'đói',  0),
+    ('DA3044', 'CHG003', N'mệt',  0),
+
+    -- CHG004: Mẹ mua cho em một chiếc ___ mới. (đúng: áo)
+    ('DA3045', 'CHG004', N'chó',  0),
+    ('DA3046', 'CHG004', N'nước', 0),
+    ('DA3047', 'CHG004', N'táo',  0),
+    ('DA3048', 'CHG004', N'áo',   1),
+
+    -- CHG005: Bố đang ___ xe máy. (đúng: lái)
+    ('DA3049', 'CHG005', N'ăn',   0),
+    ('DA3050', 'CHG005', N'lái',  1),
+    ('DA3051', 'CHG005', N'ngủ',  0),
+    ('DA3052', 'CHG005', N'bơi',  0),
+
+    -- CHG006: Em bé đang ___ sữa. (đúng: uống)
+    ('DA3053', 'CHG006', N'chạy', 0),
+    ('DA3054', 'CHG006', N'vẽ',   0),
+    ('DA3055', 'CHG006', N'uống', 1),
+    ('DA3056', 'CHG006', N'bay',  0),
+
+    -- CHG007: Ông nội đang ___ báo. (đúng: đọc)
+    ('DA3057', 'CHG007', N'đọc',  1),
+    ('DA3058', 'CHG007', N'hát',  0),
+    ('DA3059', 'CHG007', N'múa',  0),
+    ('DA3060', 'CHG007', N'nhảy', 0),
+
+    -- CHG008: Cô giáo đang ___ bài. (đúng: giảng)
+    ('DA3061', 'CHG008', N'ngủ',  0),
+    ('DA3062', 'CHG008', N'bơi',  0),
+    ('DA3063', 'CHG008', N'chơi', 0),
+    ('DA3064', 'CHG008', N'giảng',1),
+
+    -- CHG009: Bé Lan ___ tóc cho em gái. (đúng: chải)
+    ('DA3065', 'CHG009', N'ăn',   0),
+    ('DA3066', 'CHG009', N'chải', 1),
+    ('DA3067', 'CHG009', N'uống', 0),
+    ('DA3068', 'CHG009', N'chạy', 0),
+
+    -- CHG010: Trời hôm nay rất ___. (đúng: đẹp)
+    ('DA3069', 'CHG010', N'vui',  0),
+    ('DA3070', 'CHG010', N'đói',  0),
+    ('DA3071', 'CHG010', N'đẹp',  1),
+    ('DA3072', 'CHG010', N'mệt',  0),
+
+    -- CHG011: Bạn Nam đang ___ nhà. (đúng: quét)
+    ('DA3073', 'CHG011', N'quét', 1),
+    ('DA3074', 'CHG011', N'ăn',   0),
+    ('DA3075', 'CHG011', N'ngủ',  0),
+    ('DA3076', 'CHG011', N'uống', 0),
+
+    -- CHG012: Con chim đang ___ trên cành. (đúng: hót)
+    ('DA3077', 'CHG012', N'bơi',  0),
+    ('DA3078', 'CHG012', N'chạy', 0),
+    ('DA3079', 'CHG012', N'đọc',  0),
+    ('DA3080', 'CHG012', N'hót',  1),
+
+    -- CHG013: Em đặt cặp lên ___. (đúng: bàn)
+    ('DA3081', 'CHG013', N'tường', 0),
+    ('DA3082', 'CHG013', N'bàn',   1),
+    ('DA3083', 'CHG013', N'trần',  0),
+    ('DA3084', 'CHG013', N'mây',   0),
+
+    -- CHG014: Bé đi học mang theo một cái ___. (đúng: cặp)
+    ('DA3085', 'CHG014', N'tivi',  0),
+    ('DA3086', 'CHG014', N'giường',0),
+    ('DA3087', 'CHG014', N'cặp',   1),
+    ('DA3088', 'CHG014', N'tủ',    0),
+
+    -- CHG015: Bạn nhỏ đang ___ tranh. (đúng: vẽ)
+    ('DA3089', 'CHG015', N'vẽ',   1),
+    ('DA3090', 'CHG015', N'ăn',   0),
+    ('DA3091', 'CHG015', N'uống', 0),
+    ('DA3092', 'CHG015', N'hát',  0),
+
+    -- CHG016: Em phải ___ tay trước khi ăn. (đúng: rửa)
+    ('DA3093', 'CHG016', N'cắt',  0),
+    ('DA3094', 'CHG016', N'vẽ',   0),
+    ('DA3095', 'CHG016', N'che',  0),
+    ('DA3096', 'CHG016', N'rửa',  1),
+
+    -- CHG017: Con chó chạy ___ sân. (đúng: quanh)
+    ('DA3097', 'CHG017', N'cao',   0),
+    ('DA3098', 'CHG017', N'quanh', 1),
+    ('DA3099', 'CHG017', N'đẹp',   0),
+    ('DA3100', 'CHG017', N'buồn',  0),
+
+    -- CHG018: Bé cười rất ___. (đúng: tươi)
+    ('DA3101', 'CHG018', N'mệt',  0),
+    ('DA3102', 'CHG018', N'đói',  0),
+    ('DA3103', 'CHG018', N'tươi', 1),
+    ('DA3104', 'CHG018', N'khát', 0),
+
+    -- CHG019: Bạn nhỏ đang ___ bánh. (đúng: ăn)
+    ('DA3105', 'CHG019', N'ăn',   1),
+    ('DA3106', 'CHG019', N'đá',   0),
+    ('DA3107', 'CHG019', N'viết', 0),
+    ('DA3108', 'CHG019', N'bơi',  0),
+
+    -- CHG020: Mẹ đang chuẩn bị ___ cho cả nhà. (đúng: bữa cơm)
+    ('DA3109', 'CHG020', N'tivi',    0),
+    ('DA3110', 'CHG020', N'xe đạp',  0),
+    ('DA3111', 'CHG020', N'bóng',    0),
+    ('DA3112', 'CHG020', N'bữa cơm', 1);
+
+GO
+
+USE UngDungHocTapChoTre;
+GO
+
+DECLARE @MaMH_Toan char(5) = (SELECT MaMonHoc FROM MonHoc WHERE TenMonHoc = N'Toán');
+DECLARE @MaMH_TV   char(5) = (SELECT MaMonHoc FROM MonHoc WHERE TenMonHoc = N'Tiếng Việt');
+DECLARE @MaLoai_TroChoi char(5) = (SELECT MaLoai FROM LoaiHoatDong WHERE TenLoai = N'Trò Chơi');
+
+-- 3 trò chơi:
+-- TC001: Liên hoàn tính toán (lấy random từ Ôn luyện trong code, không cần map cứng)
+-- TC002: Hoàn thiện câu từ  (map CHG001–CHG020)
+-- TC003: Trùm tính nhẩm    (map CHG021–CHG040)
+
+IF NOT EXISTS (SELECT 1 FROM HoatDongHocTap WHERE MaHoatDong = 'TC001')
 BEGIN
-    DECLARE @thuTu_cc_fix INT = 1;
-    WHILE @thuTu_cc_fix <= 10
+    INSERT INTO HoatDongHocTap (MaHoatDong, MaMonHoc, MaLoai, TieuDe, MoTa, TongDiemToiDa) VALUES
+    ('TC001', @MaMH_Toan, @MaLoai_TroChoi, N'Liên hoàn tính toán', N'Trò chơi tính toán ngẫu nhiên từ phần Ôn luyện.', 100),
+    ('TC002', @MaMH_TV  , @MaLoai_TroChoi, N'Hoàn thiện câu từ',   N'Trò chơi điền từ vào chỗ trống.', 50),
+    ('TC003', @MaMH_Toan, @MaLoai_TroChoi, N'Trùm tính nhẩm',      N'Trò chơi tính nhẩm nhanh nhiều phép tính.', 50);
+END
+GO
+
+-- CỦNG CỐ TOÁN (CC001–CC010): CH001–CH100
+DECLARE @ccToan INT, @qToan INT, @tToan INT;
+
+SET @ccToan = 1;   -- CC001
+SET @qToan  = 1;   -- CH001
+
+WHILE @ccToan <= 10
+BEGIN
+    SET @tToan = 1;
+    WHILE @tToan <= 10
     BEGIN
         INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
         VALUES (
-            'CC' + RIGHT('000' + CAST(@cc_fix AS VARCHAR(3)), 3),
-            'CH' + RIGHT('000' + CAST(@ch_fix AS VARCHAR(3)), 3),
-            @thuTu_cc_fix
+            'CC' + RIGHT('000' + CAST(@ccToan AS VARCHAR(3)), 3),  -- CC001..CC010
+            'CH' + RIGHT('000' + CAST(@qToan  AS VARCHAR(3)), 3),  -- CH001..CH100
+            @tToan
         );
 
-        SET @ch_fix = @ch_fix + 1;          -- sang câu hỏi tiếp theo
-        SET @thuTu_cc_fix = @thuTu_cc_fix + 1; -- tăng thứ tự trong bài
-    END
+        SET @qToan  = @qToan + 1;
+        SET @tToan  = @tToan + 1;
+    END;
 
-    SET @cc_fix = @cc_fix + 1; -- sang bài Củng cố tiếp theo
-END
+    SET @ccToan = @ccToan + 1;
+END;
 GO
---Map câu hỏi cho Ôn Luyện (OL001–OL009) → CH201–CH290
-DECLARE @ol_fix INT = 1, @ch_ol_fix INT = 201;
-WHILE @ol_fix <= 9
+-- CỦNG CỐ TIẾNG VIỆT (CC011–CC020): CH101–CH200
+DECLARE @ccTV INT, @qTV INT, @tTV INT;
+
+SET @ccTV = 11;   -- CC011
+SET @qTV  = 101;  -- CH101
+
+WHILE @ccTV <= 20
 BEGIN
-    DECLARE @thuTu_ol_fix INT = 1;
-    WHILE @thuTu_ol_fix <= 10
+    SET @tTV = 1;
+    WHILE @tTV <= 10
     BEGIN
         INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
         VALUES (
-            'OL' + RIGHT('000' + CAST(@ol_fix AS VARCHAR(3)), 3),
-            'CH' + RIGHT('000' + CAST(@ch_ol_fix AS VARCHAR(3)), 3),
-            @thuTu_ol_fix
+            'CC' + RIGHT('000' + CAST(@ccTV AS VARCHAR(3)), 3),   -- CC011..CC020
+            'CH' + RIGHT('000' + CAST(@qTV  AS VARCHAR(3)), 3),   -- CH101..CH200
+            @tTV
         );
 
-        SET @ch_ol_fix = @ch_ol_fix + 1;
-        SET @thuTu_ol_fix = @thuTu_ol_fix + 1;
-    END
+        SET @qTV  = @qTV + 1;
+        SET @tTV  = @tTV + 1;
+    END;
 
-    SET @ol_fix = @ol_fix + 1;
-END
+    SET @ccTV = @ccTV + 1;
+END;
 GO
---Map câu hỏi cho Thử Thách (TT001) → CH291–CH310
-DECLARE @ch_tt_fix INT = 291;
-DECLARE @thuTu_tt_fix INT = 1;
+-- ÔN LUYỆN (OL001–OL009): CH201–CH290
+DECLARE @ol INT, @qOL INT, @tOL INT;
 
-WHILE @thuTu_tt_fix <= 20
+SET @ol  = 1;    -- OL001
+SET @qOL = 201;  -- CH201
+
+WHILE @ol <= 9
+BEGIN
+    SET @tOL = 1;
+    WHILE @tOL <= 10
+    BEGIN
+        INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
+        VALUES (
+            'OL' + RIGHT('000' + CAST(@ol  AS VARCHAR(3)), 3),   -- OL001..OL009
+            'CH' + RIGHT('000' + CAST(@qOL AS VARCHAR(3)), 3),   -- CH201..CH290
+            @tOL
+        );
+
+        SET @qOL = @qOL + 1;
+        SET @tOL = @tOL + 1;
+    END;
+
+    SET @ol = @ol + 1;
+END;
+GO
+-- THỬ THÁCH (TT001): CH291–CH310
+DECLARE @qTT INT, @tTT INT;
+
+SET @qTT = 291;   -- CH291
+SET @tTT = 1;     -- Thứ tự 1..20
+
+WHILE @tTT <= 20
 BEGIN
     INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
     VALUES (
         'TT001',
-        'CH' + RIGHT('000' + CAST(@ch_tt_fix AS VARCHAR(3)), 3),
-        @thuTu_tt_fix
+        'CH' + RIGHT('000' + CAST(@qTT AS VARCHAR(3)), 3),
+        @tTT
     );
 
-    SET @ch_tt_fix = @ch_tt_fix + 1;
-    SET @thuTu_tt_fix = @thuTu_tt_fix + 1;
-END
+    SET @qTT = @qTT + 1;
+    SET @tTT = @tTT + 1;
+END;
+GO
+-- Ví dụ query cho Liên hoàn tính toán (TC001) trong ứng dụng:
+-- Lấy 10 câu ngẫu nhiên từ các câu Ôn luyện Toán CH201–CH290
+SELECT TOP 10
+    CH.MaCauHoi,
+    CH.NoiDungCauHoi,
+    DAP.MaDapAn,
+    DAP.NoiDungDapAn,
+    DAP.LaDapAnDung
+FROM CauHoi CH
+JOIN DapAn DAP ON CH.MaCauHoi = DAP.MaCauHoi
+WHERE CH.MaCauHoi BETWEEN 'CH201' AND 'CH290'
+ORDER BY NEWID();
+-- TC002: Hoàn thiện câu từ → CHG001–CHG020
+DECLARE @g1 INT = 1, @tG1 INT = 1;
+
+WHILE @tG1 <= 20
+BEGIN
+    INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
+    VALUES (
+        'TC002',
+        'CHG' + RIGHT('000' + CAST(@g1 AS VARCHAR(3)), 3),  -- CHG001..CHG020
+        @tG1
+    );
+
+    SET @g1  = @g1 + 1;
+    SET @tG1 = @tG1 + 1;
+END;
+GO
+-- TC003: Trùm tính nhẩm → CHG021–CHG040
+DECLARE @g2 INT = 21, @tG2 INT = 1;
+
+WHILE @tG2 <= 20
+BEGIN
+    INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
+    VALUES (
+        'TC003',
+        'CHG' + RIGHT('000' + CAST(@g2 AS VARCHAR(3)), 3),  -- CHG021..CHG040
+        @tG2
+    );
+
+    SET @g2  = @g2 + 1;
+    SET @tG2 = @tG2 + 1;
+END;
 GO
 
+
+
+select* from hoatdonghoctap
+select* from LoaiHoatDong
+  --củng cố
+  DECLARE @maNguoiDung NVARCHAR(50) = 'ND007';
+SELECT COUNT(DISTINCT h.MaHoatDong) AS SoDeCoBanDaLam
+FROM TienTrinhHocTap t
+JOIN HoatDongHocTap h ON t.MaHoatDong = h.MaHoatDong
+WHERE t.MaNguoiDung = @maNguoiDung
+  AND h.TieuDe LIKE N'Ôn cơ bản%';
+
+SELECT COUNT(*) AS TongSoDeCoBan
+FROM HoatDongHocTap
+WHERE TieuDe LIKE N'Ôn cơ bản%';
+
+DECLARE @maNguoiDung NVARCHAR(50) = 'ND007';
+SELECT COUNT(DISTINCT h.MaHoatDong) AS SoDeTrungBinhDaLam
+FROM TienTrinhHocTap t
+JOIN HoatDongHocTap h ON t.MaHoatDong = h.MaHoatDong
+WHERE t.MaNguoiDung = @maNguoiDung
+  AND h.TieuDe LIKE N'Ôn TB%';
+
+
+SELECT COUNT(*) AS TongSoDeTrungBinh
+FROM HoatDongHocTap
+WHERE TieuDe LIKE N'Ôn TB%';
+
+DECLARE @maNguoiDung NVARCHAR(50) = 'ND007';
+SELECT COUNT(DISTINCT h.MaHoatDong) AS SoDeNangCaoDaLam
+FROM TienTrinhHocTap t
+JOIN HoatDongHocTap h ON t.MaHoatDong = h.MaHoatDong
+WHERE t.MaNguoiDung = @maNguoiDung
+  AND h.TieuDe LIKE N'Ôn NC%';
+
+SELECT COUNT(*) AS TongSoDeNangCao
+FROM HoatDongHocTap
+WHERE TieuDe LIKE N'Ôn NC%';
+
+SELECT 
+    h.MaHoatDong,
+    h.TieuDe,
+    c.MaCauHoi,
+    c.DiemToiDa,
+    c.NoiDungCauHoi AS CauHoi,
+    d.MaDapAn,
+    d.NoiDungDapAn AS DapAn,
+    d.LaDapAnDung
+FROM HoatDongHocTap h
+JOIN HoatDong_CauHoi hc 
+    ON h.MaHoatDong = hc.MaHoatDong
+JOIN CauHoi c 
+    ON hc.MaCauHoi = c.MaCauHoi
+JOIN DapAn d 
+    ON c.MaCauHoi = d.MaCauHoi
+WHERE h.TieuDe = N'Ôn cơ bản 1'
+ORDER BY c.MaCauHoi, d.MaDapAn;
+=======
+SELECT
+    HD.MaHoatDong, HD.TieuDe,
+    CH.MaCauHoi, CH.NoiDungCauHoi
+FROM HoatDongHocTap HD
+JOIN HoatDong_CauHoi HQ ON HD.MaHoatDong = HQ.MaHoatDong
+JOIN CauHoi CH ON HQ.MaCauHoi = CH.MaCauHoi
+WHERE HD.MaLoai = 'LHD02' AND HD.MaMonHoc = 'MH002'
+ORDER BY HD.MaHoatDong, HQ.ThuTu;
+
+
+SELECT 
+    h.MaHoatDong,
+    h.TieuDe,
+    c.MaCauHoi,
+    c.DiemToiDa,
+    c.NoiDungCauHoi AS CauHoi,
+    d.MaDapAn,
+    d.NoiDungDapAn AS DapAn,
+    d.LaDapAnDung
+FROM HoatDongHocTap h
+JOIN HoatDong_CauHoi hc 
+    ON h.MaHoatDong = hc.MaHoatDong
+JOIN CauHoi c 
+    ON hc.MaCauHoi = c.MaCauHoi
+JOIN DapAn d 
+    ON c.MaCauHoi = d.MaCauHoi
+WHERE h.TieuDe = N'Ôn cơ bản 1'
+ORDER BY c.MaCauHoi, d.MaDapAn;
+
+SELECT CH.MaCauHoi,
+       COUNT(DA.MaDapAn) AS SoDapAn
+FROM CauHoi CH
+LEFT JOIN DapAn DA ON CH.MaCauHoi = DA.MaCauHoi
+GROUP BY CH.MaCauHoi
+HAVING COUNT(DA.MaDapAn) <> 4
+ORDER BY CH.MaCauHoi;
+
+
+--Kiểm tra về câu hỏi và đáp án 
+SELECT COUNT(*) FROM CauHoi;   -- phải = 350
+SELECT COUNT(*) FROM DapAn;    -- phải = 1400
+SELECT MIN(MaCauHoi), MAX(MaCauHoi) FROM CauHoi;   -- CH001 -> CH350
+SELECT MIN(MaDapAn), MAX(MaDapAn) FROM DapAn;      -- DA0001 -> DA1400

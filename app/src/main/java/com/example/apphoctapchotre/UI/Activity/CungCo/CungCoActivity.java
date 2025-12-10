@@ -67,6 +67,14 @@ public class CungCoActivity extends AppCompatActivity {
         btnToan = findViewById(R.id.btnToan);
 
         findViewById(R.id.back).setOnClickListener(v -> finish());
+
+        // Mở trang Premium khi bấm vào icon vương miện
+        findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
+            Intent intent = new Intent(CungCoActivity.this,
+                    com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
+            startActivity(intent);
+        });
+
     }
 
     private void observeTienDo() {
