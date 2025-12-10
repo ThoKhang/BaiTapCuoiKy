@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apphoctapchotre.DATA.model.TienTrinh;
 import com.example.apphoctapchotre.DATA.model.ui.DeItem;
-import com.example.apphoctapchotre.UI.Activity.MonHoc.LyThuyetCoBan;
 import com.example.apphoctapchotre.UI.Adapter.OnLuyen.DeAdapter;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.ViewModel.TienTrinhViewModel;

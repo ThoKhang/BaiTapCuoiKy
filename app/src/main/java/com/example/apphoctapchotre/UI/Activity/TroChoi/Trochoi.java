@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.apphoctapchotre.UI.Activity.Games.sudoku;
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.UI.Activity.MonHoc.LyThuyetCoBan;
 
 public class Trochoi extends AppCompatActivity {
 

@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.UI.Activity.MonHoc.LyThuyetCoBan;
 import com.example.apphoctapchotre.UI.ViewModel.OnLuyenViewModel;
 
 public class OnLuyen extends AppCompatActivity {
