@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2AF79">
+
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerInside"
+        android:src="@drawable/baseline_arrow_back_24" />
+
+    <!-- Main Content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingTop="70dp"
+        >
+        <!-- Question Section -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+        <!-- Vòng tròn nổi -->
+        <RelativeLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:translationY="-10dp"
+            android:background="@drawable/bg_circle_white"
+            android:elevation="8dp">
+
+            <TextView
+                android:id="@+id/tvThoiGian"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="16"
+                android:textColor="#FF6B5B"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <!-- Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/stats_card_bg"
+            android:elevation="4dp"
+            android:minHeight="180dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="32dp"
+            >
+
+            <!-- Header Section -->
+            <RelativeLayout
+                android:layout_width="347dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal">
+
+                <!-- Question Counter Card -->
+                <LinearLayout
+                    android:id="@+id/counterCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:backgroundTint="#B85555"
+                    android:elevation="4dp"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
+
+
+                    <TextView
+                        android:id="@+id/tvSoCau"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Câu hỏi 1/20"
+                        android:textAlignment="textStart"
+                        android:textColor="#00ACC1"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <!-- Score Badge -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:elevation="4dp"
+                    android:gravity="center"
+                    android:layout_marginRight="15dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/tick_premium" />
+
+                    <TextView
+                        android:id="@+id/tvCauDung"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="0"
+                        android:textColor="#00ACC1"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvCauHoi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="60dp"
+                android:text="7 + 7 = ?"
+                android:textColor="#333333"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+        </FrameLayout>
+        <!-- Answer Options -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp">
+
+            <!-- Option 1 -->
+            <RelativeLayout
+                android:id="@+id/option1"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginBottom="18dp"
+                android:background="@drawable/bg_rounded_white"
+                android:elevation="2dp">
+
+                <TextView
+                    android:id="@+id/dapan1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="12"
+                    android:textColor="#333333"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/tick1"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="18dp"
+                    android:src="@drawable/answer_bg" />
+
+            </RelativeLayout>
+
+            <!-- Option 2 -->
+            <RelativeLayout
+                android:id="@+id/option2"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginBottom="18dp"
+                android:background="@drawable/bg_rounded_white"
+                android:elevation="2dp">
+
+                <TextView
+                    android:id="@+id/dapan2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="13"
+                    android:textColor="#333333"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/tick2"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="18dp"
+                    android:src="@drawable/answer_bg" />
+
+            </RelativeLayout>
+
+            <!-- Option 3 -->
+            <RelativeLayout
+                android:id="@+id/option3"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginBottom="18dp"
+                android:background="@drawable/bg_rounded_white"
+                android:elevation="2dp">
+
+                <TextView
+                    android:id="@+id/dapan3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="14"
+                    android:textColor="#333333"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/tick3"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="18dp"
+                    android:src="@drawable/answer_bg" />
+
+            </RelativeLayout>
+
+            <!-- Option 4 -->
+            <RelativeLayout
+                android:id="@+id/option4"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="32dp"
+                android:background="@drawable/bg_rounded_white"
+                android:elevation="2dp">
+
+                <TextView
+                    android:id="@+id/dapan4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="15"
+                    android:textColor="#333333"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/tick4"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="18dp"
+                    android:src="@drawable/answer_bg" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
