@@ -268,4 +268,37 @@ public class AuthRepository {
             }
         });
     }
+    // =========================== LOGIN GOOGLE ===========================
+    public interface GoogleLoginListener {
+        void onSuccess(NguoiDung nguoiDung);
+        void onError(String message);
+    }
+
+    public void loginWithGoogle(String idToken, GoogleLoginListener listener) {
+        Map<String, String> body = new HashMap<>();
+        body.put("idToken", idToken);
+
+        api.loginWithGoogle(body).enqueue(new Callback<NguoiDung>() {
+            @Override
+            public void onResponse(Call<NguoiDung> call, Response<NguoiDung> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    listener.onSuccess(response.body());
+                } else {
+                    String msg = "Đăng nhập Google thất bại!";
+                    try {
+                        if (response.errorBody() != null) {
+                            String raw = response.errorBody().string().trim();
+                            if (!raw.isEmpty()) msg = raw;
+                        }
+                    } catch (Exception ignored) {}
+                    listener.onError(msg);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NguoiDung> call, Throwable t) {
+                listener.onError("Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
 }
