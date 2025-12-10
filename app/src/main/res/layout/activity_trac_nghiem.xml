@@ -221,6 +221,10 @@
                     android:text="Đây là giải thích"
                     android:textColor="#C8B213"
                     android:textSize="22sp" />
+<<<<<<< HEAD
+=======
+
+>>>>>>> 041ea8c05a2181528748c770388c0c2e1658c331
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

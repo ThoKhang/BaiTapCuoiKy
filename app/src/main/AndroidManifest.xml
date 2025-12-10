@@ -22,7 +22,7 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <receiver
-            android:name=".AlarmReceiver"
+            android:name=".Utility.AlarmReceiver"
             android:enabled="true"
             android:exported="true" />
         <activity
@@ -65,6 +65,7 @@
         <activity android:name=".UI.Activity.LyThuyet.BangCuuChuong" />
         <activity android:name=".UI.Activity.MonHoc.NoiDungTiengViet" />
         <activity android:name=".UI.Activity.HoatDongDangDienRa.Thuthach100Cau" />
+        <activity android:name=".UI.Activity.HoatDongDangDienRa.KetQuaActivity" />
         <activity android:name=".UI.Activity.HoatDongDangDienRa.CauHoi100" />
         <activity
             android:name=".UI.Activity.TroChoi.Trochoi"

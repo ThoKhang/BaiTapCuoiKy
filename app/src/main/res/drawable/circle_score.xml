@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer circle (darker blue) -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#0D47A1" />
+        </shape>
+    </item>
+
+    <!-- Inner circle (lighter blue) with padding -->
+    <item
+        android:left="8dp"
+        android:right="8dp"
+        android:top="8dp"
+        android:bottom="8dp">
+        <shape android:shape="oval">
+            <solid android:color="#1565C0" />
+        </shape>
+    </item>
+
+    <!-- Innermost circle (lightest blue) with more padding -->
+    <item
+        android:left="16dp"
+        android:right="16dp"
+        android:top="16dp"
+        android:bottom="16dp">
+        <shape android:shape="oval">
+            <solid android:color="#1976D2" />
+        </shape>
+    </item>
+</layer-list>
