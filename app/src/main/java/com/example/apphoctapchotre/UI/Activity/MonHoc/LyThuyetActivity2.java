@@ -12,15 +12,14 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.apphoctapchotre.DATA.model.LyThuyetDaLamResponse;
-import com.example.apphoctapchotre.UI.Activity.MonHoc.LyThuyetNoiDungActivity;
+
 import com.example.apphoctapchotre.UI.Adapter.LyThuyetCoBan.LyThuyetAdapter;
 import com.example.apphoctapchotre.UI.ViewModel.LyThuyetViewModel2;
 import com.example.apphoctapchotre.R;
 
 public class LyThuyetActivity2 extends AppCompatActivity {
 
-    private ListView listBaiKiemTra;
+    private ListView listBaiHoc;
     private LyThuyetViewModel2 vm;
     private String maNguoiDung;
     private String maMon;
@@ -42,7 +41,7 @@ public class LyThuyetActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ly_thuyet_mon_hoc2);
 
-        listBaiKiemTra = findViewById(R.id.listBaiKiemTra);
+        listBaiHoc = findViewById(R.id.listBaiHoc);
         TextView btnBack = findViewById(R.id.back);
 
         // Lấy dữ liệu từ Intent
@@ -90,7 +89,7 @@ public class LyThuyetActivity2 extends AppCompatActivity {
                     launcher.launch(intent); // Dùng launcher để nhận kết quả khi hoàn thành
                 });
 
-                listBaiKiemTra.setAdapter(adapter);
+                listBaiHoc.setAdapter(adapter);
             } else {
                 adapter.updateData(list);
                 adapter.notifyDataSetChanged();

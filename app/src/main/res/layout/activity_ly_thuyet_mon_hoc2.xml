@@ -50,7 +50,7 @@
 
     <!-- Thêm ListView để hiển thị list bài lý thuyết -->
     <ListView
-        android:id="@+id/listBaiKiemTra"
+        android:id="@+id/listBaiHoc"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:divider="@android:color/transparent"

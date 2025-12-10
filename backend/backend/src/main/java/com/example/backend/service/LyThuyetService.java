@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class LyThuyetService {
@@ -32,6 +29,7 @@ public class LyThuyetService {
     @Autowired
     private HoatDongHocTapRepository hoatDongRepo;
 
+    // ======================= GET TIẾN ĐỘ =======================
     public List<TienDoLyThuyetResponse> getTienDo(String maNguoiDung) {
         String tongQuery = """
                 SELECT MH.MaMonHoc, MH.TenMonHoc, COUNT(*) AS TongSoBai
@@ -70,6 +68,7 @@ public class LyThuyetService {
         return result;
     }
 
+    // ======================= GET LÝ THUYẾT THEO MÔN =======================
     public List<LyThuyetMonHocResponse> getLyThuyetByMonHoc(String maMonHoc) {
         String sql = """
                 SELECT MaHoatDong, TieuDe, MoTa, TongDiemToiDa
@@ -92,15 +91,18 @@ public class LyThuyetService {
         return result;
     }
 
+    // ======================= GET LÝ THUYẾT ĐÃ LÀM (CLEAN) =======================
     public List<LyThuyetDaLamResponse> getLyThuyetDaLam(String maMonHoc, String maNguoiDung) {
+
         String sql = """
                 SELECT HD.MaHoatDong, HD.TieuDe, HD.MoTa, HD.TongDiemToiDa,
-                       ISNULL(TT.DiemDatDuoc, 0) AS DiemDatDuoc,
-                       ISNULL(TT.DaHoanThanh, 0) AS DaHoanThanh,
-                       TT.NgayBatDau, TT.NgayHoanThanh
+                       ISNULL(TT.DaHoanThanh, 0) AS DaHoanThanh
                 FROM HoatDongHocTap HD
-                LEFT JOIN TienTrinhHocTap TT ON HD.MaHoatDong = TT.MaHoatDong AND TT.MaNguoiDung = :maNguoiDung
-                WHERE HD.MaMonHoc = :maMonHoc AND HD.MaLoai = 'LHD01'
+                LEFT JOIN TienTrinhHocTap TT 
+                       ON HD.MaHoatDong = TT.MaHoatDong 
+                      AND TT.MaNguoiDung = :maNguoiDung
+                WHERE HD.MaMonHoc = :maMonHoc 
+                  AND HD.MaLoai = 'LHD01'
                 ORDER BY ISNULL(TT.DaHoanThanh, 0) ASC, HD.MaHoatDong ASC
                 """;
 
@@ -111,30 +113,29 @@ public class LyThuyetService {
 
         List<LyThuyetDaLamResponse> result = new ArrayList<>();
         for (Object[] r : rows) {
+
             String maHoatDong = (String) r[0];
             String tieuDe = (String) r[1];
             String moTa = (String) r[2];
             int tongDiemToiDa = ((Number) r[3]).intValue();
-            int diemDatDuoc = ((Number) r[4]).intValue();
-            boolean daHoanThanh = false;
-            if (r[5] instanceof Boolean) {
-                daHoanThanh = (Boolean) r[5];
-            } else if (r[5] instanceof Number) {
-                daHoanThanh = ((Number) r[5]).intValue() == 1;
+
+            boolean daHoanThanh;
+            if (r[4] instanceof Boolean) {
+                daHoanThanh = (Boolean) r[4];
+            } else {
+                daHoanThanh = ((Number) r[4]).intValue() == 1;
             }
-            LocalDateTime ngayBatDau = r[6] != null ? ((java.sql.Timestamp) r[6]).toLocalDateTime() : null;
-            LocalDateTime ngayHoanThanh = r[7] != null ? ((java.sql.Timestamp) r[7]).toLocalDateTime() : null;
 
             result.add(new LyThuyetDaLamResponse(
-                    maHoatDong, tieuDe, moTa, tongDiemToiDa,
-                    diemDatDuoc, daHoanThanh,
-                    ngayBatDau, ngayHoanThanh
+                    maHoatDong, tieuDe, moTa, tongDiemToiDa, daHoanThanh
             ));
         }
         return result;
     }
 
+    // ======================= HOÀN THÀNH HOẠT ĐỘNG =======================
     public boolean hoanThanhHoatDong(String maNguoiDung, String maHoatDong, int diem) {
+
         TienTrinhHocTap tt = tienTrinhRepo
                 .findByNguoiDung_MaNguoiDungAndHoatDong_MaHoatDong(maNguoiDung, maHoatDong)
                 .orElse(null);
@@ -143,11 +144,12 @@ public class LyThuyetService {
             tt = new TienTrinhHocTap();
             long count = tienTrinhRepo.count() + 1;
             String id = "TT" + String.format("%03d", count);
+
             tt.setMaTienTrinh(id);
             tt.setNguoiDung(nguoiDungRepo.findById(maNguoiDung).orElseThrow());
             tt.setHoatDong(hoatDongRepo.findById(maHoatDong).orElseThrow());
             tt.setNgayBatDau(LocalDateTime.now());
-            tt.setSoCauDung(0);  // Mặc định 0 vì không có câu hỏi
+            tt.setSoCauDung(0);
             tt.setSoCauDaLam(0);
         }
 
