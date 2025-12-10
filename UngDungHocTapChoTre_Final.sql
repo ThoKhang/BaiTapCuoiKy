@@ -271,22 +271,6 @@ BEGIN
 END
 GO
 
--- b. OnLuyen (OL001 - OL009) -> Sử dụng CH201 - CH290
-DECLARE @ol_fix INT = 1, @ch_ol_fix INT = 201;
-WHILE @ol_fix <= 9
-BEGIN
-    DECLARE @thuTu_ol_fix INT = 1;
-    WHILE @thuTu_ol_fix <= 10
-    BEGIN
-        INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
-        VALUES ('OL' + RIGHT('000' + CAST(@ol_fix AS VARCHAR), 3), 'CH' + RIGHT('000' + CAST(@ch_ol_fix AS VARCHAR), 3), @thuTu_ol_fix);
-        SET @ch_ol_fix = @ch_ol_fix + 1;
-        SET @thuTu_ol_fix = @thuTu_ol_fix + 1;
-    END
-    SET @ol_fix = @ol_fix + 1;
-END
-GO
-
 -- c. ThuThach TT001 -> Sử dụng CH291 - CH310
 DECLARE @ch_tt_fix INT = 291;
 DECLARE @thuTu_tt_fix INT = 1;
@@ -2817,6 +2801,30 @@ SELECT COUNT(*) AS TongSoDeNangCao
 FROM HoatDongHocTap
 WHERE TieuDe LIKE N'Ôn NC%';
 
+----------------------------insert ôn luyện---------------------------------
+GO
+-- b. OnLuyen (OL001 - OL009) -> Sử dụng CH201 - CH290
+DECLARE @ol INT = 10, @ch INT = 01;  -- bắt đầu từ CH001
+WHILE @ol <= 30
+BEGIN
+    DECLARE @thuTu INT = 1;
+
+    WHILE @thuTu <= 10
+    BEGIN
+        INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
+        VALUES (
+            'OL' + RIGHT('000' + CAST(@ol AS VARCHAR(3)), 3),
+            'CH' + RIGHT('000' + CAST(@ch AS VARCHAR(3)), 3),
+            @thuTu
+        );
+
+        SET @ch = @ch + 1;  
+        SET @thuTu = @thuTu + 1; 
+    END
+
+    SET @ol = @ol + 1;  
+END
+GO
 SELECT 
     h.MaHoatDong,
     h.TieuDe,
@@ -2833,7 +2841,7 @@ JOIN CauHoi c
     ON hc.MaCauHoi = c.MaCauHoi
 JOIN DapAn d 
     ON c.MaCauHoi = d.MaCauHoi
-WHERE h.TieuDe = N'Ôn cơ bản 1'
+WHERE h.TieuDe = N'Ôn TB 1'
 ORDER BY c.MaCauHoi, d.MaDapAn;
 
 SELECT
