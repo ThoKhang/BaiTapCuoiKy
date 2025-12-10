@@ -279,6 +279,7 @@ public class CauHoiService implements ICauHoiService{
             String MaDapAn=(String) row[5];
             String NoiDungDapAn=(String) row[6];
             boolean LaDapAnDung=(boolean) row[7];
+            String giaiThich=(String)row[8];
             
             coBanResponse.setMaHoatDong(maHD);
             coBanResponse.setTieuDe(tieuDe);
@@ -289,6 +290,7 @@ public class CauHoiService implements ICauHoiService{
                 cauHoiRespons.setMaCauHoi(MaCauHoi);
                 cauHoiRespons.setNoiDungCauHoi(NoiDungCauHoi);
                 cauHoiRespons.setDiemToiDa(diemToiDa);
+                cauHoiRespons.setGiaiThich(giaiThich);
                 cauHoiRespons.setDapAn(new ArrayList<>());
                 map.put(MaCauHoi, cauHoiRespons);
             }
