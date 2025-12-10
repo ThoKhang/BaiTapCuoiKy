@@ -23,12 +23,19 @@ public interface TienTrinhHocTapRepository extends JpaRepository<TienTrinhHocTap
     @Query(value = "SELECT COUNT(DISTINCT h.mahoatdong) FROM TienTrinhHocTap t JOIN HoatDongHocTap h ON t.mahoatdong = h.mahoatdong WHERE t.manguoidung = :maNguoiDung AND h.TieuDe LIKE N'Ôn TB%'",nativeQuery = true)
     int soDeTrungBinhDaLam(String maNguoiDung);
 
-    @Query(
-      value = "SELECT COUNT(DISTINCT h.mahoatdong) FROM TienTrinhHocTap t JOIN HoatDongHocTap h ON t.mahoatdong = h.mahoatdong WHERE t.manguoidung = :maNguoiDung AND h.TieuDe LIKE N'Ôn NC%'",nativeQuery = true)
+    @Query(value = "SELECT COUNT(DISTINCT h.mahoatdong) FROM TienTrinhHocTap t JOIN HoatDongHocTap h ON t.mahoatdong = h.mahoatdong WHERE t.manguoidung = :maNguoiDung AND h.TieuDe LIKE N'Ôn NC%'",nativeQuery = true)
     int soDeNangCaoDaLam(String maNguoiDung);
     
+    @Query("SELECT t FROM TienTrinhHocTap t WHERE t.nguoiDung.email = :email AND t.hoatDong.maHoatDong = :maHoatDong")
+    TienTrinhHocTap findByEmailAndHoatDong(String email, String maHoatDong);
+
     @Query("SELECT MAX(t.maTienTrinh) FROM TienTrinhHocTap t")
     String findIdLonNhat();
+    
+    @Query("SELECT t FROM TienTrinhHocTap t WHERE t.nguoiDung.email = :email AND t.hoatDong.tieuDe LIKE CONCAT(:tieuDe, '%')")
+    List<TienTrinhHocTap> findByEmailAndTieuDeHoatDong(String email, String tieuDe);
+
+
     //End : lấy tiến trình cho ôn luyện
 
 }

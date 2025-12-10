@@ -57,7 +57,7 @@ public interface CauHoiRepository extends JpaRepository<CauHoi, String> {
     List<Map<String, Object>> getCauHoiForLearning(@Param("maHoatDong") String maHoatDong);
     
     //Start : Ôn luyện
-    @Query(value = "Select h.MaHoatDong,h.TieuDe,c.MaCauHoi,c.NoiDungCauHoi,c.DiemToiDa,d.MaDapAn,d.NoiDungDapAn,d.LaDapAnDung from HoatDongHocTap h "
+    @Query(value = "Select h.MaHoatDong,h.TieuDe,c.MaCauHoi,c.NoiDungCauHoi,c.DiemToiDa,d.MaDapAn,d.NoiDungDapAn,d.LaDapAnDung,c.GiaiThich from HoatDongHocTap h "
             + "join HoatDong_CauHoi hc on h.MaHoatDong = hc.MaHoatDong "
             + "join CauHoi c on c.MaCauHoi=hc.MaCauHoi "
             + "join DapAn d on d.MaCauHoi=c.MaCauHoi "

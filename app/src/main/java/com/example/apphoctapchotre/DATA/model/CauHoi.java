@@ -8,7 +8,7 @@ public class CauHoi {
     private String noiDungCauHoi;
     private int diemToiDa;
     private List<DapAn> dapAn;
-    private String GiaiThich;
+    private String giaiThich;
 
     // Constructor
     public CauHoi() {
@@ -23,11 +23,11 @@ public class CauHoi {
     }
 
     public String getGiaiThich() {
-        return GiaiThich;
+        return giaiThich;
     }
 
     public void setGiaiThich(String giaiThich) {
-        GiaiThich = giaiThich;
+        giaiThich = giaiThich;
     }
 
     // Getters
