@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.dto.request.GoogleLoginRequest;
 import com.example.backend.dto.request.LoginRequest;
 import com.example.backend.dto.request.RegisterRequest;
 import com.example.backend.dto.response.NguoiDungResponse;
@@ -117,5 +118,15 @@ public class NguoiDungController {
 
         return ResponseEntity.ok(nd);
     }
+    @PostMapping("/login-google")
+    public ResponseEntity<?> loginGoogle(@RequestBody GoogleLoginRequest request) {
+        try {
+            NguoiDungResponse res = service.loginWithGoogle(request.getIdToken());
+            return ResponseEntity.ok(res);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
 
 }

@@ -22,7 +22,7 @@ public interface INguoiDungService {
     
     // 👉 Hàm mới: lấy thông tin xếp hạng    
     XepHangResponse layXepHang(String email, int gioiHan);
-    
     LichSuDiemResponse layThongKeDiemVaLichSu(String email);
+    NguoiDungResponse loginWithGoogle(String email);
 }
 
