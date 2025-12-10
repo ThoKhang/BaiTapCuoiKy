@@ -20,7 +20,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.apphoctapchotre.UI.Activity.Account.DangNhap.GiaoDienDangNhap;
 import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
-import com.example.apphoctapchotre.UI.Activity.MonHoc.LyThuyetCoBan;
+import com.example.apphoctapchotre.UI.Activity.MonHoc.LyThuyetActivity;
 import com.example.apphoctapchotre.UI.Activity.TroChoi.Trochoi;
 import com.example.apphoctapchotre.UI.Activity.LyThuyet.BangCuuChuong;
 import com.example.apphoctapchotre.BannerSlide;
@@ -71,7 +71,7 @@ public class TrangChuFragment extends Fragment {
 
         // ====================== CÁC NÚT ĐIỀU HƯỚNG ======================
         btnLTCoBan = view.findViewById(R.id.btnLTCoBan);
-        btnLTCoBan.setOnClickListener(v -> startActivity(new Intent(requireActivity(), LyThuyetCoBan.class)));
+        btnLTCoBan.setOnClickListener(v -> startActivity(new Intent(requireActivity(), LyThuyetActivity.class)));
 
         bangCuuChuong = view.findViewById(R.id.lnBangCuuChuong);
         bangCuuChuong.setOnClickListener(v -> startActivity(new Intent(requireActivity(), BangCuuChuong.class)));

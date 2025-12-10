@@ -1,4 +1,4 @@
-package com.example.apphoctapchotre;
+package com.example.apphoctapchotre.Utility;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,6 +12,7 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.Settings.ThongBao;
 
 public class NotificationHelper {
