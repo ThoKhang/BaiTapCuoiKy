@@ -120,5 +120,7 @@ public interface ApiService {
     Call<DeOnLuyen> deOnLuyen(@Query("tieuDe") String tieuDe);
     @POST("api/tientrinh/onluyen")
     Call<Void> taoTienTrinh(@Body TienTrinh tienTrinh);
-    
+    @GET("api/tientrinh/socaudalam-onluyen")
+    Call<List<TienTrinh>> soCauDaLam(@Query("email") String email, @Query("tieuDe") String tieuDe);
+
 }

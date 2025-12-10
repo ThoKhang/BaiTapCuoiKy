@@ -1,8 +1,16 @@
-package com.example.apphoctapchotre.DATA.model;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.example.backend.dto.response;
 
 import java.time.LocalDateTime;
 
-public class TienTrinh {
+/**
+ *
+ * @author ADMIN
+ */
+public class TienTrinhResponse {
     private String maTienTrinh;
     private String maNguoiDung;
     private String email;
@@ -13,7 +21,15 @@ public class TienTrinh {
     private int soCauDaLam;
     private int diemDatDuoc;
     private int daHoanThanh;
-    private String tieuDe;
+    private String tieuDe; 
+
+    public String getTieuDe() {
+        return tieuDe;
+    }
+
+    public void setTieuDe(String tieuDe) {
+        this.tieuDe = tieuDe;
+    }
 
     public String getEmail() {
         return email;
@@ -93,13 +109,5 @@ public class TienTrinh {
 
     public void setMaNguoiDung(String maNguoiDung) {
         this.maNguoiDung = maNguoiDung;
-    }
-
-    public String getTieuDe() {
-        return tieuDe;
-    }
-
-    public void setTieuDe(String tieuDe) {
-        this.tieuDe = tieuDe;
     }
 }
