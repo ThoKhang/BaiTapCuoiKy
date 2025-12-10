@@ -31,10 +31,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class NguoiDungService implements INguoiDungService {
 
-    // ✅ CLIENT_ID lấy từ Firebase (default_web_client_id trong strings.xml)
-    // 770393692760-tub7i2mia772irtgd823v1n4hju60e5e.apps.googleusercontent.com
     private static final String GOOGLE_CLIENT_ID =
-            "770393692760-tub7i2mia772irtgd823v1n4hju60e5e.apps.googleusercontent.com";
+        "770393692760-to1bqmiu4gkrtcjgha0ok23ejej9cmjr.apps.googleusercontent.com";
 
     @Autowired
     private NguoiDungRepository nguoiDungRepository;
@@ -273,8 +271,8 @@ public class NguoiDungService implements INguoiDungService {
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
                 .Builder(new NetHttpTransport(), new GsonFactory())
-                // ✅ GIỜ DÙNG LẠI audience ĐÚNG CLIENT_ID
                 .setAudience(List.of(GOOGLE_CLIENT_ID))
+                .setIssuer("https://accounts.google.com")
                 .build();
 
         GoogleIdToken token;
@@ -291,11 +289,12 @@ public class NguoiDungService implements INguoiDungService {
 
         GoogleIdToken.Payload payload = token.getPayload();
 
-        // Nếu muốn vẫn có thể giữ log để debug:
-        System.out.println("== GOOGLE ID TOKEN ==");
-        System.out.println("audience: " + payload.getAudience());
-        System.out.println("authorizedParty(azp): " + payload.getAuthorizedParty());
-        System.out.println("email: " + payload.getEmail());
+        System.out.println("===== GOOGLE ID TOKEN PAYLOAD =====");
+        System.out.println("audience        : " + payload.getAudience());
+        System.out.println("authorizedParty : " + payload.getAuthorizedParty());
+        System.out.println("issuer          : " + payload.getIssuer());
+        System.out.println("email           : " + payload.getEmail());
+        System.out.println("===================================");
 
         String email = payload.getEmail();
         String name  = (String) payload.get("name");
@@ -303,26 +302,20 @@ public class NguoiDungService implements INguoiDungService {
         NguoiDung existing = nguoiDungRepository.findByEmail(email);
 
         if (existing == null) {
-            // Chưa có user → tạo mới
             String newId = "ND" + String.format("%03d", nguoiDungRepository.count() + 1);
 
             NguoiDung nd = new NguoiDung();
             nd.setMaNguoiDung(newId);
             nd.setTenDangNhap(name);
             nd.setEmail(email);
-            nd.setMatKhauMaHoa("GOOGLE"); // chỉ để placeholder, không dùng
+            nd.setMatKhauMaHoa("GOOGLE");
 
             nguoiDungRepository.save(nd);
-
-            // ✅ Cập nhật điểm đăng nhập hằng ngày cho user mới
             capNhatDangNhapHangNgay(email);
-
             return NguoiDungConverter.toResponse(nd);
         }
 
-        // ✅ User đã tồn tại → vẫn cập nhật điểm đăng nhập
         capNhatDangNhapHangNgay(email);
-
         return NguoiDungConverter.toResponse(existing);
     }
 
