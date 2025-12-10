@@ -185,33 +185,33 @@ INSERT INTO HoatDongHocTap (MaHoatDong, MaMonHoc, MaLoai, TieuDe, MoTa, TongDiem
 ('OL001', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 1', N'Bài tập ôn luyện cơ bản', 50),
 ('OL002', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 2', N'Bài tập ôn luyện cơ bản', 50),
 ('OL003', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 3', N'Bài tập ôn luyện cơ bản', 50),
-('OL004', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 3', N'Bài tập ôn luyện cơ bản', 50),
-('OL005', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 3', N'Bài tập ôn luyện cơ bản', 50),
-('OL006', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 3', N'Bài tập ôn luyện cơ bản', 50),
-('OL007', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 3', N'Bài tập ôn luyện cơ bản', 50),
-('OL008', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 3', N'Bài tập ôn luyện cơ bản', 50),
-('OL009', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 3', N'Bài tập ôn luyện cơ bản', 50),
-('OL010', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 3', N'Bài tập ôn luyện cơ bản', 50),
+('OL004', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 4', N'Bài tập ôn luyện cơ bản', 50),
+('OL005', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 5', N'Bài tập ôn luyện cơ bản', 50),
+('OL006', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 6', N'Bài tập ôn luyện cơ bản', 50),
+('OL007', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 7', N'Bài tập ôn luyện cơ bản', 50),
+('OL008', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 8', N'Bài tập ôn luyện cơ bản', 50),
+('OL009', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 9', N'Bài tập ôn luyện cơ bản', 50),
+('OL010', @MaMH_Toan, @MaLoai_OL, N'Ôn Cơ bản 10',N'Bài tập ôn luyện cơ bản', 50),
 ('OL011', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 1', N'Bài tập ôn luyện trung bình', 80),
 ('OL012', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 2', N'Bài tập ôn luyện trung bình', 80),
 ('OL013', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 3', N'Bài tập ôn luyện trung bình', 80),
-('OL014', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 3', N'Bài tập ôn luyện trung bình', 80),
-('OL015', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 3', N'Bài tập ôn luyện trung bình', 80),
-('OL016', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 3', N'Bài tập ôn luyện trung bình', 80),
-('OL017', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 3', N'Bài tập ôn luyện trung bình', 80),
-('OL018', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 3', N'Bài tập ôn luyện trung bình', 80),
-('OL019', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 3', N'Bài tập ôn luyện trung bình', 80),
-('OL020', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 3', N'Bài tập ôn luyện trung bình', 80),
+('OL014', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 4', N'Bài tập ôn luyện trung bình', 80),
+('OL015', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 5', N'Bài tập ôn luyện trung bình', 80),
+('OL016', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 6', N'Bài tập ôn luyện trung bình', 80),
+('OL017', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 7', N'Bài tập ôn luyện trung bình', 80),
+('OL018', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 8', N'Bài tập ôn luyện trung bình', 80),
+('OL019', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 9', N'Bài tập ôn luyện trung bình', 80),
+('OL020', @MaMH_Toan, @MaLoai_OL, N'Ôn TB 10',N'Bài tập ôn luyện trung bình', 80),
 ('OL021', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 1', N'Bài tập ôn luyện nâng cao', 100),
-('OL022', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 1', N'Bài tập ôn luyện nâng cao', 100),
-('OL023', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 1', N'Bài tập ôn luyện nâng cao', 100),
-('OL024', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 1', N'Bài tập ôn luyện nâng cao', 100),
-('OL025', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 1', N'Bài tập ôn luyện nâng cao', 100),
-('OL026', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 1', N'Bài tập ôn luyện nâng cao', 100),
-('OL027', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 1', N'Bài tập ôn luyện nâng cao', 100),
-('OL028', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 1', N'Bài tập ôn luyện nâng cao', 100),
-('OL029', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 2', N'Bài tập ôn luyện nâng cao', 100),
-('OL030', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 3', N'Bài tập ôn luyện nâng cao', 100);
+('OL022', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 2', N'Bài tập ôn luyện nâng cao', 100),
+('OL023', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 3', N'Bài tập ôn luyện nâng cao', 100),
+('OL024', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 4', N'Bài tập ôn luyện nâng cao', 100),
+('OL025', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 5', N'Bài tập ôn luyện nâng cao', 100),
+('OL026', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 6', N'Bài tập ôn luyện nâng cao', 100),
+('OL027', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 7', N'Bài tập ôn luyện nâng cao', 100),
+('OL028', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 8', N'Bài tập ôn luyện nâng cao', 100),
+('OL029', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 9', N'Bài tập ôn luyện nâng cao', 100),
+('OL030', @MaMH_Toan, @MaLoai_OL, N'Ôn NC 10', N'Bài tập ôn luyện nâng cao', 100);
 
 -- d. ThuThach (TT001) - Gán tạm cho Toán
 INSERT INTO HoatDongHocTap (MaHoatDong, MaMonHoc, MaLoai, TieuDe, MoTa, TongDiemToiDa) VALUES
@@ -2879,3 +2879,5 @@ SELECT COUNT(*) FROM CauHoi;   -- phải = 350
 SELECT COUNT(*) FROM DapAn;    -- phải = 1400
 SELECT MIN(MaCauHoi), MAX(MaCauHoi) FROM CauHoi;   -- CH001 -> CH350
 SELECT MIN(MaDapAn), MAX(MaDapAn) FROM DapAn;      -- DA0001 -> DA1400
+
+select * from hoatdonghoctap
