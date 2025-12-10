@@ -3,12 +3,11 @@ package com.example.apphoctapchotre.UI.Activity.HoatDongDangDienRa;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.apphoctapchotre.UI.Adapter.XepHang.XepHangAdapter;
 import com.example.apphoctapchotre.R;
 
 public class Thuthach100Cau extends AppCompatActivity {
@@ -18,25 +17,24 @@ public class Thuthach100Cau extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thuthach100cau);
 
-        ImageButton btnBack = findViewById(R.id.btnBack);
+        // Sửa đúng kiểu view từ XML
+        ImageView btnBack = findViewById(R.id.quayLai);
         Button btnPlay = findViewById(R.id.btnPlay);
-        TextView btnRank = findViewById(R.id.btnRank);
 
-        // Nút Back: quay lại màn hình trước
-        btnBack.setOnClickListener(v -> {
-            onBackPressed();
-        });
+        // Back → quay lại
+        btnBack.setOnClickListener(v -> onBackPressed());
 
-        // Nút Thử ngay → mở màn hình câu hỏi 1/100
+        // Chơi ngay → sang câu hỏi 1
         btnPlay.setOnClickListener(v -> {
             Intent intent = new Intent(Thuthach100Cau.this, CauHoi100.class);
             startActivity(intent);
         });
-
-        // Nút Xếp hạng → mở trang xếp hạng
-        btnRank.setOnClickListener(v -> {
-            Intent intent = new Intent(Thuthach100Cau.this, XepHangAdapter.class);
+        // Mở trang Premium khi bấm vào icon vương miện
+        findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
+            Intent intent = new Intent(Thuthach100Cau.this,
+                    com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
             startActivity(intent);
         });
+
     }
 }

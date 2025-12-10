@@ -13,6 +13,7 @@ public class TienTrinh {
     private int soCauDaLam;
     private int diemDatDuoc;
     private int daHoanThanh;
+    private String tieuDe;
 
     public String getEmail() {
         return email;
@@ -92,5 +93,13 @@ public class TienTrinh {
 
     public void setMaNguoiDung(String maNguoiDung) {
         this.maNguoiDung = maNguoiDung;
+    }
+
+    public String getTieuDe() {
+        return tieuDe;
+    }
+
+    public void setTieuDe(String tieuDe) {
+        this.tieuDe = tieuDe;
     }
 }

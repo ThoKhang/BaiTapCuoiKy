@@ -5,6 +5,8 @@
 package com.example.backend.service.IService;
 
 import com.example.backend.dto.request.TienTrinhRequest;
+import com.example.backend.dto.response.TienTrinhResponse;
+import java.util.List;
 
 /**
  *
@@ -12,4 +14,5 @@ import com.example.backend.dto.request.TienTrinhRequest;
  */
 public interface ITienTrinhService {
     void taoTienTrinh(TienTrinhRequest request);
+    List<TienTrinhResponse> getCauDungAndDaLam(String email,String maHoatDong);
 }

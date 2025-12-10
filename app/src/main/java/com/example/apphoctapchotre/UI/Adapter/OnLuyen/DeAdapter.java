@@ -1,6 +1,7 @@
 package com.example.apphoctapchotre.UI.Adapter.OnLuyen;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.apphoctapchotre.UI.Activity.LyThuyet.TracNghiem;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.DATA.model.ui.DeItem;
+import com.example.apphoctapchotre.UI.ViewModel.TienTrinhViewModel;
 
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class DeAdapter extends RecyclerView.Adapter<DeAdapter.DeViewHolder> {
     private List<DeItem> list;
     private Context context;
     private int bgResource;     // gradient theo loại đề
-
+    private TienTrinhViewModel tienTrinhViewModel;
     public DeAdapter(Context context, List<DeItem> list, int bgResource) {
         this.context = context;
         this.list = list;
@@ -33,6 +35,7 @@ public class DeAdapter extends RecyclerView.Adapter<DeAdapter.DeViewHolder> {
     public DeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.item_de, parent, false);
         return new DeViewHolder(v);
+
     }
 
     @Override
@@ -42,11 +45,17 @@ public class DeAdapter extends RecyclerView.Adapter<DeAdapter.DeViewHolder> {
         h.tvTieuDe.setText(item.getTieuDe());
         h.itemContainer.setBackgroundResource(bgResource);
 
-        if (item.getSoCauDung() > 0) {
+        if (item.getSoCauDung() == item.getTongCau()) {
+            h.tvDiem.setBackground(null);
+            h.tvDiem.setText("✓ Đã hoàn thành");
+            h.tvDiem.setTextColor(Color.parseColor("#ffffff"));
+        }
+        else if (item.getSoCauDung() > 0) {
             h.tvDiem.setBackgroundResource(R.drawable.circle);
             h.tvDiem.setText(item.getSoCauDung() + "/" + item.getTongCau());
             h.tvDiem.setTextColor(context.getColor(R.color.white));
-        } else {
+        }
+        else {
             h.tvDiem.setBackground(null);
             h.tvDiem.setText("+" + item.getDiemThuong() + " điểm");
             h.tvDiem.setTextColor(context.getColor(R.color.yellow_custom));

@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Activity.OnLuyen.DeCoBan">
+    tools:context=".UI.Activity.LyThuyet.LyThuyetNoiDungActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,12 +28,13 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/baseline_arrow_back_24" />
             <TextView
+                android:id="@+id/tv_tieude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/robotothin"
                 android:gravity="center"
-                android:text="Bài 1: Từ là gì"
+
                 android:textSize="20dp"
                 android:textStyle="bold" />
             <ImageView
@@ -44,37 +46,30 @@
                 android:src="@drawable/vuongmieng" />
         </LinearLayout>
 
+        <!-- Nội dung lý thuyết -->
         <TextView
-            android:id="@+id/textView9"
-            android:layout_width="381dp"
-            android:layout_height="583dp"
+            android:id="@+id/tv_noidung"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:lineSpacingExtra="8dp"
             android:fontFamily="@font/itim"
-            android:lineSpacingExtra="5dp"
-            android:text="Từ là một hoặc nhiều tiếng ghép lại để nói một ý có nghĩa.Từ dùng để gọi tên người, con vật, đồ vật, hành động, đặc điểm hoặc cảm xúc.
-🧩 Ví dụ:
-mẹ, cha, hoa, bàn, chạy, đẹp, vui, học, ăn → Đều là từ, vì mỗi từ có nghĩa riêng.
-🗣️ Ví dụ trong câu:
-Bé học bài.
-Các từ là: bé, học, bài. Mỗi từ nói lên một ý riêng, ghép lại thành câu có nghĩa."
-            android:textSize="20dp" />
+            android:scrollbars="vertical"
 
+            android:padding="16dp" />
+
+        <!-- Nút hoàn thành -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnHieuRoi"
-            android:fontFamily="@font/itim"
-            android:layout_width="186dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="#FDC858"
-            android:clipToOutline="false"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
             android:text="Con hiểu rồi !"
-            android:translationZ="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.894"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            android:layout_gravity="center_horizontal"/>
-
+            android:textSize="18sp"
+            android:fontFamily="@font/itim"
+            android:backgroundTint="#FDC858"
+            app:cornerRadius="30dp" />
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
