@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.apphoctapchotre.UI.Activity.LyThuyet.TracNghiem;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.DATA.model.ui.DeItem;
+import com.example.apphoctapchotre.UI.Activity.OnLuyen.DeCoBan;
+import com.example.apphoctapchotre.UI.Activity.OnLuyen.DeNangCao;
+import com.example.apphoctapchotre.UI.Activity.OnLuyen.DeTrungBinh;
 import com.example.apphoctapchotre.UI.ViewModel.TienTrinhViewModel;
 
 import java.util.List;
@@ -64,7 +67,13 @@ public class DeAdapter extends RecyclerView.Adapter<DeAdapter.DeViewHolder> {
             android.content.Intent intent = new android.content.Intent(context, TracNghiem.class);
             intent.putExtra("TEN_DE", item.getTieuDe());
             intent.putExtra("ID_DE", position + 1);
-            context.startActivity(intent);
+            if (context instanceof DeCoBan) {
+                ((DeCoBan) context).launcher.launch(intent);
+            } else
+                if (context instanceof DeTrungBinh)
+                    ((DeTrungBinh) context).launcher.launch(intent);
+                else
+                    ((DeNangCao) context).launcher.launch(intent);
         });
     }
 

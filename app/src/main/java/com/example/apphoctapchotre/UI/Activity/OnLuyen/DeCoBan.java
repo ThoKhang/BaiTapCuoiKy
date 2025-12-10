@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +23,13 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 public class DeCoBan extends AppCompatActivity {
     private TienTrinhViewModel tienTrinhViewModel;
+    String email;
+    public ActivityResultLauncher<Intent> launcher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    tienTrinhViewModel.loadData(email, "Ôn Cơ bản");
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +37,7 @@ public class DeCoBan extends AppCompatActivity {
         setContentView(R.layout.activity_de_co_ban);
 
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String email = prefs.getString("userEmail", null);
+        email = prefs.getString("userEmail", null);
 
         TextView back = findViewById(R.id.back);
         back.setOnClickListener(v -> startActivity(new Intent(this, OnLuyen.class)));
