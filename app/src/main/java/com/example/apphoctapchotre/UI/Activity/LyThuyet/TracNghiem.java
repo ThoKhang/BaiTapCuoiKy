@@ -64,7 +64,6 @@ public class TracNghiem extends AppCompatActivity {
         backButton = findViewById(R.id.quayLai);
         backButton.setOnClickListener(v -> {
             Intent data = new Intent();
-            data.putExtra("MA_HOAT_DONG", maHoatDong);
             setResult(RESULT_OK, data);
             finish();
         });
