@@ -27,6 +27,8 @@ import com.example.apphoctapchotre.BannerSlide;
 import com.example.apphoctapchotre.UI.Activity.Settings.CaiDat;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.HoatDongDangDienRa.Thuthach100Cau;
+import com.example.apphoctapchotre.UI.Activity.HoatDongDangDienRa.event;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +103,9 @@ public class TrangChuFragment extends Fragment {
 
         thuthach2= view.findViewById(R.id.thuthach2);
         thuthach2.setOnClickListener(v -> startActivity(new Intent(requireActivity(), Thuthach100Cau.class)));
+
+        thuthach1= view.findViewById(R.id.thuthach1);
+        thuthach1.setOnClickListener(v -> startActivity(new Intent(requireActivity(), event.class)));
         // ====================== BANNER SLIDER ======================
         bannerViewPager = view.findViewById(R.id.bannerViewPager);
         // CHẶN VUỐT SANG VIEWPAGER LỚN

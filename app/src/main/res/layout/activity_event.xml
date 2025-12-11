@@ -32,6 +32,7 @@
             android:layout_marginBottom="12dp">
 
             <ImageView
+                android:id="@+id/quayLai"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/baseline_arrow_back_24" />
@@ -40,13 +41,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Thử thách liên tục"
+                android:text="Thử thách các câu hỏi đã học"
                 android:textAlignment="center"
-                android:textStyle="bold"
+                android:textColor="#000000"
                 android:textSize="20sp"
-                android:textColor="#000000" />
+                android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/imgVuongMieng"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/vuongmieng" />
@@ -63,25 +65,30 @@
 
             <!-- Nút bên trái -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnThamGia"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/btnPlay"
+                android:layout_width="250dp"
+                android:layout_height="55dp"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="#F18732"
                 android:text="Thử ngay"
                 android:textColor="#FFFFFF"
-                android:backgroundTint="#F18732"
-                android:layout_marginBottom="12dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
             <!-- Nút viền -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnXepHang"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="55dp"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="#FFFFFF"
                 android:text="Xếp hạng"
                 android:textColor="#F18732"
-                android:backgroundTint="#FFFFFF"
-                app:strokeColor="#F18732"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                app:strokeColor="#F18732" />
 
         </LinearLayout>
 

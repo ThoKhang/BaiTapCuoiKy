@@ -64,7 +64,6 @@ public class TracNghiem extends AppCompatActivity {
         backButton = findViewById(R.id.quayLai);
         backButton.setOnClickListener(v -> {
             Intent data = new Intent();
-            data.putExtra("MA_HOAT_DONG", maHoatDong);
             setResult(RESULT_OK, data);
             finish();
         });
@@ -127,6 +126,10 @@ public class TracNghiem extends AppCompatActivity {
         });
     }
     private void loadCauHoi(){
+        btnA.getBackground().setTintList(null);
+        btnB.getBackground().setTintList(null);
+        btnC.getBackground().setTintList(null);
+        btnD.getBackground().setTintList(null);
         CauHoi cauHoi = danhSachCauHoi.get(currentIndex);
         tvCauHoi.setText(cauHoi.getNoiDungCauHoi());
         String giaiThich = cauHoi.getGiaiThich();
