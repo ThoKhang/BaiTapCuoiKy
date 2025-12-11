@@ -61,7 +61,7 @@ public interface CauHoiRepository extends JpaRepository<CauHoi, String> {
             + "join HoatDong_CauHoi hc on h.MaHoatDong = hc.MaHoatDong "
             + "join CauHoi c on c.MaCauHoi=hc.MaCauHoi "
             + "join DapAn d on d.MaCauHoi=c.MaCauHoi "
-            + "where h.TieuDe=:tieuDe "
+            + "where h.TieuDe=:tieuDe And "
             + "order by c.MaCauHoi, d.MaDapAn ",nativeQuery = true)
     List<Object[]> deCoBan(@Param("tieuDe") String tieuDe);
     //End : Ôn luyện
