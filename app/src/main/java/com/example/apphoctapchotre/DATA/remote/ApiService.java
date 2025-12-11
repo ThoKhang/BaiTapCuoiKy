@@ -118,7 +118,7 @@ public interface ApiService {
     Call<OnLuyen> onLuyen(@Query("email") String email);
     @GET("cauhoi/onluyen-coban")
     Call<DeOnLuyen> deOnLuyen(@Query("tieuDe") String tieuDe);
-    @POST("api/tientrinh/onluyen")
+    @POST("api/tientrinh/add")
     Call<Void> taoTienTrinh(@Body TienTrinh tienTrinh);
     @POST("api/nguoidung/login-google")
     Call<NguoiDung> loginWithGoogle(@Body Map<String, String> body);
