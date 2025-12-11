@@ -20,7 +20,7 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".NhapDapAnHoanThienCauTu"
+            android:name=".UI.Activity.TroChoi.HoanThienCauTu.NhapDapAnHoanThienCauTu"
             android:exported="false" />
         <activity
             android:name=".UI.Activity.TroChoi.HoanThienCauTu.GioiThieuHoanThienCauTu"
@@ -41,7 +41,7 @@
             android:name=".UI.Activity.GiaoDienTong.GiaoDienTong"
             android:exported="false" />
         <activity
-            android:name=".UI.Activity.LyThuyet.TracNghiem"
+            android:name=".UI.Activity.OnLuyen.TracNghiem"
             android:exported="false" />
         <!--
 <activity

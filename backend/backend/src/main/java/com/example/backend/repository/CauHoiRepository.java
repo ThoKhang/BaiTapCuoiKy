@@ -71,7 +71,7 @@ public interface CauHoiRepository extends JpaRepository<CauHoi, String> {
             + "join HoatDong_CauHoi hc on h.MaHoatDong = hc.MaHoatDong "
             + "join CauHoi c on c.MaCauHoi=hc.MaCauHoi "
             + "join DapAn d on d.MaCauHoi=c.MaCauHoi "
-            + "WHERE h.TieuDe = N'Hoàn thiện câu từ' "
+            + "WHERE h.TieuDe = N'Hoàn thiện câu từ' And d.LaDapAnDung=1"
             + "order by c.MaCauHoi, d.MaDapAn ",nativeQuery = true)
     List<Object[]>hoanThienCauTu();
     //End : Hoàn thiện câu từ

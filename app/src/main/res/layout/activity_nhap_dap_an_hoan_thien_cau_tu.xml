@@ -154,6 +154,42 @@
                         android:src="@drawable/question_1" />
                 </LinearLayout>
             </LinearLayout>
+            <!-- THANH THÔNG TIN CÂU HỎI -->
+            <LinearLayout
+                android:id="@+id/thanh_thong_tin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:gravity="center_vertical"
+                android:background="#5699CF"
+                android:weightSum="2">
+
+                <!-- +5 ĐIỂM (BÊN TRÁI) -->
+                <TextView
+                    android:id="@+id/tv_diem_thuong"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="+ 5 điểm"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#FFE600" />
+
+                <!-- THỜI GIAN CÒN (BÊN PHẢI) -->
+                <TextView
+                    android:id="@+id/tv_thoi_gian"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="Thời gian còn: 60s"
+                    android:textSize="20sp"
+                    android:textColor="#FFE600"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <!-- Nội dung câu hỏi -->
             <LinearLayout
