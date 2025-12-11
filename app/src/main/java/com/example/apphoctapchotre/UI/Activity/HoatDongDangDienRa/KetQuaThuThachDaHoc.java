@@ -9,11 +9,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
 import com.google.android.material.button.MaterialButton;
 
 public class KetQuaThuThachDaHoc extends AppCompatActivity {
 
-    private TextView tvScore, tvResultMessage, tvTime, tvCorrect;
+    private TextView tvScore, tvResultMessage, tvTime, tvCorrect, Thoat;
     private MaterialButton btnThamGia, btnChiaSe;
 
     private int soCauDung, soCauSai, tongCau, totalScore;
@@ -28,6 +29,18 @@ public class KetQuaThuThachDaHoc extends AppCompatActivity {
         getDataFromIntent();
         hienThiKetQua();
         setupButtonActions();
+
+
+        Thoat = findViewById(R.id.Thoat);
+
+        Thoat.setOnClickListener(v -> {
+            Intent intent = new Intent(KetQuaThuThachDaHoc.this, GiaoDienTong.class);
+            intent.putExtra("OPEN_HOME", true);
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void mappingUI() {

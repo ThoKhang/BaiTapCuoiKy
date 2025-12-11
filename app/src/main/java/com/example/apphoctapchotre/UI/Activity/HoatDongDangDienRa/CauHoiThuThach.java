@@ -1,6 +1,7 @@
 package com.example.apphoctapchotre.UI.Activity.HoatDongDangDienRa;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -29,7 +30,6 @@ import retrofit2.Response;
 
 public class CauHoiThuThach extends AppCompatActivity {
 
-    // UI
     private TextView tvCauHoi, tvSoCau, tvThoiGian, tvCauDung;
     private RelativeLayout option1, option2, option3, option4;
     private TextView dapan1, dapan2, dapan3, dapan4;
@@ -45,6 +45,9 @@ public class CauHoiThuThach extends AppCompatActivity {
 
     private long startTime;
     private CountDownTimer timer;
+
+    private Handler blinkHandler = new Handler();
+    private boolean isBlinking = false;
 
     private final int TIME_PER_QUESTION = 20000; // 20 GIÂY
 
@@ -69,8 +72,6 @@ public class CauHoiThuThach extends AppCompatActivity {
         tvCauHoi = findViewById(R.id.tvCauHoi);
         tvSoCau = findViewById(R.id.tvSoCau);
         tvThoiGian = findViewById(R.id.tvThoiGian);
-
-        // TextView đếm số câu đúng
         tvCauDung = findViewById(R.id.tvCauDung);
 
         option1 = findViewById(R.id.option1);
@@ -89,13 +90,11 @@ public class CauHoiThuThach extends AppCompatActivity {
         tick4 = findViewById(R.id.tick4);
     }
 
-    // Hàm cập nhật số câu đúng
     private void capNhatCauDung() {
         tvCauDung.setText(" " + soCauDung);
     }
 
     private void loadData() {
-
         apiService.getCauHoiBaiLam("TT002").enqueue(new Callback<List<CauHoiDapAnResponse>>() {
             @Override
             public void onResponse(Call<List<CauHoiDapAnResponse>> call, Response<List<CauHoiDapAnResponse>> res) {
@@ -141,10 +140,14 @@ public class CauHoiThuThach extends AppCompatActivity {
         dapan4.setText(cauHoi.get(3).getNoiDungDapAn());
 
         resetOptions();
-        startTimer();
-        capNhatCauDung(); // cập nhật mỗi lần đổi câu
-
+        capNhatCauDung();
         enableAllOptions();
+
+        stopBlinkEffect(); // reset blink
+        tvThoiGian.setTextColor(Color.GREEN);
+        tvThoiGian.setVisibility(View.VISIBLE);
+
+        startTimer();
 
         option1.setOnClickListener(v -> xuLyChon(option1, cauHoi.get(0), tick1));
         option2.setOnClickListener(v -> xuLyChon(option2, cauHoi.get(1), tick2));
@@ -159,16 +162,64 @@ public class CauHoiThuThach extends AppCompatActivity {
         timer = new CountDownTimer(TIME_PER_QUESTION, 1000) {
             @Override
             public void onTick(long ms) {
-                tvThoiGian.setText(String.valueOf(ms / 1000));
+
+                long seconds = ms / 1000;
+                tvThoiGian.setText(String.valueOf(seconds));
+
+                // ĐỔI MÀU THEO THỜI GIAN
+                if (seconds <= 5) {
+                    tvThoiGian.setTextColor(Color.RED);
+                } else if (seconds <= 10) {
+                    tvThoiGian.setTextColor(Color.parseColor("#FFC107"));
+                } else {
+                    tvThoiGian.setTextColor(Color.GREEN);
+                }
+
+                // NHẤP NHÁY 3 GIÂY CUỐI (BẰNG CODE)
+                if (seconds <= 3 && !isBlinking) {
+                    startBlinkEffect();
+                }
             }
 
             @Override
             public void onFinish() {
+
+                stopBlinkEffect();
+
                 soCauSai++;
                 disableAllOptions();
-                ketThucThuThach();
+
+                new android.app.AlertDialog.Builder(CauHoiThuThach.this)
+                        .setTitle("Hết Giờ!")
+                        .setMessage("Bạn đã hết thời gian mất rồi:((")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", (dialog, which) -> ketThucThuThach())
+                        .show();
             }
+
         }.start();
+    }
+
+    // HIỆU ỨNG NHẤP NHÁY BẰNG CODE
+    private void startBlinkEffect() {
+        isBlinking = true;
+        blinkHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (!isBlinking) return;
+
+                tvThoiGian.setVisibility(tvThoiGian.getVisibility() == View.VISIBLE
+                        ? View.INVISIBLE : View.VISIBLE);
+
+                blinkHandler.postDelayed(this, 300);
+            }
+        });
+    }
+
+    private void stopBlinkEffect() {
+        isBlinking = false;
+        blinkHandler.removeCallbacksAndMessages(null);
+        tvThoiGian.setVisibility(View.VISIBLE);
     }
 
     private void resetOptions() {
@@ -201,9 +252,9 @@ public class CauHoiThuThach extends AppCompatActivity {
     private void xuLyChon(RelativeLayout layout, CauHoiDapAnResponse dapAn, ImageView tick) {
 
         timer.cancel();
+        stopBlinkEffect();
         disableAllOptions();
 
-        // Sai → kết thúc thử thách ngay lập tức
         if (!dapAn.isLaDapAnDung()) {
 
             layout.setBackgroundResource(R.drawable.bg_red);
@@ -216,13 +267,12 @@ public class CauHoiThuThach extends AppCompatActivity {
             return;
         }
 
-        // Đúng → chuyển câu
         layout.setBackgroundResource(R.drawable.bg_green);
         tick.setImageResource(R.drawable.accept);
         tick.setVisibility(View.VISIBLE);
 
         soCauDung++;
-        capNhatCauDung(); // cập nhật ngay khi trả lời đúng
+        capNhatCauDung();
 
         new Handler().postDelayed(() -> {
             index++;
@@ -233,16 +283,47 @@ public class CauHoiThuThach extends AppCompatActivity {
     private void ketThucThuThach() {
 
         if (timer != null) timer.cancel();
+        stopBlinkEffect();
 
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
 
+        int tongCau = nhomCauHoi.size();
+        int diem = soCauDung * 5;
+
+        String maNguoiDung = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                .getString("MA_NGUOI_DUNG", null);
+
+        String maHoatDong = "TT002";
+
+        apiService.hoanThanh(
+                maNguoiDung,
+                maHoatDong,
+                soCauDung,
+                tongCau,
+                diem
+        ).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                moManHinhKetQua(duration, tongCau, diem);
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(CauHoiThuThach.this, "Không thể cập nhật tiến trình!", Toast.LENGTH_SHORT).show();
+                moManHinhKetQua(duration, tongCau, diem);
+            }
+        });
+    }
+
+    private void moManHinhKetQua(long duration, int tongCau, int diem) {
+
         Intent intent = new Intent(CauHoiThuThach.this, KetQuaThuThachDaHoc.class);
         intent.putExtra("SO_CAU_DUNG", soCauDung);
         intent.putExtra("SO_CAU_SAI", soCauSai);
-        intent.putExtra("TONG_CAU", nhomCauHoi.size());
+        intent.putExtra("TONG_CAU", tongCau);
         intent.putExtra("THOI_GIAN", duration);
-        intent.putExtra("TOTAL_SCORE", soCauDung * 5);
+        intent.putExtra("TOTAL_SCORE", diem);
 
         new Handler().postDelayed(() -> {
             startActivity(intent);
