@@ -3145,6 +3145,24 @@ BEGIN
     SET @ol = @ol + 1;  
 END
 GO
+----------------------------insert Tính toán liên hoàn---------------------------------
+GO
+DECLARE @ch INT = 41;
+DECLARE @thuTu INT = 1;
+
+WHILE @ch <= 60
+BEGIN
+    INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
+    VALUES (
+        'TC001',
+        'CHG' + RIGHT('000' + CAST(@ch AS VARCHAR(3)), 3),
+        @thuTu
+    );
+
+    SET @ch = @ch + 1;
+    SET @thuTu = @thuTu + 1;
+END
+GO
 SELECT 
     h.MaHoatDong,
     h.TieuDe,
@@ -3209,3 +3227,22 @@ SELECT MIN(MaCauHoi), MAX(MaCauHoi) FROM CauHoi;   -- CH001 -> CH350
 SELECT MIN(MaDapAn), MAX(MaDapAn) FROM DapAn;      -- DA0001 -> DA1400
 
 select * from hoatdonghoctap
+
+SELECT 
+    h.MaHoatDong,
+    h.TieuDe,
+    c.MaCauHoi,
+    c.DiemToiDa,
+    c.NoiDungCauHoi AS CauHoi,
+    d.MaDapAn,
+    d.NoiDungDapAn AS DapAn,
+    d.LaDapAnDung
+FROM HoatDongHocTap h
+JOIN HoatDong_CauHoi hc 
+    ON h.MaHoatDong = hc.MaHoatDong
+JOIN CauHoi c 
+    ON hc.MaCauHoi = c.MaCauHoi
+JOIN DapAn d 
+    ON c.MaCauHoi = d.MaCauHoi
+WHERE h.TieuDe = N'Liên hoàn tính toán'
+ORDER BY c.MaCauHoi, d.MaDapAn;
