@@ -67,6 +67,9 @@
         <activity android:name=".UI.Activity.HoatDongDangDienRa.Thuthach100Cau" />
         <activity android:name=".UI.Activity.HoatDongDangDienRa.KetQuaActivity" />
         <activity android:name=".UI.Activity.HoatDongDangDienRa.CauHoi100" />
+        <activity android:name=".UI.Activity.HoatDongDangDienRa.event" />
+        <activity android:name=".UI.Activity.HoatDongDangDienRa.CauHoiThuThach" />
+        <activity android:name=".UI.Activity.HoatDongDangDienRa.KetQuaThuThachDaHoc" />
         <activity
             android:name=".UI.Activity.TroChoi.Trochoi"
             android:exported="false" />

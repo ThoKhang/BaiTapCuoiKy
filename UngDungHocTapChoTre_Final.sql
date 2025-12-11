@@ -105,7 +105,7 @@ INSERT INTO NguoiDung (MaNguoiDung, TenDangNhap, Email, MatKhauMaHoa, TongDiem) 
 ('ND001', N'huy', N'phamminhhuy0901tk@gmail.com', N'123', 0),
 ('ND002', N'minhanh', N'minhanh@gmail.com', N'hash', 55),
 ('ND003', N'tuan', N'tuan@gmail.com', N'hash', 50),
-('ND004', N'lananh', N'lananh@gmail.com', N'hash', 140),
+('ND004', N'duyquoc', N'leduyquoc123meo@gmail.com', N'123', 140),
 ('ND005', N'khang', N'khangheheqt@gmail.com', N'123', 35),
 ('ND006', N'huynh', N'huynh746926@gmail.com', N'123', 27);
 GO
@@ -215,9 +215,9 @@ INSERT INTO HoatDongHocTap (MaHoatDong, MaMonHoc, MaLoai, TieuDe, MoTa, TongDiem
 
 -- d. ThuThach (TT001) - Gán tạm cho Toán
 INSERT INTO HoatDongHocTap (MaHoatDong, MaMonHoc, MaLoai, TieuDe, MoTa, TongDiemToiDa) VALUES
-('TT001', @MaMH_Toan, @MaLoai_TT, N'Siêu Thử Thách', N'20 câu khó nhất!', 100);
+('TT001', @MaMH_Toan, @MaLoai_TT, N'Siêu Thử Thách', N'20 câu khó nhất!', 100),
+('TT002', @MaMH_Toan, @MaLoai_TT, N'Thử Thách Đã Học', N'20 câu hỏi đã học!', 100);
 GO
-
 -- 5) CauHoi (310 câu)
 ;WITH nums AS (
     SELECT TOP (310) ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS n
@@ -1197,29 +1197,52 @@ VALUES
 
 -- =========================================================
 -- 4) THỬ THÁCH: 20 câu (CH291–CH310)
--- Toán thử thách (CH291–CH302)
-('CH291', N'Hãy tính: 7 + 9 × 2 = ?', N'Nhân trước, cộng sau.', 5),
-('CH292', N'Hãy tính: (18 ÷ 3) + 14 = ?', N'Tính trong ngoặc, rồi cộng.', 5),
-('CH293', N'Hãy tính: 45 - 16 + 7 = ?', N'Tính lần lượt từ trái sang phải.', 5),
-('CH294', N'Hãy tính: 6 × 3 - 5 = ?', N'Nhân trước rồi trừ.', 5),
-('CH295', N'Hãy tính: 12 + 8 × 2 = ?', N'Nhân trước rồi cộng.', 5),
-('CH296', N'Hãy tính: (20 - 6) ÷ 2 = ?', N'Tính trong ngoặc rồi chia.', 5),
-('CH297', N'Hãy tính: 9 × 4 - 12 = ?', N'Nhân trước rồi trừ.', 5),
-('CH298', N'Hãy tính: 50 ÷ 5 + 7 = ?', N'Chia trước rồi cộng.', 5),
-('CH299', N'Hãy tính: (15 + 9) ÷ 4 = ?', N'Tính trong ngoặc rồi chia.', 5),
-('CH300', N'Hãy tính: 8 × 3 + 6 = ?', N'Nhân trước rồi cộng.', 5),
-('CH301', N'Hãy tính: 100 ÷ (10 - 5) = ?', N'Tính trong ngoặc rồi chia.', 5),
-('CH302', N'Hãy tính: 36 ÷ 3 + 4 × 2 = ?', N'Chia và nhân trước, sau đó cộng.', 5),
+-- Toán thử thách (CH291–CH310)
+('CH291', N'Hãy tính: 7 + 9 = ?', N'Cộng các số lại.', 5),
+('CH292', N'Hãy tính: 18 ÷ 3 = ?', N'Chia đều cho 3.', 5),
+('CH293', N'Hãy tính: 45 - 16 = ?', N'Thực hiện phép trừ.', 5),
+('CH294', N'Hãy tính: 6 × 3 = ?', N'Thực hiện phép nhân.', 5),
+('CH295', N'Hãy tính: 12 + 8 = ?', N'Cộng các số lại.', 5),
+('CH296', N'Hãy tính: 20 - 6 = ?', N'Thực hiện phép trừ.', 5),
+('CH297', N'Hãy tính: 9 × 4 = ?', N'Thực hiện phép nhân.', 5),
+('CH298', N'Hãy tính: 50 ÷ 5 = ?', N'Thực hiện phép chia.', 5),
+('CH299', N'Hãy tính: 15 + 9 = ?', N'Cộng các số lại.', 5),
+('CH300', N'Hãy tính: 8 × 3 = ?', N'Thực hiện phép nhân.', 5),
+('CH301', N'Hãy tính: 10 - 5 = ?', N'Tính phép trừ.', 5),
+('CH302', N'Hãy tính: 36 ÷ 3 = ?', N'Thực hiện phép chia.', 5),
+('CH303', N'Hãy tính: 27 - 9 = ?', N'Thực hiện phép trừ.', 5),
+('CH304', N'Hãy tính: 7 × 5 = ?', N'Thực hiện phép nhân.', 5),
+('CH305', N'Hãy tính: 32 ÷ 4 = ?', N'Thực hiện phép chia.', 5),
+('CH306', N'Hãy tính: 14 + 6 = ?', N'Cộng hai số lại.', 5),
+('CH307', N'Hãy tính: 18 + 12 = ?', N'Cộng các số lại.', 5),
+('CH308', N'Hãy tính: 42 ÷ 7 = ?', N'Thực hiện phép chia.', 5),
+('CH309', N'Hãy tính: 9 × 2 = ?', N'Thực hiện phép nhân.', 5),
+('CH310', N'Hãy tính: 25 - 5 = ?', N'Thực hiện phép trừ.', 5),
 
--- TV thử thách (CH303–CH310)
-('CH303', N'Trong câu "Bé Lan đang đọc sách", từ nào là động từ?', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
-('CH304', N'Chọn từ đúng để hoàn thành câu: "Bạn nhỏ rất ___ khi giúp đỡ mọi người." (vui, chạy, cao, đọc)', N'Hãy chọn từ chỉ cảm xúc phù hợp.', 5),
-('CH305', N'Từ nào có nghĩa trái ngược với "mạnh"? (yếu, nhanh, đẹp, cao)', N'Từ trái nghĩa là từ có nghĩa ngược lại.', 5),
-('CH306', N'Từ nào viết đúng chính tả? (khỏe, khoẻ~, khỏe~, khoẽ)', N'Hãy chọn từ viết đúng chính tả.', 5),
-('CH307', N'Hoàn thành câu: "Hôm nay thời tiết thật ___, phù hợp để đi chơi." (đẹp, chạy, bé, bàn)', N'Hãy chọn tính từ phù hợp.', 5),
-('CH308', N'Trong các từ sau, từ nào là danh từ? (con đường, cao, ăn, ngủ)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
-('CH309', N'Trong câu "Mẹ đang chuẩn bị bữa tối", từ "chuẩn bị" thuộc loại nào?', N'Động từ là từ chỉ hoạt động.', 5),
-('CH310', N'Hoàn thiện câu: "Bé Nam cố gắng ___ bài toán khó." (giải, đẹp, ăn, xanh)', N'Hãy chọn động từ phù hợp.', 5),
+
+-- TV thử thách (CH311–CH330)
+('CH311', N'Trong câu "Bé Lan đang đọc sách", từ nào là động từ?', N'Động từ là từ chỉ hoạt động, việc làm.', 5),
+('CH312', N'Chọn từ đúng để hoàn thành câu: "Bạn nhỏ rất ___ khi giúp đỡ mọi người." (vui, chạy, cao, đọc)', N'Hãy chọn từ chỉ cảm xúc phù hợp.', 5),
+('CH313', N'Từ nào có nghĩa trái ngược với "mạnh"? (yếu, nhanh, đẹp, cao)', N'Từ trái nghĩa là từ có nghĩa ngược lại.', 5),
+('CH314', N'Từ nào viết đúng chính tả? (khỏe, khoẻ~, khỏe~, khoẽ)', N'Hãy chọn từ viết đúng chính tả.', 5),
+('CH315', N'Hoàn thành câu: "Hôm nay thời tiết thật ___, phù hợp để đi chơi." (đẹp, chạy, bé, bàn)', N'Hãy chọn tính từ phù hợp.', 5),
+('CH316', N'Trong các từ sau, từ nào là danh từ? (con đường, cao, ăn, ngủ)', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH317', N'Trong câu "Mẹ đang chuẩn bị bữa tối", từ "chuẩn bị" thuộc loại nào?', N'Động từ là từ chỉ hoạt động.', 5),
+('CH318', N'Hoàn thiện câu: "Bé Nam cố gắng ___ bài toán khó." (giải, đẹp, ăn, xanh)', N'Hãy chọn động từ phù hợp.', 5),
+('CH319', N'Trong câu "Ông em đang tưới cây", từ nào là danh từ?', N'Danh từ là từ chỉ người, vật, sự vật.', 5),
+('CH320', N'Chọn từ đúng để hoàn thành câu: "Bé Hoa rất ___ khi được điểm tốt." (vui, chạy, ăn, cao)', N'Hãy chọn từ chỉ cảm xúc.', 5),
+('CH321', N'Từ nào có nghĩa trái ngược với "cao"? (thấp, đẹp, nhanh, nóng)', N'Hãy chọn từ có nghĩa ngược lại.', 5),
+('CH322', N'Từ nào viết đúng chính tả? (nghỉ ngơi, nghỉ ngơi~, nghĩ ngơi, ngĩ ngơi)', N'Hãy chọn từ viết đúng.', 5),
+('CH323', N'Hoàn thành câu: "Cả lớp đang ___ bài hát quốc ca." (hát, đỏ, vui, chạy)', N'Hãy chọn động từ phù hợp.', 5),
+('CH324', N'Trong các từ sau, từ nào là tính từ? (đẹp, mèo, ăn, bút)', N'Tính từ là từ miêu tả đặc điểm.', 5),
+('CH325', N'Trong câu "Bạn Nam rất chăm chỉ", từ "chăm chỉ" thuộc loại nào?', N'Tính từ chỉ phẩm chất.', 5),
+('CH326', N'Chọn từ đúng để hoàn thành câu: "Chiếc áo này rất ___." (đẹp, chạy, uống, ngủ)', N'Hãy chọn tính từ phù hợp.', 5),
+('CH327', N'Từ nào có nghĩa trái ngược với "buồn"? (vui, to, mới, thấp)', N'Hãy chọn từ trái nghĩa.', 5),
+('CH328', N'Trong câu "Bà đang nấu cơm", từ "nấu" thuộc loại nào?', N'Động từ chỉ hành động.', 5),
+('CH329', N'Chọn từ đúng hoàn thành câu: "Bạn nhỏ ___ tay chào cô giáo." (vẫy, xanh, ăn, đẹp)', N'Hãy chọn động từ phù hợp.', 5),
+('CH330', N'Trong các từ sau, từ nào là danh từ? (quyển sách, vui, chạy, đỏ)', N'Danh từ là từ chỉ sự vật.', 5),
+
+
 
 -- =========================================================
 -- 5) TRÒ CHƠI: 40 câu (CHG001–CHG040)
@@ -1453,19 +1476,6 @@ INSERT INTO #MathKey (MaCauHoi, DapAnDung) VALUES
     ('CH284',  9),  -- 81 ÷ 9
     ('CH285', 42),  -- 67 - 25
 
-    -- THỬ THÁCH TOÁN CH291–CH302
-    ('CH291', 25),  -- 7 + 9×2
-    ('CH292', 20),  -- (18÷3)+14
-    ('CH293', 36),  -- 45-16+7
-    ('CH294', 13),  -- 6×3-5
-    ('CH295', 28),  -- 12+8×2
-    ('CH296',  7),  -- (20-6)÷2
-    ('CH297', 24),  -- 9×4-12
-    ('CH298', 17),  -- 50÷5+7
-    ('CH299',  6),  -- (15+9)÷4
-    ('CH300', 30),  -- 8×3+6
-    ('CH301', 20),  -- 100÷(10-5)
-    ('CH302', 20),  -- 36÷3 +4×2
 
     -- GAME: TRÙM TÍNH NHẨM CHG021–CHG040
     ('CHG021', 18), -- 6 + 3×4
@@ -2427,54 +2437,295 @@ VALUES
 --------------------------------------------------
     --PHHẦN THỬ THÁCH
 --------------------------------------------------
+-- Toán
+----------------------------------------------------------
+-- ĐÁP ÁN CH291 → CH310 (PHIÊN BẢN DỄ CHO LỚP 2–3)
+-- Bắt đầu từ ID: DA2581
+----------------------------------------------------------
 
-	-- CH303: "Bé Lan đang đọc sách" – động từ là gì? -> đúng: "đọc"
-    ('DA3001', 'CH303', N'Lan',  0),
-    ('DA3002', 'CH303', N'bé',   0),
-    ('DA3003', 'CH303', N'đọc',  1),
-    ('DA3004', 'CH303', N'sách', 0),
+-- CH291: 7 + 9 = 16
+('DA2581', 'CH291', N'14', 0),
+('DA2582', 'CH291', N'18', 0),
+('DA2583', 'CH291', N'16', 1),
+('DA2584', 'CH291', N'15', 0),
 
-    -- CH304: "Bạn nhỏ rất ___ khi giúp đỡ mọi người." -> đúng: "vui"
-    ('DA3005', 'CH304', N'cao',  0),
-    ('DA3006', 'CH304', N'vui',  1),
-    ('DA3007', 'CH304', N'đọc',  0),
-    ('DA3008', 'CH304', N'chạy', 0),
 
-    -- CH305: Từ trái nghĩa với "mạnh"? -> đúng: "yếu"
-    ('DA3009', 'CH305', N'nhanh', 0),
-    ('DA3010', 'CH305', N'yếu',   1),
-    ('DA3011', 'CH305', N'cao',   0),
-    ('DA3012', 'CH305', N'đẹp',   0),
+-- CH292: 18 ÷ 3 = 6
+('DA2585', 'CH292', N'6', 1),
+('DA2586', 'CH292', N'5', 0),
+('DA2587', 'CH292', N'9', 0),
+('DA2588', 'CH292', N'4', 0),
 
-    -- CH306: Từ viết đúng chính tả? -> đúng: "khỏe"
-    ('DA3013', 'CH306', N'khỏe',  1),
-    ('DA3014', 'CH306', N'khỏe~', 0),
-    ('DA3015', 'CH306', N'khoẽ',  0),
-    ('DA3016', 'CH306', N'khoẻ~', 0),
 
-    -- CH307: "Hôm nay thời tiết thật ___, phù hợp để đi chơi." -> đúng: "đẹp"
-    ('DA3017', 'CH307', N'bé',   0),
-    ('DA3018', 'CH307', N'đẹp',  1),
-    ('DA3019', 'CH307', N'bàn',  0),
-    ('DA3020', 'CH307', N'chạy', 0),
+-- CH293: 45 - 16 = 29
+('DA2589', 'CH293', N'30', 0),
+('DA2590', 'CH293', N'26', 0),
+('DA2591', 'CH293', N'25', 0),
+('DA2592', 'CH293', N'29', 1),
 
-    -- CH308: Danh từ? -> đúng: "con đường"
-    ('DA3021', 'CH308', N'cao',       0),
-    ('DA3022', 'CH308', N'ăn',        0),
-    ('DA3023', 'CH308', N'con đường', 1),
-    ('DA3024', 'CH308', N'ngủ',       0),
 
-    -- CH309: Từ "chuẩn bị" thuộc loại nào? -> đúng: "động từ"
-    ('DA3025', 'CH309', N'danh từ', 0),
-    ('DA3026', 'CH309', N'động từ', 1),
-    ('DA3027', 'CH309', N'tính từ', 0),
-    ('DA3028', 'CH309', N'đại từ',  0),
+-- CH294: 6 × 3 = 18
+('DA2593', 'CH294', N'12', 0),
+('DA2594', 'CH294', N'18', 1),
+('DA2595', 'CH294', N'20', 0),
+('DA2596', 'CH294', N'15', 0),
 
-    -- CH310: "Bé Nam cố gắng ___ bài toán khó." -> đúng: "giải"
-    ('DA3029', 'CH310', N'giải', 1),
-    ('DA3030', 'CH310', N'ăn',   0),
-    ('DA3031', 'CH310', N'xanh', 0),
-    ('DA3032', 'CH310', N'đẹp',  0),
+
+-- CH295: 12 + 8 = 20
+('DA2597', 'CH295', N'22', 0),
+('DA2598', 'CH295', N'18', 0),
+('DA2599', 'CH295', N'25', 0),
+('DA2600', 'CH295', N'20', 1),
+
+
+-- CH296: 20 - 6 = 14
+('DA2601', 'CH296', N'12', 0),
+('DA2602', 'CH296', N'14', 1),
+('DA2603', 'CH296', N'10', 0),
+('DA2604', 'CH296', N'16', 0),
+
+
+-- CH297: 9 × 4 = 36
+('DA2605', 'CH297', N'36', 1),
+('DA2606', 'CH297', N'40', 0),
+('DA2607', 'CH297', N'32', 0),
+('DA2608', 'CH297', N'30', 0),
+
+-- CH298: 50 ÷ 5 = 10
+('DA2609', 'CH298', N'12', 0),
+('DA2610', 'CH298', N'8', 0),
+('DA2611', 'CH298', N'10', 1),
+('DA2612', 'CH298', N'15', 0),
+
+
+-- CH299: 15 + 9 = 24
+('DA2613', 'CH299', N'24', 1),
+('DA2614', 'CH299', N'26', 0),
+('DA2615', 'CH299', N'22', 0),
+('DA2616', 'CH299', N'20', 0),
+
+-- CH300: 8 × 3 = 24
+('DA2617', 'CH300', N'20', 0),
+('DA2618', 'CH300', N'18', 0),
+('DA2619', 'CH300', N'30', 0),
+('DA2620', 'CH300', N'24', 1),
+
+
+-- CH301: 10 - 5 = 5
+('DA2621', 'CH301', N'4', 0),
+('DA2622', 'CH301', N'3', 0),
+('DA2623', 'CH301', N'5', 1),
+('DA2624', 'CH301', N'6', 0),
+
+
+-- CH302: 36 ÷ 3 = 12
+('DA2625', 'CH302', N'10', 0),
+('DA2626', 'CH302', N'12', 1),
+('DA2627', 'CH302', N'15', 0),
+('DA2628', 'CH302', N'9', 0),
+
+
+-- CH303: 27 - 9 = 18
+('DA2629', 'CH303', N'18', 1),
+('DA2630', 'CH303', N'16', 0),
+('DA2631', 'CH303', N'20', 0),
+('DA2632', 'CH303', N'19', 0),
+
+
+-- CH304: 7 × 5 = 35
+('DA2633', 'CH304', N'30', 0),
+('DA2634', 'CH304', N'40', 0),
+('DA2635', 'CH304', N'35', 1),
+('DA2636', 'CH304', N'25', 0),
+
+
+-- CH305: 32 ÷ 4 = 8
+('DA2637', 'CH305', N'6', 0),
+('DA2638', 'CH305', N'10', 0),
+('DA2639', 'CH305', N'12', 0),
+('DA2640', 'CH305', N'8', 1),
+
+
+-- CH306: 14 + 6 = 20
+('DA2641', 'CH306', N'22', 0),
+('DA2642', 'CH306', N'20', 1),
+('DA2643', 'CH306', N'25', 0),
+('DA2644', 'CH306', N'18', 0),
+
+
+-- CH307: 18 + 12 = 30
+('DA2645', 'CH307', N'28', 0),
+('DA2646', 'CH307', N'26', 0),
+('DA2647', 'CH307', N'30', 1),
+('DA2648', 'CH307', N'24', 0),
+
+
+-- CH308: 42 ÷ 7 = 6
+('DA2649', 'CH308', N'6', 1),
+('DA2650', 'CH308', N'5', 0),
+('DA2651', 'CH308', N'7', 0),
+('DA2652', 'CH308', N'9', 0),
+
+-- CH309: 9 × 2 = 18
+('DA2653', 'CH309', N'20', 0),
+('DA2654', 'CH309', N'22', 0),
+('DA2655', 'CH309', N'16', 0),
+('DA2656', 'CH309', N'18', 1),
+
+
+-- CH310: 25 - 5 = 20
+('DA2657', 'CH310', N'18', 0),
+('DA2658', 'CH310', N'20', 1),
+('DA2659', 'CH310', N'22', 0),
+('DA2660', 'CH310', N'15', 0),
+
+-- Tiếng Việt
+----------------------------------------------------------
+-- ĐÁP ÁN TV CH311 → CH330
+-- Bắt đầu từ ID: DA2661
+----------------------------------------------------------
+
+-- CH311: Động từ trong câu là: "đọc"
+('DA2661', 'CH311', N'Lan', 0),
+('DA2662', 'CH311', N'đọc', 1),
+('DA2663', 'CH311', N'Bé', 0),
+('DA2664', 'CH311', N'sách', 0),
+
+
+-- CH312: Bạn nhỏ rất ___ → "vui"
+('DA2665', 'CH312', N'vui', 1),
+('DA2666', 'CH312', N'đọc', 0),
+('DA2667', 'CH312', N'chạy', 0),
+('DA2668', 'CH312', N'cao', 0),
+
+
+-- CH313: Trái nghĩa với "mạnh" → "yếu"
+('DA2669', 'CH313', N'nhanh', 0),
+('DA2670', 'CH313', N'yếu', 1),
+('DA2671', 'CH313', N'cao', 0),
+('DA2672', 'CH313', N'đẹp', 0),
+
+
+-- CH314: Từ viết đúng: "khỏe"
+('DA2673', 'CH314', N'khoẽ', 0),
+('DA2674', 'CH314', N'khỏe', 1),
+('DA2675', 'CH314', N'khỏe~', 0),
+('DA2676', 'CH314', N'khoẻ~', 0),
+
+
+-- CH315: Thời tiết thật ___ → "đẹp"
+('DA2677', 'CH315', N'đẹp', 1),
+('DA2678', 'CH315', N'bé', 0),
+('DA2679', 'CH315', N'chạy', 0),
+('DA2680', 'CH315', N'bàn', 0),
+
+
+-- CH316: Danh từ → "con đường"
+('DA2681', 'CH316', N'ngủ', 0),
+('DA2682', 'CH316', N'con đường', 1),
+('DA2683', 'CH316', N'cao', 0),
+('DA2684', 'CH316', N'ăn', 0),
+
+
+-- CH317: "chuẩn bị" là động từ
+('DA2685', 'CH317', N'tính từ', 0),
+('DA2686', 'CH317', N'đại từ', 0),
+('DA2687', 'CH317', N'động từ', 1),
+('DA2688', 'CH317', N'danh từ', 0),
+
+
+-- CH318: Cố gắng ___ bài toán → "giải"
+('DA2689', 'CH318', N'đẹp', 0),
+('DA2690', 'CH318', N'xanh', 0),
+('DA2691', 'CH318', N'ăn', 0),
+('DA2692', 'CH318', N'giải', 1),
+
+
+-- CH319: Danh từ trong câu là: "ông", "cây"
+-- Chọn danh từ phù hợp nhất → "ông"
+('DA2693', 'CH319', N'em', 0),
+('DA2694', 'CH319', N'tưới', 0),
+('DA2695', 'CH319', N'ông', 1),
+('DA2696', 'CH319', N'đang', 0),
+
+
+-- CH320: Bé Hoa rất ___ → "vui"
+('DA2697', 'CH320', N'vui', 1),
+('DA2698', 'CH320', N'cao', 0),
+('DA2699', 'CH320', N'ăn', 0),
+('DA2700', 'CH320', N'chạy', 0),
+
+
+-- CH321: Trái nghĩa của "cao" → "thấp"
+('DA2701', 'CH321', N'nóng', 0),
+('DA2702', 'CH321', N'thấp', 1),
+('DA2703', 'CH321', N'nhanh', 0),
+('DA2704', 'CH321', N'đẹp', 0),
+
+
+-- CH322: Từ đúng chính tả → "nghỉ ngơi"
+('DA2705', 'CH322', N'ngỉ ngơi', 0),
+('DA2706', 'CH322', N'ngĩ ngơi', 0),
+('DA2707', 'CH322', N'nghỉ ngơi', 1),
+('DA2708', 'CH322', N'nghỉ ngơi~', 0),
+
+
+-- CH323: Cả lớp đang ___ bài hát → "hát"
+('DA2709', 'CH323', N'vui', 0),
+('DA2710', 'CH323', N'hát', 1),
+('DA2711', 'CH323', N'đỏ', 0),
+('DA2712', 'CH323', N'chạy', 0),
+
+
+-- CH324: Tính từ → "đẹp"
+('DA2713', 'CH324', N'ăn', 0),
+('DA2714', 'CH324', N'đẹp', 1),
+('DA2715', 'CH324', N'bút', 0),
+('DA2716', 'CH324', N'mèo', 0),
+
+
+-- CH325: "chăm chỉ" là tính từ
+('DA2717', 'CH325', N'tính từ', 1),
+('DA2718', 'CH325', N'thán từ', 0),
+('DA2719', 'CH325', N'danh từ', 0),
+('DA2720', 'CH325', N'động từ', 0),
+
+
+-- CH326: Chiếc áo này rất ___ → "đẹp"
+('DA2721', 'CH326', N'ngủ', 0),
+('DA2722', 'CH326', N'chạy', 0),
+('DA2723', 'CH326', N'đẹp', 1),
+('DA2724', 'CH326', N'uống', 0),
+
+
+-- CH327: Trái nghĩa của "buồn" → "vui"
+('DA2725', 'CH327', N'vui', 1),
+('DA2726', 'CH327', N'thấp', 0),
+('DA2727', 'CH327', N'to', 0),
+('DA2728', 'CH327', N'mới', 0),
+
+
+-- CH328: "nấu" là động từ
+('DA2729', 'CH328', N'danh từ', 0),
+('DA2730', 'CH328', N'động từ', 1),
+('DA2731', 'CH328', N'tính từ', 0),
+('DA2732', 'CH328', N'thán từ', 0),
+
+
+-- CH329: Bạn nhỏ ___ tay chào → "vẫy"
+('DA2733', 'CH329', N'xanh', 0),
+('DA2734', 'CH329', N'đẹp', 0),
+('DA2735', 'CH329', N'ăn', 0),
+('DA2736', 'CH329', N'vẫy', 1),
+
+
+-- CH330: Danh từ → "quyển sách"
+('DA2737', 'CH330', N'đỏ', 0),
+('DA2738', 'CH330', N'quyển sách', 1),
+('DA2739', 'CH330', N'vui', 0),
+('DA2740', 'CH330', N'chạy', 0),
+
+
 
 --------------------------------------------------
     -- TRÒ CHƠI
@@ -2698,25 +2949,46 @@ BEGIN
     SET @ol = @ol + 1;
 END;
 GO
--- THỬ THÁCH (TT001): CH291–CH310
-DECLARE @qTT INT, @tTT INT;
+----------------------------------------------------------
+-- GÁN CÂU HỎI TIẾNG VIỆT CH311–CH330 CHO TT001
+----------------------------------------------------------
+DECLARE @qTV INT = 311;  -- CH311
+DECLARE @tTV INT = 1;    -- Thứ tự 1..20
 
-SET @qTT = 291;   -- CH291
-SET @tTT = 1;     -- Thứ tự 1..20
-
-WHILE @tTT <= 20
+WHILE @tTV <= 20
 BEGIN
     INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
     VALUES (
-        'TT001',
-        'CH' + RIGHT('000' + CAST(@qTT AS VARCHAR(3)), 3),
-        @tTT
+        'TT001',                                                -- Thử thách Tiếng Việt
+        'CH' + RIGHT('000' + CAST(@qTV AS VARCHAR(3)), 3),      -- CH311..CH330
+        @tTV                                                    -- Thứ tự 1..20
     );
 
-    SET @qTT = @qTT + 1;
-    SET @tTT = @tTT + 1;
+    SET @qTV = @qTV + 1;
+    SET @tTV = @tTV + 1;
 END;
-GO
+
+
+----------------------------------------------------------
+-- GÁN CÂU HỎI TOÁN CH291–CH310 CHO TT002
+----------------------------------------------------------
+DECLARE @qT INT = 291;   -- CH291
+DECLARE @tT INT = 1;     -- Thứ tự 1..20
+
+WHILE @tT <= 20
+BEGIN
+    INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
+    VALUES (
+        'TT002',                                                -- Thử thách Toán
+        'CH' + RIGHT('000' + CAST(@qT AS VARCHAR(3)), 3),       -- CH291..CH310
+        @tT                                                     -- Thứ tự 1..20
+    );
+
+    SET @qT = @qT + 1;
+    SET @tT = @tT + 1;
+END;
+
+
 -- Ví dụ query cho Liên hoàn tính toán (TC001) trong ứng dụng:
 -- Lấy 10 câu ngẫu nhiên từ các câu Ôn luyện Toán CH201–CH290
 SELECT TOP 10
