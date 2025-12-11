@@ -3161,3 +3161,4 @@ SELECT MIN(MaCauHoi), MAX(MaCauHoi) FROM CauHoi;   -- CH001 -> CH350
 SELECT MIN(MaDapAn), MAX(MaDapAn) FROM DapAn;      -- DA0001 -> DA1400
 
 select * from hoatdonghoctap
+select * from LoaiHoatDong
