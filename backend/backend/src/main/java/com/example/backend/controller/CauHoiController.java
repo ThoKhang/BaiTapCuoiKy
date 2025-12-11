@@ -66,4 +66,14 @@ public class CauHoiController {
         return ResponseEntity.ok(coBanResponse);
     }
     //End : deOnLuyen
+    
+    //Start : Hoàn thiện câu 
+    @GetMapping("/deHoanThienCH")
+    public ResponseEntity<?> deHoaThien(){
+        DeOnLuyenResponse deResponse = cauhoi.getDe();
+        if(deResponse==null)
+            return ResponseEntity.badRequest().body("Khôn tìm thấy đề :");
+        return ResponseEntity.ok(deResponse);
+    }
+    //End : Hoàn thiện câu 
 }
