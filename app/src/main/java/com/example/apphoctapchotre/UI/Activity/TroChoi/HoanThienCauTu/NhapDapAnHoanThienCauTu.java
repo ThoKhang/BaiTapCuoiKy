@@ -19,6 +19,7 @@ import com.example.apphoctapchotre.DATA.model.CauHoi;
 import com.example.apphoctapchotre.DATA.model.TienTrinh;
 import com.example.apphoctapchotre.DATA.remote.ApiService;
 import com.example.apphoctapchotre.DATA.remote.RetrofitClient;
+import com.example.apphoctapchotre.KetQuaHoanThienCauTu;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.OnLuyen.TracNghiem;
 import com.example.apphoctapchotre.UI.ViewModel.DeOnLuyenViewModel;
@@ -44,6 +45,8 @@ public class NhapDapAnHoanThienCauTu extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private final int TIME_LIMIT = 30; // 30 giây mỗi câu
     private int timeLeft = TIME_LIMIT;
+    private long tongThoiGian = 0; // milliseconds
+    private long batDauCau;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,8 @@ public class NhapDapAnHoanThienCauTu extends AppCompatActivity {
         btnTiepTuc.setOnClickListener(v->{
             if (countDownTimer != null)
                 countDownTimer.cancel();//ngừng timer khi bấm tiếp
+            long ketThucCau = System.currentTimeMillis();
+            tongThoiGian += (ketThucCau - batDauCau);
             String nhap = edtDapAn.getText().toString().trim();
             String dapAnDung = danhSach.get(soCau).getDapAn().get(0).getNoiDungDapAn().trim();
             if (nhap.equalsIgnoreCase(dapAnDung))
@@ -89,7 +94,7 @@ public class NhapDapAnHoanThienCauTu extends AppCompatActivity {
                 tienTrinh.setDiemDatDuoc(demCauDung * 5);
                 tienTrinh.setSoCauDaLam(demCauDung+demCauSai);
                 hoanThienCauTuViewModel.guiTienTrinh(tienTrinh);
-                finish();
+                ketThucBaiLam();
             }
         });
         tvGiaiThich.setVisibility(View.INVISIBLE);
@@ -101,6 +106,7 @@ public class NhapDapAnHoanThienCauTu extends AppCompatActivity {
         });
     }
     private void hienCau(int i){
+        batDauCau = System.currentTimeMillis();
         CauHoi ch = danhSach.get(i);
         tvCauHoi.setText(ch.getNoiDungCauHoi());
         tvGiaiThich.setText(ch.getGiaiThich());
@@ -122,6 +128,8 @@ public class NhapDapAnHoanThienCauTu extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
+                long ketThucCau = System.currentTimeMillis();
+                tongThoiGian += (ketThucCau - batDauCau);
                 tv_thoi_gian.setText("Hết thời gian!");
                 demCauSai++; // hết giờ tính là sai
                 if (soCau < danhSach.size() - 1) {
@@ -138,7 +146,15 @@ public class NhapDapAnHoanThienCauTu extends AppCompatActivity {
         tienTrinh.setDiemDatDuoc(demCauDung * 5);
         tienTrinh.setSoCauDaLam(demCauDung + demCauSai);
         hoanThienCauTuViewModel.guiTienTrinh(tienTrinh);
-        finish();
+        long tongGiay = tongThoiGian / 1000;
+
+        Intent intent = new Intent(this, KetQuaHoanThienCauTu.class);
+        intent.putExtra("DIEM", demCauDung * 5);
+        intent.putExtra("CAU_DUNG", demCauDung);
+        intent.putExtra("CAU_SAI", demCauSai);
+        intent.putExtra("THOI_GIAN", tongGiay);
+
+        startActivity(intent);
     }
     @Override
     protected void onDestroy() {

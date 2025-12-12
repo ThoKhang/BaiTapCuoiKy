@@ -3182,5 +3182,5 @@ JOIN CauHoi c
     ON hc.MaCauHoi = c.MaCauHoi
 JOIN DapAn d 
     ON c.MaCauHoi = d.MaCauHoi
-WHERE h.TieuDe = N'Hoàn thiện câu từ'
+WHERE h.TieuDe = N'Hoàn thiện câu từ' and d.LaDapAnDung=1
 ORDER BY c.MaCauHoi, d.MaDapAn;

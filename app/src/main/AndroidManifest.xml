@@ -20,6 +20,9 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".KetQuaHoanThienCauTu"
+            android:exported="false" />
+        <activity
             android:name=".UI.Activity.TroChoi.HoanThienCauTu.NhapDapAnHoanThienCauTu"
             android:exported="false" />
         <activity
