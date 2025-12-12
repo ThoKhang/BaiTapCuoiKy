@@ -77,6 +77,9 @@
             android:name=".UI.Activity.CungCo.CauHoiActivity"
             android:exported="false" />
         <activity
+            android:name=".UI.Activity.CungCo.CauHoiActivity2"
+            android:exported="false" />
+        <activity
             android:name=".UI.Activity.Premium.Premium"
             android:exported="false" /> <!-- ai làm gì môn học toán hả cấn lỗi t comment -->
         <!-- <activity -->
