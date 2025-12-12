@@ -49,7 +49,7 @@ CREATE TABLE HoatDongHocTap (
     MaMonHoc char(5) FOREIGN KEY REFERENCES MonHoc(MaMonHoc),
     MaLoai char(5) FOREIGN KEY REFERENCES LoaiHoatDong(MaLoai),
     TieuDe NVARCHAR(100) NOT NULL,
-    MoTa NVARCHAR(300) NULL,
+    MoTa NVARCHAR(500) NULL,
     TongDiemToiDa INT NOT NULL
 );
 GO
@@ -156,6 +156,110 @@ INSERT INTO HoatDongHocTap (MaHoatDong, MaMonHoc, MaLoai, TieuDe, MoTa, TongDiem
 ('LT018', @MaMH_TV, @MaLoai_LT, N'Trái nghĩa', N'Lớn - nhỏ', 50),
 ('LT019', @MaMH_TV, @MaLoai_LT, N'Thành ngữ', N'Công cha', 50),
 ('LT020', @MaMH_TV, @MaLoai_LT, N'Thơ', N'Con cò', 50);
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Trong bài học này, bé sẽ được làm quen với phép cộng thông qua những tình huống gần gũi. Bé tưởng tượng mình có 3 quả táo 🍎 và được tặng thêm 2 quả táo nữa từ mẹ. Bé xếp các quả táo thành một hàng và đếm từng quả: 1, 2, 3, 4, 5. Vậy tổng cộng bé có 5 quả táo.
+Bé cũng sẽ được thực hành cộng bằng ngón tay ✋, que tính hoặc hình minh họa để hiểu rằng phép cộng nghĩa là “gộp lại cho nhiều hơn”. Ví dụ thêm: 4 con cá 🐟 đang bơi, có thêm 1 con cá nữa bơi tới → 4 + 1 = 5.'
+WHERE MaHoatDong = 'LT001';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bài học này giúp bé hiểu rằng phép trừ nghĩa là “lấy bớt đi”. Bé hình dung mình có 5 viên kẹo 🍬 và ăn mất 2 viên, bé đếm lại còn 3 viên. Bé sẽ được hướng dẫn dùng que tính, khối gỗ hoặc hình vẽ để “bỏ bớt” đi nhằm hiểu rõ phép trừ.
+Ví dụ khác: Trên cành cây có 6 chú chim 🐦, 1 chú bay đi → còn 5 chú. Bé sẽ học cách đếm ngược và nhận ra phép trừ giúp biết còn lại bao nhiêu sau khi mất đi một phần.'
+WHERE MaHoatDong = 'LT002';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Trong bài học này, bé sẽ biết rằng phép nhân chính là cộng nhiều lần một số giống nhau. Bé quan sát 3 hộp quà 🎁, mỗi hộp có 2 ngôi sao 🌟. Khi bé đếm: 2 + 2 + 2 = 6, bé hiểu rằng 3 × 2 = 6.
+Bé sẽ được xem thêm ví dụ: 4 chậu hoa 🌸, mỗi chậu có 3 bông → 4 × 3 = 12. Phép nhân giúp bé tính nhanh mà không cần cộng lặp lại quá nhiều. Bé cũng thử tự tạo “nhóm đồ vật” để luyện tập.'
+WHERE MaHoatDong = 'LT003';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé được học rằng phép chia là “chia đều cho công bằng”. Ví dụ: có 7 chiếc bánh 🍪 chia cho 2 bạn. Bé sẽ chia lần lượt: mỗi bạn 1 cái, rồi 1 cái nữa… đến khi hết. Kết quả: mỗi bạn 3 cái và còn dư 1 cái. Bé hiểu rằng: 7 : 2 = 3 (dư 1).
+Ví dụ khác: 9 cây bút ✏️ chia cho 3 bạn → mỗi bạn 3 cây. Bé sẽ tập chia đồ vật thật để hiểu sâu hơn việc phân chia đều nhau.'
+WHERE MaHoatDong = 'LT004';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé làm quen với hình vuông 🟦 – một hình có 4 cạnh bằng nhau và 4 góc vuông. Bé quan sát hình vuông trong vở ô ly, viên gạch, chiếc khăn nhỏ…
+Bài học giúp bé phân biệt hình vuông và hình chữ nhật bằng cách so sánh độ dài các cạnh. Bé còn được thực hành vẽ hình vuông bằng thước 📏 để rèn kỹ năng quan sát.'
+WHERE MaHoatDong = 'LT005';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé tìm hiểu về các đơn vị đo quen thuộc. “Mét” 📏 dùng để đo chiều dài: chiều cao cái bàn, chiều dài thước, chiều dài căn phòng. “Kilôgam” ⚖️ dùng để đo cân nặng: túi gạo 1kg, quả dưa hấu 2kg.
+Bé sẽ được thực hành đo chiều dài bằng thước mét và cân những đồ vật nhẹ bằng cân mini. Nhờ vậy, các đơn vị đo trở nên gần gũi và dễ nhớ hơn.'
+WHERE MaHoatDong = 'LT006';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé học phân số thông qua việc chia đồ vật. Khi bé cắt chiếc bánh thành hai phần bằng nhau, mỗi phần được gọi là 1/2 🍰. Nếu chiếc bánh được chia thành 4 phần giống nhau, mỗi phần là 1/4.
+Bé sẽ được làm bài tập chia bánh, pizza, thanh socola… để hiểu rằng phân số là “một phần của cái lớn hơn”. Bé cũng học cách đọc, viết và nhận dạng các phân số quen thuộc như 1/2, 1/3, 1/4.'
+WHERE MaHoatDong = 'LT007';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé làm quen số thập phân bằng đoạn thẳng chia thành 10 phần bằng nhau 🌈. Bé hiểu rằng 0.1 là “một phần trong mười phần”, 0.2 là “hai phần”,…
+Ví dụ: khi bé ghép 1 phần và 2 phần, bé được 3 phần → 0.1 + 0.2 = 0.3. Bé xem hình minh họa, tô màu từng phần để hiểu số thập phân dễ hơn.'
+WHERE MaHoatDong = 'LT008';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé học cách đọc đồng hồ kim 🕒. Kim ngắn chỉ giờ, kim dài chỉ phút. Bé quan sát ví dụ: kim ngắn chỉ số 3, kim dài chỉ số 12 → 3 giờ.
+Sau đó bé tập đọc nhiều thời gian khác: 7 giờ, 9 giờ rưỡi, 10 giờ kém 15. Bé cũng được xem đồng hồ điện tử để biết 7:30 nghĩa là 7 giờ 30 phút.'
+WHERE MaHoatDong = 'LT009';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé nhận biết các loại tiền quen thuộc như 1.000đ, 2.000đ, 5.000đ 💵 và tập cộng chúng lại. Ví dụ: 5.000đ + 2.000đ = 7.000đ.
+Bé đóng vai người mua hàng trong cửa hàng mini, chọn món đồ và tính số tiền phải trả. Bài học giúp bé biết giá trị của tiền và cách chi tiêu hợp lý.'
+WHERE MaHoatDong = 'LT010';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé học 29 chữ cái bằng ví dụ trực quan. Ví dụ: A – quả táo 🍎, B – quả bóng ⚽, C – con cá 🐟. Bé luyện đọc từng chữ và nhận diện hình dạng chữ in – chữ viết.
+Bé còn được “ghép chữ thành tiếng” như: B + a = Ba, C + o = Co, để làm quen bước đầu với đọc – viết.'
+WHERE MaHoatDong = 'LT011';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé phân biệt ba vần a – ă – â qua những từ quen thuộc:
+
+a → cá 🐟
+
+ă → mắt 👁️
+
+â → ấm nước ☕
+Bé luyện phát âm đúng, đặt tay lên cổ họng để cảm nhận độ mở miệng khác nhau. Bé ghép các vần để tạo tiếng: la – lă – lâm.'
+WHERE MaHoatDong = 'LT012';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé làm quen với các từ đơn quen thuộc: mẹ, bố, nhà 🏠, xe 🚗. Bé xem tranh minh họa và đọc từng từ.
+Bé tập đặt câu đơn giản như: “Mẹ nấu cơm.”, “Xe màu đỏ.” để bước đầu làm quen với câu.'
+WHERE MaHoatDong = 'LT013';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé học cách ghép hai tiếng tạo thành từ mới. Ví dụ: nhà + cửa = nhà cửa 🏠, học + sinh = học sinh 🎒.
+Bé chơi trò “ghép thẻ từ” để tạo thêm nhiều từ mới. Bé còn được xem tranh để hiểu rõ nghĩa của từng từ ghép.'
+WHERE MaHoatDong = 'LT014';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé hiểu rằng câu đơn chỉ diễn tả một hành động hoặc trạng thái. Ví dụ: “Bé Lan đi học.” 🎒
+Bé quan sát tranh như con mèo 🐱 ngủ, chiếc xe chạy 🚗 rồi tập đặt câu: “Con mèo ngủ.”, “Xe chạy nhanh.” Bé học cách viết câu có đủ chủ ngữ và vị ngữ.'
+WHERE MaHoatDong = 'LT015';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé làm quen với dấu câu như dấu chấm (.), dấu phẩy (,), dấu chấm hỏi (?). Ví dụ: “Con mèo ngủ.” 🐱; “Bé ăn cơm, uống nước.” 🍚. Bé tập sửa câu để dùng dấu đúng.'
+WHERE MaHoatDong = 'LT016';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé học rằng có những từ phát âm giống nhau nhưng nghĩa khác nhau. Ví dụ: “lá” trong lá cây 🍃 và “lá” trong lá thư ✉️.
+Bé xem tranh minh họa và nối đúng từ với nghĩa phù hợp. Nhờ vậy bé hiểu được sự phong phú của tiếng Việt.'
+WHERE MaHoatDong = 'LT017';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé học các cặp từ trái nghĩa qua ví dụ sinh động: lớn – nhỏ 🎈🐭, cao – thấp 📏, nhanh – chậm 🏃🐢.
+Bé chọn tranh tương ứng với từ và tập đặt câu để ghi nhớ rõ hơn: “Người cao.”, “Con rùa chậm.”.'
+WHERE MaHoatDong = 'LT018';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé học thành ngữ qua ví dụ: “công cha, nghĩa mẹ” 👪. Bé nghe một câu chuyện ngắn và trả lời câu hỏi để hiểu ý nghĩa thành ngữ.'
+WHERE MaHoatDong = 'LT019';
+
+UPDATE HoatDongHocTap SET MoTa = 
+N'Bé tìm hiểu thành ngữ qua câu ví dụ: “công cha, nghĩa mẹ” 👪. Bé nghe một câu chuyện ngắn kể về công lao của cha mẹ và trả lời câu hỏi để hiểu ý nghĩa tình cảm sâu sắc trong thành ngữ.'
+WHERE MaHoatDong = 'LT020';
+
 
 -- b. CungCo (CC001-CC020)
 INSERT INTO HoatDongHocTap (MaHoatDong, MaMonHoc, MaLoai, TieuDe, MoTa, TongDiemToiDa) VALUES
@@ -3161,4 +3265,27 @@ SELECT MIN(MaCauHoi), MAX(MaCauHoi) FROM CauHoi;   -- CH001 -> CH350
 SELECT MIN(MaDapAn), MAX(MaDapAn) FROM DapAn;      -- DA0001 -> DA1400
 
 select * from hoatdonghoctap
+Select * from CauHoi
+select * from DapAn
+select * from HoatDong_CauHoi
+select * from LoaiHoatDong
+select * from TienTrinhHocTap
+SELECT 
+    h.MaHoatDong,
+    h.TieuDe,
+    c.MaCauHoi,
+    c.DiemToiDa,
+    c.NoiDungCauHoi AS CauHoi,
+    d.MaDapAn,
+    d.NoiDungDapAn AS DapAn,
+    d.LaDapAnDung
+FROM HoatDongHocTap h
+JOIN HoatDong_CauHoi hc 
+    ON h.MaHoatDong = hc.MaHoatDong
+JOIN CauHoi c 
+    ON hc.MaCauHoi = c.MaCauHoi
+JOIN DapAn d 
+    ON c.MaCauHoi = d.MaCauHoi
+WHERE h.TieuDe = N'Hoàn thiện câu từ' and d.LaDapAnDung=1
+ORDER BY c.MaCauHoi, d.MaDapAn;
 select * from LoaiHoatDong

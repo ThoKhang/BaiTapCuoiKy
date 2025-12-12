@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.apphoctapchotre.UI.Activity.Games.sudoku;
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.UI.Activity.TroChoi.HoanThienCauTu.HoanThienCauTu;
 
 public class Trochoi extends AppCompatActivity {
+    private LinearLayout LNHoanThienCT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,11 @@ public class Trochoi extends AppCompatActivity {
         findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
             Intent intent = new Intent(Trochoi.this,
                     com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
+            startActivity(intent);
+        });
+        LNHoanThienCT=findViewById(R.id.LNHoanThienCT);
+        LNHoanThienCT.setOnClickListener(v -> {
+            Intent intent = new Intent(this, HoanThienCauTu.class);
             startActivity(intent);
         });
     }
