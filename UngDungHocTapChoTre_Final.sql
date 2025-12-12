@@ -3161,4 +3161,27 @@ SELECT MIN(MaCauHoi), MAX(MaCauHoi) FROM CauHoi;   -- CH001 -> CH350
 SELECT MIN(MaDapAn), MAX(MaDapAn) FROM DapAn;      -- DA0001 -> DA1400
 
 select * from hoatdonghoctap
+Select * from CauHoi
+select * from DapAn
+select * from HoatDong_CauHoi
+select * from LoaiHoatDong
+select * from TienTrinhHocTap
+SELECT 
+    h.MaHoatDong,
+    h.TieuDe,
+    c.MaCauHoi,
+    c.DiemToiDa,
+    c.NoiDungCauHoi AS CauHoi,
+    d.MaDapAn,
+    d.NoiDungDapAn AS DapAn,
+    d.LaDapAnDung
+FROM HoatDongHocTap h
+JOIN HoatDong_CauHoi hc 
+    ON h.MaHoatDong = hc.MaHoatDong
+JOIN CauHoi c 
+    ON hc.MaCauHoi = c.MaCauHoi
+JOIN DapAn d 
+    ON c.MaCauHoi = d.MaCauHoi
+WHERE h.TieuDe = N'Hoàn thiện câu từ' and d.LaDapAnDung=1
+ORDER BY c.MaCauHoi, d.MaDapAn;
 select * from LoaiHoatDong

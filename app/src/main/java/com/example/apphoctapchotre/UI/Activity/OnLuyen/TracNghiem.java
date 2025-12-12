@@ -1,4 +1,4 @@
-package com.example.apphoctapchotre.UI.Activity.LyThuyet;
+package com.example.apphoctapchotre.UI.Activity.OnLuyen;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.apphoctapchotre.DATA.model.CauHoi;
-import com.example.apphoctapchotre.DATA.model.CauHoiResponse;
 import com.example.apphoctapchotre.DATA.model.TienTrinh;
 import com.example.apphoctapchotre.DATA.remote.ApiService;
 import com.example.apphoctapchotre.DATA.remote.RetrofitClient;

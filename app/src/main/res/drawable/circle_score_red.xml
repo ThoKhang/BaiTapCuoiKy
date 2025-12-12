@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Outer circle - Dark Red -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#8B0000" /> <!-- Dark Red -->
+        </shape>
+    </item>
+
+    <!-- Middle circle - Strong Red -->
+    <item
+        android:left="8dp"
+        android:right="8dp"
+        android:top="8dp"
+        android:bottom="8dp">
+        <shape android:shape="oval">
+            <solid android:color="#D50000" /> <!-- Vivid Red -->
+        </shape>
+    </item>
+
+    <!-- Inner circle - Light Red -->
+    <item
+        android:left="16dp"
+        android:right="16dp"
+        android:top="16dp"
+        android:bottom="16dp">
+        <shape android:shape="oval">
+            <solid android:color="#FF1744" /> <!-- Bright Red -->
+        </shape>
+    </item>
+
+</layer-list>

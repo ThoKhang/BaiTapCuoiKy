@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.apphoctapchotre.UI.Activity.LyThuyet.TracNghiem;
+import com.example.apphoctapchotre.UI.Activity.OnLuyen.TracNghiem;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.DATA.model.ui.DeItem;
 import com.example.apphoctapchotre.UI.Activity.OnLuyen.DeCoBan;
