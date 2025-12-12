@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TienTrinhController {
     @Autowired
     private ITienTrinhService tienTrinhSe;
-    @PostMapping("onluyen")
+    @PostMapping("add")
     public void taoTienTrinh(@RequestBody TienTrinhRequest tienTrinh){
         if(tienTrinh.getMaHoatDong()!=null){
             tienTrinhSe.taoTienTrinh(tienTrinh);

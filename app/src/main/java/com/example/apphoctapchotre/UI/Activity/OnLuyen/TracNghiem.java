@@ -1,4 +1,4 @@
-package com.example.apphoctapchotre.UI.Activity.LyThuyet;
+package com.example.apphoctapchotre.UI.Activity.OnLuyen;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.apphoctapchotre.DATA.model.CauHoi;
-import com.example.apphoctapchotre.DATA.model.CauHoiResponse;
 import com.example.apphoctapchotre.DATA.model.TienTrinh;
 import com.example.apphoctapchotre.DATA.remote.ApiService;
 import com.example.apphoctapchotre.DATA.remote.RetrofitClient;
@@ -64,7 +63,6 @@ public class TracNghiem extends AppCompatActivity {
         backButton = findViewById(R.id.quayLai);
         backButton.setOnClickListener(v -> {
             Intent data = new Intent();
-            data.putExtra("MA_HOAT_DONG", maHoatDong);
             setResult(RESULT_OK, data);
             finish();
         });
@@ -127,6 +125,10 @@ public class TracNghiem extends AppCompatActivity {
         });
     }
     private void loadCauHoi(){
+        btnA.getBackground().setTintList(null);
+        btnB.getBackground().setTintList(null);
+        btnC.getBackground().setTintList(null);
+        btnD.getBackground().setTintList(null);
         CauHoi cauHoi = danhSachCauHoi.get(currentIndex);
         tvCauHoi.setText(cauHoi.getNoiDungCauHoi());
         String giaiThich = cauHoi.getGiaiThich();

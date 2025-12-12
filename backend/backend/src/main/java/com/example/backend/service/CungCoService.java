@@ -183,7 +183,7 @@ public class CungCoService {
     }
 
     // ===============================
-    // 4) HOÀN THÀNH HOẠT ĐỘNG
+    // 4) HOÀN THÀNH HOẠT ĐỘNG (CỦNG CỐ / THỬ THÁCH)
     // ===============================
     public boolean hoanThanhHoatDong(
             String maNguoiDung,
@@ -210,16 +210,31 @@ public class CungCoService {
             tt.setNguoiDung(nguoiDungRepo.findById(maNguoiDung).orElseThrow());
             tt.setHoatDong(hoatDongRepo.findById(maHoatDong).orElseThrow());
             tt.setNgayBatDau(LocalDateTime.now());
+
+            // Lần đầu làm: set luôn
+            tt.setSoCauDung(soCauDung);
+            tt.setSoCauDaLam(tongCauHoi);
+            tt.setDiemDatDuoc(diem);
+
+        } else {
+            // Cập nhật số câu cho LẦN CHƠI GẦN NHẤT
+            tt.setSoCauDung(soCauDung);
+            tt.setSoCauDaLam(tongCauHoi);
+
+            // Giữ ĐIỂM CAO NHẤT
+            int diemCu = tt.getDiemDatDuoc();   // kiểu int → không null
+
+            if (diem > diemCu) {
+                tt.setDiemDatDuoc(diem);        // chỉ update khi điểm mới cao hơn
+            }
+            // nếu diem <= diemCu thì giữ nguyên điểm cũ
         }
 
-        // Cập nhật dữ liệu
-        tt.setSoCauDung(soCauDung);
-        tt.setSoCauDaLam(tongCauHoi);
-        tt.setDiemDatDuoc(diem);
         tt.setDaHoanThanh(true);
         tt.setNgayHoanThanh(LocalDateTime.now());
 
         tienTrinhRepo.save(tt);
         return true;
     }
+
 }
