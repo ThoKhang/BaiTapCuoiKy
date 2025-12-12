@@ -46,6 +46,12 @@
         <activity
             android:name=".UI.Activity.OnLuyen.TracNghiem"
             android:exported="false" />
+        <activity
+            android:name=".UI.Activity.OnLuyen.TracNghiem1"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.OnLuyen.TracNghiem2"
+            android:exported="false" />
         <!--
 <activity
             android:name=".TroChoi"
