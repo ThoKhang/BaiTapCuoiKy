@@ -80,7 +80,7 @@ public class CauHoiController {
     //Start : Trùm tính nhẩm
     @GetMapping("/trumTinhNham")
     public ResponseEntity<?> deTinhNham(){
-        DeOnLuyenResponse deResponse = cauhoi.getDe();
+        DeOnLuyenResponse deResponse = cauhoi.getDeTrumTinhNham();
         if(deResponse==null)
             return ResponseEntity.badRequest().body("Không tìm thấy đề :");
         return ResponseEntity.ok(deResponse);
