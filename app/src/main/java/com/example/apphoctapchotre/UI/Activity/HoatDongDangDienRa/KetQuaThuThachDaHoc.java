@@ -23,7 +23,7 @@ public class KetQuaThuThachDaHoc extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ket_qua_tt_dh); // Đặt đúng tên file XML của bạn
+        setContentView(R.layout.activity_ket_qua_tt_dh);
 
         mappingUI();
         getDataFromIntent();

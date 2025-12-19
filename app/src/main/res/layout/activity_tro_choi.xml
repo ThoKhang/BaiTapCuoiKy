@@ -146,6 +146,7 @@
             <!-- ================ ITEM 2 ================== -->
             <!-- ========================================== -->
             <LinearLayout
+                android:id="@+id/LNHoanThienCT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -227,6 +228,7 @@
             <!-- ================ ITEM 3 ================== -->
             <!-- ========================================== -->
             <LinearLayout
+                android:id="@+id/LNTrumTinhNham"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

@@ -1,6 +1,7 @@
 package com.example.apphoctapchotre.UI.Adapter.OnLuyen;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +12,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.apphoctapchotre.UI.Activity.LyThuyet.TracNghiem;
+import com.example.apphoctapchotre.UI.Activity.OnLuyen.TracNghiem;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.DATA.model.ui.DeItem;
 import com.example.apphoctapchotre.UI.Activity.OnLuyen.DeCoBan;
 import com.example.apphoctapchotre.UI.Activity.OnLuyen.DeNangCao;
 import com.example.apphoctapchotre.UI.Activity.OnLuyen.DeTrungBinh;
+import com.example.apphoctapchotre.UI.Activity.OnLuyen.TracNghiem1;
+import com.example.apphoctapchotre.UI.Activity.OnLuyen.TracNghiem2;
 import com.example.apphoctapchotre.UI.ViewModel.TienTrinhViewModel;
 
 import java.util.List;
@@ -25,7 +28,7 @@ public class DeAdapter extends RecyclerView.Adapter<DeAdapter.DeViewHolder> {
 
     private List<DeItem> list;
     private Context context;
-    private int bgResource;     // gradient theo loại đề
+    private int bgResource;
     private TienTrinhViewModel tienTrinhViewModel;
     public DeAdapter(Context context, List<DeItem> list, int bgResource) {
         this.context = context;
@@ -64,17 +67,34 @@ public class DeAdapter extends RecyclerView.Adapter<DeAdapter.DeViewHolder> {
             h.tvDiem.setTextColor(context.getColor(R.color.yellow_custom));
         }
         h.itemView.setOnClickListener(v -> {
-            android.content.Intent intent = new android.content.Intent(context, TracNghiem.class);
+
+            Intent intent;
+
+            if (context instanceof DeCoBan) {
+                intent = new Intent(context, TracNghiem.class);
+
+            } else if (context instanceof DeTrungBinh) {
+                intent = new Intent(context, TracNghiem1.class);
+
+            } else if (context instanceof DeNangCao) {
+                intent = new Intent(context, TracNghiem2.class);
+
+            } else {
+                return;
+            }
+
             intent.putExtra("TEN_DE", item.getTieuDe());
             intent.putExtra("ID_DE", position + 1);
+
             if (context instanceof DeCoBan) {
                 ((DeCoBan) context).launcher.launch(intent);
-            } else
-                if (context instanceof DeTrungBinh)
-                    ((DeTrungBinh) context).launcher.launch(intent);
-                else
-                    ((DeNangCao) context).launcher.launch(intent);
+            } else if (context instanceof DeTrungBinh) {
+                ((DeTrungBinh) context).launcher.launch(intent);
+            } else {
+                ((DeNangCao) context).launcher.launch(intent);
+            }
         });
+
     }
 
     @Override

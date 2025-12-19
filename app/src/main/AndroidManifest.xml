@@ -3,13 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -21,10 +19,36 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".KetQuaTrumTinhNham"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.TrumTinhNham.GioiThieuTrumTinhNham"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.TrumTinhNham.NhapDapAnTrumTinhNham"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.TrumTinhNham.TrumTinhNham"
+            android:exported="false" />
+        <activity
+            android:name=".KetQuaHoanThienCauTu"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.HoanThienCauTu.NhapDapAnHoanThienCauTu"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.HoanThienCauTu.GioiThieuHoanThienCauTu"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.HoanThienCauTu.HoanThienCauTu"
+            android:exported="false" />
+
         <receiver
             android:name=".Utility.AlarmReceiver"
             android:enabled="true"
             android:exported="true" />
+
         <activity
             android:name=".UI.Activity.Games.sudoku"
             android:exported="false" />
@@ -32,12 +56,20 @@
             android:name=".UI.Activity.GiaoDienTong.GiaoDienTong"
             android:exported="false" />
         <activity
-            android:name=".UI.Activity.LyThuyet.TracNghiem"
+            android:name=".UI.Activity.OnLuyen.TracNghiem"
             android:exported="false" />
-        <!--<activity
+        <activity
+            android:name=".UI.Activity.OnLuyen.TracNghiem1"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.OnLuyen.TracNghiem2"
+            android:exported="false" />
+        <!--
+<activity
             android:name=".TroChoi"
             android:exported="false"
-            android:theme="@style/Theme.AppHocTapChoTre" />-->
+            android:theme="@style/Theme.AppHocTapChoTre" />
+        -->
         <activity
             android:name=".UI.Activity.Settings.CaiDat"
             android:exported="false" />
@@ -57,13 +89,15 @@
             android:name=".UI.Activity.CungCo.CauHoiActivity"
             android:exported="false" />
         <activity
+            android:name=".UI.Activity.CungCo.CauHoiActivity2"
+            android:exported="false" />
+        <activity
             android:name=".UI.Activity.Premium.Premium"
-            android:exported="false" /><!-- ai làm gì môn học toán hả cấn lỗi t comment -->
+            android:exported="false" /> <!-- ai làm gì môn học toán hả cấn lỗi t comment -->
         <!-- <activity -->
         <!-- android:name=".monhoctoan" -->
         <!-- android:exported="false" /> -->
         <activity android:name=".UI.Activity.LyThuyet.BangCuuChuong" />
-
         <activity android:name=".UI.Activity.HoatDongDangDienRa.Thuthach100Cau" />
         <activity android:name=".UI.Activity.HoatDongDangDienRa.KetQuaActivity" />
         <activity android:name=".UI.Activity.HoatDongDangDienRa.CauHoi100" />
