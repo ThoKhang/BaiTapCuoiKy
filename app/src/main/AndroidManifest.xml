@@ -46,6 +46,12 @@
         <activity
             android:name=".UI.Activity.OnLuyen.TracNghiem"
             android:exported="false" />
+        <activity
+            android:name=".UI.Activity.OnLuyen.TracNghiem1"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.OnLuyen.TracNghiem2"
+            android:exported="false" />
         <!--
 <activity
             android:name=".TroChoi"
@@ -69,6 +75,9 @@
             android:exported="false" />
         <activity
             android:name=".UI.Activity.CungCo.CauHoiActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.CungCo.CauHoiActivity2"
             android:exported="false" />
         <activity
             android:name=".UI.Activity.Premium.Premium"

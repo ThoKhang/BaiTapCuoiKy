@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TracNghiem extends AppCompatActivity {
+public class TracNghiem1 extends AppCompatActivity {
     private TextView tvCauHoi, tvDapAnA, tvDapAnB, tvDapAnC, tvDapAnD, tvGiaiThich, tvQuestionNumber,tvTieuDePhu;
     private RadioButton btnA, btnB, btnC, btnD;
     private Button btnTiepTuc;
@@ -44,7 +44,7 @@ public class TracNghiem extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trac_nghiem);
+        setContentView(R.layout.activity_trac_nghiem1);
 
         tvCauHoi = findViewById(R.id.tvCauHoi);
         tvDapAnA = findViewById(R.id.tvDapAnA);
@@ -126,7 +126,7 @@ public class TracNghiem extends AppCompatActivity {
         });
         // Mở trang Premium khi bấm vào icon vương miện
         findViewById(R.id.imgVuongMieng).setOnClickListener(v -> {
-            Intent intent = new Intent(TracNghiem.this,
+            Intent intent = new Intent(TracNghiem1.this,
                     com.example.apphoctapchotre.UI.Activity.Premium.Premium.class);
             startActivity(intent);
         });
@@ -239,7 +239,7 @@ public class TracNghiem extends AppCompatActivity {
                 data.putExtra("MA_HOAT_DONG", maHoatDong);
                 setResult(RESULT_OK, data);
 
-                Toast.makeText(TracNghiem.this, "Lỗi gửi về be", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TracNghiem1.this, "Lỗi gửi về be", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

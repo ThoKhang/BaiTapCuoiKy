@@ -64,17 +64,30 @@ public class CungCoActivity2 extends AppCompatActivity {
             if (list == null) return;
 
             if (adapter == null) {
-                adapter = new CungCoAdapter(this, list);
+                adapter = new CungCoAdapter(this, list, maMon);
 
                 adapter.setOnItemClickListener((item, position) -> {
-                    Intent intent = new Intent(CungCoActivity2.this, CauHoiActivity.class);
+
+                    Intent intent;
+
+                    if ("MH001".equals(maMon)) {
+                        intent = new Intent(CungCoActivity2.this, CauHoiActivity2.class);
+                    } else if ("MH002".equals(maMon)) {
+                        intent = new Intent(CungCoActivity2.this, CauHoiActivity.class);
+                    } else {
+                        Toast.makeText(this, "Môn học không hợp lệ", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     intent.putExtra("maHoatDong", item.getMaHoatDong());
                     intent.putExtra("maBaiLam", item.getMaHoatDong());
                     intent.putExtra("tenHoatDong", item.getTieuDe());
                     intent.putExtra("maNguoiDung", maNguoiDung);
+                    intent.putExtra("maMonHoc", maMon);
 
                     cauHoiLauncher.launch(intent);
                 });
+
 
                 listBaiKiemTra.setAdapter(adapter);
             } else {
