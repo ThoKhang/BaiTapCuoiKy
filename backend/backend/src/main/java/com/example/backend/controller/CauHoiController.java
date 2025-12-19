@@ -76,4 +76,15 @@ public class CauHoiController {
         return ResponseEntity.ok(deResponse);
     }
     //End : Hoàn thiện câu 
+    
+    //Start : Trùm tính nhẩm
+    @GetMapping("/trumTinhNham")
+    public ResponseEntity<?> deTinhNham(){
+        DeOnLuyenResponse deResponse = cauhoi.getDeTrumTinhNham();
+        if(deResponse==null)
+            return ResponseEntity.badRequest().body("Không tìm thấy đề :");
+        return ResponseEntity.ok(deResponse);
+    }
+    //End :Trùm tính nhẩm
+
 }
