@@ -1,13 +1,14 @@
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import "./AdminLayout.css";
 
 export default function AdminLayout({ children }) {
   return (
-    <div style={{ display: "flex" }}>
+    <div className="admin-container">
       <Sidebar />
-      <div style={{ flex: 1 }}>
+      <div className="main-content">
         <Header />
-        <div style={{ padding: 20 }}>
+        <div className="page-content">
           {children}
         </div>
       </div>
