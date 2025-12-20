@@ -3743,3 +3743,14 @@ JOIN DapAn d
 WHERE h.TieuDe = N'Hoàn thiện câu từ' and d.LaDapAnDung=1
 ORDER BY c.MaCauHoi, d.MaDapAn;
 select * from LoaiHoatDong
+
+select * from nguoidung
+
+select h.tenmonhoc,l.tenloai,hd.mahoatdong,hd.tieude,hd.tongdiemtoida,ladapandung
+from hoatdonghoctap hd
+join HoatDong_CauHoi hc ON hd.MaHoatDong = hc.MaHoatDong
+join monhoc h on h.mamonhoc=hd.mamonhoc
+join cauhoi c on c.macauhoi=hc.macauhoi
+join loaihoatdong l on l.maloai=hd.maloai
+join dapan on dapan.macauhoi = c.macauhoi
+where l.tenloai=N'Giải trí' and LaDapAnDung=1

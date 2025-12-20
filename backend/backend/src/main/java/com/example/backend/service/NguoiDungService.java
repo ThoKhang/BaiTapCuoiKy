@@ -319,4 +319,9 @@ public class NguoiDungService implements INguoiDungService {
         return NguoiDungConverter.toResponse(existing);
     }
 
+    @Override
+    public void updateThongTinNguoiDung(String tenDangNhap, String email) {
+        int rows = nguoiDungRepository.updateTenDangNhap(email,tenDangNhap);
+    }
+    
 }
