@@ -15,7 +15,7 @@ public class LienHoanTinhToanViewModel extends ViewModel {
     public MutableLiveData<Boolean> ketQuaTaoTienTrinh = new MutableLiveData<>();
 
     public void loadDeLienHoanTinhToan() {
-        repo.getDeTinhNham().observeForever(data -> {
+        repo.getDeLienHoanTinhToan().observeForever(data -> {
             if (data != null)
                 deLienHoan.setValue(data);
             else

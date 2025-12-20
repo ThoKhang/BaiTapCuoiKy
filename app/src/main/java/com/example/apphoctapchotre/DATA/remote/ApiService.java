@@ -129,6 +129,6 @@ public interface ApiService {
     Call<DeOnLuyen> deHoanThien();
     @GET("cauhoi/trumTinhNham")
     Call<DeOnLuyen> deTinhNham();
-    @GET("cauhoi/lienHoanTinhToan")
+    @GET("/cauhoi/delienhoantinhtoan")
     Call<DeOnLuyen> deLienHoan();
 }

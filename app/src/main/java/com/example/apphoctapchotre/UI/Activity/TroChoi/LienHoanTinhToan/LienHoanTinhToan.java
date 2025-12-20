@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.UI.Activity.TroChoi.HoanThienCauTu.GioiThieuHoanThienCauTu;
+import com.example.apphoctapchotre.UI.Activity.TroChoi.LienHoanTinhToan.GioiThieuLienHoanTinhToan;
 
 public class LienHoanTinhToan extends AppCompatActivity {
     private Button btnThuNgay;
