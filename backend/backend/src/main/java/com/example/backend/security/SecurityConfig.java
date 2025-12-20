@@ -11,11 +11,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
-@EnableMethodSecurity // để dùng @PreAuthorize
+@EnableMethodSecurity
 public class SecurityConfig {
 
+    // ================= SECURITY FILTER =================
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -27,15 +33,17 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class)
 
                 .authorizeHttpRequests(auth -> auth
+
+                        // Preflight request
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // Login / auth
+                        // Auth
                         .requestMatchers("/api/auth/**").permitAll()
 
                         // Admin
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
-                        // Các API khác (Android app)
+                        // Các API khác
                         .requestMatchers("/api/**").permitAll()
 
                         // Còn lại
@@ -45,13 +53,40 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ===== PASSWORD ENCODER =====
+    // ================= CORS CONFIG =================
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+
+        CorsConfiguration config = new CorsConfiguration();
+
+        // ⚠️ FRONTEND VITE
+        config.setAllowedOrigins(List.of("http://localhost:5177"));
+
+        // Các method cho phép
+        config.setAllowedMethods(List.of(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+        ));
+
+        // Cho phép tất cả header
+        config.setAllowedHeaders(List.of("*"));
+
+        // Cho phép gửi cookie / authorization
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
+    // ================= PASSWORD ENCODER =================
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // ===== AUTH MANAGER =====
+    // ================= AUTH MANAGER =================
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration) throws Exception {

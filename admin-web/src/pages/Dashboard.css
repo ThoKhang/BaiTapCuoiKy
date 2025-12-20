@@ -111,8 +111,8 @@
   width: 4px;
 }
 
-/* Charts Grid */
-.charts-grid {
+/* Charts Section */
+.charts-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 20px;
@@ -137,9 +137,111 @@
   color: #1e293b;
 }
 
-.chart-container {
-  width: 100%;
+/* Bar Chart */
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bar-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.bar-rank {
+  background: #f1f5f9;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #334155;
+}
+
+.bar-name {
+  font-weight: 500;
+}
+
+.bar-container {
+  height: 24px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  transition: width 0.5s ease;
+}
+
+.bar-value {
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Distribution Chart */
+.distribution-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dist-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.dist-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 100px;
+}
+
+.dist-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.dist-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.dist-bar {
+  flex: 1;
+  height: 24px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dist-fill {
+  height: 100%;
+  transition: width 0.5s ease;
+  border-radius: 4px;
 }
 
 /* Leaderboard */
@@ -304,12 +406,8 @@
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .charts-grid {
+  .charts-section {
     grid-template-columns: 1fr;
-  }
-
-  .stat-card {
-    min-width: 100%;
   }
 }
 
