@@ -185,7 +185,7 @@ export default function MonHoc() {
                 <input
                   id="tenMonHoc"
                   type="text"
-                  placeholder="VD: Tiếng Anh"
+                  placeholder="VD: Toán học"
                   value={tenMonHoc}
                   onChange={e => setTenMonHoc(e.target.value)}
                   className="form-input"
