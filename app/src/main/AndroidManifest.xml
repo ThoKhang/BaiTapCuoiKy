@@ -43,6 +43,16 @@
         <activity
             android:name=".UI.Activity.TroChoi.HoanThienCauTu.HoanThienCauTu"
             android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.LienHoanTinhToan.LienHoanTinhToan"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.LienHoanTinhToan.GioiThieuLienHoanTinhToan"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.LienHoanTinhToan.NhapDapAnLienHoanTinhToan"
+            android:exported="false" />
+
 
         <receiver
             android:name=".Utility.AlarmReceiver"
