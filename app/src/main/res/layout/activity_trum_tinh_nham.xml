@@ -2,11 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bghoanthiencautu"
-    tools:context=".UI.Activity.TroChoi.HoanThienCauTu.GioiThieuHoanThienCauTu">
+    android:background="@drawable/bg_trum_tinh_nham"
+    tools:context=".UI.Activity.TroChoi.TrumTinhNham.TrumTinhNham">
 
     <LinearLayout
         android:id="@+id/headerLayout"
@@ -14,9 +13,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:layout_marginTop="30dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:layout_marginTop="30dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -32,40 +31,46 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Hoàn thiện câu từ"
+            android:text="Trùm tính nhẩm"
+            android:gravity="center"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:gravity="center"
             android:textColor="#000000" />
 
+        <ImageView
+            android:id="@+id/imgVuongMieng"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/vm" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/boxInfo"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="204dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/bg_blue_round"
-        android:orientation="vertical"
-        android:padding="25dp"
+    <FrameLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toTopOf="@+id/btnThuNgay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+        app:layout_constraintTop_toBottomOf="@+id/headerLayout">
 
-        <TextView
-            android:id="@+id/txtInfo"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="25dp"
-            android:paddingBottom="30dp"
-            android:text="Hoàn thành 20 câu hỏi trong thời gian quy định để chinh phục thử thách Hoàn thiện câu từ."
-            android:textColor="#000000"
-            android:textSize="25sp" />
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_purple_round"
+            android:padding="6dp" />
 
-    </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="-8dp"
+            android:layout_marginTop="-8dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tc_tinhnham" />
+    </FrameLayout>
 
     <Button
         android:id="@+id/btnThuNgay"

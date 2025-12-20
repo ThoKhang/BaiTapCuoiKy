@@ -30,15 +30,15 @@ public class GioiThieuKHViewPager extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPagerGTKH);
         viewPager.setAdapter(new GTKHPagerAdapter(this));
 
-        tabTiengAnhContainer = findViewById(R.id.tabTiengAnhContainer);
+        tabTiengAnhContainer = findViewById(R.id.tabTiengVietContainer);
         tabToanContainer = findViewById(R.id.tabToanContainer);
         tabGiaiTriContainer = findViewById(R.id.tabGiaiTriContainer);
 
-        tabTiengAnh = findViewById(R.id.tabTiengAnh);
+        tabTiengAnh = findViewById(R.id.tabTiengViet);
         tabToan = findViewById(R.id.tabToan);
         tabGiaiTri = findViewById(R.id.tabGiaiTri);
 
-        underlineTiengAnh = findViewById(R.id.underlineTiengAnh);
+        underlineTiengAnh = findViewById(R.id.underlineTiengViet);
         underlineToan = findViewById(R.id.underlineToan);
         underlineGiaiTri = findViewById(R.id.underlineGiaiTri);
 

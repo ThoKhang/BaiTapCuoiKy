@@ -76,4 +76,13 @@ public interface CauHoiRepository extends JpaRepository<CauHoi, String> {
     List<Object[]>hoanThienCauTu();
     //End : Hoàn thiện câu từ
 
+    //Start : Trùm tính nhẩm
+    @Query(value = "Select h.MaHoatDong,h.TieuDe,c.MaCauHoi,c.NoiDungCauHoi,c.DiemToiDa,d.MaDapAn,d.NoiDungDapAn,d.LaDapAnDung,c.GiaiThich from HoatDongHocTap h "
+            + "join HoatDong_CauHoi hc on h.MaHoatDong = hc.MaHoatDong "
+            + "join CauHoi c on c.MaCauHoi=hc.MaCauHoi "
+            + "join DapAn d on d.MaCauHoi=c.MaCauHoi "
+            + "WHERE h.TieuDe = N'Trùm tính nhẩm' And d.LaDapAnDung=1"
+            + "order by c.MaCauHoi, d.MaDapAn ",nativeQuery = true)
+    List<Object[]>trumTinhNham();
+    //End : Trùm tính nhẩm
 }

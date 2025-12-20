@@ -127,5 +127,6 @@ public interface ApiService {
     Call<List<TienTrinh>> soCauDaLam(@Query("email") String email, @Query("tieuDe") String tieuDe);
     @GET("cauhoi/deHoanThienCH")
     Call<DeOnLuyen> deHoanThien();
-
+    @GET("cauhoi/trumTinhNham")
+    Call<DeOnLuyen> deTinhNham();
 }
