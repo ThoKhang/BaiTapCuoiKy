@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.dto.request.FacebookLoginRequest;
 import com.example.backend.dto.request.GoogleLoginRequest;
 import com.example.backend.dto.request.LoginRequest;
 import com.example.backend.dto.request.RegisterRequest;
@@ -127,6 +128,14 @@ public class NguoiDungController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
-
-
+    @PostMapping("/login-facebook")
+    public ResponseEntity<?> loginFacebook(@RequestBody FacebookLoginRequest request) {
+        try {
+            NguoiDungResponse res = service.loginWithFacebook(request.getAccessToken());
+            return ResponseEntity.ok(res);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+    
 }
