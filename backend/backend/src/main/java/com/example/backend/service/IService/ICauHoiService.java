@@ -14,4 +14,5 @@ public interface ICauHoiService {
     DeOnLuyenResponse getDeCoBan(String tieuDe);
     DeOnLuyenResponse getDe();
     DeOnLuyenResponse getDeTrumTinhNham();
+    DeOnLuyenResponse getDeLienHoanTinhToan();
 }
