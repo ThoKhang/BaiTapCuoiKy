@@ -100,7 +100,6 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
                 tienTrinh.setSoCauDaLam(tongSoCau);
                 tienTrinh.setDaHoanThanh(0);
                 lienHoanTinhToanViewModel.guiTienTrinh(tienTrinh);
-
                 long tongGiay = tongThoiGian / 1000;
 
                 Intent intent = new Intent(this, KetQuaLienHoanTinhToan.class);
@@ -133,7 +132,6 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
             finish();
         });
     }
-
     private void hienCau(int i) {
         batDauCau = System.currentTimeMillis();
         CauHoi ch = danhSach.get(i);
@@ -143,7 +141,6 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
         tv_question_number.setText("Câu " + (soCau + 1) + "/" + danhSach.size());
         startTimer();
     }
-
     private void startTimer() {
         if (countDownTimer != null)
             countDownTimer.cancel();
@@ -186,7 +183,6 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
             }
         }.start();
     }
-
     private void ketThucBaiLam() {
         tienTrinh.setDaHoanThanh(1);
         tienTrinh.setSoCauDung(demCauDung);
@@ -194,9 +190,7 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
         tienTrinh.setSoCauDaLam(demCauDung + demCauSai);
         tienTrinh.setDaHoanThanh(1);
         lienHoanTinhToanViewModel.guiTienTrinh(tienTrinh);
-
         long tongGiay = tongThoiGian / 1000;
-
         Intent intent = new Intent(this, KetQuaLienHoanTinhToan.class);
         intent.putExtra("DIEM", demCauDung * 5);
         intent.putExtra("CAU_DUNG", demCauDung);
@@ -205,7 +199,6 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -51,6 +51,10 @@ public class KetQuaLienHoanTinhToan extends AppCompatActivity {
 
         Button btnThuLai = findViewById(R.id.btnThuLai);
         LinearLayout btnChiaSe = findViewById(R.id.btnChiaSe);
+        ivBack.setOnClickListener(v -> {
+            Intent intent = new Intent(KetQuaLienHoanTinhToan.this,
+                    Trochoi.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
         ivBack.setOnClickListener(v -> {
             Intent intent = new Intent(KetQuaLienHoanTinhToan.this,
