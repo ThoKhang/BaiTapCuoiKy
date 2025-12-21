@@ -5,11 +5,14 @@
 package com.example.backend.service.IService;
 
 import com.example.backend.dto.response.OnLuyenResponse;
+import com.example.backend.dto.response.toanTiengVietGiaiTriResponse;
+import java.util.List;
 
 /**
  *
  * @author ADMIN
  */
-public interface IOnLuyenService {
+public interface IHoatDongHocTap {
     OnLuyenResponse layThongTinOnLuyen(String email);
+    List<toanTiengVietGiaiTriResponse> toanTVGTri();
 }

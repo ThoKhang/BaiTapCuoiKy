@@ -3754,3 +3754,8 @@ join cauhoi c on c.macauhoi=hc.macauhoi
 join loaihoatdong l on l.maloai=hd.maloai
 join dapan on dapan.macauhoi = c.macauhoi
 where l.tenloai=N'Giải trí' and LaDapAnDung=1
+
+  select distinct h.tieude,mh.tenmonhoc,tenloai 
+  from hoatdonghoctap h
+  join monhoc mh on mh.MaMonHoc=h.MaMonHoc
+  join loaihoatdong l on l.maloai=h.MaLoai

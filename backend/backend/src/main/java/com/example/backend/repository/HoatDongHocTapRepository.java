@@ -50,5 +50,15 @@ public interface HoatDongHocTapRepository extends JpaRepository<HoatDongHocTap, 
     @Query(value = "SELECT COUNT(*) FROM HoatDongHocTap WHERE TieuDe LIKE N'Ôn NC%'", nativeQuery = true)
     int tongSoDeNangCao();
     //End Lấy ôn luyện
-
+    
+    // start lấy tiêu đề toán tiếng việt giải trí
+    @Query(value = """
+            select distinct h.tieude,mh.tenmonhoc,l.tenloai
+            from hoatdonghoctap h
+            join monhoc mh on mh.MaMonHoc = h.MaMonHoc
+            join loaihoatdong l on l.maloai = h.MaLoai
+        """,nativeQuery = true)
+    List<Object[]> toanTVGTri();
+    // end lấy tiêu đề toán tiếng việt giải trí
+    
 }
