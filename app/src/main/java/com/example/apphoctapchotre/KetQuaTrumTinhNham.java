@@ -13,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.apphoctapchotre.UI.Activity.TroChoi.Trochoi;
 import com.example.apphoctapchotre.UI.Activity.TroChoi.TrumTinhNham.GioiThieuTrumTinhNham;
 import com.example.apphoctapchotre.UI.Activity.TroChoi.TrumTinhNham.NhapDapAnTrumTinhNham;
 
@@ -53,7 +54,14 @@ public class KetQuaTrumTinhNham extends AppCompatActivity {
         Button btnQuayLai = findViewById(R.id.btnQuayLai);
         LinearLayout btnChiaSe = findViewById(R.id.btnChiaSe);
 
-        ivBack.setOnClickListener(v -> finish());
+        ivBack.setOnClickListener(v -> {
+            Intent intent = new Intent(KetQuaTrumTinhNham.this,
+                    Trochoi.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            startActivity(intent);
+            finish();
+        });
         btnQuayLai.setOnClickListener(v -> {
            Intent intent= new Intent(this, GioiThieuTrumTinhNham.class);
             startActivity(intent);
