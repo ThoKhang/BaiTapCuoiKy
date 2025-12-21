@@ -10,11 +10,9 @@ CREATE DATABASE UngDungHocTapChoTre;
 GO
 USE UngDungHocTapChoTre;
 GO
-
 ---------------------------------------------------------------------
 -- DDL: TẠO BẢNG
 ---------------------------------------------------------------------
-
 -- 1. Bảng NguoiDung
 CREATE TABLE NguoiDung (
     MaNguoiDung char(5) PRIMARY KEY,
@@ -25,6 +23,24 @@ CREATE TABLE NguoiDung (
     LanDangNhapCuoi DATETIME2 NULL,
     SoLanTrucTuyen INT DEFAULT 0,
     TongDiem INT DEFAULT 0
+);
+GO
+
+-- 1.1. Bảng VaiTro (Role) - THÊM MỚI
+CREATE TABLE VaiTro (
+    MaVaiTro char(5) PRIMARY KEY,
+    TenVaiTro NVARCHAR(50) NOT NULL UNIQUE,
+    MoTa NVARCHAR(200) NULL,
+    NgayTao DATETIME2 DEFAULT SYSUTCDATETIME()
+);
+GO
+
+-- 1.2. Bảng NguoiDung_VaiTro (Liên kết N:N) - THÊM MỚI
+CREATE TABLE NguoiDung_VaiTro (
+    MaNguoiDung char(5) FOREIGN KEY REFERENCES NguoiDung(MaNguoiDung) ON DELETE CASCADE,
+    MaVaiTro char(5) FOREIGN KEY REFERENCES VaiTro(MaVaiTro) ON DELETE CASCADE,
+    NgayGan DATETIME2 DEFAULT SYSUTCDATETIME(),
+    PRIMARY KEY (MaNguoiDung, MaVaiTro)
 );
 GO
 
@@ -93,6 +109,59 @@ CREATE TABLE TienTrinhHocTap (
     DiemDatDuoc INT DEFAULT 0,
     DaHoanThanh BIT NOT NULL DEFAULT 0
 );
+GO
+
+---------------------------------------------------------------------
+-- DML: CHÈN DỮ LIỆU
+---------------------------------------------------------------------
+
+-- 1. Chèn các VaiTro (Role)
+INSERT INTO VaiTro (MaVaiTro, TenVaiTro, MoTa) VALUES
+('ADMIN', 'Admin', 'Quản trị viên hệ thống'),
+('USER', 'Học sinh', 'Người dùng bình thường');
+GO
+
+-- 2. Chèn tài khoản ADMIN (Password: Admin@123)
+-- Lưu ý: Bạn cần hash password thực tế! Đây chỉ là ví dụ
+INSERT INTO NguoiDung (MaNguoiDung, TenDangNhap, Email, MatKhauMaHoa, NgayTao, TongDiem)
+VALUES ('AD001', 'admin', 'admin@school.edu', 'Admin@123', SYSUTCDATETIME(), 0);
+GO
+
+
+UPDATE NguoiDung
+SET MatKhauMaHoa = '$2a$10$tELn1wEH9gTWoBlVPSAaO.fcPuSC4.D57UHK4thjAAMly5/yNFFHC'
+WHERE TenDangNhap = 'admin';
+
+-- 3. Gán role ADMIN cho tài khoản admin
+INSERT INTO NguoiDung_VaiTro (MaNguoiDung, MaVaiTro)
+VALUES ('AD001', 'ADMIN');
+GO
+
+-- 4. GÃN ROLE USER CHO TẤT CẢ USER CŨ (Ngoài tài khoản admin)
+-- Lệnh này sẽ gán role USER cho tất cả user không phải admin
+INSERT INTO NguoiDung_VaiTro (MaNguoiDung, MaVaiTro)
+SELECT MaNguoiDung, 'USER' 
+FROM NguoiDung 
+WHERE MaNguoiDung != 'AD001'
+  AND MaNguoiDung NOT IN (SELECT MaNguoiDung FROM NguoiDung_VaiTro);
+GO
+
+---------------------------------------------------------------------
+-- KIỂM THỰC
+---------------------------------------------------------------------
+-- Kiểm tra VaiTro
+SELECT * FROM VaiTro;
+GO
+
+-- Kiểm tra NguoiDung (chỉ admin)
+SELECT * FROM NguoiDung WHERE MaNguoiDung = 'AD001';
+GO
+
+-- Kiểm tra phân quyền
+SELECT ND.MaNguoiDung, ND.TenDangNhap, VT.TenVaiTro 
+FROM NguoiDung ND
+LEFT JOIN NguoiDung_VaiTro NDVT ON ND.MaNguoiDung = NDVT.MaNguoiDung
+LEFT JOIN VaiTro VT ON NDVT.MaVaiTro = VT.MaVaiTro;
 GO
 
 

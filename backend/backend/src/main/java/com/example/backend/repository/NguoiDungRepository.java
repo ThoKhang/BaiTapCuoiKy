@@ -1,10 +1,14 @@
 package com.example.backend.repository;
 
 import com.example.backend.entity.NguoiDung;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 @Repository
 public interface NguoiDungRepository extends JpaRepository<NguoiDung, String> {
@@ -14,6 +18,9 @@ public interface NguoiDungRepository extends JpaRepository<NguoiDung, String> {
     // Đếm số người có điểm cao hơn -> hạng = số người có điểm cao hơn + 1
     @Query("SELECT COUNT(n) + 1 FROM NguoiDung n WHERE n.tongDiem > :tongDiem")
     int layHangNguoiDungTheoDiem(@Param("tongDiem") Integer tongDiem);
+
+    @Query("SELECT n FROM NguoiDung n ORDER BY n.tongDiem DESC")
+    List<NguoiDung> topNguoiDungTheoDiem(Pageable pageable);
 }
 
     
