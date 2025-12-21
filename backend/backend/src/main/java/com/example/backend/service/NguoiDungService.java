@@ -23,16 +23,28 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class NguoiDungService implements INguoiDungService {
 
     private static final String GOOGLE_CLIENT_ID =
         "770393692760-to1bqmiu4gkrtcjgha0ok23ejej9cmjr.apps.googleusercontent.com";
+
+    // ===== Facebook config từ application.properties =====
+    @Value("${facebook.app-id}")
+    private String facebookAppId;
+
+    @Value("${facebook.app-secret}")
+    private String facebookAppSecret;
 
     @Autowired
     private NguoiDungRepository nguoiDungRepository;
@@ -318,8 +330,90 @@ public class NguoiDungService implements INguoiDungService {
         capNhatDangNhapHangNgay(email);
         return NguoiDungConverter.toResponse(existing);
     }
+    // LOGIN WITH FACEBOOK
+    // (giốngverify -> lấy email/name -> tạo nếu chưa có)
+    @Override
+    public NguoiDungResponse loginWithFacebook(String accessToken) {
+        if (accessToken == null || accessToken.trim().isEmpty()) {
+            throw new RuntimeException("Thiếu Facebook accessToken!");
+        }
 
-     @Override
+        RestTemplate rest = new RestTemplate();
+
+        // 1) Verify token bằng debug_token
+        // access_token = appId|appSecret
+        String appAccessToken = facebookAppId + "|" + facebookAppSecret;
+
+        String debugUrl = UriComponentsBuilder
+                .fromHttpUrl("https://graph.facebook.com/debug_token")
+                .queryParam("input_token", accessToken)
+                .queryParam("access_token", appAccessToken)
+                .toUriString();
+
+        ResponseEntity<Map> debugResp = rest.getForEntity(debugUrl, Map.class);
+        Map body = debugResp.getBody();
+
+        if (body == null || body.get("data") == null) {
+            throw new RuntimeException("Không verify được token Facebook!");
+        }
+
+        Map data = (Map) body.get("data");
+        Boolean isValid = (Boolean) data.get("is_valid");
+        String appIdFromToken = data.get("app_id") != null ? data.get("app_id").toString() : null;
+
+        if (isValid == null || !isValid) {
+            throw new RuntimeException("Facebook token không hợp lệ hoặc đã hết hạn!");
+        }
+
+        if (appIdFromToken == null || !appIdFromToken.equals(facebookAppId)) {
+            throw new RuntimeException("Token không thuộc App Facebook này!");
+        }
+
+        // 2) Lấy user info từ /me
+        String meUrl = UriComponentsBuilder
+                .fromHttpUrl("https://graph.facebook.com/me")
+                .queryParam("fields", "id,name,email")
+                .queryParam("access_token", accessToken)
+                .toUriString();
+
+        ResponseEntity<Map> meResp = rest.getForEntity(meUrl, Map.class);
+        Map me = meResp.getBody();
+
+        if (me == null) {
+            throw new RuntimeException("Không lấy được thông tin người dùng từ Facebook!");
+        }
+        String fbId = me.get("id") != null ? me.get("id").toString() : null;
+        String name = me.get("name") != null ? me.get("name").toString() : null;
+        String email = me.get("email") != null ? me.get("email").toString() : null;
+
+        if (fbId == null || fbId.trim().isEmpty()) {
+            throw new RuntimeException("Facebook không trả về id người dùng!");
+        }
+
+        // Facebook có thể không trả email nếu chưa xin quyền "email"
+        if (email == null || email.trim().isEmpty()) {
+            throw new RuntimeException("Facebook không trả về email. Hãy xin quyền 'email' và đăng nhập lại.");
+        }
+
+        NguoiDung existing = nguoiDungRepository.findByEmail(email);
+
+        if (existing == null) {
+            String newId = "ND" + String.format("%03d", nguoiDungRepository.count() + 1);
+
+            NguoiDung nd = new NguoiDung();
+            nd.setMaNguoiDung(newId);
+            nd.setTenDangNhap((name != null && !name.trim().isEmpty()) ? name : ("fb_" + fbId));
+            nd.setEmail(email);
+            nd.setMatKhauMaHoa("FACEBOOK");
+
+            nguoiDungRepository.save(nd);
+            capNhatDangNhapHangNgay(email);
+            return NguoiDungConverter.toResponse(nd);
+        }
+        capNhatDangNhapHangNgay(email);
+        return NguoiDungConverter.toResponse(existing);
+    }
+    @Override
     public void updateThongTinNguoiDung(String tenDangNhap, String email) {
         int rows = nguoiDungRepository.updateTenDangNhap(email,tenDangNhap);
     }

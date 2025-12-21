@@ -25,20 +25,34 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.card.MaterialCardView;
+
+// Facebook SDK
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+
+import java.util.Arrays;
 
 public class GiaoDienDangNhap extends AppCompatActivity {
 
     private EditText eTextEmail, eTextMatKhau;
     private Button btnDangNhap;
     private TextView textQuenMatKhau, textDangKyNgay;
-    private MaterialCardView btnGoogle; // from layout
+
+    private MaterialCardView btnGoogle;    // from layout
+    private MaterialCardView btnFacebook;  // from layout
 
     private GiaoDienDangNhapViewModel viewModel;
     private String currentEmail = "";
 
     private GoogleSignInClient googleSignInClient;
+
+    // Facebook
+    private CallbackManager callbackManager;
 
     private final ActivityResultLauncher<Intent> googleLoginLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -60,50 +74,67 @@ public class GiaoDienDangNhap extends AppCompatActivity {
                     Toast.makeText(this, "Hủy đăng nhập Google", Toast.LENGTH_SHORT).show();
                 }
             });
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giao_dien_dang_nhap);
-
+        // Bind views
         eTextEmail = findViewById(R.id.eTextEmail);
         eTextMatKhau = findViewById(R.id.eTextMatKhau);
         btnDangNhap = findViewById(R.id.btnDangNhap);
         textQuenMatKhau = findViewById(R.id.textQuenMatKhau);
         textDangKyNgay = findViewById(R.id.textDangKyNgay);
         btnGoogle = findViewById(R.id.btnGoogle);
-
+        btnFacebook = findViewById(R.id.btnFacebook);
         viewModel = new ViewModelProvider(this).get(GiaoDienDangNhapViewModel.class);
-
-        // Config GoogleSignIn
+        // ===================== GOOGLE =====================
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        // Observe toast messages
+        // ===================== FACEBOOK =====================
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                String accessToken = loginResult.getAccessToken().getToken();
+                viewModel.loginWithFacebook(accessToken);
+            }
+            @Override
+            public void onCancel() {
+                Toast.makeText(GiaoDienDangNhap.this, "Hủy đăng nhập Facebook", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(GiaoDienDangNhap.this,
+                        "Facebook login failed: " + (error != null ? error.getMessage() : ""),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        // ===================== OBSERVE =====================
         viewModel.toastMessage.observe(this, msg -> {
             if (msg != null && !msg.isEmpty()) {
                 Toast.makeText(GiaoDienDangNhap.this, msg, Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Observe login success (email/mật khẩu) -> sang màn OTP
+        // Email/mật khẩu -> sang OTP
         viewModel.loginSuccess.observe(this, success -> {
             if (success != null && success) {
                 openOtpScreen(currentEmail);
             }
         });
-
-        // Observe Google user -> đã đăng nhập xong, vào app luôn
         viewModel.googleUser.observe(this, user -> {
             if (user != null) {
-                onGoogleLoginSuccess(user);
+                onSocialLoginSuccess(user);
             }
         });
-
-        // Quên mật khẩu
+        viewModel.facebookUser.observe(this, user -> {
+            if (user != null) {
+                onSocialLoginSuccess(user);
+            }
+        });
+        // ===================== CLICK =====================
         textQuenMatKhau.setOnClickListener(v -> {
             String email = eTextEmail.getText().toString().trim();
             Intent intent = new Intent(GiaoDienDangNhap.this, QuenMatKhauOTP.class);
@@ -113,12 +144,9 @@ public class GiaoDienDangNhap extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Đăng ký
         textDangKyNgay.setOnClickListener(v ->
                 startActivity(new Intent(GiaoDienDangNhap.this, DangKy.class))
         );
-
-        // Đăng nhập thường
         btnDangNhap.setOnClickListener(v -> {
             String email = eTextEmail.getText().toString().trim();
             String password = eTextMatKhau.getText().toString().trim();
@@ -126,13 +154,19 @@ public class GiaoDienDangNhap extends AppCompatActivity {
             viewModel.login(email, password);
         });
 
-        // Đăng nhập Google
         btnGoogle.setOnClickListener(v -> {
             Intent signInIntent = googleSignInClient.getSignInIntent();
             googleLoginLauncher.launch(signInIntent);
         });
-    }
 
+        btnFacebook.setOnClickListener(v -> {
+            // Xin quyền cơ bản (email có thể null nếu Facebook account không public email)
+            LoginManager.getInstance().logInWithReadPermissions(
+                    GiaoDienDangNhap.this,
+                    Arrays.asList("email", "public_profile")
+            );
+        });
+    }
     private void openOtpScreen(String email) {
         Intent intent = new Intent(GiaoDienDangNhap.this, DangNhapOTP.class);
         intent.putExtra("EMAIL", email);
@@ -140,8 +174,8 @@ public class GiaoDienDangNhap extends AppCompatActivity {
         finish();
     }
 
-    private void onGoogleLoginSuccess(NguoiDung nguoiDung) {
-        // Lưu SharedPreferences giống OTP login
+    // Dùng chung cho Google/Facebook (vì backend trả NguoiDung như nhau)
+    private void onSocialLoginSuccess(NguoiDung nguoiDung) {
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         prefs.edit()
                 .putBoolean("isLoggedIn", true)
@@ -153,5 +187,13 @@ public class GiaoDienDangNhap extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (callbackManager != null) {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

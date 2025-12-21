@@ -17,7 +17,8 @@ public class GiaoDienDangNhapViewModel extends ViewModel {
     private final MutableLiveData<String> _toastMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> _loginSuccess = new MutableLiveData<>();
     private final MutableLiveData<NguoiDung> _googleUser = new MutableLiveData<>();
-
+    private final MutableLiveData<NguoiDung> _facebookUser = new MutableLiveData<>();
+    public LiveData<NguoiDung> facebookUser = _facebookUser;
     public LiveData<Boolean> loading = _loading;
     public LiveData<String> toastMessage = _toastMessage;
     public LiveData<Boolean> loginSuccess = _loginSuccess;
@@ -83,4 +84,25 @@ public class GiaoDienDangNhapViewModel extends ViewModel {
             }
         });
     }
+    public void loginWithFacebook(String accessToken) {
+        if (accessToken == null || accessToken.trim().isEmpty()) {
+            _toastMessage.setValue("Không lấy được accessToken Facebook!");
+            return;
+        }
+        _loading.setValue(true);
+        authRepository.loginWithFacebook(accessToken, new AuthRepository.FacebookLoginListener() {
+            @Override
+            public void onSuccess(NguoiDung nguoiDung) {
+                _loading.postValue(false);
+                _facebookUser.postValue(nguoiDung);
+                _toastMessage.postValue("Đăng nhập Facebook thành công!");
+            }
+            @Override
+            public void onError(String message) {
+                _loading.postValue(false);
+                _toastMessage.postValue(message);
+            }
+        });
+    }
+
 }
