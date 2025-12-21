@@ -6,7 +6,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -44,14 +43,19 @@ public class KetQuaLienHoanTinhToan extends AppCompatActivity {
         TextView tvWrong = findViewById(R.id.tv_wrong);
         TextView tvTime = findViewById(R.id.tv_time);
         ImageView ivBack = findViewById(R.id.quayLai);
-
         tvScore.setText(diem + "/100");
         tvCorrect.setText(cauDung + "");
         tvWrong.setText(cauSai + "");
         tvTime.setText(phut + " phút " + giay + " giây");
 
+
         Button btnThuLai = findViewById(R.id.btnThuLai);
         LinearLayout btnChiaSe = findViewById(R.id.btnChiaSe);
+        ivBack.setOnClickListener(v -> {
+            Intent intent = new Intent(KetQuaLienHoanTinhToan.this,
+                    Trochoi.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
         ivBack.setOnClickListener(v -> {
             Intent intent = new Intent(KetQuaLienHoanTinhToan.this,
                     Trochoi.class);

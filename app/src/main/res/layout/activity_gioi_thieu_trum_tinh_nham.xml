@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="25dp"
             android:paddingBottom="30dp"
-            android:text="Hoàn thành 10 câu hỏi trong thời gian quy định để chinh phục thử thách Trùm tính nhẩm."
+            android:text="Hoàn thành 20 câu hỏi trong thời gian quy định để chinh phục thử thách Trùm tính nhẩm."
             android:textColor="#000000"
             android:textSize="25sp" />
 

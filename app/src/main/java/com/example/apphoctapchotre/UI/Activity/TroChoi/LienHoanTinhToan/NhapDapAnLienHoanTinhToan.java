@@ -101,6 +101,7 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
                 tienTrinh.setDaHoanThanh(0);
                 lienHoanTinhToanViewModel.guiTienTrinh(tienTrinh);
                 long tongGiay = tongThoiGian / 1000;
+
                 Intent intent = new Intent(this, KetQuaLienHoanTinhToan.class);
                 intent.putExtra("DIEM", 0);
                 intent.putExtra("CAU_DUNG", demCauDung);
@@ -187,6 +188,7 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
         tienTrinh.setSoCauDung(demCauDung);
         tienTrinh.setDiemDatDuoc(demCauDung * 5);
         tienTrinh.setSoCauDaLam(demCauDung + demCauSai);
+        tienTrinh.setDaHoanThanh(1);
         lienHoanTinhToanViewModel.guiTienTrinh(tienTrinh);
         long tongGiay = tongThoiGian / 1000;
         Intent intent = new Intent(this, KetQuaLienHoanTinhToan.class);
