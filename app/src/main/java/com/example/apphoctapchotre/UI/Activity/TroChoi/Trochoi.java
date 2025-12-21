@@ -10,9 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.apphoctapchotre.UI.Activity.Games.sudoku;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.TroChoi.HoanThienCauTu.HoanThienCauTu;
+import com.example.apphoctapchotre.UI.Activity.TroChoi.LienHoanTinhToan.LienHoanTinhToan;
+import com.example.apphoctapchotre.UI.Activity.TroChoi.TrumTinhNham.TrumTinhNham;
 
 public class Trochoi extends AppCompatActivity {
     private LinearLayout LNHoanThienCT;
+    private LinearLayout LNTrumTinhNham;
+    private LinearLayout LNLhTinhToan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,17 @@ public class Trochoi extends AppCompatActivity {
         LNHoanThienCT=findViewById(R.id.LNHoanThienCT);
         LNHoanThienCT.setOnClickListener(v -> {
             Intent intent = new Intent(this, HoanThienCauTu.class);
+            startActivity(intent);
+        });
+        LNTrumTinhNham=findViewById(R.id.LNTrumTinhNham);
+        LNTrumTinhNham.setOnClickListener(v -> {
+            Intent intent = new Intent(this, TrumTinhNham.class);
+            startActivity(intent);
+        });
+
+        LNLhTinhToan=findViewById(R.id.LNLhTinhToan);
+        LNLhTinhToan.setOnClickListener(v -> {
+            Intent intent = new Intent(this, LienHoanTinhToan.class);
             startActivity(intent);
         });
     }

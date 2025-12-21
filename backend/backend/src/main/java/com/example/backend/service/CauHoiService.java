@@ -353,4 +353,98 @@ public class CauHoiService implements ICauHoiService{
         return deResponse;
     }
     //End : Hoàn thiện câu 
+    
+    //Start : Trùm tính nhẩm
+    @Override
+    public DeOnLuyenResponse getDeTrumTinhNham() {
+        DeOnLuyenResponse deResponse= new DeOnLuyenResponse();
+        List<Object[]> listDe=cauhoirepo.trumTinhNham();
+        if(listDe.isEmpty())
+            return null;
+        Map<String,CauHoiResponse> map = new LinkedHashMap<>();
+        for(Object[] row : listDe){
+            String maHD=(String) row[0];
+            String tieuDe=(String) row[1];
+            String MaCauHoi=(String) row[2];
+            String NoiDungCauHoi=(String) row[3];
+            int diemToiDa=(int)row[4];
+            String MaDapAn=(String) row[5];
+            String NoiDungDapAn=(String) row[6];
+            boolean LaDapAnDung=(boolean) row[7];
+            String giaiThich=(String)row[8];
+            
+            deResponse.setMaHoatDong(maHD);
+            deResponse.setTieuDe(tieuDe);
+            
+            CauHoiResponse cauHoiRespons=map.get(MaCauHoi);
+            if(cauHoiRespons==null){
+                cauHoiRespons = new CauHoiResponse();
+                cauHoiRespons.setMaCauHoi(MaCauHoi);
+                cauHoiRespons.setNoiDungCauHoi(NoiDungCauHoi);
+                cauHoiRespons.setDiemToiDa(diemToiDa);
+                cauHoiRespons.setGiaiThich(giaiThich);
+                cauHoiRespons.setDapAn(new ArrayList<>());
+                map.put(MaCauHoi, cauHoiRespons);
+            }
+            
+            DapAnResponse DAResponse = new DapAnResponse();
+            DAResponse.setLaDapAnDung(LaDapAnDung);
+            DAResponse.setMaCauHoi(MaCauHoi);
+            DAResponse.setMaDapAn(MaDapAn);
+            DAResponse.setNoiDungDapAn(NoiDungDapAn);
+            cauHoiRespons.getDapAn().add(DAResponse);
+            
+        }
+        deResponse.setDanhSachCauHoi(new ArrayList<>(map.values()));
+        return deResponse;
+    }
+    //End : Trùm tính nhẩm
+
+    //Start : Trùm tính nhẩm
+    @Override
+    public DeOnLuyenResponse getDeLienHoanTinhToan() {
+        DeOnLuyenResponse deResponse= new DeOnLuyenResponse();
+        List<Object[]> listDe=cauhoirepo.lienHoanTinhToan();
+        if(listDe.isEmpty())
+            return null;
+        Map<String,CauHoiResponse> map = new LinkedHashMap<>();
+        for(Object[] row : listDe){
+            String maHD=(String) row[0];
+            String tieuDe=(String) row[1];
+            String MaCauHoi=(String) row[2];
+            String NoiDungCauHoi=(String) row[3];
+            int diemToiDa=(int)row[4];
+            String MaDapAn=(String) row[5];
+            String NoiDungDapAn=(String) row[6];
+            boolean LaDapAnDung=(boolean) row[7];
+            String giaiThich=(String)row[8];
+
+            deResponse.setMaHoatDong(maHD);
+            deResponse.setTieuDe(tieuDe);
+
+            CauHoiResponse cauHoiRespons=map.get(MaCauHoi);
+            if(cauHoiRespons==null){
+                cauHoiRespons = new CauHoiResponse();
+                cauHoiRespons.setMaCauHoi(MaCauHoi);
+                cauHoiRespons.setNoiDungCauHoi(NoiDungCauHoi);
+                cauHoiRespons.setDiemToiDa(diemToiDa);
+                cauHoiRespons.setGiaiThich(giaiThich);
+                cauHoiRespons.setDapAn(new ArrayList<>());
+                map.put(MaCauHoi, cauHoiRespons);
+            }
+
+            DapAnResponse DAResponse = new DapAnResponse();
+            DAResponse.setLaDapAnDung(LaDapAnDung);
+            DAResponse.setMaCauHoi(MaCauHoi);
+            DAResponse.setMaDapAn(MaDapAn);
+            DAResponse.setNoiDungDapAn(NoiDungDapAn);
+            cauHoiRespons.getDapAn().add(DAResponse);
+
+        }
+        deResponse.setDanhSachCauHoi(new ArrayList<>(map.values()));
+        return deResponse;
+    }
+    //End : Trùm tính nhẩm
+
+    
 }

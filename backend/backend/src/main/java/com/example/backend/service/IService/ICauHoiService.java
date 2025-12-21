@@ -13,4 +13,6 @@ import com.example.backend.dto.response.DeOnLuyenResponse;
 public interface ICauHoiService {
     DeOnLuyenResponse getDeCoBan(String tieuDe);
     DeOnLuyenResponse getDe();
+    DeOnLuyenResponse getDeTrumTinhNham();
+    DeOnLuyenResponse getDeLienHoanTinhToan();
 }

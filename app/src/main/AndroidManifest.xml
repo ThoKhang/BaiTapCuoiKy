@@ -20,6 +20,18 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".KetQuaTrumTinhNham"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.TrumTinhNham.GioiThieuTrumTinhNham"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.TrumTinhNham.NhapDapAnTrumTinhNham"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.TrumTinhNham.TrumTinhNham"
+            android:exported="false" />
+        <activity
             android:name=".KetQuaHoanThienCauTu"
             android:exported="false" />
         <activity
@@ -31,6 +43,16 @@
         <activity
             android:name=".UI.Activity.TroChoi.HoanThienCauTu.HoanThienCauTu"
             android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.LienHoanTinhToan.LienHoanTinhToan"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.LienHoanTinhToan.GioiThieuLienHoanTinhToan"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.LienHoanTinhToan.NhapDapAnLienHoanTinhToan"
+            android:exported="false" />
+
 
         <receiver
             android:name=".Utility.AlarmReceiver"

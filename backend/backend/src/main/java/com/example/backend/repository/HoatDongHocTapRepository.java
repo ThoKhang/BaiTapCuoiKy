@@ -60,5 +60,7 @@ public interface HoatDongHocTapRepository extends JpaRepository<HoatDongHocTap, 
         """,nativeQuery = true)
     List<Object[]> toanTVGTri();
     // end lấy tiêu đề toán tiếng việt giải trí
-    
+
+    @Query("SELECT h.maMonHoc, COUNT(h) FROM HoatDongHocTap h GROUP BY h.maMonHoc")
+    List<Object[]> thongKeSoHoatDongTheoMon();
 }

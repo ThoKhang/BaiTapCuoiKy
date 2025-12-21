@@ -10,11 +10,9 @@ CREATE DATABASE UngDungHocTapChoTre;
 GO
 USE UngDungHocTapChoTre;
 GO
-
 ---------------------------------------------------------------------
 -- DDL: TẠO BẢNG
 ---------------------------------------------------------------------
-
 -- 1. Bảng NguoiDung
 CREATE TABLE NguoiDung (
     MaNguoiDung char(5) PRIMARY KEY,
@@ -25,6 +23,24 @@ CREATE TABLE NguoiDung (
     LanDangNhapCuoi DATETIME2 NULL,
     SoLanTrucTuyen INT DEFAULT 0,
     TongDiem INT DEFAULT 0
+);
+GO
+
+-- 1.1. Bảng VaiTro (Role) - THÊM MỚI
+CREATE TABLE VaiTro (
+    MaVaiTro char(5) PRIMARY KEY,
+    TenVaiTro NVARCHAR(50) NOT NULL UNIQUE,
+    MoTa NVARCHAR(200) NULL,
+    NgayTao DATETIME2 DEFAULT SYSUTCDATETIME()
+);
+GO
+
+-- 1.2. Bảng NguoiDung_VaiTro (Liên kết N:N) - THÊM MỚI
+CREATE TABLE NguoiDung_VaiTro (
+    MaNguoiDung char(5) FOREIGN KEY REFERENCES NguoiDung(MaNguoiDung) ON DELETE CASCADE,
+    MaVaiTro char(5) FOREIGN KEY REFERENCES VaiTro(MaVaiTro) ON DELETE CASCADE,
+    NgayGan DATETIME2 DEFAULT SYSUTCDATETIME(),
+    PRIMARY KEY (MaNguoiDung, MaVaiTro)
 );
 GO
 
@@ -93,6 +109,59 @@ CREATE TABLE TienTrinhHocTap (
     DiemDatDuoc INT DEFAULT 0,
     DaHoanThanh BIT NOT NULL DEFAULT 0
 );
+GO
+
+---------------------------------------------------------------------
+-- DML: CHÈN DỮ LIỆU
+---------------------------------------------------------------------
+
+-- 1. Chèn các VaiTro (Role)
+INSERT INTO VaiTro (MaVaiTro, TenVaiTro, MoTa) VALUES
+('ADMIN', 'Admin', 'Quản trị viên hệ thống'),
+('USER', 'Học sinh', 'Người dùng bình thường');
+GO
+
+-- 2. Chèn tài khoản ADMIN (Password: Admin@123)
+-- Lưu ý: Bạn cần hash password thực tế! Đây chỉ là ví dụ
+INSERT INTO NguoiDung (MaNguoiDung, TenDangNhap, Email, MatKhauMaHoa, NgayTao, TongDiem)
+VALUES ('AD001', 'admin', 'admin@school.edu', 'Admin@123', SYSUTCDATETIME(), 0);
+GO
+
+
+UPDATE NguoiDung
+SET MatKhauMaHoa = '$2a$10$tELn1wEH9gTWoBlVPSAaO.fcPuSC4.D57UHK4thjAAMly5/yNFFHC'
+WHERE TenDangNhap = 'admin';
+
+-- 3. Gán role ADMIN cho tài khoản admin
+INSERT INTO NguoiDung_VaiTro (MaNguoiDung, MaVaiTro)
+VALUES ('AD001', 'ADMIN');
+GO
+
+-- 4. GÃN ROLE USER CHO TẤT CẢ USER CŨ (Ngoài tài khoản admin)
+-- Lệnh này sẽ gán role USER cho tất cả user không phải admin
+INSERT INTO NguoiDung_VaiTro (MaNguoiDung, MaVaiTro)
+SELECT MaNguoiDung, 'USER' 
+FROM NguoiDung 
+WHERE MaNguoiDung != 'AD001'
+  AND MaNguoiDung NOT IN (SELECT MaNguoiDung FROM NguoiDung_VaiTro);
+GO
+
+---------------------------------------------------------------------
+-- KIỂM THỰC
+---------------------------------------------------------------------
+-- Kiểm tra VaiTro
+SELECT * FROM VaiTro;
+GO
+
+-- Kiểm tra NguoiDung (chỉ admin)
+SELECT * FROM NguoiDung WHERE MaNguoiDung = 'AD001';
+GO
+
+-- Kiểm tra phân quyền
+SELECT ND.MaNguoiDung, ND.TenDangNhap, VT.TenVaiTro 
+FROM NguoiDung ND
+LEFT JOIN NguoiDung_VaiTro NDVT ON ND.MaNguoiDung = NDVT.MaNguoiDung
+LEFT JOIN VaiTro VT ON NDVT.MaVaiTro = VT.MaVaiTro;
 GO
 
 
@@ -1422,7 +1491,29 @@ VALUES
 ('CHG037', N'Tính: 14 × 2 - 7 = ?', N'Nhân trước, rồi trừ.', 5),
 ('CHG038', N'Tính: (9 + 12) ÷ 3 = ?', N'Tính trong ngoặc, rồi chia.', 5),
 ('CHG039', N'Tính: 48 ÷ (12 - 8) = ?', N'Tính trong ngoặc, rồi chia.', 5),
-('CHG040', N'Tính: 30 - 6 × 3 = ?', N'Nhân trước, rồi trừ.', 5);
+('CHG040', N'Tính: 30 - 6 × 3 = ?', N'Nhân trước, rồi trừ.', 5),
+
+('CHG041', N'Tính: 4 + 5 = ?', N'Bé hãy dùng quy tắc phép cộng để làm bài này nhé.', 5),
+('CHG042', N'Tính: 9 - 3 = ?', N'Bé hãy dùng quy tắc phép trừ để làm bài này nhé.', 5),
+('CHG043', N'Tính: 6 + 2 = ?', N'Bé hãy dùng quy tắc phép cộng để làm bài này nhé.', 5),
+('CHG044', N'Tính: 8 - 4 = ?', N'Bé hãy dùng quy tắc phép trừ để làm bài này nhé.', 5),
+('CHG045', N'Tính: 3 × 2 = ?', N'Bé hãy dùng quy tắc phép nhân để làm bài này nhé.', 5),
+('CHG046', N'Tính: 12 ÷ 3 = ?', N'Bé hãy dùng quy tắc phép chia để làm bài này nhé.', 5),
+('CHG047', N'Tính: 7 + 6 = ?', N'Bé hãy dùng quy tắc phép cộng để làm bài này nhé.', 5),
+('CHG048', N'Tính: 15 - 7 = ?', N'Bé hãy dùng quy tắc phép trừ để làm bài này nhé.', 5),
+('CHG049', N'Tính: 4 × 3 = ?', N'Bé hãy dùng quy tắc phép nhân để làm bài này nhé.', 5),
+('CHG050', N'Tính: 16 ÷ 4 = ?', N'Bé hãy dùng quy tắc phép chia để làm bài này nhé.', 5),
+('CHG051', N'Tính: 5 + 7 = ?', N'Bé hãy dùng quy tắc phép cộng để làm bài này nhé.', 5),
+('CHG052', N'Tính: 9 - 5 = ?', N'Bé hãy dùng quy tắc phép trừ để làm bài này nhé.', 5),
+('CHG053', N'Tính: 2 × 6 = ?', N'Bé hãy dùng quy tắc phép nhân để làm bài này nhé.', 5),
+('CHG054', N'Tính: 14 ÷ 2 = ?', N'Bé hãy dùng quy tắc phép chia để làm bài này nhé.', 5),
+('CHG055', N'Tính: 8 + 3 = ?', N'Bé hãy dùng quy tắc phép cộng để làm bài này nhé.', 5),
+('CHG056', N'Tính: 10 - 6 = ?', N'Bé hãy dùng quy tắc phép trừ để làm bài này nhé.', 5),
+('CHG057', N'Tính: 3 × 4 = ?', N'Bé hãy dùng quy tắc phép nhân để làm bài này nhé.', 5),
+('CHG058', N'Tính: 18 ÷ 6 = ?', N'Bé hãy dùng quy tắc phép chia để làm bài này nhé.', 5),
+('CHG059', N'Tính: 6 + 7 = ?', N'Bé hãy dùng quy tắc phép cộng để làm bài này nhé.', 5),
+('CHG060', N'Tính: 11 - 3 = ?', N'Bé hãy dùng quy tắc phép trừ để làm bài này nhé.', 5);
+
 GO
 
 ---------------------------------------------
@@ -2031,7 +2122,30 @@ INSERT INTO #MathKey (MaCauHoi, DapAnDung) VALUES
     ('CHG037', 21), -- 14×2-7
     ('CHG038',  7), -- (9+12)÷3
     ('CHG039', 12), -- 48÷(12-8)
-    ('CHG040', 12); -- 30-6×3
+    ('CHG040', 12), -- 30-6×3
+
+	('CHG041',  9), -- 4 + 5
+	('CHG042',  6), -- 9 - 3
+	('CHG043',  8), -- 6 + 2
+	('CHG044',  4), -- 8 - 4
+	('CHG045',  6), -- 3 × 2
+	('CHG046',  4), -- 12 ÷ 3
+	('CHG047', 13), -- 7 + 6
+	('CHG048',  8), -- 15 - 7
+	('CHG049', 12), -- 4 × 3
+	('CHG050',  4), -- 16 ÷ 4
+	('CHG051', 12), -- 5 + 7
+	('CHG052',  4), -- 9 - 5	
+	('CHG053', 12), -- 2 × 6
+	('CHG054',  7), -- 14 ÷ 2
+	('CHG055', 11), -- 8 + 3
+	('CHG056',  4), -- 10 - 6
+	('CHG057', 12), -- 3 × 4
+	('CHG058',  3), -- 18 ÷ 6
+	('CHG059', 13), -- 6 + 7
+	('CHG060',  8); -- 11 - 3
+
+
 GO
 --Tạo 3 đáp án sai
 ;WITH Q AS (
@@ -3682,7 +3796,24 @@ JOIN HoatDong_CauHoi HQ ON HD.MaHoatDong = HQ.MaHoatDong
 JOIN CauHoi CH ON HQ.MaCauHoi = CH.MaCauHoi
 WHERE HD.MaLoai = 'LHD02' AND HD.MaMonHoc = 'MH002'
 ORDER BY HD.MaHoatDong, HQ.ThuTu;
+----------------------------insert Tính toán liên hoàn---------------------------------
+GO
+DECLARE @ch INT = 41;
+DECLARE @thuTu INT = 1;
 
+WHILE @ch <= 60
+BEGIN
+    INSERT INTO HoatDong_CauHoi (MaHoatDong, MaCauHoi, ThuTu)
+    VALUES (
+        'TC001',
+        'CHG' + RIGHT('000' + CAST(@ch AS VARCHAR(3)), 3),
+        @thuTu
+    );
+
+    SET @ch = @ch + 1;
+    SET @thuTu = @thuTu + 1;
+END
+GO
 
 SELECT 
     h.MaHoatDong,
@@ -3743,6 +3874,7 @@ JOIN DapAn d
 WHERE h.TieuDe = N'Hoàn thiện câu từ' and d.LaDapAnDung=1
 ORDER BY c.MaCauHoi, d.MaDapAn;
 select * from LoaiHoatDong
+<<<<<<< HEAD
 
 select * from nguoidung
 
@@ -3759,3 +3891,23 @@ where l.tenloai=N'Giải trí' and LaDapAnDung=1
   from hoatdonghoctap h
   join monhoc mh on mh.MaMonHoc=h.MaMonHoc
   join loaihoatdong l on l.maloai=h.MaLoai
+=======
+SELECT 
+    h.MaHoatDong,
+    h.TieuDe,
+    c.MaCauHoi,
+    c.DiemToiDa,
+    c.NoiDungCauHoi AS CauHoi,
+    d.MaDapAn,
+    d.NoiDungDapAn AS DapAn,
+    d.LaDapAnDung
+FROM HoatDongHocTap h
+JOIN HoatDong_CauHoi hc 
+    ON h.MaHoatDong = hc.MaHoatDong
+JOIN CauHoi c 
+    ON hc.MaCauHoi = c.MaCauHoi
+JOIN DapAn d 
+    ON c.MaCauHoi = d.MaCauHoi
+WHERE h.TieuDe = N'Liên hoàn tính toán' and d.LaDapAnDung=1
+ORDER BY c.MaCauHoi, d.MaDapAn;
+>>>>>>> 3e44ba55293f83d6ee614296977894665c226f3b
