@@ -3,6 +3,7 @@ package com.example.apphoctapchotre;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 
 import com.example.apphoctapchotre.UI.Activity.TroChoi.LienHoanTinhToan.NhapDapAnLienHoanTinhToan;
+import com.example.apphoctapchotre.UI.Activity.TroChoi.Trochoi;
 
 public class KetQuaLienHoanTinhToan extends AppCompatActivity {
 
@@ -21,7 +23,7 @@ public class KetQuaLienHoanTinhToan extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_ket_qua_trum_tinh_nham);
+        setContentView(R.layout.activity_ket_qua_lien_hoan_tinh_toan);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -41,16 +43,24 @@ public class KetQuaLienHoanTinhToan extends AppCompatActivity {
         TextView tvCorrect = findViewById(R.id.tv_correct);
         TextView tvWrong = findViewById(R.id.tv_wrong);
         TextView tvTime = findViewById(R.id.tv_time);
+        ImageView ivBack = findViewById(R.id.quayLai);
 
         tvScore.setText(diem + "/100");
         tvCorrect.setText(cauDung + "");
         tvWrong.setText(cauSai + "");
         tvTime.setText(phut + " phút " + giay + " giây");
 
-        Button btnQuayLai = findViewById(R.id.btnQuayLai);
+        Button btnThuLai = findViewById(R.id.btnThuLai);
         LinearLayout btnChiaSe = findViewById(R.id.btnChiaSe);
+        ivBack.setOnClickListener(v -> {
+            Intent intent = new Intent(KetQuaLienHoanTinhToan.this,
+                    Trochoi.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        btnQuayLai.setOnClickListener(v -> {
+            startActivity(intent);
+            finish();
+        });
+        btnThuLai.setOnClickListener(v -> {
             Intent intent= new Intent(this, NhapDapAnLienHoanTinhToan.class);
             startActivity(intent);
         });

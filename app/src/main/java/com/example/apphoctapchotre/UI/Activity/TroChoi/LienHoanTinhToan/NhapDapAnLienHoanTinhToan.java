@@ -18,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.apphoctapchotre.DATA.model.CauHoi;
 import com.example.apphoctapchotre.DATA.model.TienTrinh;
 import com.example.apphoctapchotre.KetQuaLienHoanTinhToan;
-import com.example.apphoctapchotre.KetQuaTrumTinhNham;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.ViewModel.LienHoanTinhToanViewModel;
 
@@ -99,11 +98,10 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
                 tienTrinh.setSoCauDung(demCauDung);
                 tienTrinh.setDiemDatDuoc(0);
                 tienTrinh.setSoCauDaLam(tongSoCau);
+                tienTrinh.setDaHoanThanh(0);
                 lienHoanTinhToanViewModel.guiTienTrinh(tienTrinh);
-
                 long tongGiay = tongThoiGian / 1000;
-
-                Intent intent = new Intent(this, KetQuaTrumTinhNham.class);
+                Intent intent = new Intent(this, KetQuaLienHoanTinhToan.class);
                 intent.putExtra("DIEM", 0);
                 intent.putExtra("CAU_DUNG", demCauDung);
                 intent.putExtra("CAU_SAI", demCauSai);
@@ -133,7 +131,6 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
             finish();
         });
     }
-
     private void hienCau(int i) {
         batDauCau = System.currentTimeMillis();
         CauHoi ch = danhSach.get(i);
@@ -143,7 +140,6 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
         tv_question_number.setText("Câu " + (soCau + 1) + "/" + danhSach.size());
         startTimer();
     }
-
     private void startTimer() {
         if (countDownTimer != null)
             countDownTimer.cancel();
@@ -186,23 +182,21 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
             }
         }.start();
     }
-
     private void ketThucBaiLam() {
+        tienTrinh.setDaHoanThanh(1);
         tienTrinh.setSoCauDung(demCauDung);
         tienTrinh.setDiemDatDuoc(demCauDung * 5);
         tienTrinh.setSoCauDaLam(demCauDung + demCauSai);
         lienHoanTinhToanViewModel.guiTienTrinh(tienTrinh);
-
         long tongGiay = tongThoiGian / 1000;
-
-        Intent intent = new Intent(this, KetQuaTrumTinhNham.class);
+        Intent intent = new Intent(this, KetQuaLienHoanTinhToan.class);
         intent.putExtra("DIEM", demCauDung * 5);
         intent.putExtra("CAU_DUNG", demCauDung);
         intent.putExtra("CAU_SAI", demCauSai);
         intent.putExtra("THOI_GIAN", tongGiay);
         startActivity(intent);
+        finish();
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

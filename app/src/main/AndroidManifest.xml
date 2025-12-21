@@ -23,6 +23,9 @@
             android:name=".KetQuaTrumTinhNham"
             android:exported="false" />
         <activity
+            android:name=".KetQuaLienHoanTinhToan"
+            android:exported="false" />
+        <activity
             android:name=".UI.Activity.TroChoi.TrumTinhNham.GioiThieuTrumTinhNham"
             android:exported="false" />
         <activity
