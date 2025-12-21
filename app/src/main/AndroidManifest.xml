@@ -53,7 +53,9 @@
         <activity
             android:name=".UI.Activity.TroChoi.LienHoanTinhToan.NhapDapAnLienHoanTinhToan"
             android:exported="false" />
-
+        <activity
+            android:name=".KetQuaLienHoanTinhToan"
+            android:exported="false" />
         <receiver
             android:name=".Utility.AlarmReceiver"
             android:enabled="true"
