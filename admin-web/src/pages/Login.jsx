@@ -45,13 +45,13 @@ export default function Login() {
         <div className="login-branding">
           <div className="brand-content">
             <div className="brand-icon">📚</div>
-            <h1>Learning Admin</h1>
-            <p>Hệ thống quản trị học tập</p>
+            <h1>5AE Admin</h1>
+            <p>Hệ thống quản trị app học tập</p>
             
             <div className="brand-features">
               <div className="feature">
                 <span className="feature-icon">✨</span>
-                <span>Quản lý học sinh</span>
+                <span>Quản lý App</span>
               </div>
               <div className="feature">
                 <span className="feature-icon">📊</span>
@@ -59,7 +59,7 @@ export default function Login() {
               </div>
               <div className="feature">
                 <span className="feature-icon">🎓</span>
-                <span>Quản lý khóa học</span>
+                <span>Quản lý người dùng và chức năng</span>
               </div>
             </div>
           </div>
@@ -77,7 +77,6 @@ export default function Login() {
               <div className="form-group">
                 <label htmlFor="username">Tài khoản</label>
                 <div className="input-wrapper">
-                  <span className="input-icon">👤</span>
                   <input
                     id="username"
                     type="text"
@@ -90,13 +89,13 @@ export default function Login() {
                     onKeyPress={handleKeyPress}
                     className="form-input"
                   />
+                  <span className="input-icon">👤</span>
                 </div>
               </div>
 
               <div className="form-group">
                 <label htmlFor="password">Mật khẩu</label>
                 <div className="input-wrapper">
-                  <span className="input-icon">🔒</span>
                   <input
                     id="password"
                     type={showPassword ? "text" : "password"}

@@ -5,7 +5,11 @@ export default function Sidebar() {
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
-
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  };
+  
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
@@ -72,7 +76,7 @@ export default function Sidebar() {
       </div>
 
       <div className="sidebar-footer">
-        <button className="logout-btn">
+        <button onClick={logout} className="logout-btn">
           🚪 Đăng xuất
         </button>
       </div>
