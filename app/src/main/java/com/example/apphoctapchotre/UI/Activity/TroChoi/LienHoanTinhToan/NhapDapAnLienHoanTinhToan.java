@@ -191,6 +191,7 @@ public class NhapDapAnLienHoanTinhToan extends AppCompatActivity {
         tienTrinh.setSoCauDung(demCauDung);
         tienTrinh.setDiemDatDuoc(demCauDung * 5);
         tienTrinh.setSoCauDaLam(demCauDung + demCauSai);
+        tienTrinh.setDaHoanThanh(1);
         lienHoanTinhToanViewModel.guiTienTrinh(tienTrinh);
 
         long tongGiay = tongThoiGian / 1000;

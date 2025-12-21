@@ -90,10 +90,10 @@ public class NhapDapAnHoanThienCauTu extends AppCompatActivity {
                 hienCau(soCau);
             } else {
                 Toast.makeText(this, "Hoàn thành hoàn thiện câu từ!", Toast.LENGTH_SHORT).show();
-                tienTrinh.setSoCauDung(demCauDung);
-                tienTrinh.setDiemDatDuoc(demCauDung * 5);
-                tienTrinh.setSoCauDaLam(demCauDung+demCauSai);
-                hoanThienCauTuViewModel.guiTienTrinh(tienTrinh);
+//                tienTrinh.setSoCauDung(demCauDung);
+//                tienTrinh.setDiemDatDuoc(demCauDung * 5);
+//                tienTrinh.setSoCauDaLam(demCauDung+demCauSai);
+//                hoanThienCauTuViewModel.guiTienTrinh(tienTrinh);
                 ketThucBaiLam();
             }
         });
@@ -145,6 +145,7 @@ public class NhapDapAnHoanThienCauTu extends AppCompatActivity {
         tienTrinh.setSoCauDung(demCauDung);
         tienTrinh.setDiemDatDuoc(demCauDung * 5);
         tienTrinh.setSoCauDaLam(demCauDung + demCauSai);
+        tienTrinh.setDaHoanThanh(1);
         hoanThienCauTuViewModel.guiTienTrinh(tienTrinh);
         long tongGiay = tongThoiGian / 1000;
 
