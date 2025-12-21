@@ -11,7 +11,7 @@ export default function Sidebar() {
       <div className="sidebar-logo">
         <div className="logo-icon">📚</div>
         <div className="logo-text">
-          <h1>LEARNING ADMIN</h1>
+          <h1>5AE ADMIN</h1>
           <p>Management System</p>
         </div>
       </div>

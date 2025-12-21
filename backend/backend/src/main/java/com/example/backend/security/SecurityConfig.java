@@ -26,21 +26,28 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
+                // Tắt CSRF vì dùng JWT
                 .csrf(csrf -> csrf.disable())
 
+                // Bật CORS
                 .cors(cors -> {})
 
-                .addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class)
+                // JWT Filter
+                .addFilterBefore(
+                        new JwtFilter(),
+                        UsernamePasswordAuthenticationFilter.class
+                )
 
+                // Phân quyền API
                 .authorizeHttpRequests(auth -> auth
 
-                        // Preflight request
+                        // Preflight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // Auth
+                        // Auth API
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        // Admin
+                        // Admin API
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
                         // Các API khác
@@ -59,18 +66,24 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        // ⚠️ FRONTEND VITE
-        config.setAllowedOrigins(List.of("http://localhost:5177"));
+        // ⭐ Cho phép mọi localhost (mọi port)
+        config.setAllowedOriginPatterns(List.of(
+                "http://localhost:*",
+                "http://127.0.0.1:*"
+        ));
 
-        // Các method cho phép
         config.setAllowedMethods(List.of(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "OPTIONS"
         ));
 
         // Cho phép tất cả header
         config.setAllowedHeaders(List.of("*"));
 
-        // Cho phép gửi cookie / authorization
+        // Cho phép gửi Authorization / Cookie
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
@@ -89,7 +102,8 @@ public class SecurityConfig {
     // ================= AUTH MANAGER =================
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration configuration) throws Exception {
+            AuthenticationConfiguration configuration
+    ) throws Exception {
         return configuration.getAuthenticationManager();
     }
 }

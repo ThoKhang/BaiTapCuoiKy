@@ -19,6 +19,7 @@ public class AdminNguoiDungService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // ===== GET =====
     public List<NguoiDung> getAll() {
         return nguoiDungRepo.findAll();
     }
@@ -28,29 +29,49 @@ public class AdminNguoiDungService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
     }
 
+    // ===== CREATE =====
     public NguoiDung create(NguoiDung nd) {
+
         if (nguoiDungRepo.existsById(nd.getMaNguoiDung())) {
             throw new RuntimeException("Mã người dùng đã tồn tại");
         }
 
-        // hash password
+        // 🔐 Hash password
         nd.setMatKhauMaHoa(passwordEncoder.encode(nd.getMatKhauMaHoa()));
+
+        // ✅ FIX GỐC: set default
+        if (nd.getTongDiem() == null) {
+            nd.setTongDiem(0);
+        }
+
+        if (nd.getSoLanTrucTuyen() == null) {
+            nd.setSoLanTrucTuyen(0);
+        }
+
         return nguoiDungRepo.save(nd);
     }
 
+    // ===== UPDATE =====
     public NguoiDung update(String id, NguoiDung nd) {
+
         NguoiDung old = getById(id);
+
         old.setEmail(nd.getEmail());
-        old.setTongDiem(nd.getTongDiem());
+
+        // ❗ KHÔNG cho frontend set điểm trực tiếp
+        // old.setTongDiem(nd.getTongDiem()); ❌ BỎ
+
         return nguoiDungRepo.save(old);
     }
 
+    // ===== DELETE =====
     public void delete(String id) {
         nguoiDungRepo.deleteById(id);
     }
 
-    // reset mật khẩu
+    // ===== RESET PASSWORD =====
     public void resetPassword(String id, String newPassword) {
+
         NguoiDung nd = getById(id);
         nd.setMatKhauMaHoa(passwordEncoder.encode(newPassword));
         nguoiDungRepo.save(nd);

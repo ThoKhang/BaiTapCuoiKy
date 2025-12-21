@@ -19,7 +19,8 @@ export default function Users() {
   const [form, setForm] = useState({
     maNguoiDung: "",
     tenDangNhap: "",
-    email: ""
+    email: "",
+    matKhauMaHoa: ""
   });
 
   const loadData = async () => {
@@ -39,34 +40,43 @@ export default function Users() {
   }, []);
 
   const handleSubmit = async () => {
-    if (!form.maNguoiDung.trim() || !form.tenDangNhap.trim() || !form.email.trim()) {
-      alert("Vui lòng nhập đầy đủ thông tin");
-      return;
-    }
+  if (
+    !form.maNguoiDung.trim() ||
+    !form.tenDangNhap.trim() ||
+    !form.email.trim() ||
+    (!editingId && !form.matKhauMaHoa.trim())
+  ) {
+    alert("Vui lòng nhập đầy đủ thông tin");
+    return;
+  }
 
-    setLoading(true);
-    try {
-      if (editingId) {
-        await updateUser(editingId, form);
-      } else {
-        await createUser(form);
-      }
-      resetForm();
-      setShowModal(false);
-      loadData();
-    } catch (error) {
-      alert("Lỗi: " + error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  try {
+    if (editingId) {
+  const { matKhauMaHoa: _matKhauMaHoa, ...updateData } = form;
+  await updateUser(editingId, updateData);
+} else {
+  await createUser(form);
+}
+
+    resetForm();
+    setShowModal(false);
+    loadData();
+  } catch (error) {
+    alert("Lỗi: " + error.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleEdit = (u) => {
     setEditingId(u.maNguoiDung);
     setForm({
       maNguoiDung: u.maNguoiDung,
       tenDangNhap: u.tenDangNhap,
-      email: u.email
+      email: u.email,
+      matKhauMaHoa: "" 
     });
     setShowModal(true);
   };
@@ -108,7 +118,8 @@ export default function Users() {
     setForm({
       maNguoiDung: "",
       tenDangNhap: "",
-      email: ""
+      email: "",
+      matKhauMaHoa: ""
     });
     setEditingId(null);
   };
@@ -323,6 +334,19 @@ export default function Users() {
                   className="form-input"
                 />
               </div>
+                <div className="form-group">
+    <label htmlFor="matKhauMaHoa">Mật khẩu *</label>
+    <input
+      id="matKhauMaHoa"
+      type="password"
+      placeholder="VD: 123456"
+      value={form.matKhauMaHoa}
+      onChange={e =>
+        setForm({ ...form, matKhauMaHoa: e.target.value })
+      }
+      className="form-input"
+    />
+  </div>
             </div>
 
             <div className="modal-footer">

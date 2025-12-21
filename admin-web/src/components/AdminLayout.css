@@ -35,13 +35,6 @@ body {
   padding: 25px 30px;
   overflow-y: auto;
   background: #f5f7fa;
-  display: flex;
-  justify-content: center;
-}
-
-.page-content > * {
-  width: 100%;
-  max-width: 1400px;
 }
 
 .page-content::-webkit-scrollbar {
@@ -59,33 +52,4 @@ body {
 
 .page-content::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
-}
-
-/* Responsive */
-@media (max-width: 1440px) {
-  .page-content > * {
-    max-width: 1200px;
-  }
-}
-
-@media (max-width: 1200px) {
-  .page-content > * {
-    max-width: 1000px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .page-content > * {
-    max-width: 900px;
-  }
-}
-
-@media (max-width: 768px) {
-  .page-content {
-    padding: 20px;
-  }
-
-  .page-content > * {
-    max-width: 100%;
-  }
 }

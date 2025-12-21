@@ -16,7 +16,7 @@ export default function Header() {
   return (
     <header className="header">
       <div className="header-content">
-        <h2 className="page-title">QUẢN TRỊ HỆ THỐNG</h2>
+        <h2 className="page-title">QUẢN TRỊ HỆ THỐNG ỨNG DỤNG HỌC TẬP CHO TRẺ</h2>
         
         <div className="header-right">
           <div className="notification-icon">
