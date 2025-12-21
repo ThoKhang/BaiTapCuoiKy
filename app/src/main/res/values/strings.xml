@@ -45,5 +45,8 @@
     <string name="default_web_client_id">
     770393692760-to1bqmiu4gkrtcjgha0ok23ejej9cmjr.apps.googleusercontent.com
     </string>
+    <string name="facebook_app_id" translatable="false">700994649538982</string>
+    <string name="facebook_client_token" translatable="false">77afd72dac587c59932003e01b019be7</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb700994649538982</string>
 
 </resources>
