@@ -38,5 +38,12 @@ public interface TienTrinhHocTapRepository extends JpaRepository<TienTrinhHocTap
 
     //End : lấy tiến trình cho ôn luyện
 
+    @Query("""
+        SELECT t.nguoiDung.maNguoiDung, COUNT(t)
+        FROM TienTrinhHocTap t
+        GROUP BY t.nguoiDung.maNguoiDung
+        ORDER BY COUNT(t) DESC
+    """)
+    List<Object[]> topNguoiDungTheoSoHoatDong();
 }
 
