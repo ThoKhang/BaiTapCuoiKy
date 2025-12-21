@@ -90,24 +90,27 @@ public class XepHangFragment extends Fragment {
     }
 
     private void taiDuLieu() {
-        String email = "";
-        if (getActivity() != null) {
-            SharedPreferences prefs = getActivity()
-                    .getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-            email = prefs.getString("userEmail", "");
-        }
+        if (!isAdded()) return;
+
+        SharedPreferences prefs =
+                requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+
+        String email = prefs.getString("userEmail", "");
+        String userName = prefs.getString("userName", "");
+
+        android.util.Log.d("XEPHANG", "email=" + email + " | userName=" + userName);
 
         if (email == null || email.isEmpty()) {
-            if (isAdded()) {
-                Toast.makeText(requireContext(),
-                        "Không tìm thấy email người dùng, vui lòng đăng nhập lại!",
-                        Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(requireContext(),
+                    "Không tìm thấy email người dùng, vui lòng đăng nhập lại!",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // 🔥 DÒNG QUAN TRỌNG: LOAD XẾP HẠNG
         xepHangViewModel.taiDuLieuXepHang(email, 20);
     }
+
 
     private void hienThiXepHang(XepHangResponse duLieu) {
         if (!isAdded() || duLieu == null) return;

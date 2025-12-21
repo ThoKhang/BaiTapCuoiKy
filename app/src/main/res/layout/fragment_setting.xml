@@ -154,7 +154,7 @@
 
         <!-- ITEM: NGÔN NGỮ -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/itemNgonNgu"
+            android:id="@+id/itemRename"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginBottom="20dp"
@@ -172,14 +172,14 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_language" />
+                    android:src="@drawable/ic_account_rename" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
-                    android:text="Ngôn ngữ"
+                    android:text="Đổi tên người dùng"
                     android:textColor="#1A1A1A"
                     android:textSize="18sp"
                     android:textStyle="bold" />

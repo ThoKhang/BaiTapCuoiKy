@@ -18,6 +18,9 @@ import com.example.apphoctapchotre.DATA.model.CungCoResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoMonHocResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoDaLamResponse;
 
+import okhttp3.RequestBody;
+import retrofit2.http.PUT;
+
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -138,4 +141,9 @@ public interface ApiService {
     Call<DeOnLuyen> deTinhNham();
     @GET("/cauhoi/delienhoantinhtoan")
     Call<DeOnLuyen> deLienHoan();
+    @PUT("api/nguoidung/{email}")
+    Call<ResponseBody> updateTenDangNhap(
+            @Path("email") String email,
+            @Body RequestBody tenDangNhap
+    );
 }

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface NguoiDungRepository extends JpaRepository<NguoiDung, String> {
@@ -21,6 +23,12 @@ public interface NguoiDungRepository extends JpaRepository<NguoiDung, String> {
 
     @Query("SELECT n FROM NguoiDung n ORDER BY n.tongDiem DESC")
     List<NguoiDung> topNguoiDungTheoDiem(Pageable pageable);
+    //start update : người dùng
+    @Modifying
+    @Transactional
+    @Query("UPDATE NguoiDung n SET n.tenDangNhap = :ten WHERE n.email=:email")
+    int updateTenDangNhap(@Param("email") String email,@Param("ten") String tenDangNhap);
+    //end update : người dùng
 }
 
     

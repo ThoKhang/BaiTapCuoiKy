@@ -25,6 +25,6 @@ public interface INguoiDungService {
     LichSuDiemResponse layThongKeDiemVaLichSu(String email);
     NguoiDungResponse loginWithGoogle(String email);
     NguoiDungResponse loginWithFacebook(String accessToken);
-
+    void updateThongTinNguoiDung(String tenDangNhap,String email);
 }
 
