@@ -51,4 +51,6 @@ public interface HoatDongHocTapRepository extends JpaRepository<HoatDongHocTap, 
     int tongSoDeNangCao();
     //End Lấy ôn luyện
 
+    @Query("SELECT h.maMonHoc, COUNT(h) FROM HoatDongHocTap h GROUP BY h.maMonHoc")
+    List<Object[]> thongKeSoHoatDongTheoMon();
 }
