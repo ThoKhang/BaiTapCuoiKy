@@ -3,6 +3,7 @@ package com.example.apphoctapchotre;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.apphoctapchotre.UI.Activity.TroChoi.TrumTinhNham.GioiThieuTrumTinhNham;
 import com.example.apphoctapchotre.UI.Activity.TroChoi.TrumTinhNham.NhapDapAnTrumTinhNham;
 
 public class KetQuaTrumTinhNham extends AppCompatActivity {
@@ -41,16 +43,19 @@ public class KetQuaTrumTinhNham extends AppCompatActivity {
         TextView tvWrong = findViewById(R.id.tv_wrong);
         TextView tvTime = findViewById(R.id.tv_time);
 
+
         tvScore.setText(diem + "/100");
         tvCorrect.setText(cauDung + "");
         tvWrong.setText(cauSai + "");
         tvTime.setText(phut + " phút " + giay + " giây");
 
+        ImageView ivBack = findViewById(R.id.quayLai);
         Button btnQuayLai = findViewById(R.id.btnQuayLai);
         LinearLayout btnChiaSe = findViewById(R.id.btnChiaSe);
 
+        ivBack.setOnClickListener(v -> finish());
         btnQuayLai.setOnClickListener(v -> {
-            Intent intent= new Intent(this, NhapDapAnTrumTinhNham.class);
+           Intent intent= new Intent(this, GioiThieuTrumTinhNham.class);
             startActivity(intent);
         });
 
@@ -67,5 +72,6 @@ public class KetQuaTrumTinhNham extends AppCompatActivity {
 
             startActivity(Intent.createChooser(shareIntent, "Chia sẻ kết quả"));
         });
+
     }
 }
