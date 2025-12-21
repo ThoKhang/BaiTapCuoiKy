@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/background_dark"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -176,7 +176,7 @@
                     android:text="+ 5 điểm"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:textColor="#FFE600" />
+                    android:textColor="#000000" />
 
                 <!-- THỜI GIAN CÒN (BÊN PHẢI) -->
                 <TextView
@@ -187,7 +187,7 @@
                     android:gravity="end"
                     android:text="Thời gian còn: 60s"
                     android:textSize="20sp"
-                    android:textColor="#FFE600"
+                    android:textColor="#000000"
                     android:textStyle="bold" />
             </LinearLayout>
 

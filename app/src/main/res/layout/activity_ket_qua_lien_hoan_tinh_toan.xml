@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".KetQuaHoanThienCauTu">
+    tools:context=".KetQuaLienHoanTinhToan">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -289,7 +289,7 @@
             android:layout_marginBottom="50dp">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnQuayLai"
+                android:id="@+id/btnThuLai"
                 android:layout_width="360dp"
                 android:layout_height="54dp"
                 android:background="@drawable/bg_button_qltc"
