@@ -3,6 +3,7 @@ package com.example.apphoctapchotre;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 
 import com.example.apphoctapchotre.UI.Activity.TroChoi.LienHoanTinhToan.NhapDapAnLienHoanTinhToan;
+import com.example.apphoctapchotre.UI.Activity.TroChoi.Trochoi;
 
 public class KetQuaLienHoanTinhToan extends AppCompatActivity {
 
@@ -47,9 +49,18 @@ public class KetQuaLienHoanTinhToan extends AppCompatActivity {
         tvWrong.setText(cauSai + "");
         tvTime.setText(phut + " phút " + giay + " giây");
 
+        ImageView ivBack = findViewById(R.id.quayLai);
         Button btnQuayLai = findViewById(R.id.btnQuayLai);
         LinearLayout btnChiaSe = findViewById(R.id.btnChiaSe);
 
+        ivBack.setOnClickListener(v -> {
+            Intent intent = new Intent(KetQuaLienHoanTinhToan.this,
+                    Trochoi.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            startActivity(intent);
+            finish();
+        });
         btnQuayLai.setOnClickListener(v -> {
             Intent intent= new Intent(this, NhapDapAnLienHoanTinhToan.class);
             startActivity(intent);

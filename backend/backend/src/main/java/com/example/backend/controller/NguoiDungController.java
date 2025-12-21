@@ -6,6 +6,7 @@ import com.example.backend.dto.request.RegisterRequest;
 import com.example.backend.dto.response.NguoiDungResponse;
 import com.example.backend.dto.response.XepHangResponse;
 import com.example.backend.service.IService.INguoiDungService;
+import com.example.backend.service.NguoiDungService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -128,5 +129,9 @@ public class NguoiDungController {
         }
     }
 
-
+    @PutMapping("/{email}")
+    public ResponseEntity<?> updateNguoiDung(@PathVariable String email,@RequestBody String tenDangNhap) {
+        service.updateThongTinNguoiDung(tenDangNhap, email);
+        return ResponseEntity.ok("Cập nhật người dùng thành công");
+    }
 }
