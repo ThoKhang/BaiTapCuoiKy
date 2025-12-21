@@ -13,6 +13,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+
+
 public class AuthRepository {
 
     private final ApiService api;
@@ -301,4 +305,47 @@ public class AuthRepository {
             }
         });
     }
+    public interface UpdateNameListener {
+        void onSuccess(String message);
+        void onError(String message);
+    }
+    public void updateTenDangNhap(
+            String email,
+            String tenMoi,
+            UpdateNameListener listener
+    ) {
+        RequestBody body = RequestBody.create(
+                MediaType.parse("text/plain"),
+                tenMoi
+        );
+
+        api.updateTenDangNhap(email, body)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call,
+                                           Response<ResponseBody> response) {
+                        try {
+                            if (response.isSuccessful()) {
+                                String msg = response.body() != null
+                                        ? response.body().string()
+                                        : "Cập nhật thành công";
+                                listener.onSuccess(msg);
+                            } else {
+                                String msg = response.errorBody() != null
+                                        ? response.errorBody().string()
+                                        : "Cập nhật thất bại";
+                                listener.onError(msg);
+                            }
+                        } catch (Exception e) {
+                            listener.onError("Lỗi đọc phản hồi server");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        listener.onError("Lỗi kết nối: " + t.getMessage());
+                    }
+                });
+    }
+
 }
