@@ -73,6 +73,18 @@ export default function Sidebar() {
             </Link>
           </nav>
         </div>
+        <div className="section">
+          <h3 className="section-title">Chuyên Sâu</h3>
+          <nav className="sidebar-nav">
+            <Link 
+              to="/analytics" 
+              className={`nav-item ${isActive('/analytics') ? 'active' : ''}`}
+            >
+              <span className="nav-icon">👥</span>
+              <span className="nav-text">Phân Tích</span>
+            </Link>
+          </nav>
+        </div>
       </div>
 
       <div className="sidebar-footer">

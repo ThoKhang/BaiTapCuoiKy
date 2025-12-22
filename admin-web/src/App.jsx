@@ -5,6 +5,7 @@ import Users from "./pages/Users";
 import MonHoc from "./pages/MonHoc";
 import HoatDong from "./pages/HoatDong";
 import CauHoi from "./pages/CauHoi";
+import Analytics from "./pages/Analytics";
 import AdminLayout from "./components/AdminLayout";
 
 function PrivateRoute({ children }) {
@@ -48,7 +49,17 @@ export default function App() {
             </PrivateRoute>
           }
         />
-
+        {/* Analytics */}
+        <Route
+          path="/analytics"
+          element={
+            <PrivateRoute>
+              <AdminLayout>
+                <Analytics />
+              </AdminLayout>
+            </PrivateRoute>
+          }
+        />
         {/* MÔN HỌC */}
         <Route
           path="/mon-hoc"
