@@ -43,30 +43,25 @@ public class KetQuaLienHoanTinhToan extends AppCompatActivity {
         TextView tvWrong = findViewById(R.id.tv_wrong);
         TextView tvTime = findViewById(R.id.tv_time);
         ImageView ivBack = findViewById(R.id.quayLai);
-        tvScore.setText(diem + "/100");
-        tvCorrect.setText(cauDung + "");
-        tvWrong.setText(cauSai + "");
-        tvTime.setText(phut + " phút " + giay + " giây");
-
-
         Button btnThuLai = findViewById(R.id.btnThuLai);
         LinearLayout btnChiaSe = findViewById(R.id.btnChiaSe);
-        ivBack.setOnClickListener(v -> {
-            Intent intent = new Intent(KetQuaLienHoanTinhToan.this,
-                    Trochoi.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        tvScore.setText(diem + "/100");
+        tvCorrect.setText(String.valueOf(cauDung));
+        tvWrong.setText(String.valueOf(cauSai));
+        tvTime.setText(phut + " phút " + giay + " giây");
 
         ivBack.setOnClickListener(v -> {
-            Intent intent = new Intent(KetQuaLienHoanTinhToan.this,
-                    Trochoi.class);
+            Intent intent = new Intent(KetQuaLienHoanTinhToan.this, Trochoi.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
             startActivity(intent);
             finish();
         });
+
         btnThuLai.setOnClickListener(v -> {
-            Intent intent= new Intent(this, NhapDapAnLienHoanTinhToan.class);
+            Intent intent = new Intent(KetQuaLienHoanTinhToan.this, NhapDapAnLienHoanTinhToan.class);
             startActivity(intent);
+            finish();
         });
 
         btnChiaSe.setOnClickListener(v -> {
