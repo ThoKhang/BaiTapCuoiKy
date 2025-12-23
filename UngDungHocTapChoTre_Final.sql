@@ -110,7 +110,47 @@ CREATE TABLE TienTrinhHocTap (
     DaHoanThanh BIT NOT NULL DEFAULT 0
 );
 GO
+--thêm chức năng bình luận
+CREATE TABLE ChatTong (
+    Id BIGINT IDENTITY(1,1) PRIMARY KEY,
 
+    MaNguoiGui CHAR(5) NOT NULL,      -- FK tới NguoiDung / Player
+    NoiDung NVARCHAR(1000) NOT NULL,
+
+    NgayGui DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
+
+    -- tùy chọn mở rộng
+    DaThuHoi BIT NOT NULL DEFAULT 0,      -- thu hồi tin
+    IdTraLoi BIGINT NULL,                 -- reply tin nhắn (optional)
+
+    FOREIGN KEY (MaNguoiGui) REFERENCES NguoiDung(MaNguoiDung),
+    FOREIGN KEY (IdTraLoi) REFERENCES ChatTong(Id)
+);
+CREATE TABLE Media (
+    MaMedia BIGINT IDENTITY(1,1) PRIMARY KEY,
+
+    TieuDe NVARCHAR(200) NOT NULL,
+    MoTa NVARCHAR(1000) NULL,
+    LoaiMedia VARCHAR(10) NOT NULL,      -- 'VIDEO' | 'AUDIO'
+    DuongDanFile NVARCHAR(500) NOT NULL, -- link video / mp3
+    ThoiLuongGiay INT NULL,
+    CONSTRAINT CK_Media_Loai
+        CHECK (LoaiMedia IN ('VIDEO','AUDIO'))
+);
+CREATE TABLE Media_NguoiDung (
+    MaMedia BIGINT NOT NULL,
+    MaNguoiDung CHAR(5) NOT NULL,
+
+    DaXem BIT NOT NULL DEFAULT 0,
+    ViTriGiay INT NOT NULL DEFAULT 0,     -- xem toi giay thu may
+    LanXemCuoi DATETIME2(0) NULL,
+
+    PRIMARY KEY (MaMedia, MaNguoiDung),
+
+    FOREIGN KEY (MaMedia)
+        REFERENCES Media(MaMedia)
+        ON DELETE CASCADE
+);
 ---------------------------------------------------------------------
 -- DML: CHÈN DỮ LIỆU
 ---------------------------------------------------------------------
@@ -3893,22 +3933,7 @@ WHERE h.TieuDe = N'Liên hoàn tính toán' and d.LaDapAnDung=1
 ORDER BY c.MaCauHoi, d.MaDapAn;
 
 
---thêm chức năng bình luận
-CREATE TABLE ChatTong (
-    Id BIGINT IDENTITY(1,1) PRIMARY KEY,
 
-    MaNguoiGui CHAR(5) NOT NULL,      -- FK tới NguoiDung / Player
-    NoiDung NVARCHAR(1000) NOT NULL,
-
-    NgayGui DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
-
-    -- tùy chọn mở rộng
-    DaThuHoi BIT NOT NULL DEFAULT 0,      -- thu hồi tin
-    IdTraLoi BIGINT NULL,                 -- reply tin nhắn (optional)
-
-    FOREIGN KEY (MaNguoiGui) REFERENCES NguoiDung(MaNguoiDung),
-    FOREIGN KEY (IdTraLoi) REFERENCES ChatTong(Id)
-);
 select * from ChatTong
 use UngDungHocTapChoTre
 go
