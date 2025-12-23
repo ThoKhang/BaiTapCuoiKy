@@ -19,6 +19,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
+
+        <activity
+            android:name=".KetQuaTrumTinhNham"
+            android:exported="false" />
+        <activity
+            android:name=".KetQuaLienHoanTinhToan"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.TrumTinhNham.GioiThieuTrumTinhNham"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.TrumTinhNham.NhapDapAnTrumTinhNham"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.TrumTinhNham.TrumTinhNham"
+            android:exported="false" />
         <activity
             android:name=".KetQuaHoanThienCauTu"
             android:exported="false" />
@@ -31,7 +47,18 @@
         <activity
             android:name=".UI.Activity.TroChoi.HoanThienCauTu.HoanThienCauTu"
             android:exported="false" />
-
+        <activity
+            android:name=".UI.Activity.TroChoi.LienHoanTinhToan.LienHoanTinhToan"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.LienHoanTinhToan.GioiThieuLienHoanTinhToan"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.TroChoi.LienHoanTinhToan.NhapDapAnLienHoanTinhToan"
+            android:exported="false" />
+        <activity
+            android:name=".KetQuaLienHoanTinhToan"
+            android:exported="false" />
         <receiver
             android:name=".Utility.AlarmReceiver"
             android:enabled="true"
@@ -45,6 +72,12 @@
             android:exported="false" />
         <activity
             android:name=".UI.Activity.OnLuyen.TracNghiem"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.OnLuyen.TracNghiem1"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.OnLuyen.TracNghiem2"
             android:exported="false" />
         <!--
 <activity
@@ -69,6 +102,9 @@
             android:exported="false" />
         <activity
             android:name=".UI.Activity.CungCo.CauHoiActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.CungCo.CauHoiActivity2"
             android:exported="false" />
         <activity
             android:name=".UI.Activity.Premium.Premium"
@@ -139,6 +175,35 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token" />
+
+        <!-- CHỈ SỬA LỖI: đưa 2 activity Facebook vào trong application -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:exported="false"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

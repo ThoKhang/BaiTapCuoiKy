@@ -15,20 +15,23 @@ import java.util.List;
 public class CungCoAdapter extends ArrayAdapter<CungCoDaLamResponse> {
 
     private final Context context;
-    private List<CungCoDaLamResponse> list; // bỏ final để cho phép update
+    private List<CungCoDaLamResponse> list;
     private OnItemClickListener listener;
+    private String maMon;
+
 
     public interface OnItemClickListener {
         void onItemClick(CungCoDaLamResponse item, int position);
     }
 
-    public CungCoAdapter(Context context, List<CungCoDaLamResponse> list) {
+    public CungCoAdapter(Context context, List<CungCoDaLamResponse> list, String maMon) {
         super(context, 0, list);
         this.context = context;
         this.list = list;
+        this.maMon = maMon;
     }
 
-    // Setter cho listener
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
@@ -47,6 +50,14 @@ public class CungCoAdapter extends ArrayAdapter<CungCoDaLamResponse> {
                     .inflate(R.layout.item_cung_co, parent, false);
         }
 
+        View root = convertView;
+
+        if ("MH002".equals(maMon)) {
+            root.setBackgroundResource(R.drawable.bg_banner_blue);
+        } else if ("MH001".equals(maMon)) {
+            root.setBackgroundResource(R.drawable.bg_banner_green);
+        }
+
         CungCoDaLamResponse item = list.get(position);
 
         TextView tvTieuDe = convertView.findViewById(R.id.tvTieuDe);
@@ -54,27 +65,30 @@ public class CungCoAdapter extends ArrayAdapter<CungCoDaLamResponse> {
 
         tvTieuDe.setText(item.getTieuDe());
 
-        // Nếu đã hoàn thành
         if (item.isDaHoanThanh()) {
 
             tvDiem.setText(item.getSoCauDung() + "/" + item.getSoCauDaLam());
 
-            // Chữ trắng
-            tvDiem.setTextColor(context.getColor(android.R.color.white));
+            tvDiem.setTextColor(
+                    androidx.core.content.ContextCompat.getColor(
+                            context, android.R.color.white
+                    )
+            );
 
-            // Gán nền vàng bo tròn
             tvDiem.setBackgroundResource(R.drawable.border_done);
 
         } else {
 
             tvDiem.setText("+" + item.getTongDiemToiDa() + " điểm");
-            tvDiem.setTextColor(context.getColor(android.R.color.holo_orange_light));
 
-            // Xóa nền nếu trước đó đã có
+            tvDiem.setTextColor(
+                    androidx.core.content.ContextCompat.getColor(
+                            context, android.R.color.holo_orange_light
+                    )
+            );
+
             tvDiem.setBackground(null);
         }
-
-
 
         convertView.setOnClickListener(v -> {
             if (listener != null) {
@@ -84,4 +98,5 @@ public class CungCoAdapter extends ArrayAdapter<CungCoDaLamResponse> {
 
         return convertView;
     }
+
 }

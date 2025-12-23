@@ -1,11 +1,13 @@
 package com.example.backend.controller;
 
+import com.example.backend.dto.request.FacebookLoginRequest;
 import com.example.backend.dto.request.GoogleLoginRequest;
 import com.example.backend.dto.request.LoginRequest;
 import com.example.backend.dto.request.RegisterRequest;
 import com.example.backend.dto.response.NguoiDungResponse;
 import com.example.backend.dto.response.XepHangResponse;
 import com.example.backend.service.IService.INguoiDungService;
+import com.example.backend.service.NguoiDungService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -127,6 +129,19 @@ public class NguoiDungController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
-
-
+    @PostMapping("/login-facebook")
+    public ResponseEntity<?> loginFacebook(@RequestBody FacebookLoginRequest request) {
+        try {
+            NguoiDungResponse res = service.loginWithFacebook(request.getAccessToken());
+            return ResponseEntity.ok(res);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+    
+    @PutMapping("/{email}")
+    public ResponseEntity<?> updateNguoiDung(@PathVariable String email,@RequestBody String tenDangNhap) {
+        service.updateThongTinNguoiDung(tenDangNhap, email);
+        return ResponseEntity.ok("Cập nhật người dùng thành công");
+    }
 }

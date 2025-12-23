@@ -3,6 +3,8 @@ package com.example.apphoctapchotre.DATA.remote;
 import com.example.apphoctapchotre.DATA.model.CauHoi;
 import com.example.apphoctapchotre.DATA.model.CauHoiDapAnResponse;
 import com.example.apphoctapchotre.DATA.model.DeOnLuyen;
+import com.example.apphoctapchotre.DATA.model.FacebookLoginRequest;
+import com.example.apphoctapchotre.DATA.model.GoogleLoginRequest;
 import com.example.apphoctapchotre.DATA.model.LichSuDiemResponse;
 import com.example.apphoctapchotre.DATA.model.LyThuyetDaLamResponse;
 import com.example.apphoctapchotre.DATA.model.LyThuyetMonHocResponse;
@@ -15,6 +17,9 @@ import com.example.apphoctapchotre.DATA.model.XepHangResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoMonHocResponse;
 import com.example.apphoctapchotre.DATA.model.CungCoDaLamResponse;
+
+import okhttp3.RequestBody;
+import retrofit2.http.PUT;
 
 import java.util.Map;
 
@@ -120,12 +125,25 @@ public interface ApiService {
     Call<DeOnLuyen> deOnLuyen(@Query("tieuDe") String tieuDe);
     @POST("api/tientrinh/add")
     Call<Void> taoTienTrinh(@Body TienTrinh tienTrinh);
-    @POST("api/nguoidung/login-google")
-    Call<NguoiDung> loginWithGoogle(@Body Map<String, String> body);
+    // ✅ Google login (request model)
+    @POST("/api/nguoidung/login-google")
+    Call<NguoiDung> loginWithGoogle(@Body GoogleLoginRequest body);
+
+    // ✅ Facebook login (request model)
+    @POST("/api/nguoidung/login-facebook")
+    Call<NguoiDung> loginWithFacebook(@Body FacebookLoginRequest body);
 
     @GET("api/tientrinh/socaudalam-onluyen")
     Call<List<TienTrinh>> soCauDaLam(@Query("email") String email, @Query("tieuDe") String tieuDe);
     @GET("cauhoi/deHoanThienCH")
     Call<DeOnLuyen> deHoanThien();
-
+    @GET("cauhoi/trumTinhNham")
+    Call<DeOnLuyen> deTinhNham();
+    @GET("/cauhoi/delienhoantinhtoan")
+    Call<DeOnLuyen> deLienHoan();
+    @PUT("api/nguoidung/{email}")
+    Call<ResponseBody> updateTenDangNhap(
+            @Path("email") String email,
+            @Body RequestBody tenDangNhap
+    );
 }

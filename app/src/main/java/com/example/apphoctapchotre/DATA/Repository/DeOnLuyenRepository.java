@@ -53,6 +53,40 @@ public class DeOnLuyenRepository {
         });
         return deOnLuyenMutableLiveData;
     }
+
+    public LiveData<DeOnLuyen> getDeTinhNham() {
+        MutableLiveData<DeOnLuyen> deOnLuyenMutableLiveData = new MutableLiveData<>();
+        apiService.deTinhNham().enqueue(new Callback<DeOnLuyen>() {
+            @Override
+            public void onResponse(Call<DeOnLuyen> call, Response<DeOnLuyen> response) {
+                if(response.body()!=null && response.isSuccessful())
+                    deOnLuyenMutableLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<DeOnLuyen> call, Throwable t) {
+                deOnLuyenMutableLiveData.setValue(null);
+            }
+        });
+        return deOnLuyenMutableLiveData;
+    }
+
+    public LiveData<DeOnLuyen> getDeLienHoanTinhToan() {
+        MutableLiveData<DeOnLuyen> deOnLuyenMutableLiveData = new MutableLiveData<>();
+        apiService.deLienHoan().enqueue(new Callback<DeOnLuyen>() {
+            @Override
+            public void onResponse(Call<DeOnLuyen> call, Response<DeOnLuyen> response) {
+                if(response.body()!=null && response.isSuccessful())
+                    deOnLuyenMutableLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<DeOnLuyen> call, Throwable t) {
+                deOnLuyenMutableLiveData.setValue(null);
+            }
+        });
+        return deOnLuyenMutableLiveData;
+    }
     public LiveData<Boolean> taoTienTrinh(TienTrinh tienTrinh) {
         MutableLiveData<Boolean> result = new MutableLiveData<>();
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);

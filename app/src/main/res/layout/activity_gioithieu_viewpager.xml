@@ -67,7 +67,7 @@
                 android:padding="12dp">
 
                 <LinearLayout
-                    android:id="@+id/tabTiengAnhContainer"
+                    android:id="@+id/tabTiengVietContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -75,16 +75,16 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tabTiengAnh"
+                        android:id="@+id/tabTiengViet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tiếng Anh"
+                        android:text="Tiếng Việt"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#1A1A1A"/>
 
                     <View
-                        android:id="@+id/underlineTiengAnh"
+                        android:id="@+id/underlineTiengViet"
                         android:layout_width="40dp"
                         android:layout_height="3dp"
                         android:background="@android:color/transparent" />
