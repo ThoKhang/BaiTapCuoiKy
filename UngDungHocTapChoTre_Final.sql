@@ -133,22 +133,31 @@ CREATE TABLE Media (
     MoTa NVARCHAR(1000) NULL,
     LoaiMedia VARCHAR(10) NOT NULL,      -- 'VIDEO' | 'AUDIO'
     DuongDanFile NVARCHAR(500) NOT NULL, -- link video / mp3
+
+    NgayTao DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
+
     ThoiLuongGiay INT NULL,
+
     CONSTRAINT CK_Media_Loai
         CHECK (LoaiMedia IN ('VIDEO','AUDIO'))
 );
+
 CREATE TABLE Media_NguoiDung (
     MaMedia BIGINT NOT NULL,
     MaNguoiDung CHAR(5) NOT NULL,
 
     DaXem BIT NOT NULL DEFAULT 0,
-    ViTriGiay INT NOT NULL DEFAULT 0,     -- xem toi giay thu may
+    ViTriGiay INT NOT NULL DEFAULT 0,
     LanXemCuoi DATETIME2(0) NULL,
 
     PRIMARY KEY (MaMedia, MaNguoiDung),
 
     FOREIGN KEY (MaMedia)
         REFERENCES Media(MaMedia)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (MaNguoiDung)
+        REFERENCES NguoiDung(MaNguoiDung)
         ON DELETE CASCADE
 );
 ---------------------------------------------------------------------
@@ -3950,6 +3959,8 @@ select * from TienTrinhHocTap
 select * from ChatTong
 use UngDungHocTapChoTre
 go
+select * from HoatDongHocTap
+go
 INSERT INTO ChatTong (MaNguoiGui, NoiDung)
 VALUES 
 ('ND001', N'Chào mọi người 👋'),
@@ -3957,3 +3968,14 @@ VALUES
 ('ND003', N'Hôm nay học bài gì vậy?'),
 ('ND001', N'Hình như là ôn luyện chương 3'),
 ('ND004', N'Tui mới vô nè 😄');
+
+USE UngDungHocTapChoTre;
+GO
+
+INSERT INTO Media (TieuDe, MoTa, LoaiMedia, DuongDanFile, ThoiLuongGiay)
+VALUES 
+(N'Video 1', N'Video test', 'VIDEO', N'uploads/videos/LamQuenVoiDongHoVaThoiGian.mp4', 120),
+(N'Audio 1', N'Audio test', 'AUDIO', N'uploads/audios/BaiHatABC.mp3', 180);
+
+select *from media
+select *from Media_NguoiDung
