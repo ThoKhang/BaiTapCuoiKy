@@ -1,5 +1,6 @@
-package com.example.apphoctapchotre;
+package com.example.apphoctapchotre.UI.Activity.Games;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -11,18 +12,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.apphoctapchotre.DATA.model.TienTrinh;
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.UI.ViewModel.GhepHinhViewModel;
 
 import java.util.Random;
 
 public class ghephinh extends AppCompatActivity {
 
-    GridLayout grid;
-    Button btnNext;
-    TextView txtLevel;
-    ImageButton ibtnBack;
-
+    private GridLayout grid;
+    private Button btnNext;
+    private TextView txtLevel;
+    private ImageButton ibtnBack;
+    private TienTrinh tienTrinh = new TienTrinh();
+    private GhepHinhViewModel ghepHinhViewModel;
     int[] imageList = {
             R.drawable.bosua,
             R.drawable.thochamhoc,
@@ -42,11 +47,19 @@ public class ghephinh extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ghephinh);
 
+        ghepHinhViewModel = new ViewModelProvider(this)
+                .get(GhepHinhViewModel.class);
+
         grid = findViewById(R.id.gridPuzzle);
         btnNext = findViewById(R.id.btnNext);
         txtLevel = findViewById(R.id.txtLevel);
         ibtnBack = findViewById(R.id.ibtnBack);
-
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String email=prefs.getString("userEmail",null);
+        if(email!=null){
+            tienTrinh.setEmail(email);
+            tienTrinh.setMaHoatDong("TC005");
+        }
         ibtnBack.setOnClickListener(v -> finish());
 
         loadPuzzle();
@@ -144,13 +157,23 @@ public class ghephinh extends AppCompatActivity {
         btnNext.setEnabled(true);
     }
 
+
     void nextImage() {
         currentImageIndex++;
         if (currentImageIndex >= imageList.length) {
             Toast.makeText(this, "🎉 Hoàn thành tất cả hình!", Toast.LENGTH_LONG).show();
+            ketThucBaiLam();
             finish();
         } else {
             loadPuzzle();
         }
+    }
+
+    private void ketThucBaiLam() {
+        tienTrinh.setSoCauDung(3);
+        tienTrinh.setSoCauDaLam(3);
+        tienTrinh.setDiemDatDuoc(50);
+        tienTrinh.setDaHoanThanh(1);
+        ghepHinhViewModel.guiTienTrinh(tienTrinh);
     }
 }

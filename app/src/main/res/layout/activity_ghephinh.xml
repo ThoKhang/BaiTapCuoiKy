@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_trochoi"
     android:padding="16dp"
-    tools:context=".ghephinh">
+    tools:context=".UI.Activity.Games.ghephinh">
 
     <!-- NÚT QUAY LẠI -->
     <ImageButton
