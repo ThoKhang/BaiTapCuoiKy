@@ -17,6 +17,7 @@ public class Trochoi extends AppCompatActivity {
     private LinearLayout LNHoanThienCT;
     private LinearLayout LNTrumTinhNham;
     private LinearLayout LNLhTinhToan;
+    private LinearLayout ghepHinh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,12 @@ public class Trochoi extends AppCompatActivity {
         LNLhTinhToan=findViewById(R.id.LNLhTinhToan);
         LNLhTinhToan.setOnClickListener(v -> {
             Intent intent = new Intent(this, LienHoanTinhToan.class);
+            startActivity(intent);
+        });
+
+        ghepHinh=findViewById(R.id.ghepHinh);
+        ghepHinh.setOnClickListener(v -> {
+            Intent intent = new Intent(this, com.example.apphoctapchotre.ghephinh.class);
             startActivity(intent);
         });
     }

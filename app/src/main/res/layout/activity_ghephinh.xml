@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_trochoi"
+    android:padding="16dp"
+    tools:context=".ghephinh">
+
+    <!-- NÚT QUAY LẠI -->
+    <ImageButton
+        android:id="@+id/ibtnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/img_back"
+        android:contentDescription="Quay lại"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- TIÊU ĐỀ -->
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ghép hình"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/itim"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ibtnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        android:layout_marginTop="16dp"/>
+
+    <!-- HIỂN THỊ LEVEL -->
+    <TextView
+        android:id="@+id/txtLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hình 1 / 3"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#D32F2F"
+        android:fontFamily="@font/itim"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- GRID GHÉP HÌNH -->
+    <GridLayout
+        android:id="@+id/gridPuzzle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_board"
+        android:padding="8dp"
+        android:columnCount="3"
+        android:rowCount="3"
+        app:layout_constraintTop_toBottomOf="@id/txtLevel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintWidth_percent="0.95"/>
+
+    <!-- NÚT TIẾP TỤC -->
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="260dp"
+        android:layout_height="56dp"
+        android:text="Tiếp tục"
+        android:textSize="20sp"
+        android:enabled="false"
+        android:backgroundTint="#FDC858"
+        app:layout_constraintTop_toBottomOf="@id/gridPuzzle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
