@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5F9FF">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,33 +18,37 @@
         <!-- HEADER -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/baseline_arrow_back_24" />
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="4dp"
+                android:src="@drawable/baseline_arrow_back_24"
+                android:contentDescription="Quay lại"/>
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/robotothin"
                 android:gravity="center"
                 android:text="Chat"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#333333"/>
 
             <ImageView
-                android:id="@+id/imgVuongMieng"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/settings" />
+                android:id="@+id/imgCaiDat"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="4dp"
+                android:src="@drawable/settings"
+                android:contentDescription="Cài đặt"/>
         </LinearLayout>
 
         <!-- LIST CHAT -->
@@ -51,32 +56,46 @@
             android:id="@+id/rvChat"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
 
-        <!-- INPUT -->
+        <!-- INPUT CONTAINER -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp"
-            android:background="@drawable/bg_input_container">
+            android:padding="4dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_input_container"
+            android:layout_marginTop="8dp">
 
             <EditText
                 android:id="@+id/edtMessage"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:hint="Nhập nội dung"/>
+                android:hint="Nhập nội dung..."
+                android:textColorHint="#999999"
+                android:textColor="#333333"
+                android:textSize="15sp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@android:color/transparent"
+                android:minHeight="44dp"/>
 
             <ImageButton
                 android:id="@+id/btnSend"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:src="@drawable/sent"
-                android:padding="0dp"
-                android:scaleType="fitCenter" />
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:contentDescription="Gửi"/>
         </LinearLayout>
-
     </LinearLayout>
-
 </LinearLayout>
