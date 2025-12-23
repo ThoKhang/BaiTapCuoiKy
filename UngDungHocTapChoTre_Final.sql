@@ -3911,3 +3911,12 @@ CREATE TABLE ChatTong (
     FOREIGN KEY (IdTraLoi) REFERENCES ChatTong(Id)
 );
 select * from ChatTong
+use UngDungHocTapChoTre
+go
+INSERT INTO ChatTong (MaNguoiGui, NoiDung)
+VALUES 
+('ND001', N'Chào mọi người 👋'),
+('ND002', N'Chào bạn, vào học chưa?'),
+('ND003', N'Hôm nay học bài gì vậy?'),
+('ND001', N'Hình như là ôn luyện chương 3'),
+('ND004', N'Tui mới vô nè 😄');
