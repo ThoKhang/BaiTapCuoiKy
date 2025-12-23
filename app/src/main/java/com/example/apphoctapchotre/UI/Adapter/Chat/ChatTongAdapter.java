@@ -1,11 +1,11 @@
 package com.example.apphoctapchotre.UI.Adapter.Chat;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +22,16 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private final List<ChatTongResponse> list;
     private final String maNguoiDung; // user đang login
+    private OnChatActionListener listener;
+
+    // ===== CALLBACK INTERFACE =====
+    public interface OnChatActionListener {
+        void onRecall(ChatTongResponse msg, int position);
+    }
+
+    public void setOnChatActionListener(OnChatActionListener listener) {
+        this.listener = listener;
+    }
 
     public ChatTongAdapter(List<ChatTongResponse> list, String maNguoiDung) {
         this.list = list;
@@ -40,7 +50,6 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 && !senderId.isEmpty()
                 && maNguoiDung.equals(senderId);
 
-        // 👉 LOG DEBUG (có thể xóa sau)
         Log.d("CHAT_ADAPTER",
                 "currentUser=" + maNguoiDung +
                         " | sender=" + senderId +
@@ -70,7 +79,7 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ChatTongResponse msg = list.get(position);
 
         if (holder instanceof MeHolder) {
-            ((MeHolder) holder).bind(msg);
+            ((MeHolder) holder).bind(msg, listener, position);
         } else {
             ((OtherHolder) holder).bind(msg);
         }
@@ -92,13 +101,28 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             txtTime = itemView.findViewById(R.id.txtTime);
         }
 
-        void bind(ChatTongResponse msg) {
+        void bind(ChatTongResponse msg,
+                  OnChatActionListener listener,
+                  int position) {
+
             txtContent.setText(
                     Boolean.TRUE.equals(msg.getDaThuHoi())
                             ? "Tin nhắn đã thu hồi"
                             : msg.getNoiDung()
             );
             txtTime.setText(formatTime(msg.getNgayGui()));
+
+            // 🔥 LONG PRESS – CHỈ ÁP DỤNG CHO TIN CỦA MÌNH
+            itemView.setOnLongClickListener(v -> {
+                if (listener != null && !Boolean.TRUE.equals(msg.getDaThuHoi())) {
+                    int pos = getBindingAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        listener.onRecall(msg, pos);
+                    }
+                }
+                return true;
+            });
+
         }
     }
 

@@ -43,12 +43,10 @@ public class ChatTongController {
 
     // Thu hồi tin nhắn (chỉ chủ tin nhắn được thu hồi)
     @PutMapping("/{id}/recall")
-    public ResponseEntity<?> recall(@PathVariable("id") Long id, @RequestBody ChatTongRecallRequest body) {
-        try {
-            chatTongService.recall(id, body.getMaNguoiGui(), body.getEmailNguoiGui());
-            return ResponseEntity.ok("Thu hồi tin nhắn thành công.");
-        } catch (RuntimeException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
+    public ResponseEntity<Void> recall(@PathVariable Long id,
+                                       @RequestBody ChatTongRecallRequest body) {
+        chatTongService.recall(id, body.getMaNguoiGui(), body.getEmailNguoiGui());
+        return ResponseEntity.ok().build(); // 🔥 KHÔNG TRẢ STRING
     }
+
 }

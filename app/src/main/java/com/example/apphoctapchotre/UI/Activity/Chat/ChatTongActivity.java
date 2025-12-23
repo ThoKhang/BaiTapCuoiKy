@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,7 +42,7 @@ public class ChatTongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nhan_tin);
 
-        // 🔥 DÙNG CHUNG PREFS VỚI CUNGCOACTIVITY
+        // 🔥 DÙNG CHUNG PREFS
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         maNguoiDung = prefs.getString("MA_NGUOI_DUNG", null);
 
@@ -71,6 +72,12 @@ public class ChatTongActivity extends AppCompatActivity {
         rvChat.setLayoutManager(lm);
 
         adapter = new ChatTongAdapter(messageList, maNguoiDung);
+
+        // 🔥 BẮT SỰ KIỆN GỠ TIN NHẮN
+        adapter.setOnChatActionListener((msg, position) -> {
+            showRecallDialog(msg, position);
+        });
+
         rvChat.setAdapter(adapter);
     }
 
@@ -131,5 +138,43 @@ public class ChatTongActivity extends AppCompatActivity {
                                 "Gửi thất bại", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    // ================= GỠ TIN NHẮN =================
+
+    private void showRecallDialog(ChatTongResponse msg, int position) {
+        new AlertDialog.Builder(this)
+                .setTitle("Thu hồi tin nhắn")
+                .setMessage("Bạn có muốn thu hồi tin nhắn này không?")
+                .setPositiveButton("Thu hồi", (d, w) -> recallMessage(msg, position))
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    private void recallMessage(ChatTongResponse msg, int position) {
+        repository.recallMessage(msg.getId(), maNguoiDung)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            msg.setDaThuHoi(true);
+                            msg.setNoiDung("");
+                            adapter.notifyItemChanged(position);
+                        } else {
+                            Toast.makeText(ChatTongActivity.this,
+                                    "Không thể thu hồi tin nhắn",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(ChatTongActivity.this,
+                                "Lỗi kết nối",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
     }
 }
