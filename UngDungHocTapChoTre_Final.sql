@@ -3705,7 +3705,17 @@ BEGIN
     SET @tG2 = @tG2 + 1;
 END;
 GO
+---------------------------------insert trò chơi sodoku vs ghép hình------------
+INSERT INTO HoatDongHocTap
+(MaHoatDong, MaMonHoc, MaLoai, TieuDe, MoTa, TongDiemToiDa)
+VALUES
+-- Sudoku
+('TC004', 'MH001', 'LHD05', N'Sudoku',
+ N'Trò chơi Sudoku rèn luyện tư duy logic và khả năng suy luận.', 50),
 
+-- Ghép hình
+('TC005', 'MH001', 'LHD05', N'Ghép hình',
+ N'Trò chơi ghép hình giúp phát triển tư duy không gian và quan sát.', 50);
 
 
 select* from hoatdonghoctap
@@ -3892,3 +3902,7 @@ JOIN DapAn d
     ON c.MaCauHoi = d.MaCauHoi
 WHERE h.TieuDe = N'Liên hoàn tính toán' and d.LaDapAnDung=1
 ORDER BY c.MaCauHoi, d.MaDapAn;
+
+select * from nguoidung
+select * from TienTrinhHocTap
+
