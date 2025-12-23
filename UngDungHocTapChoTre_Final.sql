@@ -3892,3 +3892,22 @@ JOIN DapAn d
     ON c.MaCauHoi = d.MaCauHoi
 WHERE h.TieuDe = N'Liên hoàn tính toán' and d.LaDapAnDung=1
 ORDER BY c.MaCauHoi, d.MaDapAn;
+
+
+--thêm chức năng bình luận
+CREATE TABLE ChatTong (
+    Id BIGINT IDENTITY(1,1) PRIMARY KEY,
+
+    MaNguoiGui CHAR(5) NOT NULL,      -- FK tới NguoiDung / Player
+    NoiDung NVARCHAR(1000) NOT NULL,
+
+    NgayGui DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
+
+    -- tùy chọn mở rộng
+    DaThuHoi BIT NOT NULL DEFAULT 0,      -- thu hồi tin
+    IdTraLoi BIGINT NULL,                 -- reply tin nhắn (optional)
+
+    FOREIGN KEY (MaNguoiGui) REFERENCES NguoiDung(MaNguoiDung),
+    FOREIGN KEY (IdTraLoi) REFERENCES ChatTong(Id)
+);
+select * from ChatTong
