@@ -20,7 +20,7 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ghephinh"
+            android:name=".UI.Activity.Games.ghephinh"
             android:exported="false" />
         <activity
             android:name=".KetQuaTrumTinhNham"
