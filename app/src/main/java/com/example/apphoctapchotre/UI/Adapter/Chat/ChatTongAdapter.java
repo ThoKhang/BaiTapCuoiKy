@@ -1,5 +1,6 @@
 package com.example.apphoctapchotre.UI.Adapter.Chat;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,17 +21,41 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_OTHER = 2;
 
     private final List<ChatTongResponse> list;
-    private final String maNguoiDung;
+    private final String maNguoiDung; // user đang login
+    private OnChatActionListener listener;
+
+    // ===== CALLBACK INTERFACE =====
+    public interface OnChatActionListener {
+        void onRecall(ChatTongResponse msg, int position);
+    }
+
+    public void setOnChatActionListener(OnChatActionListener listener) {
+        this.listener = listener;
+    }
 
     public ChatTongAdapter(List<ChatTongResponse> list, String maNguoiDung) {
         this.list = list;
-        this.maNguoiDung = maNguoiDung;
+        this.maNguoiDung = maNguoiDung != null ? maNguoiDung.trim() : "";
     }
 
     @Override
     public int getItemViewType(int position) {
         ChatTongResponse msg = list.get(position);
-        return maNguoiDung.equals(msg.getMaNguoiGui()) ? TYPE_ME : TYPE_OTHER;
+
+        String senderId = msg.getMaNguoiGui() != null
+                ? msg.getMaNguoiGui().trim()
+                : "";
+
+        boolean isMe = !maNguoiDung.isEmpty()
+                && !senderId.isEmpty()
+                && maNguoiDung.equals(senderId);
+
+        Log.d("CHAT_ADAPTER",
+                "currentUser=" + maNguoiDung +
+                        " | sender=" + senderId +
+                        " | isMe=" + isMe);
+
+        return isMe ? TYPE_ME : TYPE_OTHER;
     }
 
     @NonNull
@@ -54,7 +79,7 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ChatTongResponse msg = list.get(position);
 
         if (holder instanceof MeHolder) {
-            ((MeHolder) holder).bind(msg);
+            ((MeHolder) holder).bind(msg, listener, position);
         } else {
             ((OtherHolder) holder).bind(msg);
         }
@@ -65,7 +90,7 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return list.size();
     }
 
-    // ===== VIEW HOLDERS =====
+    // ================= VIEW HOLDERS =================
 
     static class MeHolder extends RecyclerView.ViewHolder {
         TextView txtContent, txtTime;
@@ -76,9 +101,28 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             txtTime = itemView.findViewById(R.id.txtTime);
         }
 
-        void bind(ChatTongResponse msg) {
-            txtContent.setText(msg.getDaThuHoi() ? "Tin nhắn đã thu hồi" : msg.getNoiDung());
+        void bind(ChatTongResponse msg,
+                  OnChatActionListener listener,
+                  int position) {
+
+            txtContent.setText(
+                    Boolean.TRUE.equals(msg.getDaThuHoi())
+                            ? "Tin nhắn đã thu hồi"
+                            : msg.getNoiDung()
+            );
             txtTime.setText(formatTime(msg.getNgayGui()));
+
+            // 🔥 LONG PRESS – CHỈ ÁP DỤNG CHO TIN CỦA MÌNH
+            itemView.setOnLongClickListener(v -> {
+                if (listener != null && !Boolean.TRUE.equals(msg.getDaThuHoi())) {
+                    int pos = getBindingAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        listener.onRecall(msg, pos);
+                    }
+                }
+                return true;
+            });
+
         }
     }
 
@@ -96,13 +140,19 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         void bind(ChatTongResponse msg) {
             txtUsername.setText(msg.getTenDangNhapNguoiGui());
-            txtContent.setText(msg.getDaThuHoi() ? "Tin nhắn đã thu hồi" : msg.getNoiDung());
+            txtContent.setText(
+                    Boolean.TRUE.equals(msg.getDaThuHoi())
+                            ? "Tin nhắn đã thu hồi"
+                            : msg.getNoiDung()
+            );
             txtTime.setText(formatTime(msg.getNgayGui()));
         }
     }
 
+    // ================= UTIL =================
+
     private static String formatTime(String time) {
-        if (time == null) return "";
+        if (time == null || time.length() < 16) return "";
         return time.substring(11, 16); // HH:mm
     }
 }

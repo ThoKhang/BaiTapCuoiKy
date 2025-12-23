@@ -165,10 +165,11 @@ public interface ApiService {
             @Query("beforeId") Long beforeId
     );
 
-    // Thu hồi tin nhắn
     @PUT("api/chat-tong/{id}/recall")
-    Call<String> recallChatTong(
+    Call<Void> recallChatTong(
             @Path("id") Long id,
             @Body ChatTongRecallRequest request
     );
+
+
 }
