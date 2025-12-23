@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,17 +21,32 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_OTHER = 2;
 
     private final List<ChatTongResponse> list;
-    private final String maNguoiDung;
+    private final String maNguoiDung; // user đang login
 
     public ChatTongAdapter(List<ChatTongResponse> list, String maNguoiDung) {
         this.list = list;
-        this.maNguoiDung = maNguoiDung;
+        this.maNguoiDung = maNguoiDung != null ? maNguoiDung.trim() : "";
     }
 
     @Override
     public int getItemViewType(int position) {
         ChatTongResponse msg = list.get(position);
-        return maNguoiDung.equals(msg.getMaNguoiGui()) ? TYPE_ME : TYPE_OTHER;
+
+        String senderId = msg.getMaNguoiGui() != null
+                ? msg.getMaNguoiGui().trim()
+                : "";
+
+        boolean isMe = !maNguoiDung.isEmpty()
+                && !senderId.isEmpty()
+                && maNguoiDung.equals(senderId);
+
+        // 👉 LOG DEBUG (có thể xóa sau)
+        Log.d("CHAT_ADAPTER",
+                "currentUser=" + maNguoiDung +
+                        " | sender=" + senderId +
+                        " | isMe=" + isMe);
+
+        return isMe ? TYPE_ME : TYPE_OTHER;
     }
 
     @NonNull
@@ -65,7 +81,7 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return list.size();
     }
 
-    // ===== VIEW HOLDERS =====
+    // ================= VIEW HOLDERS =================
 
     static class MeHolder extends RecyclerView.ViewHolder {
         TextView txtContent, txtTime;
@@ -77,7 +93,11 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         void bind(ChatTongResponse msg) {
-            txtContent.setText(msg.getDaThuHoi() ? "Tin nhắn đã thu hồi" : msg.getNoiDung());
+            txtContent.setText(
+                    Boolean.TRUE.equals(msg.getDaThuHoi())
+                            ? "Tin nhắn đã thu hồi"
+                            : msg.getNoiDung()
+            );
             txtTime.setText(formatTime(msg.getNgayGui()));
         }
     }
@@ -96,13 +116,19 @@ public class ChatTongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         void bind(ChatTongResponse msg) {
             txtUsername.setText(msg.getTenDangNhapNguoiGui());
-            txtContent.setText(msg.getDaThuHoi() ? "Tin nhắn đã thu hồi" : msg.getNoiDung());
+            txtContent.setText(
+                    Boolean.TRUE.equals(msg.getDaThuHoi())
+                            ? "Tin nhắn đã thu hồi"
+                            : msg.getNoiDung()
+            );
             txtTime.setText(formatTime(msg.getNgayGui()));
         }
     }
 
+    // ================= UTIL =================
+
     private static String formatTime(String time) {
-        if (time == null) return "";
+        if (time == null || time.length() < 16) return "";
         return time.substring(11, 16); // HH:mm
     }
 }

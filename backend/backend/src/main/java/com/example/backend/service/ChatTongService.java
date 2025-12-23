@@ -8,14 +8,17 @@ import com.example.backend.entity.NguoiDung;
 import com.example.backend.repository.ChatTongRepository;
 import com.example.backend.repository.NguoiDungRepository;
 import com.example.backend.service.IService.IChatTongService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ChatTongService implements IChatTongService {
 
     @Autowired
@@ -76,9 +79,14 @@ public class ChatTongService implements IChatTongService {
         }
 
         // trả về DESC như query, frontend muốn ASC thì đảo lại ở FE hoặc đảo ở đây
-        return list.stream()
+        List<ChatTongResponse> res = list.stream()
                 .map(ChatTongConverter::toResponse)
                 .collect(Collectors.toList());
+
+        Collections.reverse(res); //  QUAN TRỌNG
+
+        return res;
+
     }
 
     @Override

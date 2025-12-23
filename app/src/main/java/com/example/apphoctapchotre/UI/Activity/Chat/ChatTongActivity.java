@@ -1,5 +1,6 @@
 package com.example.apphoctapchotre.UI.Activity.Chat;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
@@ -30,22 +31,34 @@ public class ChatTongActivity extends AppCompatActivity {
     private ImageButton btnSend;
 
     private ChatTongAdapter adapter;
-    private List<ChatTongResponse> messageList = new ArrayList<>();
+    private final List<ChatTongResponse> messageList = new ArrayList<>();
 
     private ChatTongRepository repository;
-
-    // ⚠️ TẠM THỜI – sau này lấy từ user login
-    private final String MA_NGUOI_DUNG = "ND001";
+    private String maNguoiDung;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nhan_tin);
 
+        // 🔥 DÙNG CHUNG PREFS VỚI CUNGCOACTIVITY
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        maNguoiDung = prefs.getString("MA_NGUOI_DUNG", null);
+
+        if (maNguoiDung == null || maNguoiDung.isEmpty()) {
+            Toast.makeText(this,
+                    "Không tìm thấy mã người dùng. Vui lòng đăng nhập lại.",
+                    Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         initView();
         initData();
-        loadMessages();
         initAction();
+        loadMessages();
+
+        findViewById(R.id.back).setOnClickListener(v -> finish());
     }
 
     private void initView() {
@@ -57,7 +70,7 @@ public class ChatTongActivity extends AppCompatActivity {
         lm.setStackFromEnd(true);
         rvChat.setLayoutManager(lm);
 
-        adapter = new ChatTongAdapter(messageList, MA_NGUOI_DUNG);
+        adapter = new ChatTongAdapter(messageList, maNguoiDung);
         rvChat.setAdapter(adapter);
     }
 
@@ -96,7 +109,7 @@ public class ChatTongActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(content)) return;
 
         ChatTongSendRequest request = new ChatTongSendRequest();
-        request.setMaNguoiGui(MA_NGUOI_DUNG);
+        request.setMaNguoiGui(maNguoiDung);
         request.setNoiDung(content);
 
         repository.sendMessage(request)
