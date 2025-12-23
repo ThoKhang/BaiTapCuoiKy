@@ -3892,3 +3892,31 @@ JOIN DapAn d
     ON c.MaCauHoi = d.MaCauHoi
 WHERE h.TieuDe = N'Liên hoàn tính toán' and d.LaDapAnDung=1
 ORDER BY c.MaCauHoi, d.MaDapAn;
+
+
+--thêm chức năng bình luận
+CREATE TABLE ChatTong (
+    Id BIGINT IDENTITY(1,1) PRIMARY KEY,
+
+    MaNguoiGui CHAR(5) NOT NULL,      -- FK tới NguoiDung / Player
+    NoiDung NVARCHAR(1000) NOT NULL,
+
+    NgayGui DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
+
+    -- tùy chọn mở rộng
+    DaThuHoi BIT NOT NULL DEFAULT 0,      -- thu hồi tin
+    IdTraLoi BIGINT NULL,                 -- reply tin nhắn (optional)
+
+    FOREIGN KEY (MaNguoiGui) REFERENCES NguoiDung(MaNguoiDung),
+    FOREIGN KEY (IdTraLoi) REFERENCES ChatTong(Id)
+);
+select * from ChatTong
+use UngDungHocTapChoTre
+go
+INSERT INTO ChatTong (MaNguoiGui, NoiDung)
+VALUES 
+('ND001', N'Chào mọi người 👋'),
+('ND002', N'Chào bạn, vào học chưa?'),
+('ND003', N'Hôm nay học bài gì vậy?'),
+('ND001', N'Hình như là ôn luyện chương 3'),
+('ND004', N'Tui mới vô nè 😄');
