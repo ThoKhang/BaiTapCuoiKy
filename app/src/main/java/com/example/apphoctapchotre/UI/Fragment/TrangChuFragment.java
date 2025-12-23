@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.apphoctapchotre.UI.Activity.Account.DangNhap.GiaoDienDangNhap;
+import com.example.apphoctapchotre.UI.Activity.Chat.ChatTongActivity;
 import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.UI.Activity.MonHoc.LyThuyetActivity;
 import com.example.apphoctapchotre.UI.Activity.TroChoi.Trochoi;
@@ -43,7 +44,7 @@ public class TrangChuFragment extends Fragment {
     private int currentPage = 0;
 
     private LinearLayout bangCuuChuong, lnLichSu, lnXepHang, lnTroChoi, thuthach1, thuthach2, lnSudoku;
-    private ImageView ibtnCaiDat;
+    private ImageView ibtnCaiDat,rvChat;
     private View btnLTCoBan;
 
     @Nullable
@@ -100,6 +101,8 @@ public class TrangChuFragment extends Fragment {
         ibtnCaiDat = view.findViewById(R.id.ibtnCaiDat);
         ibtnCaiDat.setOnClickListener(v -> startActivity(new Intent(requireActivity(), CaiDat.class)));
 
+        rvChat = view.findViewById(R.id.rvChat);
+        rvChat.setOnClickListener(v -> startActivity(new Intent(requireActivity(), ChatTongActivity.class)));
 
         thuthach2= view.findViewById(R.id.thuthach2);
         thuthach2.setOnClickListener(v -> startActivity(new Intent(requireActivity(), Thuthach100Cau.class)));

@@ -71,6 +71,9 @@
             android:name=".UI.Activity.Games.sudoku"
             android:exported="false" />
         <activity
+            android:name=".UI.Activity.Chat.ChatTongActivity"
+            android:exported="false" />
+        <activity
             android:name=".UI.Activity.GiaoDienTong.GiaoDienTong"
             android:exported="false" />
         <activity
