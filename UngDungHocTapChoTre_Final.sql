@@ -3974,8 +3974,15 @@ GO
 
 INSERT INTO Media (TieuDe, MoTa, LoaiMedia, DuongDanFile, ThoiLuongGiay)
 VALUES 
-(N'Video 1', N'Video test', 'VIDEO', N'uploads/videos/LamQuenVoiDongHoVaThoiGian.mp4', 120),
+(N'Bài toán về thời gian', N'Video test', 'VIDEO', N'uploads/videos/LamQuenVoiDongHoVaThoiGian.mp4', 120),
+(N'Bài toán về nhiều hơn', N'Video test', 'VIDEO', N'uploads/videos/Bài toán về nhiều hơn.mp4', 120),
+(N'Bé Mai đã lớn', N'Video test', 'VIDEO', N'uploads/videos/Bé Mai đã lớn.mp4', 120),
+(N'Bảng chữ cái tiếng Việt', N'Video test', 'VIDEO', N'uploads/videos/Bảng chữ cái tiếng việt.mp4', 120),
+(N'Cách xem lịch', N'Video test', 'VIDEO', N'uploads/videos/Cáh xem lịch.mp4', 120),
+(N'Làm quen với chữ số có 3 chữ số', N'Video test', 'VIDEO', N'uploads/videos/Làm quen với các chữ số từ 111 đến 200.mp4', 120),
+(N'Đồng hồ, số la mã', N'Video test', 'VIDEO', N'uploads/videos/Đồng hồ, số la mã.mp4', 120),
 (N'Audio 1', N'Audio test', 'AUDIO', N'uploads/audios/BaiHatABC.mp3', 180);
 
 select *from media
+	
 select *from Media_NguoiDung
