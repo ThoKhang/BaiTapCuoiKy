@@ -83,7 +83,7 @@
                     android:fontFamily="@font/itim"
                     android:text="Tổng số bài đã học: 1/30"
                     android:textColor="#FFFFFF"
-                    android:textSize="17sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
 
@@ -129,7 +129,7 @@
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/itim"
                     android:textColor="#FFFFFF"
-                    android:textSize="17sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
 
