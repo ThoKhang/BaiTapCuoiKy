@@ -45,6 +45,29 @@ public class VideoPlayer extends AppCompatActivity {
         controller.setAnchorView(videoView);
         videoView.setMediaController(controller);
 
+        videoView.setOnPreparedListener(mp -> {
+            int videoWidth = mp.getVideoWidth();
+            int videoHeight = mp.getVideoHeight();
+
+            int parentWidth = ((android.view.View) videoView.getParent()).getWidth();
+            int parentHeight = ((android.view.View) videoView.getParent()).getHeight();
+
+            float scaleX = (float) parentWidth / videoWidth;
+            float scaleY = (float) parentHeight / videoHeight;
+            float scale = Math.min(scaleX, scaleY); // giữ tỉ lệ, không méo
+
+            int newWidth = Math.round(videoWidth * scale);
+            int newHeight = Math.round(videoHeight * scale);
+
+            android.widget.FrameLayout.LayoutParams params =
+                    new android.widget.FrameLayout.LayoutParams(newWidth, newHeight);
+            params.gravity = android.view.Gravity.CENTER;
+
+            videoView.setLayoutParams(params);
+
+            mp.setLooping(false); // tuỳ bạn
+        });
+
         videoView.start();
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String email=prefs.getString("userEmail",null);
