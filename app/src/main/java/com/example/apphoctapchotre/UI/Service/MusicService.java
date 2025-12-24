@@ -151,7 +151,7 @@ public class MusicService extends Service {
         player.clearMediaItems();
 
         for (Media m : playlist) {
-            String url = "http://172.26.99.215:8080/" + m.getDuongDanFile();
+            String url = "http://10.0.2.2:8080/" + m.getDuongDanFile();
             player.addMediaItem(MediaItem.fromUri(url));
         }
 

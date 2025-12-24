@@ -37,7 +37,7 @@ public class VideoPlayer extends AppCompatActivity {
         maMedia = getIntent().getLongExtra("maMedia", -1);
         String duongDanFile = getIntent().getStringExtra("video_url");
 
-        String fullUrl = "http://172.26.99.215:8080/" + duongDanFile;
+        String fullUrl = "http://10.0.2.2:8080/" + duongDanFile;
 
         videoView.setVideoURI(Uri.parse(fullUrl));
 
