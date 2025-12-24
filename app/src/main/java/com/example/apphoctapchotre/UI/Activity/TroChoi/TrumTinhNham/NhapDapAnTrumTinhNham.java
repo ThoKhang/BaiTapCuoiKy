@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.apphoctapchotre.DATA.model.CauHoi;
 import com.example.apphoctapchotre.DATA.model.TienTrinh;
-import com.example.apphoctapchotre.KetQuaTrumTinhNham;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.ViewModel.TrumTinhNhamViewModel;
 

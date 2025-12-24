@@ -24,7 +24,7 @@ import com.example.apphoctapchotre.UI.Activity.MonHoc.LyThuyetActivity;
 import com.example.apphoctapchotre.UI.Activity.Music.MusicListActivity;
 import com.example.apphoctapchotre.UI.Activity.TroChoi.Trochoi;
 import com.example.apphoctapchotre.UI.Activity.LyThuyet.BangCuuChuong;
-import com.example.apphoctapchotre.BannerSlide;
+import com.example.apphoctapchotre.UI.Adapter.BannerSlide;
 import com.example.apphoctapchotre.UI.Activity.Settings.CaiDat;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.HoatDongDangDienRa.Thuthach100Cau;
