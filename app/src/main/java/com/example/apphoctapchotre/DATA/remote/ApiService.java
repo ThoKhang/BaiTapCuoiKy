@@ -13,6 +13,8 @@ import com.example.apphoctapchotre.DATA.model.LyThuyetDaLamResponse;
 import com.example.apphoctapchotre.DATA.model.LyThuyetMonHocResponse;
 import com.example.apphoctapchotre.DATA.model.LyThuyetNoiDungResponse;
 import com.example.apphoctapchotre.DATA.model.LyThuyetResponse;
+import com.example.apphoctapchotre.DATA.model.Media;
+import com.example.apphoctapchotre.DATA.model.MediaProgressRequest;
 import com.example.apphoctapchotre.DATA.model.NguoiDung;
 import com.example.apphoctapchotre.DATA.model.OnLuyen;
 import com.example.apphoctapchotre.DATA.model.TienTrinh;
@@ -169,6 +171,16 @@ public interface ApiService {
     Call<Void> recallChatTong(
             @Path("id") Long id,
             @Body ChatTongRecallRequest request
+    );
+
+    @GET("api/media")
+    Call<List<Media>> getMediaByLoai(@Query("loaiMedia") String loaiMedia);
+
+    @PUT("api/media/{maMedia}/progress")
+    Call<Void> saveProgress(
+            @Path("maMedia") Long maMedia,
+            @Query("email") String email,
+            @Body MediaProgressRequest request
     );
 
 

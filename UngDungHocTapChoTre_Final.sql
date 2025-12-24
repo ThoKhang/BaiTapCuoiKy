@@ -110,7 +110,56 @@ CREATE TABLE TienTrinhHocTap (
     DaHoanThanh BIT NOT NULL DEFAULT 0
 );
 GO
+--thêm chức năng bình luận
+CREATE TABLE ChatTong (
+    Id BIGINT IDENTITY(1,1) PRIMARY KEY,
 
+    MaNguoiGui CHAR(5) NOT NULL,      -- FK tới NguoiDung / Player
+    NoiDung NVARCHAR(1000) NOT NULL,
+
+    NgayGui DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
+
+    -- tùy chọn mở rộng
+    DaThuHoi BIT NOT NULL DEFAULT 0,      -- thu hồi tin
+    IdTraLoi BIGINT NULL,                 -- reply tin nhắn (optional)
+
+    FOREIGN KEY (MaNguoiGui) REFERENCES NguoiDung(MaNguoiDung),
+    FOREIGN KEY (IdTraLoi) REFERENCES ChatTong(Id)
+);
+CREATE TABLE Media (
+    MaMedia BIGINT IDENTITY(1,1) PRIMARY KEY,
+
+    TieuDe NVARCHAR(200) NOT NULL,
+    MoTa NVARCHAR(1000) NULL,
+    LoaiMedia VARCHAR(10) NOT NULL,      -- 'VIDEO' | 'AUDIO'
+    DuongDanFile NVARCHAR(500) NOT NULL, -- link video / mp3
+
+    NgayTao DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
+
+    ThoiLuongGiay INT NULL,
+
+    CONSTRAINT CK_Media_Loai
+        CHECK (LoaiMedia IN ('VIDEO','AUDIO'))
+);
+
+CREATE TABLE Media_NguoiDung (
+    MaMedia BIGINT NOT NULL,
+    MaNguoiDung CHAR(5) NOT NULL,
+
+    DaXem BIT NOT NULL DEFAULT 0,
+    ViTriGiay INT NOT NULL DEFAULT 0,
+    LanXemCuoi DATETIME2(0) NULL,
+
+    PRIMARY KEY (MaMedia, MaNguoiDung),
+
+    FOREIGN KEY (MaMedia)
+        REFERENCES Media(MaMedia)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (MaNguoiDung)
+        REFERENCES NguoiDung(MaNguoiDung)
+        ON DELETE CASCADE
+);
 ---------------------------------------------------------------------
 -- DML: CHÈN DỮ LIỆU
 ---------------------------------------------------------------------
@@ -3906,24 +3955,11 @@ select * from nguoidung
 select * from TienTrinhHocTap
 
 
---thêm chức năng bình luận
-CREATE TABLE ChatTong (
-    Id BIGINT IDENTITY(1,1) PRIMARY KEY,
 
-    MaNguoiGui CHAR(5) NOT NULL,      -- FK tới NguoiDung / Player
-    NoiDung NVARCHAR(1000) NOT NULL,
-
-    NgayGui DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
-
-    -- tùy chọn mở rộng
-    DaThuHoi BIT NOT NULL DEFAULT 0,      -- thu hồi tin
-    IdTraLoi BIGINT NULL,                 -- reply tin nhắn (optional)
-
-    FOREIGN KEY (MaNguoiGui) REFERENCES NguoiDung(MaNguoiDung),
-    FOREIGN KEY (IdTraLoi) REFERENCES ChatTong(Id)
-);
 select * from ChatTong
 use UngDungHocTapChoTre
+go
+select * from HoatDongHocTap
 go
 INSERT INTO ChatTong (MaNguoiGui, NoiDung)
 VALUES 
@@ -3932,3 +3968,14 @@ VALUES
 ('ND003', N'Hôm nay học bài gì vậy?'),
 ('ND001', N'Hình như là ôn luyện chương 3'),
 ('ND004', N'Tui mới vô nè 😄');
+
+USE UngDungHocTapChoTre;
+GO
+
+INSERT INTO Media (TieuDe, MoTa, LoaiMedia, DuongDanFile, ThoiLuongGiay)
+VALUES 
+(N'Video 1', N'Video test', 'VIDEO', N'uploads/videos/LamQuenVoiDongHoVaThoiGian.mp4', 120),
+(N'Audio 1', N'Audio test', 'AUDIO', N'uploads/audios/BaiHatABC.mp3', 180);
+
+select *from media
+select *from Media_NguoiDung

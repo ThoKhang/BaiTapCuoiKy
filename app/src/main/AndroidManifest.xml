@@ -20,6 +20,12 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".UI.Activity.Video.VideoPlayer"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.Video.Video"
+            android:exported="false" />
+        <activity
             android:name=".UI.Activity.Games.ghephinh"
             android:exported="false" />
         <activity
@@ -41,7 +47,7 @@
             android:name=".UI.Activity.TroChoi.TrumTinhNham.TrumTinhNham"
             android:exported="false" />
         <activity
-            android:name=".KetQuaHoanThienCauTu"
+            android:name=".UI.Activity.TroChoi.HoanThienCauTu.KetQuaHoanThienCauTu"
             android:exported="false" />
         <activity
             android:name=".UI.Activity.TroChoi.HoanThienCauTu.NhapDapAnHoanThienCauTu"
@@ -129,6 +135,12 @@
             android:name=".UI.Activity.TroChoi.Trochoi"
             android:exported="false" />
         <activity
+            android:name=".UI.Activity.Music.DetailMusicActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.Music.MusicListActivity"
+            android:exported="false" />
+        <activity
             android:name=".UI.Activity.OnLuyen.OnLuyen"
             android:exported="false" />
         <activity
@@ -192,6 +204,11 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:exported="false"
             android:label="@string/app_name" />
+
+        <service
+            android:name=".UI.Service.MusicService"
+            android:exported="false" />
+
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
