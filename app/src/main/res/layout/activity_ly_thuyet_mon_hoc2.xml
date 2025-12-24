@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:paddingLeft="15dp"
-    android:paddingTop="40dp"
+    android:paddingTop="60dp"
     android:paddingRight="15dp"
     android:paddingBottom="15dp"
     tools:context=".UI.Activity.MonHoc.LyThuyetActivity2">
