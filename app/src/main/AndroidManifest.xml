@@ -198,6 +198,10 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:exported="false"
             android:label="@string/app_name" />
+        <service
+            android:name=".UI.Service.MusicService"
+            android:exported="false" />
+
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">

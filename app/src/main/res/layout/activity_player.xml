@@ -15,12 +15,13 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:src="@android:drawable/ic_media_play"
-            android:tint="@android:color/white"
-            android:layout_width="48dp"
-            android:layout_height="48dp"/>
+            android:id="@+id/back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/baseline_arrow_back_24" />
 
         <TextView
+            android:id="@+id/txtHeaderTitle"
             android:text="Music Player"
             android:textColor="@android:color/white"
             android:textSize="20sp"
@@ -30,6 +31,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:id="@+id/txtHeaderSub"
             android:text="1 bài hát"
             android:textColor="#CCFFFFFF"
             android:textSize="13sp"
@@ -38,13 +40,13 @@
     </LinearLayout>
 
     <!-- DANH SÁCH NHẠC -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMusic"
-        android:background="#F5F5F5"
-        android:layout_margin="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/Loi"
+        android:text="Loi bai hat"
+        android:textColor="#CCFFFFFF"
+        android:textSize="13sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <!-- PLAYER -->
     <LinearLayout
@@ -57,11 +59,11 @@
 
         <TextView
             android:id="@+id/txtTitle"
-            android:text="Chọn bài hát để phát"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Tùy chọn điều khiển"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <SeekBar
             android:id="@+id/seekBar"
