@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="#1B5E20"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#96A99D"
+    android:orientation="vertical">
 
     <!-- HEADER -->
     <LinearLayout
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical|start"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/back"
@@ -22,40 +22,46 @@
 
         <TextView
             android:id="@+id/txtHeaderTitle"
-            android:text="Music Player"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="120dp"
             android:layout_marginTop="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:text="Music Player"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/txtHeaderSub"
-            android:text="1 bài hát"
-            android:textColor="#CCFFFFFF"
-            android:textSize="13sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <!-- DANH SÁCH NHẠC -->
+    <TextView
+        android:id="@+id/txtHeaderSub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1 bài hát"
+        android:textAlignment="center"
+        android:textColor="#CC050505"
+        android:textSize="16sp" />
+
     <TextView
         android:id="@+id/Loi"
+        android:layout_width="match_parent"
+        android:layout_height="587dp"
         android:text="Loi bai hat"
-        android:textColor="#CCFFFFFF"
-        android:textSize="13sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textAlignment="center"
+        android:textColor="#CC000000"
+        android:textSize="14sp" />
 
     <!-- PLAYER -->
     <LinearLayout
-        android:orientation="vertical"
-        android:background="@android:color/white"
-        android:padding="16dp"
-        android:layout_margin="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@drawable/border_item_music"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/txtTitle"
@@ -67,38 +73,38 @@
 
         <SeekBar
             android:id="@+id/seekBar"
-            android:layout_marginTop="12dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="12dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/btnPrev"
-                android:src="@android:drawable/ic_media_previous"
-                android:background="@android:color/transparent"
                 android:layout_width="48dp"
-                android:layout_height="48dp"/>
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:src="@android:drawable/ic_media_previous" />
 
             <ImageButton
                 android:id="@+id/btnPlayPause"
-                android:src="@android:drawable/ic_media_play"
-                android:background="@android:color/transparent"
-                android:layout_marginHorizontal="24dp"
                 android:layout_width="64dp"
-                android:layout_height="64dp"/>
+                android:layout_height="64dp"
+                android:layout_marginHorizontal="24dp"
+                android:background="@android:color/transparent"
+                android:src="@android:drawable/ic_media_play" />
 
             <ImageButton
                 android:id="@+id/btnNext"
-                android:src="@android:drawable/ic_media_next"
-                android:background="@android:color/transparent"
                 android:layout_width="48dp"
-                android:layout_height="48dp"/>
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:src="@android:drawable/ic_media_next" />
         </LinearLayout>
 
     </LinearLayout>
