@@ -1,6 +1,7 @@
 package com.example.apphoctapchotre.UI.Activity.Games;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -10,9 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.apphoctapchotre.DATA.model.TienTrinh;
 import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.UI.ViewModel.SodokuViewModel;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.Random;
@@ -26,12 +30,20 @@ public class sudoku extends AppCompatActivity {
     int selectedNumber = 0;
     int errorCount = 0;
     View selectedPickerView = null;
+    private TienTrinh tienTrinh = new TienTrinh();
+    private SodokuViewModel sodokuViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku);
-
+        sodokuViewModel = new ViewModelProvider(this).get(SodokuViewModel.class);
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String email=prefs.getString("userEmail",null);
+        if(email!=null){
+            tienTrinh.setEmail(email);
+            tienTrinh.setMaHoatDong("TC004");
+        }
         generateSudoku();
         generatePuzzle();
 
@@ -47,7 +59,13 @@ public class sudoku extends AppCompatActivity {
         ImageView ibtnBack = findViewById(R.id.ibtnBack);
         ibtnBack.setOnClickListener(v -> finish());
     }
-
+    private void ketThucBaiLam() {
+        tienTrinh.setSoCauDung(3);
+        tienTrinh.setSoCauDaLam(3);
+        tienTrinh.setDiemDatDuoc(50);
+        tienTrinh.setDaHoanThanh(1);
+        sodokuViewModel.guiTienTrinh(tienTrinh);
+    }
     // --------------------------
     // TẠO SUDOKU
     // --------------------------
@@ -151,6 +169,14 @@ public class sudoku extends AppCompatActivity {
         if (selectedNumber == solution[r][c]) {
             cell.setText(String.valueOf(selectedNumber));
             cell.setBackgroundResource(R.drawable.bg_cell);
+
+            puzzle[r][c] = selectedNumber;
+
+            if (ketthuc()) {
+                Toast.makeText(this, "🎉 Hoàn thành Sudoku!", Toast.LENGTH_LONG).show();
+                ketThucBaiLam();
+                finish();
+            }
         } else {
             errorCount++;
             updateError();
@@ -162,6 +188,14 @@ public class sudoku extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    boolean ketthuc() {
+        for (int i = 0; i < 9; i++)
+            for (int j = 0; j < 9; j++)
+                if (puzzle[i][j] == 0)
+                    return false;
+        return true;
     }
 
     // --------------------------

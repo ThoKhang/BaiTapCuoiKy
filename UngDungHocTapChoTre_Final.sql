@@ -173,7 +173,7 @@ GO
 INSERT INTO NguoiDung (MaNguoiDung, TenDangNhap, Email, MatKhauMaHoa, TongDiem) VALUES
 ('ND001', N'huy', N'phamminhhuy0901tk@gmail.com', N'123', 0),
 ('ND002', N'minhanh', N'minhanh@gmail.com', N'hash', 55),
-('ND003', N'tuan', N'tuan@gmail.com', N'hash', 50),
+('ND003', N'tuan', N'nhanhoaitran0208@gmail.com', N'123', 50),
 ('ND004', N'duyquoc', N'leduyquoc123meo@gmail.com', N'123', 140),
 ('ND005', N'khang', N'khangheheqt@gmail.com', N'123', 35),
 ('ND006', N'huynh', N'huynh746926@gmail.com', N'123', 27);
@@ -184,7 +184,6 @@ INSERT INTO MonHoc (MaMonHoc, TenMonHoc) VALUES
 ('MH001', N'Toán'),
 ('MH002', N'Tiếng Việt');
 GO
-
 -- 3) LoaiHoatDong
 INSERT INTO LoaiHoatDong (MaLoai, TenLoai, MoTaLoai) VALUES
 ('LHD01', N'Lý Thuyết', N'Bài học lý thuyết, kiến thức nền tảng.'),
@@ -3705,7 +3704,17 @@ BEGIN
     SET @tG2 = @tG2 + 1;
 END;
 GO
+---------------------------------insert trò chơi sodoku vs ghép hình------------
+INSERT INTO HoatDongHocTap
+(MaHoatDong, MaMonHoc, MaLoai, TieuDe, MoTa, TongDiemToiDa)
+VALUES
+-- Sudoku
+('TC004', 'MH001', 'LHD05', N'Sudoku',
+ N'Trò chơi Sudoku rèn luyện tư duy logic và khả năng suy luận.', 50),
 
+-- Ghép hình
+('TC005', 'MH001', 'LHD05', N'Ghép hình',
+ N'Trò chơi ghép hình giúp phát triển tư duy không gian và quan sát.', 50);
 
 
 select* from hoatdonghoctap
@@ -3892,3 +3901,34 @@ JOIN DapAn d
     ON c.MaCauHoi = d.MaCauHoi
 WHERE h.TieuDe = N'Liên hoàn tính toán' and d.LaDapAnDung=1
 ORDER BY c.MaCauHoi, d.MaDapAn;
+
+select * from nguoidung
+select * from TienTrinhHocTap
+
+
+--thêm chức năng bình luận
+CREATE TABLE ChatTong (
+    Id BIGINT IDENTITY(1,1) PRIMARY KEY,
+
+    MaNguoiGui CHAR(5) NOT NULL,      -- FK tới NguoiDung / Player
+    NoiDung NVARCHAR(1000) NOT NULL,
+
+    NgayGui DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
+
+    -- tùy chọn mở rộng
+    DaThuHoi BIT NOT NULL DEFAULT 0,      -- thu hồi tin
+    IdTraLoi BIGINT NULL,                 -- reply tin nhắn (optional)
+
+    FOREIGN KEY (MaNguoiGui) REFERENCES NguoiDung(MaNguoiDung),
+    FOREIGN KEY (IdTraLoi) REFERENCES ChatTong(Id)
+);
+select * from ChatTong
+use UngDungHocTapChoTre
+go
+INSERT INTO ChatTong (MaNguoiGui, NoiDung)
+VALUES 
+('ND001', N'Chào mọi người 👋'),
+('ND002', N'Chào bạn, vào học chưa?'),
+('ND003', N'Hôm nay học bài gì vậy?'),
+('ND001', N'Hình như là ôn luyện chương 3'),
+('ND004', N'Tui mới vô nè 😄');

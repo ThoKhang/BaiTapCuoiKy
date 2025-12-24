@@ -31,35 +31,46 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
 
-        // Cho phép java.time (LocalDateTime) trên API < 26
+        // ✅ Cho phép java.time (LocalDateTime) trên API < 26
         isCoreLibraryDesugaringEnabled = true
     }
+
     buildFeatures {
         viewBinding = true
     }
 }
 
 dependencies {
+
+    // ===== Android core =====
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+
+    // ===== Firebase / Login =====
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
-    implementation("com.facebook.android:facebook-login:latest.release")
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.facebook.android:facebook-login:latest.release")
+
+    // ===== Test =====
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    // ✅ Retrofit + Gson cho API
+    // ===== RecyclerView (Chat UI) =====
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    // ===== Retrofit + Gson (Chat API) =====
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    // ✅ Thư viện cần thiết để hỗ trợ java.time.* trên Android cũ
+    // ✅ OkHttp logging (debug request/response)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    // ===== Java Time support (LocalDateTime) =====
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-    //Thư viện hộ trợ recycle view
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
 }

@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.apphoctapchotre.UI.Activity.Games.ghephinh;
 import com.example.apphoctapchotre.UI.Activity.Games.sudoku;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.TroChoi.HoanThienCauTu.HoanThienCauTu;
@@ -17,6 +18,7 @@ public class Trochoi extends AppCompatActivity {
     private LinearLayout LNHoanThienCT;
     private LinearLayout LNTrumTinhNham;
     private LinearLayout LNLhTinhToan;
+    private LinearLayout ghepHinh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,12 @@ public class Trochoi extends AppCompatActivity {
         LNLhTinhToan=findViewById(R.id.LNLhTinhToan);
         LNLhTinhToan.setOnClickListener(v -> {
             Intent intent = new Intent(this, LienHoanTinhToan.class);
+            startActivity(intent);
+        });
+
+        ghepHinh=findViewById(R.id.ghepHinh);
+        ghepHinh.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ghephinh.class);
             startActivity(intent);
         });
     }

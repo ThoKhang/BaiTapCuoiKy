@@ -17,6 +17,9 @@ public class GiaoDienTong extends AppCompatActivity {
 
     private ViewPager2 viewPager2;
     private BottomNavigationView bottomNavigationView;
+    public static final String EXTRA_OPEN_TAB = "OPEN_TAB";
+    public static final String EXTRA_OPEN_HOME = "OPEN_HOME";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +62,16 @@ public class GiaoDienTong extends AppCompatActivity {
             return true;
         });
 
-        // Mở mặc định Trang Chủ
-        viewPager2.setCurrentItem(0, false);
 
-        boolean openHome = getIntent().getBooleanExtra("OPEN_HOME", false);
-        if (openHome) {
-            viewPager2.setCurrentItem(0, false); // 0 = Trang Chủ
+        int openTab = getIntent().getIntExtra(EXTRA_OPEN_TAB, -1);
+        boolean openHome = getIntent().getBooleanExtra(EXTRA_OPEN_HOME, false);
+
+        if (openTab != -1) {
+            viewPager2.setCurrentItem(openTab, false);
+        } else if (openHome) {
+            viewPager2.setCurrentItem(0, false);
+        } else {
+            viewPager2.setCurrentItem(0, false);
         }
 
     }

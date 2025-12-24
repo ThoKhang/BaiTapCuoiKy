@@ -19,9 +19,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".UI.Activity.Games.ghephinh"
+            android:exported="false" />
         <activity
             android:name=".KetQuaTrumTinhNham"
+            android:exported="false" />
+        <activity
+            android:name=".KetQuaLienHoanTinhToan"
             android:exported="false" />
         <activity
             android:name=".KetQuaLienHoanTinhToan"
@@ -56,9 +61,7 @@
         <activity
             android:name=".UI.Activity.TroChoi.LienHoanTinhToan.NhapDapAnLienHoanTinhToan"
             android:exported="false" />
-        <activity
-            android:name=".KetQuaLienHoanTinhToan"
-            android:exported="false" />
+
         <receiver
             android:name=".Utility.AlarmReceiver"
             android:enabled="true"
@@ -66,6 +69,9 @@
 
         <activity
             android:name=".UI.Activity.Games.sudoku"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.Chat.ChatTongActivity"
             android:exported="false" />
         <activity
             android:name=".UI.Activity.GiaoDienTong.GiaoDienTong"
@@ -175,22 +181,17 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.facebook.sdk.ClientToken"
-            android:value="@string/facebook_client_token" />
-
-        <!-- CHỈ SỬA LỖI: đưa 2 activity Facebook vào trong application -->
+            android:value="@string/facebook_client_token" /> <!-- CHỈ SỬA LỖI: đưa 2 activity Facebook vào trong application -->
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:exported="false"
             android:label="@string/app_name" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -203,7 +204,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

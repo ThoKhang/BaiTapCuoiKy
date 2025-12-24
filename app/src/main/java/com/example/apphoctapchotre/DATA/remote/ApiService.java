@@ -2,6 +2,9 @@ package com.example.apphoctapchotre.DATA.remote;
 
 import com.example.apphoctapchotre.DATA.model.CauHoi;
 import com.example.apphoctapchotre.DATA.model.CauHoiDapAnResponse;
+import com.example.apphoctapchotre.DATA.model.ChatTongRecallRequest;
+import com.example.apphoctapchotre.DATA.model.ChatTongResponse;
+import com.example.apphoctapchotre.DATA.model.ChatTongSendRequest;
 import com.example.apphoctapchotre.DATA.model.DeOnLuyen;
 import com.example.apphoctapchotre.DATA.model.FacebookLoginRequest;
 import com.example.apphoctapchotre.DATA.model.GoogleLoginRequest;
@@ -146,4 +149,27 @@ public interface ApiService {
             @Path("email") String email,
             @Body RequestBody tenDangNhap
     );
+
+    // ================== CHAT TỔNG ==================
+
+    // Gửi tin nhắn
+    @POST("api/chat-tong/send")
+    Call<ChatTongResponse> sendChatTong(
+            @Body ChatTongSendRequest request
+    );
+
+    // Lấy danh sách tin nhắn gần nhất / load thêm
+    @GET("api/chat-tong/recent")
+    Call<List<ChatTongResponse>> getChatTongRecent(
+            @Query("limit") Integer limit,
+            @Query("beforeId") Long beforeId
+    );
+
+    @PUT("api/chat-tong/{id}/recall")
+    Call<Void> recallChatTong(
+            @Path("id") Long id,
+            @Body ChatTongRecallRequest request
+    );
+
+
 }
