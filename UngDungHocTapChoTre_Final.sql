@@ -130,7 +130,7 @@ CREATE TABLE Media (
     MaMedia BIGINT IDENTITY(1,1) PRIMARY KEY,
 
     TieuDe NVARCHAR(200) NOT NULL,
-    MoTa NVARCHAR(1000) NULL,
+    MoTa NVARCHAR(2000) NULL,
     LoaiMedia VARCHAR(10) NOT NULL,      -- 'VIDEO' | 'AUDIO'
     DuongDanFile NVARCHAR(500) NOT NULL, -- link video / mp3
 
@@ -3974,8 +3974,86 @@ GO
 
 INSERT INTO Media (TieuDe, MoTa, LoaiMedia, DuongDanFile, ThoiLuongGiay)
 VALUES 
-(N'Video 1', N'Video test', 'VIDEO', N'uploads/videos/LamQuenVoiDongHoVaThoiGian.mp4', 120),
-(N'Audio 1', N'Audio test', 'AUDIO', N'uploads/audios/BaiHatABC.mp3', 180);
+(N'Bài toán về thời gian', N'Video test', 'VIDEO', N'uploads/videos/LamQuenVoiDongHoVaThoiGian.mp4', 120),
+(N'Bài toán về nhiều hơn', N'Video test', 'VIDEO', N'uploads/videos/baitoanvenhieuhon.mp4', 120),
+(N'Bé Mai đã lớn', N'Video test', 'VIDEO', N'uploads/videos/bemaidalon.mp4', 120),
+(N'Bảng chữ cái tiếng Việt', N'Video test', 'VIDEO', N'uploads/videos/bangchucaitiengviet.mp4', 120),
+(N'Cách xem lịch', N'Video test', 'VIDEO', N'uploads/videos/cachxemlich.mp4', 120),
+(N'Làm quen với chữ số có 3 chữ số', N'Video test', 'VIDEO', N'uploads/videos/200.mp4', 120),
+(N'Đồng hồ, số la mã', N'Video test', 'VIDEO', N'uploads/videos/solama.mp4', 120),
+(N'Nhạc chill', N'Chiều buông rơi trên hiên nhà vắng
+Ly cà phê còn ấm trên tay
+Phố lên đèn, người qua rất nhanh
+Chỉ mình anh chậm lại hôm nay
+
+Nghe gió hát bên thềm ký ức
+Những chuyện cũ khẽ trôi xa dần
+Không buồn nữa, cũng chẳng cần vui
+Chỉ cần bình yên một chút thôi
+
+Đêm nay không cần mơ gì lớn
+Chỉ cần ngủ thật sâu, thật yên', 'AUDIO', N'uploads/audios/BaiHatABC.mp3', 180),
+(N'Truyện thỏ con không vâng lời', N'Chiều buông rơi trên hiên nhà vắng
+Ly cà phê còn ấm trên tay
+Phố lên đèn, người qua rất nhanh
+Chỉ mình anh chậm lại hôm nay
+
+Nghe gió hát bên thềm ký ức
+Những chuyện cũ khẽ trôi xa dần
+Không buồn nữa, cũng chẳng cần vui
+Chỉ cần bình yên một chút thôi
+
+Đêm nay không cần mơ gì lớn
+Chỉ cần ngủ thật sâu, thật yên', 'AUDIO', N'uploads/audios/tho.mp3', 180),
+(N'Con quạ thông minh', N'Chiều buông rơi trên hiên nhà vắng
+Ly cà phê còn ấm trên tay
+Phố lên đèn, người qua rất nhanh
+Chỉ mình anh chậm lại hôm nay
+
+Nghe gió hát bên thềm ký ức
+Những chuyện cũ khẽ trôi xa dần
+Không buồn nữa, cũng chẳng cần vui
+Chỉ cần bình yên một chút thôi
+
+Đêm nay không cần mơ gì lớn
+Chỉ cần ngủ thật sâu, thật yênt', 'AUDIO', N'uploads/audios/conqua.mp3', 180),
+(N'Chó và cừu', N'Chiều buông rơi trên hiên nhà vắng
+Ly cà phê còn ấm trên tay
+Phố lên đèn, người qua rất nhanh
+Chỉ mình anh chậm lại hôm nay
+
+Nghe gió hát bên thềm ký ức
+Những chuyện cũ khẽ trôi xa dần
+Không buồn nữa, cũng chẳng cần vui
+Chỉ cần bình yên một chút thôi
+
+Đêm nay không cần mơ gì lớn
+Chỉ cần ngủ thật sâu, thật yên', 'AUDIO', N'uploads/audios/chovacuu.mp3', 180),
+(N'Ba chú thỏ', N'Chiều buông rơi trên hiên nhà vắng
+Ly cà phê còn ấm trên tay
+Phố lên đèn, người qua rất nhanh
+Chỉ mình anh chậm lại hôm nay
+
+Nghe gió hát bên thềm ký ức
+Những chuyện cũ khẽ trôi xa dần
+Không buồn nữa, cũng chẳng cần vui
+Chỉ cần bình yên một chút thôi
+
+Đêm nay không cần mơ gì lớn
+Chỉ cần ngủ thật sâu, thật yên', 'AUDIO', N'uploads/audios/bachutho.mp3', 180),
+(N'Đôi bạn nhỏ', N'Chiều buông rơi trên hiên nhà vắng
+Ly cà phê còn ấm trên tay
+Phố lên đèn, người qua rất nhanh
+Chỉ mình anh chậm lại hôm nay
+
+Nghe gió hát bên thềm ký ức
+Những chuyện cũ khẽ trôi xa dần
+Không buồn nữa, cũng chẳng cần vui
+Chỉ cần bình yên một chút thôi
+
+Đêm nay không cần mơ gì lớn
+Chỉ cần ngủ thật sâu, thật yên', 'AUDIO', N'uploads/audios/doiban.mp3', 180);
 
 select *from media
+	
 select *from Media_NguoiDung
