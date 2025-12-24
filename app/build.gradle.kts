@@ -49,6 +49,8 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation("androidx.media3:media3-exoplayer:1.2.1")
+    implementation("androidx.media3:media3-ui:1.2.1")
 
     // ===== Firebase / Login =====
     implementation("com.google.android.gms:play-services-auth:21.2.0")
