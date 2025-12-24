@@ -1,4 +1,4 @@
-package com.example.apphoctapchotre;
+package com.example.apphoctapchotre.UI.Activity.TroChoi.HoanThienCauTu;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.apphoctapchotre.UI.Activity.TroChoi.HoanThienCauTu.NhapDapAnHoanThienCauTu;
+import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.TroChoi.Trochoi;
 
 public class KetQuaHoanThienCauTu extends AppCompatActivity {

@@ -17,19 +17,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.apphoctapchotre.DATA.model.CauHoi;
 import com.example.apphoctapchotre.DATA.model.TienTrinh;
-import com.example.apphoctapchotre.DATA.remote.ApiService;
-import com.example.apphoctapchotre.DATA.remote.RetrofitClient;
-import com.example.apphoctapchotre.KetQuaHoanThienCauTu;
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.UI.Activity.OnLuyen.TracNghiem;
-import com.example.apphoctapchotre.UI.ViewModel.DeOnLuyenViewModel;
 import com.example.apphoctapchotre.UI.ViewModel.HoanThienCauTuViewModel;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class NhapDapAnHoanThienCauTu extends AppCompatActivity {
     private EditText edtDapAn;
