@@ -28,6 +28,18 @@ public class MusicListActivity extends AppCompatActivity {
     private MusicService musicService;
     private boolean bound = false;
 
+    private final MusicService.PlaybackListener playbackListener = new MusicService.PlaybackListener() {
+        @Override
+        public void onPlaybackChanged(int index, boolean isPlaying) {
+            runOnUiThread(() -> adapter.setPlayingState(index, isPlaying));
+        }
+
+        @Override
+        public void onTrackChanged(int index) {
+            runOnUiThread(() -> adapter.setPlayingState(index, musicService != null && musicService.isPlaying()));
+        }
+    };
+
     // ================= SERVICE CONNECTION =================
 
     private final ServiceConnection connection = new ServiceConnection() {
@@ -37,6 +49,9 @@ public class MusicListActivity extends AppCompatActivity {
             musicService = binder.getService();
             bound = true;
 
+            musicService.addPlaybackListener(playbackListener);
+
+            // sync ngay khi bind
             adapter.setPlayingState(
                     musicService.getCurrentIndex(),
                     musicService.isPlaying()
@@ -45,6 +60,9 @@ public class MusicListActivity extends AppCompatActivity {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+            if (musicService != null) {
+                musicService.removePlaybackListener(playbackListener);
+            }
             bound = false;
         }
     };
@@ -64,24 +82,11 @@ public class MusicListActivity extends AppCompatActivity {
         adapter = new MusicAdapter(new ArrayList<>(), (media, position) -> {
             if (!bound || musicService == null) return;
 
-            int current = musicService.getCurrentIndex();
+            // ✅ Service quyết định toggle hay play bài mới (không reset nếu click bài đang phát)
+            musicService.onUserClickFromList(new ArrayList<>(adapter.getList()), position);
 
-            if (position == current) {
-                if (musicService.isPlaying()) {
-                    musicService.getPlayer().pause();
-                } else {
-                    musicService.getPlayer().play();
-                }
-            } else {
-                musicService.getPlayer().seekTo(position, 0);
-            }
-
+            // ✅ mở detail để điều khiển
             openDetail(position);
-
-            adapter.setPlayingState(
-                    musicService.getCurrentIndex(),
-                    musicService.isPlaying()
-            );
         });
 
         rvMusic.setLayoutManager(new LinearLayoutManager(this));
@@ -94,14 +99,26 @@ public class MusicListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Intent intent = new Intent(this, MusicService.class);
-        startService(intent); // 🔥 giữ service sống
+        startService(intent); // giữ service sống
         bindService(intent, connection, BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // sync lại khi quay về list
+        if (bound && musicService != null) {
+            adapter.setPlayingState(musicService.getCurrentIndex(), musicService.isPlaying());
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         if (bound) {
+            if (musicService != null) {
+                musicService.removePlaybackListener(playbackListener);
+            }
             unbindService(connection);
             bound = false;
         }

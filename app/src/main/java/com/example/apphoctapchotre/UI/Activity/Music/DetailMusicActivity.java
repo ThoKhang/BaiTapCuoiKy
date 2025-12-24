@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class DetailMusicActivity extends AppCompatActivity {
 
-    private TextView txtTitle, txtHeaderTitle, txtHeaderSub,Loi;
+    private TextView txtTitle, txtHeaderTitle, txtHeaderSub, Loi;
     private SeekBar seekBar;
     private ImageButton btnPlayPause, btnNext, btnPrev;
 
@@ -36,6 +36,18 @@ public class DetailMusicActivity extends AppCompatActivity {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
 
+    private final MusicService.PlaybackListener playbackListener = new MusicService.PlaybackListener() {
+        @Override
+        public void onPlaybackChanged(int index, boolean isPlaying) {
+            runOnUiThread(() -> syncUIImmediately());
+        }
+
+        @Override
+        public void onTrackChanged(int index) {
+            runOnUiThread(() -> syncUIImmediately());
+        }
+    };
+
     // ================= SERVICE CONNECTION =================
 
     private final ServiceConnection connection = new ServiceConnection() {
@@ -45,9 +57,23 @@ public class DetailMusicActivity extends AppCompatActivity {
             musicService = binder.getService();
             bound = true;
 
-            musicService.setPlaylistOnce(playlist, startIndex);
+            musicService.addPlaybackListener(playbackListener);
+
+            // ✅ chỉ set playlist nếu cần (không reset nếu trùng)
+            musicService.ensurePlaylist(playlist);
 
             player = musicService.getPlayer();
+
+            // Nếu chưa có bài nào đang phát (vd mở detail trực tiếp) → play bài startIndex
+            if (musicService.getCurrentIndex() < 0 && playlist != null && !playlist.isEmpty()) {
+                musicService.playAt(startIndex);
+            } else {
+                // Nếu user mở detail cho bài khác current → play bài đó
+                int current = musicService.getCurrentIndex();
+                if (startIndex != current && startIndex >= 0 && playlist != null && startIndex < playlist.size()) {
+                    musicService.playAt(startIndex);
+                }
+            }
 
             setupControls();
             setupPlayerListener();
@@ -70,6 +96,7 @@ public class DetailMusicActivity extends AppCompatActivity {
         txtTitle = findViewById(R.id.txtTitle);
         txtHeaderTitle = findViewById(R.id.txtHeaderTitle);
         txtHeaderSub = findViewById(R.id.txtHeaderSub);
+        Loi = findViewById(R.id.Loi);
 
         seekBar = findViewById(R.id.seekBar);
         btnPlayPause = findViewById(R.id.btnPlayPause);
@@ -81,9 +108,7 @@ public class DetailMusicActivity extends AppCompatActivity {
         playlist = (ArrayList<Media>) getIntent().getSerializableExtra("list");
         startIndex = getIntent().getIntExtra("index", 0);
 
-        if (playlist == null || playlist.isEmpty()) {
-            finish();
-        }
+        if (playlist == null || playlist.isEmpty()) finish();
     }
 
     @Override
@@ -98,6 +123,9 @@ public class DetailMusicActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         if (bound) {
+            if (musicService != null) {
+                musicService.removePlaybackListener(playbackListener);
+            }
             unbindService(connection);
             bound = false;
         }
@@ -106,12 +134,19 @@ public class DetailMusicActivity extends AppCompatActivity {
     // ================= PLAYER LISTENER =================
 
     private void setupPlayerListener() {
+        if (player == null) return;
+
         player.addListener(new Player.Listener() {
 
             @Override
             public void onMediaItemTransition(
                     androidx.media3.common.MediaItem mediaItem, int reason) {
-                updateUIFromService();
+                syncUIImmediately();
+            }
+
+            @Override
+            public void onIsPlayingChanged(boolean isPlaying) {
+                syncUIImmediately();
             }
 
             @Override
@@ -119,6 +154,7 @@ public class DetailMusicActivity extends AppCompatActivity {
                 if (state == Player.STATE_READY) {
                     seekBar.setMax((int) (player.getDuration() / 1000));
                     updateSeekBar();
+                    syncUIImmediately();
                 }
             }
         });
@@ -129,26 +165,21 @@ public class DetailMusicActivity extends AppCompatActivity {
     private void setupControls() {
 
         btnPlayPause.setOnClickListener(v -> {
-            if (musicService.isPlaying()) {
-                musicService.pause();
-            } else {
-                musicService.play();
-            }
+            if (musicService == null) return;
+
+            musicService.toggle();
+            // icon sẽ được sync bằng callback + listener, nhưng gọi luôn cho mượt
             syncUIImmediately();
         });
 
         btnNext.setOnClickListener(v -> {
-            if (player.hasNextMediaItem()) {
-                player.seekToNext();
-                player.play();
-            }
+            if (musicService == null) return;
+            musicService.next(); // ✅ service làm + notify
         });
 
         btnPrev.setOnClickListener(v -> {
-            if (player.hasPreviousMediaItem()) {
-                player.seekToPrevious();
-                player.play();
-            }
+            if (musicService == null) return;
+            musicService.previous(); // ✅ service làm + notify
         });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -164,7 +195,7 @@ public class DetailMusicActivity extends AppCompatActivity {
         });
     }
 
-    // ================= UI SYNC NGAY KHI VÀO =================
+    // ================= UI SYNC =================
 
     private void syncUIImmediately() {
         if (musicService == null || player == null || playlist == null) return;
@@ -175,12 +206,18 @@ public class DetailMusicActivity extends AppCompatActivity {
         Media current = playlist.get(index);
 
         txtHeaderTitle.setText(current.getTieuDe());
-        txtHeaderSub.setText(current.getMoTa() != null ? current.getMoTa() : "");
         txtTitle.setText(current.getTieuDe());
 
-        seekBar.setMax((int) (player.getDuration() / 1000));
+        // theo yêu cầu bạn: Loi = mô tả, txtHeaderSub = loại
+        Loi.setText(current.getMoTa() != null ? current.getMoTa() : "");
+        txtHeaderSub.setText(current.getLoaiMedia() != null ? current.getLoaiMedia() : "");
+
+        long dur = player.getDuration();
+        if (dur > 0) seekBar.setMax((int) (dur / 1000));
+
         seekBar.setProgress((int) (musicService.getCurrentPosition() / 1000));
 
+        // ✅ ICON PHẢI THEO isPlaying hiện tại
         btnPlayPause.setImageResource(
                 musicService.isPlaying()
                         ? android.R.drawable.ic_media_pause
@@ -188,23 +225,18 @@ public class DetailMusicActivity extends AppCompatActivity {
         );
     }
 
-    // ================= UI UPDATE KHI CHUYỂN BÀI =================
-
-    private void updateUIFromService() {
-        syncUIImmediately();
-    }
-
     // ================= SEEK BAR =================
 
     private void updateSeekBar() {
+        handler.removeCallbacksAndMessages(null);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (player != null && player.isPlaying()) {
+                if (player != null) {
                     seekBar.setProgress((int) (player.getCurrentPosition() / 1000));
                     handler.postDelayed(this, 1000);
                 }
             }
-        }, 1000);
+        }, 300);
     }
 }

@@ -86,7 +86,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicVH> {
 
         if (position == playingIndex) {
             h.txtTitle.setTextColor(
-                    h.itemView.getContext().getColor(R.color.blue_settings)
+                    h.itemView.getContext().getColor(R.color.black)
             );
             h.imgPlaying.setVisibility(View.VISIBLE);
             h.imgPlaying.setImageResource(

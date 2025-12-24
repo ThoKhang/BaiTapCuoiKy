@@ -13,16 +13,50 @@ import androidx.media3.exoplayer.ExoPlayer;
 import com.example.apphoctapchotre.DATA.model.Media;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MusicService extends Service {
 
     private ExoPlayer player;
 
-    // playlist chỉ set 1 lần
-    private boolean hasPlaylist = false;
+    // playlist giữ lâu trong service
     private final ArrayList<Media> playlist = new ArrayList<>();
+    private boolean hasPlaylist = false;
 
     private final IBinder binder = new LocalBinder();
+
+    // ================= CALLBACK LISTENERS =================
+
+    public interface PlaybackListener {
+        void onPlaybackChanged(int index, boolean isPlaying);
+        void onTrackChanged(int index);
+    }
+
+    private final List<PlaybackListener> listeners = new CopyOnWriteArrayList<>();
+
+    public void addPlaybackListener(PlaybackListener l) {
+        if (l != null && !listeners.contains(l)) listeners.add(l);
+    }
+
+    public void removePlaybackListener(PlaybackListener l) {
+        listeners.remove(l);
+    }
+
+    private void notifyPlaybackChanged() {
+        int idx = getCurrentIndex();
+        boolean playing = isPlaying();
+        for (PlaybackListener l : listeners) {
+            l.onPlaybackChanged(idx, playing);
+        }
+    }
+
+    private void notifyTrackChanged() {
+        int idx = getCurrentIndex();
+        for (PlaybackListener l : listeners) {
+            l.onTrackChanged(idx);
+        }
+    }
 
     // ================= BINDER =================
 
@@ -44,9 +78,26 @@ public class MusicService extends Service {
     public void onCreate() {
         super.onCreate();
         player = new ExoPlayer.Builder(this).build();
-
-        // phát vòng lặp playlist
         player.setRepeatMode(Player.REPEAT_MODE_ALL);
+
+        player.addListener(new Player.Listener() {
+            @Override
+            public void onIsPlayingChanged(boolean isPlaying) {
+                notifyPlaybackChanged();
+            }
+
+            @Override
+            public void onMediaItemTransition(MediaItem mediaItem, int reason) {
+                notifyTrackChanged();
+                notifyPlaybackChanged();
+            }
+
+            @Override
+            public void onPlaybackStateChanged(int state) {
+                // READY/BUFFERING cũng cập nhật để UI đồng bộ
+                notifyPlaybackChanged();
+            }
+        });
     }
 
     @Override
@@ -54,16 +105,45 @@ public class MusicService extends Service {
         super.onDestroy();
         hasPlaylist = false;
         playlist.clear();
-        player.release();
+        if (player != null) player.release();
     }
 
-    // ================= PLAYLIST =================
+    // ================= PLAYLIST HELPERS =================
+
+    private boolean isSamePlaylist(ArrayList<Media> list) {
+        if (list == null) return false;
+        if (playlist.size() != list.size()) return false;
+
+        for (int i = 0; i < list.size(); i++) {
+            Media a = playlist.get(i);
+            Media b = list.get(i);
+
+            // ưu tiên so theo maMedia nếu có
+            Long ida = a.getMaMedia();
+            Long idb = b.getMaMedia();
+            if (ida != null && idb != null) {
+                if (!ida.equals(idb)) return false;
+            } else {
+                // fallback theo đường dẫn
+                String pa = a.getDuongDanFile();
+                String pb = b.getDuongDanFile();
+                if (pa == null || pb == null) return false;
+                if (!pa.equals(pb)) return false;
+            }
+        }
+        return true;
+    }
 
     /**
-     * Set playlist DUY NHẤT 1 LẦN – KHÔNG AUTO PLAY
+     * Set playlist nếu cần (khác playlist hiện tại).
+     * Không seek/reset nếu playlist trùng.
      */
-    public void setPlaylistOnce(ArrayList<Media> list, int startIndex) {
-        if (hasPlaylist || list == null || list.isEmpty()) return;
+    public void ensurePlaylist(ArrayList<Media> list) {
+        if (list == null || list.isEmpty()) return;
+
+        if (hasPlaylist && isSamePlaylist(list)) {
+            return; // ✅ trùng playlist → không reset
+        }
 
         playlist.clear();
         playlist.addAll(list);
@@ -76,21 +156,19 @@ public class MusicService extends Service {
         }
 
         player.prepare();
-        player.seekTo(startIndex, 0);
-
         hasPlaylist = true;
     }
 
-    // ================= CORE CONTROLS =================
-
     /**
-     * 🔥 DÙNG KHI CLICK TRONG LIST
-     * - Cùng bài → toggle play/pause
-     * - Khác bài → PLAY NGAY
+     * Dùng khi click từ LIST:
+     * - đảm bảo playlist đúng
+     * - nếu click đúng bài đang phát → toggle play/pause (không reset)
+     * - nếu click bài khác → play bài mới
      */
-    public void playOrToggleAt(int index) {
-        int current = getCurrentIndex();
+    public void onUserClickFromList(ArrayList<Media> list, int index) {
+        ensurePlaylist(list);
 
+        int current = getCurrentIndex();
         if (index == current) {
             toggle();
         } else {
@@ -98,25 +176,17 @@ public class MusicService extends Service {
         }
     }
 
-    /**
-     * 🔥 DÙNG KHI MỞ DETAIL / CHỌN BÀI MỚI
-     * → LUÔN PLAY
-     */
+    // ================= CORE CONTROLS =================
+
     public void playAt(int index) {
         if (index < 0 || index >= player.getMediaItemCount()) return;
         player.seekTo(index, 0);
         player.play();
     }
 
-    /**
-     * Toggle play / pause
-     */
     public void toggle() {
-        if (player.isPlaying()) {
-            player.pause();
-        } else {
-            player.play();
-        }
+        if (player.isPlaying()) player.pause();
+        else player.play();
     }
 
     public void play() {
@@ -152,22 +222,22 @@ public class MusicService extends Service {
     }
 
     public boolean isPlaying() {
-        return player.isPlaying();
+        return player != null && player.isPlaying();
     }
 
     public int getCurrentIndex() {
+        if (player == null) return -1;
         return player.getCurrentMediaItemIndex();
     }
 
     public long getCurrentPosition() {
+        if (player == null) return 0;
         return player.getCurrentPosition();
     }
 
     public Media getCurrentMedia() {
         int index = getCurrentIndex();
-        if (index >= 0 && index < playlist.size()) {
-            return playlist.get(index);
-        }
+        if (index >= 0 && index < playlist.size()) return playlist.get(index);
         return null;
     }
 }
