@@ -1,4 +1,4 @@
-package com.example.apphoctapchotre;
+package com.example.apphoctapchotre.UI.Activity.TroChoi.LienHoanTinhToan;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 
-import com.example.apphoctapchotre.UI.Activity.TroChoi.LienHoanTinhToan.NhapDapAnLienHoanTinhToan;
+import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.TroChoi.Trochoi;
 
 public class KetQuaLienHoanTinhToan extends AppCompatActivity {

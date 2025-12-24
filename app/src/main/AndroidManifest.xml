@@ -29,13 +29,13 @@
             android:name=".UI.Activity.Games.ghephinh"
             android:exported="false" />
         <activity
-            android:name=".KetQuaTrumTinhNham"
+            android:name=".UI.Activity.TroChoi.TrumTinhNham.KetQuaTrumTinhNham"
             android:exported="false" />
         <activity
-            android:name=".KetQuaLienHoanTinhToan"
+            android:name=".UI.Activity.TroChoi.LienHoanTinhToan.KetQuaLienHoanTinhToan"
             android:exported="false" />
         <activity
-            android:name=".KetQuaLienHoanTinhToan"
+            android:name=".UI.Activity.TroChoi.LienHoanTinhToan.KetQuaLienHoanTinhToan"
             android:exported="false" />
         <activity
             android:name=".UI.Activity.TroChoi.TrumTinhNham.GioiThieuTrumTinhNham"

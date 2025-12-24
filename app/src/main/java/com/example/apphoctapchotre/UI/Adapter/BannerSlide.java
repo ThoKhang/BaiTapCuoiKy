@@ -1,4 +1,4 @@
-package com.example.apphoctapchotre;
+package com.example.apphoctapchotre.UI.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.CungCo.CungCoActivity;
 import com.example.apphoctapchotre.UI.Activity.OnLuyen.OnLuyen;
 
