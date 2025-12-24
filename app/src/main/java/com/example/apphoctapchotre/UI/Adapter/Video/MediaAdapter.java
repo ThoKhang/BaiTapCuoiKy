@@ -47,6 +47,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), VideoPlayer.class);
             intent.putExtra("video_url", media.getDuongDanFile());
+            intent.putExtra("maMedia", media.getMaMedia());
             v.getContext().startActivity(intent);
         });
 

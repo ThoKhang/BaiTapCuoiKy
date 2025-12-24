@@ -23,4 +23,7 @@ public class MediaViewModel extends ViewModel {
         }
         return videoList;
     }
+    public void saveProgress(Long maMedia, String email, int viTriGiay, boolean daXem) {
+        repository.saveProgress(maMedia, email, viTriGiay, daXem);
+    }
 }
