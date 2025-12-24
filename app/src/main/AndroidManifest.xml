@@ -20,6 +20,9 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".VideoPlayer"
+            android:exported="false" />
+        <activity
             android:name=".Video"
             android:exported="false" />
         <activity

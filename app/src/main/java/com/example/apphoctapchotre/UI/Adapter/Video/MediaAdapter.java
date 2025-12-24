@@ -1,5 +1,6 @@
 package com.example.apphoctapchotre.UI.Adapter.Video;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apphoctapchotre.DATA.model.Media;
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.VideoPlayer;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
 
     private List<Media> mediaList;
     private OnItemClickListener listener;
+    private TextView back;
 
     public interface OnItemClickListener {
         void onClick(Media media);
@@ -41,7 +44,12 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
         holder.txtTieuDe.setText(media.getTieuDe());
         holder.txtMoTa.setText(media.getMoTa());
 
-        holder.itemView.setOnClickListener(v -> listener.onClick(media));
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), VideoPlayer.class);
+            intent.putExtra("video_url", media.getDuongDanFile());
+            v.getContext().startActivity(intent);
+        });
+
     }
 
     @Override
