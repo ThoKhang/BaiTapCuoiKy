@@ -37,7 +37,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/robotothin"
                 android:gravity="center"
-                android:text="Chat"
+                android:text="Chat với các người chơi"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:textColor="#333333"/>

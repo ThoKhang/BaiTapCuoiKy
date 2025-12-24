@@ -1,6 +1,7 @@
 package com.example.apphoctapchotre.DATA.model;
 
-public class XepHangItem {
+public class
+XepHangItem {
 
     // Thuộc tính tiếng Việt
     private String tenNguoiChoi;
