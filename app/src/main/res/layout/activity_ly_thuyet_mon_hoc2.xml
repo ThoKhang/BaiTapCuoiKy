@@ -17,6 +17,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:layout_margin="15dp"
         android:orientation="horizontal"
 
         app:layout_constraintTop_toTopOf="parent"

@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Xếp hạng người chơi"
-            android:textSize="28sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="#8B4513"
             android:gravity="center" />
