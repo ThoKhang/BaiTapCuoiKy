@@ -20,10 +20,10 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".VideoPlayer"
+            android:name=".UI.Activity.Video.VideoPlayer"
             android:exported="false" />
         <activity
-            android:name=".Video"
+            android:name=".UI.Activity.Video.Video"
             android:exported="false" />
         <activity
             android:name=".UI.Activity.Games.ghephinh"

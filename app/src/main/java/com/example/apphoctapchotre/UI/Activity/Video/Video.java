@@ -1,4 +1,4 @@
-package com.example.apphoctapchotre;
+package com.example.apphoctapchotre.UI.Activity.Video;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +11,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.apphoctapchotre.DATA.model.Media;
+import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
-import com.example.apphoctapchotre.UI.Activity.OnLuyen.OnLuyen;
 import com.example.apphoctapchotre.UI.Adapter.Video.MediaAdapter;
 import com.example.apphoctapchotre.UI.ViewModel.MediaViewModel;
 

@@ -1,22 +1,16 @@
-package com.example.apphoctapchotre;
+package com.example.apphoctapchotre.UI.Activity.Video;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 import android.net.Uri;
-import android.os.Bundle;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.apphoctapchotre.UI.Activity.OnLuyen.OnLuyen;
+import com.example.apphoctapchotre.R;
 
 public class VideoPlayer extends AppCompatActivity {
     private TextView back;

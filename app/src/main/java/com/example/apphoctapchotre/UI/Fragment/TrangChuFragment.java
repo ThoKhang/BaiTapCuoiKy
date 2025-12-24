@@ -20,7 +20,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.apphoctapchotre.UI.Activity.Account.DangNhap.GiaoDienDangNhap;
 import com.example.apphoctapchotre.UI.Activity.Chat.ChatTongActivity;
-import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.UI.Activity.MonHoc.LyThuyetActivity;
 import com.example.apphoctapchotre.UI.Activity.Music.MusicListActivity;
 import com.example.apphoctapchotre.UI.Activity.TroChoi.Trochoi;
@@ -30,7 +29,7 @@ import com.example.apphoctapchotre.UI.Activity.Settings.CaiDat;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.HoatDongDangDienRa.Thuthach100Cau;
 import com.example.apphoctapchotre.UI.Activity.HoatDongDangDienRa.event;
-import com.example.apphoctapchotre.Video;
+import com.example.apphoctapchotre.UI.Activity.Video.Video;
 
 
 import java.util.ArrayList;

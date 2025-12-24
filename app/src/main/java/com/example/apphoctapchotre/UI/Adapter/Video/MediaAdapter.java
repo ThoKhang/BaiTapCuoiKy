@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apphoctapchotre.DATA.model.Media;
 import com.example.apphoctapchotre.R;
-import com.example.apphoctapchotre.VideoPlayer;
+import com.example.apphoctapchotre.UI.Activity.Video.VideoPlayer;
 
 import java.util.List;
 
