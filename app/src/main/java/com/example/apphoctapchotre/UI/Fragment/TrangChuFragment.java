@@ -22,6 +22,7 @@ import com.example.apphoctapchotre.UI.Activity.Account.DangNhap.GiaoDienDangNhap
 import com.example.apphoctapchotre.UI.Activity.Chat.ChatTongActivity;
 import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.UI.Activity.MonHoc.LyThuyetActivity;
+import com.example.apphoctapchotre.UI.Activity.Music.MusicListActivity;
 import com.example.apphoctapchotre.UI.Activity.TroChoi.Trochoi;
 import com.example.apphoctapchotre.UI.Activity.LyThuyet.BangCuuChuong;
 import com.example.apphoctapchotre.BannerSlide;
@@ -83,6 +84,8 @@ public class TrangChuFragment extends Fragment {
         lnTroChoi = view.findViewById(R.id.lnTroChoi);
         lnTroChoi.setOnClickListener(v -> startActivity(new Intent(requireActivity(), Trochoi.class)));
 
+        lnLichSu = view.findViewById(R.id.lnLichSu);
+        lnLichSu.setOnClickListener(v -> startActivity(new Intent(requireActivity(), MusicListActivity.class)));
 
         lnXepHang = view.findViewById(R.id.xepHang);
         lnXepHang.setOnClickListener(v -> {
@@ -91,12 +94,8 @@ public class TrangChuFragment extends Fragment {
             }
         });
 
-        lnLichSu = view.findViewById(R.id.lnLichsu);  // bạn đã làm đúng rồi, giữ nguyên hoặc sửa cho giống
-        lnLichSu.setOnClickListener(v -> {
-            if (getActivity() instanceof GiaoDienTong) {
-                ((GiaoDienTong) getActivity()).getViewPager2().setCurrentItem(2, true); // tab Lịch Sử (vị trí 2)
-            }
-        });
+
+
 
         ibtnCaiDat = view.findViewById(R.id.ibtnCaiDat);
         ibtnCaiDat.setOnClickListener(v -> startActivity(new Intent(requireActivity(), CaiDat.class)));

@@ -406,7 +406,7 @@
                         android:layout_marginLeft="30dp">
 
                         <LinearLayout
-                            android:id="@+id/lnLichsu"
+                            android:id="@+id/lnLichSu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"

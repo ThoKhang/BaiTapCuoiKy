@@ -129,6 +129,12 @@
             android:name=".UI.Activity.TroChoi.Trochoi"
             android:exported="false" />
         <activity
+            android:name=".UI.Activity.Music.DetailMusicActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Activity.Music.MusicListActivity"
+            android:exported="false" />
+        <activity
             android:name=".UI.Activity.OnLuyen.OnLuyen"
             android:exported="false" />
         <activity

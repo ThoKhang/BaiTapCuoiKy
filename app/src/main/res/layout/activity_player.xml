@@ -1,28 +1,104 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:background="#1B5E20"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txtTitle"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/txtArtist"
-        android:textSize="14sp"
-        android:textColor="#666"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <androidx.media3.ui.PlayerView
-        android:id="@+id/playerView"
+    <!-- HEADER -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingClass" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@android:drawable/ic_media_play"
+            android:tint="@android:color/white"
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
+
+        <TextView
+            android:text="Music Player"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="1 bài hát"
+            android:textColor="#CCFFFFFF"
+            android:textSize="13sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- DANH SÁCH NHẠC -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMusic"
+        android:background="#F5F5F5"
+        android:layout_margin="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- PLAYER -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:padding="16dp"
+        android:layout_margin="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:text="Chọn bài hát để phát"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btnPrev"
+                android:src="@android:drawable/ic_media_previous"
+                android:background="@android:color/transparent"
+                android:layout_width="48dp"
+                android:layout_height="48dp"/>
+
+            <ImageButton
+                android:id="@+id/btnPlayPause"
+                android:src="@android:drawable/ic_media_play"
+                android:background="@android:color/transparent"
+                android:layout_marginHorizontal="24dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"/>
+
+            <ImageButton
+                android:id="@+id/btnNext"
+                android:src="@android:drawable/ic_media_next"
+                android:background="@android:color/transparent"
+                android:layout_width="48dp"
+                android:layout_height="48dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
