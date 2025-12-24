@@ -1,5 +1,6 @@
 package com.example.apphoctapchotre.UI.Activity.Chat;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import com.example.apphoctapchotre.DATA.Repository.ChatTongRepository;
 import com.example.apphoctapchotre.DATA.model.ChatTongResponse;
 import com.example.apphoctapchotre.DATA.model.ChatTongSendRequest;
 import com.example.apphoctapchotre.R;
+import com.example.apphoctapchotre.UI.Activity.GiaoDienTong.GiaoDienTong;
 import com.example.apphoctapchotre.UI.Adapter.Chat.ChatTongAdapter;
 
 import java.util.ArrayList;
@@ -41,6 +43,12 @@ public class ChatTongActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nhan_tin);
+
+        findViewById(R.id.imgCaiDat).setOnClickListener(v -> {
+            Intent intent = new Intent(ChatTongActivity.this, GiaoDienTong.class);
+            intent.putExtra("OPEN_TAB", 3); // 3 = SettingFragment
+            startActivity(intent);
+        });
 
         // 🔥 DÙNG CHUNG PREFS
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
