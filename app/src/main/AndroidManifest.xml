@@ -20,6 +20,9 @@
         android:theme="@style/Theme.AppHocTapChoTre"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Video"
+            android:exported="false" />
+        <activity
             android:name=".UI.Activity.Games.ghephinh"
             android:exported="false" />
         <activity
@@ -41,7 +44,7 @@
             android:name=".UI.Activity.TroChoi.TrumTinhNham.TrumTinhNham"
             android:exported="false" />
         <activity
-            android:name=".KetQuaHoanThienCauTu"
+            android:name=".UI.Activity.TroChoi.HoanThienCauTu.KetQuaHoanThienCauTu"
             android:exported="false" />
         <activity
             android:name=".UI.Activity.TroChoi.HoanThienCauTu.NhapDapAnHoanThienCauTu"
@@ -198,6 +201,7 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:exported="false"
             android:label="@string/app_name" />
+
         <service
             android:name=".UI.Service.MusicService"
             android:exported="false" />

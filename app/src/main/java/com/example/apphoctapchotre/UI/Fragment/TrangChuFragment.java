@@ -30,6 +30,7 @@ import com.example.apphoctapchotre.UI.Activity.Settings.CaiDat;
 import com.example.apphoctapchotre.R;
 import com.example.apphoctapchotre.UI.Activity.HoatDongDangDienRa.Thuthach100Cau;
 import com.example.apphoctapchotre.UI.Activity.HoatDongDangDienRa.event;
+import com.example.apphoctapchotre.Video;
 
 
 import java.util.ArrayList;
@@ -88,10 +89,14 @@ public class TrangChuFragment extends Fragment {
         lnLichSu.setOnClickListener(v -> startActivity(new Intent(requireActivity(), MusicListActivity.class)));
 
         lnXepHang = view.findViewById(R.id.xepHang);
+//        lnXepHang.setOnClickListener(v -> {
+//            if (getActivity() instanceof GiaoDienTong) {
+//                ((GiaoDienTong) getActivity()).getViewPager2().setCurrentItem(1, true); // tab Xếp Hạng (vị trí 1)
+//            }
+//        });
         lnXepHang.setOnClickListener(v -> {
-            if (getActivity() instanceof GiaoDienTong) {
-                ((GiaoDienTong) getActivity()).getViewPager2().setCurrentItem(1, true); // tab Xếp Hạng (vị trí 1)
-            }
+            Intent intent = new Intent(getActivity(), Video.class);
+            startActivity(intent);
         });
 
 

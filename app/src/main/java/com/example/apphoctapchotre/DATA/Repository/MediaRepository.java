@@ -50,4 +50,27 @@ public class MediaRepository {
             @Override public void onFailure(Call<Void> call, Throwable t) {}
         });
     }
+
+    public LiveData<List<Media>> getVideoList() {
+        MutableLiveData<List<Media>> data = new MutableLiveData<>();
+
+        api.getMediaByLoai("VIDEO").enqueue(new Callback<List<Media>>() {
+            @Override
+            public void onResponse(Call<List<Media>> call, Response<List<Media>> response) {
+                if (response.isSuccessful()) {
+                    data.setValue(response.body());
+                } else {
+                    data.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Media>> call, Throwable t) {
+                data.setValue(null);
+            }
+        });
+
+        return data;
+    }
+
 }
